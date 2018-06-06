@@ -1,0 +1,19 @@
+# IDE
+.idea/
+
+# folder
+__*/
+
+# root
+/demo.py
+/test.py
+
+# prevent being filtered
+!__init__.py
+
+# Python
+.py[cod]
+*.egg
+*.egg-info
+/dist/
+__pycache__/
