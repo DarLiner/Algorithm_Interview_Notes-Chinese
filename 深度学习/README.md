@@ -1,15 +1,12 @@
-<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-
 ## 问题列表
 
-- #### 在 MLP 中，深度与宽度的关系，及其表示能力的差异
+- ### MLP 的万能近似定理
+
+    一个前馈神经网络如果具有至少一个非线性输出层，那么只要给予网络足够数量的隐藏单元，它可以以任意的精度来近似任何从一个有限维空间到另一个有限维空间的函数。
+
+- ### 在 MLP 中，深度与宽度的关系，及其表示能力的差异
     
-    MLP 可以看做多个函数的复合：
+    隐藏层的数量称为模型的**深度**，而隐藏层的维数（单元数）称为模型的**宽度**。
     
-    $$ f(x)
-    $$
-    
-    <a href="https://www.codecogs.com/eqnedit.php?latex=ax^{2}&space;&plus;&space;by^{2}&space;&plus;&space;c&space;=&space;0" target="_blank"><img src="https://latex.codecogs.com/gif.latex?ax^{2}&space;&plus;&space;by^{2}&space;&plus;&space;c&space;=&space;0" title="ax^{2} + by^{2} + c = 0" /></a>
-    
-    
+    **万能近似定理**表明一个单层的网络就足以表达任意函数，但是**宽度**可能大得不可实现，且无法正确地学习和泛化；此时，使用更深的模型能够减少所需的单元数，同时减少泛化误差。
+
