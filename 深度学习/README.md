@@ -2,5 +2,5 @@
 
 - #### 在 MLP 中，深度与宽度的关系，及其表示能力的差异
     
-    [ans](深度学习/Answers.md:3)
+    [ans](/Answers.md:3)
     
