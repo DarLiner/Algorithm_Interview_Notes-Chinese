@@ -4,6 +4,5 @@
     
     MLP 可以看做多个函数的复合：
     
-    $$ f(x) = f^{(3)}(f^{(2)}(f^{(1)}(x)))
-    $$
+    <a href="https://www.codecogs.com/eqnedit.php?latex=ax^{2}&space;&plus;&space;by^{2}&space;&plus;&space;c&space;=&space;0" target="_blank"><img src="https://latex.codecogs.com/gif.latex?ax^{2}&space;&plus;&space;by^{2}&space;&plus;&space;c&space;=&space;0" title="ax^{2} + by^{2} + c = 0" /></a>
     
