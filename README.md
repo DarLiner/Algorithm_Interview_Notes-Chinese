@@ -2,6 +2,8 @@
 
 深度学习/机器学习面试问题整理，其中大部分问题来自于这个[仓库](https://github.com/elviswf/DeepLearningBookQA_cn).
 
+个人认为该仓库中的部分问题过于抽象/理论，所以没有收录，如有需要可以浏览原仓库中的问题。
+
 > 该仓库只列出了问题答案在《深度学习》实体书中的页码，与PDF版并不对应，我重新修改为了答案所在章节的名称。
 >
 > [深度学习中文版 GitHub](https://github.com/exacity/deeplearningbook-chinese)
