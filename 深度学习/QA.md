@@ -125,14 +125,17 @@
 ### 8. 分段线性单元（如 ReLU）代替 sigmoid 的利弊
 
 - 当神经网络比较小时，sigmoid 表现更好；
-- 在深度学习早期，人们认为应该避免具有不可导点的激活函数，而 ReLU 不是全程可导的
-- sigmoid 和 tanh 的输出是有界的，适合作为下一层的输入，以及整个网络的输出。实际上，目前大多数网络的输出层依然使用的 sigmoid（单输出） 或 softmax（多输出）。  
+- 在深度学习早期，人们认为应该避免具有不可导点的激活函数，而 ReLU 不是全程可导/可微的
+- sigmoid 和 tanh 的输出是有界的，适合作为下一层的输入，以及整个网络的输出。实际上，目前大多数网络的输出层依然使用的 sigmoid（单输出） 或 softmax（多输出）。
+
+    > 为什么 ReLU 不是全程可微也能用于基于梯度的学习？——虽然 ReLU 在 0 点不可导，但是它依然存在左导数和右导数，只是它们不相等（相等的话就可导了），于是在实现时通常会返回左导数或右导数的其中一个，而不是报告一个导数不存在的错误。
+    >> 一阶函数：可微==可导
 
 - 对于小数据集，使用整流非线性甚至比学习隐藏层的权重值更加重要 (Jarrett et al., 2009b)
-- 当数据增多时，在深度整流网络中的学习比在激活函数具有曲率或两侧饱和的深度网络中的学习更容易 (Glorot et al., 2011a)：传统的 sigmoid 函数，由于两端饱和，在传播过程中容易丢弃信息
+- 当数据增多时，在深度整流网络中的学习比在激活函数具有曲率或两侧**饱和**的深度网络中的学习更容易 (Glorot et al., 2011a)：传统的 sigmoid 函数，由于两端饱和，在传播过程中容易丢弃信息
 - ReLU 的过程更接近生物神经元的作用过程
 
-> 饱和（saturate）现象：在函数图像上表现为变得很平，对输入的微小改变会变得不敏感。
+    > 饱和（saturate）现象：在函数图像上表现为变得很平，对输入的微小改变会变得不敏感。
 
 > 《深度学习》 ch6.6 - 小结
 >
@@ -238,9 +241,91 @@ L1 & L2 正则化会使模型偏好于更小的权值。
 
 ![](../images/TIM截图20180608195851.png)
 
+logistic sigmoid 函数通常用来产生伯努利分布中的参数 ϕ，因为它的范围是 (0, 1)
+
 sigmoid 函数在变量取绝对值非常大的正值或负值时会出现**饱和**（saturate）现象，意味着函数会开始变得很平，并且对输入的微小改变会变得不敏感。
 
-饱和现象会导致训练减慢，并丢失信息 [ref](#8.-分段线性单元（如-ReLU）代替-sigmoid-的利弊)
+饱和现象会导致训练减慢，并在传播过程中丢失信息 [ref](#8.-分段线性单元（如-ReLU）代替-sigmoid-的利弊)
 
-> 《深度学习》 ch3.10 - 常用函数的有用性质 & ch6.4 - 架构设计
+> [sigmoid 与 tanh（双曲正切函数）](#sigmoid-与-tanh（双曲正切函数）)
 
+#### softplus
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=\zeta(x)=\log(1&plus;\exp(x))" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\zeta(x)=\log(1&plus;\exp(x))" title="\zeta(x)=\log(1+\exp(x))" /></a>
+
+![](../images/TIM截图20180608204913.png)
+
+softplus 函数可以用来产生正态分布的 β 和 σ 参数，因为它的范围是 (0, +∞)
+
+softplus 实际上就是**正部函数**的平滑/软化版本，softplus 的名称也由此而来。
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=x^&plus;=\max(0,x)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?x^&plus;=\max(0,x)" title="x^+=\max(0,x)" /></a>
+
+可以看出，ReLU 实际上就是一个正部函数，只是其中的 x 被替换了为一个线性函数 `z = Wx + b`
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=g(z)=\max(0,z)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z)=\max(0,z)" title="g(z)=\max(0,z)" /></a>
+
+关于 sigmoid 和 softplus 一些有用的性质：
+
+![](../images/TIM截图20180608205223.png)
+
+> 《深度学习》 ch3.10 - 常用函数的有用性质
+
+#### 整流线性单元（ReLU）
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=g(z)=\max(0,z)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z)=\max(0,z)" title="g(z)=\max(0,z)" /></a>
+
+![](../images/TIM截图20180608212808.png)
+
+整流线性单元易于优化，因为它们和线性单元非常类似。线性单元和整流线性单元的唯一区别在于整流线性单元在其一半的定义域上输出为零。这使得只要整流线性单元处于激活状态，它的导数都能保持较大。它的梯度不仅大而且一致。整流操作的二阶导数几乎处处为 0，并且在整流线性单元处于激活状态时，它的一阶导数处处为 1。这意味着相比于引入二阶效应的激活函数来说，它的梯度方向对于学习来说更加有用。
+
+**ReLU 的拓展**
+
+ReLU 的三种拓展都是基于以下变型：
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=g(z,\alpha)&space;=\max(0,z)&plus;\alpha\min(0,z)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z,\alpha)&space;=\max(0,z)&plus;\alpha\min(0,z)" title="g(z,\alpha) =\max(0,z)+\alpha\min(0,z)" /></a>
+
+- 绝对值整流（absolute value rectification）
+    
+    固定 α == -1，此时整流函数即一个绝对值函数
+
+    <a href="http://www.codecogs.com/eqnedit.php?latex=g(z)&space;=\left&space;|&space;z&space;\right&space;|" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z)&space;=\left&space;|&space;z&space;\right&space;|" title="g(z) =\left | z \right |" /></a>
+
+    绝对值整流被用于图像中的对象识别 (Jarrett et al., 2009a)，其中寻找在输入照明极性反转下不变的特征是有意义的。
+
+- 渗漏整流线性单元（Leaky ReLU, Maas et al., 2013）
+    
+    固定 α 为一个类似于 0.01 的小值
+
+- 参数化整流线性单元（parametric ReLU, PReLU, He et al., 2015）
+
+    将 α 作为一个参数学习
+
+- maxout 单元 (Goodfellow et al., 2013a)
+
+    maxout 单元 进一步扩展了 ReLU，它是一个可学习的多达 k 段的分段函数
+
+    关于 maxout 网络的分析可以参考论文或网上的众多分析，下面是 Keras 中的实现：
+    ```
+    # input shape:  [n, input_dim]
+    # output shape: [n, output_dim]
+    W = init(shape=[k, input_dim, output_dim])
+    b = zeros(shape=[k, output_dim])
+    output = K.max(K.dot(x, W) + b, axis=1)
+    ```
+    > [深度学习（二十三）Maxout网络学习](https://blog.csdn.net/hjimce/article/details/50414467) - CSDN博客
+
+#### sigmoid 与 tanh（双曲正切函数）
+
+    
+
+
+#### 激活函数/隐藏单元的选择
+
+整流线性单元（ReLU）是激活函数较好的默认选择。决定何时使用哪种类型的隐藏单元是一件比较困难的事（多数情况下 ReLU 是一个可接受的选择）
+
+关于隐藏单元选择的基本直觉：
+- 整流线性单元和它的扩展都是基于一个原则，那就是如果它们的行为更接近线性，那么模型更容易优化。
+
+
+> 《深度学习》 ch6.3 - 隐藏单元；这里可以认为“隐藏单元”==“激活函数”
