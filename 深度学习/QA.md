@@ -118,6 +118,8 @@
     具体推导过程如下：
     
     > https://blog.csdn.net/guoyunfei20/article/details/78247263 - CSDN 博客
+    >
+    > 这里给出了一个具体的[例子](https://blog.csdn.net/shmily_skx/article/details/53053870)
     
 
 8. ### 分段线性单元（如 ReLU）代替 sigmoid 的利弊
@@ -130,7 +132,103 @@
     - 当数据增多时，在深度整流网络中的学习比在激活函数具有曲率或两侧饱和的深度网络中的学习更容易 (Glorot et al., 2011a)：传统的 sigmoid 函数，由于两端饱和，在传播过程中容易丢弃信息
     - ReLU 的过程更接近生物神经元的作用过程
 
-    >  《深度学习》 ch6.6 - 小结
+    > 《深度学习》 ch6.6 - 小结
     >
     > https://blog.csdn.net/code_lr/article/details/51836153 - CSDN博客
+    >> 答案总结自该知乎问题：https://www.zhihu.com/question/29021768
     
+
+9. ### 在做正则化过程中，为什么只对权重做正则惩罚，而不对偏置做权重惩罚
+
+    在神经网络中，参数包括每一层仿射变换的**权重**和**偏置**，我们通常只对权重做惩罚而不对偏置做正则惩罚。
+
+    精确拟合偏置所需的数据通常比拟合权重少得多。每个权重会指定两个变量如何相互作用。我们需要在各种条件下观察这两个变量才能良好地拟合权重。而每个偏置仅控制一个单变量。这意味着，我们不对其进行正则化也不会导致太大的方差。另外，正则化偏置参数可能会导致明显的欠拟合。
+
+    > 《深度学习》 ch7.1 - 参数范数惩罚
+
+
+10. ### 列举常见的一些范数及其应用场景，如 L0, L1, L2, L∞, Frobenius 范数
+
+    L0: 向量中非零元素的个数
+
+    L1: 向量中所有元素的绝对值之和
+
+    <a href="http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;x&space;\right&space;\|_1=\sum_i{\left&space;|&space;x_i&space;\right&space;|}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\left&space;\|&space;x&space;\right&space;\|_1=\sum_i{\left&space;|&space;x_i&space;\right&space;|}" title="\left \| x \right \|_1=\sum_i{\left | x_i \right |}" /></a>
+
+    L2: 向量中所有元素平方和的开放
+
+    <a href="http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;x&space;\right&space;\|_2=\sqrt{\sum_i{\left&space;|&space;x_i&space;\right&space;|^2}}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\left&space;\|&space;x&space;\right&space;\|_2=\sqrt{\sum_i{\left&space;|&space;x_i&space;\right&space;|^2}}" title="\left \| x \right \|_2=\sqrt{\sum_i{\left | x_i \right |^2}}" /></a>
+
+    其中 L1 和 L2 范数分别是 Lp (p>=1) 范数的特例：
+
+    <a href="http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;x&space;\right&space;\|_p=(\sum_i{\left&space;|&space;x_i&space;\right&space;|^2})^{\frac{1}{p}}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\left&space;\|&space;x&space;\right&space;\|_p=(\sum_i{\left&space;|&space;x_i&space;\right&space;|^2})^{\frac{1}{p}}" title="\left \| x \right \|_p=(\sum_i{\left | x_i \right |^2})^{\frac{1}{p}}" /></a>
+
+    L∞: 向量中最大元素的绝对值，也称最大范数
+
+    <a href="http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;x&space;\right&space;\|_\infty=\max_i\left&space;|&space;x&space;\right&space;|" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\left&space;\|&space;x&space;\right&space;\|_\infty=\max_i\left&space;|&space;x&space;\right&space;|" title="\left \| x \right \|_\infty=\max_i\left | x \right |" /></a>
+    
+    Frobenius 范数：作用于矩阵的 L2 范数
+
+    <a href="http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;A&space;\right&space;\|_F=\sqrt{\sum_{i,j}A_{i,j}^2}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\left&space;\|&space;A&space;\right&space;\|_F=\sqrt{\sum_{i,j}A_{i,j}^2}" title="\left \| A \right \|_F=\sqrt{\sum_{i,j}A_{i,j}^2}" /></a>
+
+    > 《深度学习》 ch2.5 - 范数（介绍），ch
+
+    范数最主要的应用：正则化——权重衰减/参数范数惩罚
+
+    #### 权重衰减的目的：
+    
+    限制模型的学习能力，通过限制参数 θ 的规模（主要是权重 w 的规模，偏置 b 不参与惩罚），使模型偏好于权值较小的目标函数，防止过拟合。
+
+    > 《深度学习》 ch7.1 - 参数范数惩罚
+
+
+11. ### L1 和 L2 范数的异同
+
+    #### 相同点
+    - 限制模型的学习能力，通过限制参数的规模，使模型偏好于权值较小的目标函数，防止过拟合。
+
+    #### 不同点
+    - L1 正则化可以产生稀疏权值矩阵，即产生一个稀疏模型，可以用于特征选择；一定程度上防止过拟合
+    - L2 正则化主要用于防止模型过拟合
+    - L1 适用于特征之间有关联的情况；L2 适用于特征之间没有关联的情况
+
+    > 《深度学习》 ch7.1.1 - L2参数正则化 & ch7.1.2 - L1参数正则化
+    >
+    > [机器学习中正则化项L1和L2的直观理解](https://blog.csdn.net/jinping_shi/article/details/52433975) - CSDN博客
+
+
+12. ### 为什么 L1 正则化可以产生稀疏权值，L2 正则化可以防止过拟合
+
+    #### 为什么 L1 正则化可以产生稀疏权值？
+    
+    添加 L1 正则化，相当于在 L1范数的约束下求目标函数 J 的最小值，下图展示了二维的情况：
+
+    ![](..\images\TIM截图20180608171710.png)
+
+    图中 J 与 L 首次相交的点就是最优解。L1 在和每个坐标轴相交的地方都会有“角”出现（多维的情况下，这些角会更多），在角的位置就会产生稀疏的解。而 J 与这些“角”相交的机会远大于其他点，因此 L1 正则化会产生稀疏的权值。
+
+    #### 为什么 L2 正则化不会产生稀疏的解？
+
+    类似的，可以得到带有 L2正则化的目标函数在二维平面上的图形，如下：
+
+    ![](..\images\TIM截图20180608172312.png)
+
+    相比 L1，L2 不会产生“角”，因此 J 与 L2 相交的点具有稀疏性的概率就会变得非常小。
+
+    > [机器学习中正则化项L1和L2的直观理解](https://blog.csdn.net/jinping_shi/article/details/52433975) - CSDN博客
+
+    #### 为什么 L1 和 L2 正则化可以防止过拟合？
+
+    L1 & L2 正则化会使模型偏好于更小的权值。
+
+    简单来说，更小的权值意味着更低的模型复杂度，也就是对训练数据的拟合刚刚好（奥卡姆剃刀），不会过分拟合训练数据（比如异常点，噪声），以提高模型的泛化能力。
+
+    此外，添加正则化相当于为模型添加了某种**先验**（限制），规定了参数的分布，从而降低了模型的复杂度。模型的复杂度降低，意味着模型对于噪声与异常点的抗干扰性的能力增强，从而提高模型的泛化能力。
+    
+    > [机器学习中防止过拟合的处理方法](https://blog.csdn.net/heyongluoyao8/article/details/49429629) - CSDN博客
+
+
+13. ### 简单介绍常用的激活函数，如 sigmoid, relu, softplus, tanh, RBF 及其应用场景
+
+    > 《深度学习》 ch3.10 - 常用函数的有用性质 & ch6.4 - 架构设计
+
