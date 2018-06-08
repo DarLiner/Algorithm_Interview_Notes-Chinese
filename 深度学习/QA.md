@@ -236,7 +236,7 @@ L1 & L2 正则化会使模型偏好于更小的权值。
 
 <a href="http://www.codecogs.com/eqnedit.php?latex=\sigma(x)=\frac{1}{1&plus;\exp(-x)}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\sigma(x)=\frac{1}{1&plus;\exp(-x)}" title="\sigma(x)=\frac{1}{1+\exp(-x)}" /></a>
 
-![](..\images\TIM截图20180608195851.png)
+![](../images/TIM截图20180608195851.png)
 
 sigmoid 函数在变量取绝对值非常大的正值或负值时会出现**饱和**（saturate）现象，意味着函数会开始变得很平，并且对输入的微小改变会变得不敏感。
 
