@@ -1,6 +1,6 @@
 ## 问题与答案
 
-### 1. 如何设置网络的初始值
+### 1. 如何设置网络的初始值？
 
 一般总是使用服从（截断）高斯或均匀分布的随机值，具体是高斯还是均匀分布影响不大，但是也没有详细的研究。
 
@@ -19,16 +19,16 @@
 
 ### 2. 梯度爆炸的解决办法
     
-1. 梯度截断/裁剪——如果梯度超过某个阈值，就对其进行限制
+1. **梯度截断**/裁剪——如果梯度超过某个阈值，就对其进行限制
     
-    来看一下 Tensorflow 提供的几种方法：
+    下面是 Tensorflow 提供的几种方法：
 
     - `tf.clip_by_value(t, clip_value_min, clip_value_max)`
     - `tf.clip_by_norm(t, clip_norm)`
     - `tf.clip_by_average_norm(t, clip_norm)`
     - `tf.clip_by_global_norm(t_list, clip_norm)`
 
-    这里主要说一下`tf.clip_by_global_norm`的操作：
+    这里以`tf.clip_by_global_norm`为例：
 
     ```
     To perform the clipping, the values `t_list[i]` are set to:
@@ -57,7 +57,7 @@
 
 2. 良好的参数初始化策略也能缓解梯度爆炸问题（权重正则化）
 
-    > [如何设置网络的初始值](#如何设置网络的初始值)
+    > [如何设置网络的初始值？](#1.-如何设置网络的初始值？)
 
 3. 使用线性整流激活函数，如 ReLU 等
 
@@ -199,7 +199,7 @@ Frobenius 范数：作用于矩阵的 L2 范数
 > [机器学习中正则化项L1和L2的直观理解](https://blog.csdn.net/jinping_shi/article/details/52433975) - CSDN博客
 
 
-### 12. 为什么 L1 正则化可以产生稀疏权值，L2 正则化可以防止过拟合
+### 12. 为什么 L1 正则化可以产生稀疏权值，L2 正则化可以防止过拟合？
 
 #### 为什么 L1 正则化可以产生稀疏权值？
 
