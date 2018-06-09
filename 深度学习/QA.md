@@ -235,47 +235,13 @@ L1 & L2 正则化会使模型偏好于更小的权值。
 
 ### 13. 简单介绍常用的激活函数，如 sigmoid, relu, softplus, tanh, RBF 及其应用场景
 
-#### (logistic) sigmoid
-
-<a href="http://www.codecogs.com/eqnedit.php?latex=\sigma(x)=\frac{1}{1&plus;\exp(-x)}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\sigma(x)=\frac{1}{1&plus;\exp(-x)}" title="\sigma(x)=\frac{1}{1+\exp(-x)}" /></a>
-
-![](../images/TIM截图20180608195851.png)
-
-logistic sigmoid 函数通常用来产生伯努利分布中的参数 ϕ，因为它的范围是 (0, 1)
-
-sigmoid 函数在变量取绝对值非常大的正值或负值时会出现**饱和**（saturate）现象，意味着函数会开始变得很平，并且对输入的微小改变会变得不敏感。
-
-饱和现象会导致训练减慢，并在传播过程中丢失信息 [ref](#8.-分段线性单元（如-ReLU）代替-sigmoid-的利弊)
-
-> [sigmoid 与 tanh（双曲正切函数）](#sigmoid-与-tanh（双曲正切函数）)
-
-#### softplus
-
-<a href="http://www.codecogs.com/eqnedit.php?latex=\zeta(x)=\log(1&plus;\exp(x))" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\zeta(x)=\log(1&plus;\exp(x))" title="\zeta(x)=\log(1+\exp(x))" /></a>
-
-![](../images/TIM截图20180608204913.png)
-
-softplus 函数可以用来产生正态分布的 β 和 σ 参数，因为它的范围是 (0, +∞)
-
-softplus 实际上就是**正部函数**的平滑/软化版本，softplus 的名称也由此而来。
-
-<a href="http://www.codecogs.com/eqnedit.php?latex=x^&plus;=\max(0,x)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?x^&plus;=\max(0,x)" title="x^+=\max(0,x)" /></a>
-
-可以看出，ReLU 实际上就是一个正部函数，只是其中的 x 被替换了为一个线性函数 `z = Wx + b`
-
-<a href="http://www.codecogs.com/eqnedit.php?latex=g(z)=\max(0,z)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z)=\max(0,z)" title="g(z)=\max(0,z)" /></a>
-
-关于 sigmoid 和 softplus 一些有用的性质：
-
-![](../images/TIM截图20180608205223.png)
-
-> 《深度学习》 ch3.10 - 常用函数的有用性质
-
 #### 整流线性单元（ReLU）
 
 <a href="http://www.codecogs.com/eqnedit.php?latex=g(z)=\max(0,z)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z)=\max(0,z)" title="g(z)=\max(0,z)" /></a>
 
 ![](../images/TIM截图20180608212808.png)
+
+整流线性单元（ReLU）通常是激活函数较好的默认选择。
 
 整流线性单元易于优化，因为它们和线性单元非常类似。线性单元和整流线性单元的唯一区别在于整流线性单元在其一半的定义域上输出为零。这使得只要整流线性单元处于激活状态，它的导数都能保持较大。它的梯度不仅大而且一致。整流操作的二阶导数几乎处处为 0，并且在整流线性单元处于激活状态时，它的一阶导数处处为 1。这意味着相比于引入二阶效应的激活函数来说，它的梯度方向对于学习来说更加有用。
 
@@ -284,6 +250,8 @@ softplus 实际上就是**正部函数**的平滑/软化版本，softplus 的名
 ReLU 的三种拓展都是基于以下变型：
 
 <a href="http://www.codecogs.com/eqnedit.php?latex=g(z,\alpha)&space;=\max(0,z)&plus;\alpha\min(0,z)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z,\alpha)&space;=\max(0,z)&plus;\alpha\min(0,z)" title="g(z,\alpha) =\max(0,z)+\alpha\min(0,z)" /></a>
+
+ReLU 及其扩展都是基于一个原则，那就是如果它们的行为更接近线性，那么模型更容易优化。
 
 - 绝对值整流（absolute value rectification）
     
@@ -317,15 +285,160 @@ ReLU 的三种拓展都是基于以下变型：
 
 #### sigmoid 与 tanh（双曲正切函数）
 
-    
+在引入 ReLU 之前，大多数神经网络使用 sigmoid 激活函数：
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=g(z)=\sigma(z)=\frac{1}{1&plus;\exp(-z)}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z)=\sigma(z)=\frac{1}{1&plus;\exp(-z)}" title="g(z)=\sigma(z)=\frac{1}{1+\exp(-z)}" /></a>
+
+![](../images/TIM截图20180608195851.png)
+
+或者 tanh（双曲正切函数）：
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=g(z)&space;=&space;\tanh(z)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z)&space;=&space;\tanh(z)" title="g(z) = \tanh(z)" /></a>
+
+tanh 的图像类似于 sigmoid，区别在其值域为 (-1, 1).
+
+这两个函数有如下关系：
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=\tanh(z)=2\sigma&space;(2z)-1" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\tanh(z)=2\sigma&space;(2z)-1" title="\tanh(z)=2\sigma (2z)-1" /></a>
+
+**sigmoid 函数要点**：
+- sigmoid 常作为输出单元用来预测二值型变量取值为 1 的概率
+    > 换言之，sigmoid 函数可以用来产生**伯努利分布**中的参数 ϕ，因为它的值域为 (0, 1).
+- sigmoid 函数在输入取绝对值非常大的正值或负值时会出现**饱和**（saturate）现象，在图像上表现为开始变得很平，此时函数会对输入的微小改变会变得不敏感。仅当输入接近 0 时才会变得敏感。
+    > 饱和现象会导致基于梯度的学习变得困难，并在传播过程中丢失信息。——[为什么用ReLU代替sigmoid？](#8.-分段线性单元（如-ReLU）代替-sigmoid-的利弊)
+- 如果要使用 sigmoid 作为激活函数时（浅层网络），tanh 通常要比 sigmoid 函数表现更好。
+    > tanh 在 0 附近与单位函数类似，这使得训练 tanh 网络更容易些。
+
+#### 其他激活函数（隐藏单元）
+
+很多未发布的非线性激活函数也能表现的很好，但没有比流行的激活函数表现的更好。比如使用 cos 也能在 MNIST 任务上得到小于 1% 的误差。通常新的隐藏单元类型只有在被明确证明能够提供显著改进时才会被发布。
+
+**线性激活函数**：
+
+如果神经网络的每一层都都由线性变换组成，那么网络作为一个整体也将是线性的，这会导致失去万能近似的性质。但是，仅**部分层是纯线性**是可以接受的。这可以帮助**减少网络中的参数**。
+
+**softmax**：
+
+softmax 单元常作为网络的输出层，它很自然地表示了具有 k 个可能值的离散型随机变量的概率分布。
+
+**径向基函数（radial basis function, RBF）**：
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=h_i=\exp(-\frac{1}{\sigma_i^2}\left&space;\|&space;W_{:,i}-x&space;\right&space;\|^2)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?h_i=\exp(-\frac{1}{\sigma_i^2}\left&space;\|&space;W_{:,i}-x&space;\right&space;\|^2)" title="h_i=\exp(-\frac{1}{\sigma_i^2}\left \| W_{:,i}-x \right \|^2)" /></a>
+
+在神经网络中很少使用 RBF 作为激活函数，因为它对大部分 x 都饱和到 0，所以很难优化。
+
+**softplus**：
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=g(z)=\zeta(z)=\log(1&plus;\exp(z))" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z)=\zeta(z)=\log(1&plus;\exp(z))" title="g(z)=\zeta(z)=\log(1+\exp(z))" /></a>
+
+![](../images/TIM截图20180608204913.png)
+
+softplus 是 ReLU 的平滑版本。通常不鼓励使用 softplus 函数，大家可能希望它具有优于整流线性单元的点，但根据经验来看，它并没有。
+> (Glorot et al., 2011a) 比较了这两者，发现 ReLU 的结果更好。
+
+**硬双曲正切函数（hard tanh）**：
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=g(z)=\max(-1,\min(1,a))" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z)=\max(-1,\min(1,a))" title="g(z)=\max(-1,\min(1,a))" /></a>
+
+它的形状和 tanh 以及整流线性单元类似，但是不同于后者，它是有界的。
+> Collobert, 2004
+
+#### sigmoid 和 softplus 的一些性质
+
+![](../images/TIM截图20180608205223.png)
+
+> 《深度学习》 ch3.10 - 常用函数的有用性质
 
 
-#### 激活函数/隐藏单元的选择
+### 14. Jacobian 和 Hessian 矩阵及其在深度学习中的重要性
 
-整流线性单元（ReLU）是激活函数较好的默认选择。决定何时使用哪种类型的隐藏单元是一件比较困难的事（多数情况下 ReLU 是一个可接受的选择）
-
-关于隐藏单元选择的基本直觉：
-- 整流线性单元和它的扩展都是基于一个原则，那就是如果它们的行为更接近线性，那么模型更容易优化。
+> 《深度学习》 ch4.3.1 - 梯度之上：Jacobian 和 Hessian 矩阵
 
 
-> 《深度学习》 ch6.3 - 隐藏单元；这里可以认为“隐藏单元”==“激活函数”
+### 15. 信息论、KL 散度（相对熵）与交叉熵
+
+信息论的基本想法是一个不太可能的事件居然发生了，要比一个非常可能的事件发生，能提供更多的信息。
+
+该想法可描述为以下性质：
+1. 非常可能发生的事件信息量要比较少，并且极端情况下，确保能够发生的事件应该没有信息量。
+2. 比较不可能发生的事件具有更高的信息量。
+3. 独立事件应具有增量的信息。例如，投掷的硬币两次正面朝上传递的信息量，应该是投掷一次硬币正面朝上的信息量的两倍。
+
+#### 自信息（self-information）
+
+自信息是一种量化以上性质的函数，定义一个事件 x 的自信息为：
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=I(x)=-\log&space;P(x)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?I(x)=-\log&space;P(x)" title="I(x)=-\log P(x)" /></a>
+
+> 当该对数的底数为 e 时，单位为奈特（nats，本书标准）；当以 2 为底数时，单位为比特（bit）或香农（shannons）
+
+#### 信息熵（Information-entropy）
+
+自信息只处理单个的输出。此时，用信息熵来对整个概率分布中的不确定性总量进行量化：
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=H(\mathrm{X})=\mathbb{E}_{\mathrm{X}&space;\sim&space;P}[I(x)]=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;P(x)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?H(\mathrm{X})=\mathbb{E}_{\mathrm{X}&space;\sim&space;P}[I(x)]=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;P(x)" title="H(\mathrm{X})=\mathbb{E}_{\mathrm{X} \sim P}[I(x)]=-\sum_{x \in \mathrm{X}}P(x)\log P(x)" /></a>
+
+> 信息熵也称香农熵（Shannon entropy）
+
+#### 相对熵/KL 散度（Kullback-Leibler divergence）
+
+P 对 Q 的相对熵：
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=D_P(Q)=\mathbb{E}_{\mathrm{X}\sim&space;P}\left&space;[&space;\log&space;\frac{P(x)}{Q(x)}&space;\right&space;]=\sum_{x&space;\in&space;\mathrm{X}}P(x)\left&space;[&space;P(x)-Q(x)&space;\right&space;]" target="_blank"><img src="http://latex.codecogs.com/gif.latex?D_P(Q)=\mathbb{E}_{\mathrm{X}\sim&space;P}\left&space;[&space;\log&space;\frac{P(x)}{Q(x)}&space;\right&space;]=\sum_{x&space;\in&space;\mathrm{X}}P(x)\left&space;[&space;P(x)-Q(x)&space;\right&space;]" title="D_P(Q)=\mathbb{E}_{\mathrm{X}\sim P}\left [ \log \frac{P(x)}{Q(x)} \right ]=\sum_{x \in \mathrm{X}}P(x)\left [ P(x)-Q(x) \right ]" /></a>
+
+**KL 散度在信息论中度量的是那个直观量**：
+
+在离散型变量的情况下， KL 散度衡量的是，当我们使用一种被设计成能够使得概率分布 Q 产生的消息的长度最小的编码，发送包含由概率分布 P 产生的符号的消息时，所需要的额外信息量。
+
+**KL 散度的性质**：
+- 非负；KL 散度为 0 当且仅当P 和 Q 在离散型变量的情况下是相同的分布，或者在连续型变量的情况下是“几乎处处”相同的
+- 不对称；D_p(q) != D_q(p)
+
+#### 交叉熵（cross-entropy）
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=-\mathbb{E}_{\mathrm{X}\sim&space;P}\log&space;Q(x)=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;Q(x)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?H_P(Q)=-\mathbb{E}_{\mathrm{X}\sim&space;P}\log&space;Q(x)=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;Q(x)" title="H_P(Q)=-\mathbb{E}_{\mathrm{X}\sim P}\log Q(x)=-\sum_{x \in \mathrm{X}}P(x)\log Q(x)" /></a>
+
+**交叉熵与 KL 散度的关系**：
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=H(P)&plus;D_P(Q)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?H_P(Q)=H(P)&plus;D_P(Q)" title="H_P(Q)=H(P)+D_P(Q)" /></a>
+
+针对 Q 最小化交叉熵等价于最小化 KL 散度，因为 Q 并不参与被省略的那一项。
+
+> 信息论中，记 `0log0 = 0`
+
+> 《深度学习》 ch3.13 - 信息论
+>
+> [信息量，信息熵，交叉熵，KL散度和互信息（信息增益）](https://blog.csdn.net/haolexiao/article/details/70142571) - CSDN博客
+
+
+### 16. 如何避免数值计算中的上溢和下溢问题，以 softmax 为例
+
+- **上溢**：一个很大的数被近似为 ∞ 或 -∞；
+- **下溢**：一个很小的数被近似为 0
+
+必须对上溢和下溢进行**数值稳定**的一个例子是 **softmax 函数**：
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=\mathrm{softmax}(x)=\frac{\exp(x_i)}{\sum_{j=1}^n&space;\exp(x_j)}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\mathrm{softmax}(x)=\frac{\exp(x_i)}{\sum_{j=1}^n&space;\exp(x_j)}" title="\mathrm{softmax}(x)=\frac{\exp(x_i)}{\sum_{j=1}^n \exp(x_j)}" /></a>
+
+因为 softmax 解析上的函数值不会因为从输入向量减去或加上**标量**而改变，
+于是一个简单的解决办法是对 x：
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=x=x-\max_ix_i" target="_blank"><img src="http://latex.codecogs.com/gif.latex?x=x-\max_ix_i" title="x=x-\max_ix_i" /></a>
+
+减去 `max(x_i)` 导致 `exp` 的最大参数为 `0`，这排除了上溢的可能性。同样地，分母中至少有一个值为 `1=exp(0)` 的项，这就排除了因分母下溢而导致被零除的可能性。
+
+**注意**：虽然解决了分母中的上溢与下溢问题，但是分子中的下溢仍可以导致整体表达式被计算为零。此时如果计算 log softmax(x) 时，依然要注意可能造成的上溢或下溢问题，处理方法同上。
+
+当然，大多数情况下，这是底层库开发人员才需要注意的问题。
+
+> 《深度学习》 ch4.1 - 上溢与下溢
+
+
+### 17. 训练误差、泛化误差；过拟合、欠拟合；模型容量，表示容量，有效容量，最优容量的概念； 奥卡姆剃刀原则
+
+> 《深度学习》 ch5.2 - 容量、过拟合和欠拟合
+
+
+### 18. 高斯分布的广泛应用的原因
+
+> 《深度学习》 ch3.9.3 - 高斯分布
