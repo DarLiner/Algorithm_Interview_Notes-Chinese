@@ -50,7 +50,7 @@
 
 一些启发式初始化策略通常是根据输入与输出的单元数来决定初始权重的大小，比如 Glorot and Bengio (2010) 中建议建议使用的标准初始化，其中 m 为输入数，n 为输出数
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=W_{i,j}&space;\sim&space;U(-\sqrt{\frac{6}{m&plus;n}},\sqrt{\frac{6}{m&plus;n}})" target="_blank"><img src="http://latex.codecogs.com/gif.latex?W_{i,j}&space;\sim&space;U(-\sqrt{\frac{6}{m&plus;n}},\sqrt{\frac{6}{m&plus;n}})" title="W_{i,j} \sim U(-\sqrt{\frac{6}{m+n}},\sqrt{\frac{6}{m+n}})" /></a>
+[![](../images/公式_20180610212719.png)](http://www.codecogs.com/eqnedit.php?latex=W_{i,j}&space;\sim&space;U(-\sqrt{\frac{6}{m&plus;n}},\sqrt{\frac{6}{m&plus;n}}))
 
 还有一些方法推荐使用随机正交矩阵来初始化权重 (Saxe et al., 2013)。
 
@@ -198,23 +198,23 @@ L0: 向量中非零元素的个数
 
 L1: 向量中所有元素的绝对值之和
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;x&space;\right&space;\|_1=\sum_i{\left&space;|&space;x_i&space;\right&space;|}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\left&space;\|&space;x&space;\right&space;\|_1=\sum_i{\left&space;|&space;x_i&space;\right&space;|}" title="\left \| x \right \|_1=\sum_i{\left | x_i \right |}" /></a>
+[![](../images/公式_20180610213145.png)](http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;x&space;\right&space;\|_1=\sum_i{\left&space;|&space;x_i&space;\right&space;|})
 
 L2: 向量中所有元素平方和的开放
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;x&space;\right&space;\|_2=\sqrt{\sum_i{\left&space;|&space;x_i&space;\right&space;|^2}}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\left&space;\|&space;x&space;\right&space;\|_2=\sqrt{\sum_i{\left&space;|&space;x_i&space;\right&space;|^2}}" title="\left \| x \right \|_2=\sqrt{\sum_i{\left | x_i \right |^2}}" /></a>
+[![](../images/公式_20180610213218.png)](http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;x&space;\right&space;\|_2=\sqrt{\sum_i{\left&space;|&space;x_i&space;\right&space;|^2}})
 
 其中 L1 和 L2 范数分别是 Lp (p>=1) 范数的特例：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;x&space;\right&space;\|_p=(\sum_i{\left&space;|&space;x_i&space;\right&space;|^2})^{\frac{1}{p}}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\left&space;\|&space;x&space;\right&space;\|_p=(\sum_i{\left&space;|&space;x_i&space;\right&space;|^2})^{\frac{1}{p}}" title="\left \| x \right \|_p=(\sum_i{\left | x_i \right |^2})^{\frac{1}{p}}" /></a>
+[![](../images/公式_20180610213257.png)](http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;x&space;\right&space;\|_p=(\sum_i{\left&space;|&space;x_i&space;\right&space;|^2})^{\frac{1}{p}})
 
 L∞: 向量中最大元素的绝对值，也称最大范数
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;x&space;\right&space;\|_\infty=\max_i\left&space;|&space;x&space;\right&space;|" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\left&space;\|&space;x&space;\right&space;\|_\infty=\max_i\left&space;|&space;x&space;\right&space;|" title="\left \| x \right \|_\infty=\max_i\left | x \right |" /></a>
+[![](../images/公式_20180610213349.png)](http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;x&space;\right&space;\|_\infty=\max_i\left&space;|&space;x&space;\right&space;|)
 
 Frobenius 范数：作用于矩阵的 L2 范数
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;A&space;\right&space;\|_F=\sqrt{\sum_{i,j}A_{i,j}^2}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\left&space;\|&space;A&space;\right&space;\|_F=\sqrt{\sum_{i,j}A_{i,j}^2}" title="\left \| A \right \|_F=\sqrt{\sum_{i,j}A_{i,j}^2}" /></a>
+[![](../images/公式_20180610213428.png)](http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;A&space;\right&space;\|_F=\sqrt{\sum_{i,j}A_{i,j}^2})
 
 > 《深度学习》 ch2.5 - 范数（介绍），ch
 
@@ -275,7 +275,7 @@ L1 & L2 正则化会使模型偏好于更小的权值。
 
 #### 整流线性单元（ReLU）
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=g(z)=\max(0,z)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z)=\max(0,z)" title="g(z)=\max(0,z)" /></a>
+[![](../images/公式_20180610213451.png)](http://www.codecogs.com/eqnedit.php?latex=g(z)=\max(0,z))
 
 ![](../images/TIM截图20180608212808.png)
 
@@ -287,15 +287,15 @@ L1 & L2 正则化会使模型偏好于更小的权值。
 
 ReLU 的三种拓展都是基于以下变型：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=g(z,\alpha)&space;=\max(0,z)&plus;\alpha\min(0,z)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z,\alpha)&space;=\max(0,z)&plus;\alpha\min(0,z)" title="g(z,\alpha) =\max(0,z)+\alpha\min(0,z)" /></a>
+[![](../images/公式_20180610214123.png)](http://www.codecogs.com/eqnedit.php?latex=g(z,\alpha)&space;=\max(0,z)&plus;\alpha\min(0,z))
 
 ReLU 及其扩展都是基于一个原则，那就是如果它们的行为更接近线性，那么模型更容易优化。
 
 - 绝对值整流（absolute value rectification）
     
     固定 α == -1，此时整流函数即一个绝对值函数
-
-    <a href="http://www.codecogs.com/eqnedit.php?latex=g(z)&space;=\left&space;|&space;z&space;\right&space;|" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z)&space;=\left&space;|&space;z&space;\right&space;|" title="g(z) =\left | z \right |" /></a>
+    
+    [![](../images/公式_20180610214502.png)](http://www.codecogs.com/eqnedit.php?latex=g(z)&space;=\left&space;|&space;z&space;\right&space;|)
 
     绝对值整流被用于图像中的对象识别 (Jarrett et al., 2009a)，其中寻找在输入照明极性反转下不变的特征是有意义的。
 
@@ -325,19 +325,19 @@ ReLU 及其扩展都是基于一个原则，那就是如果它们的行为更接
 
 在引入 ReLU 之前，大多数神经网络使用 sigmoid 激活函数：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=g(z)=\sigma(z)=\frac{1}{1&plus;\exp(-z)}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z)=\sigma(z)=\frac{1}{1&plus;\exp(-z)}" title="g(z)=\sigma(z)=\frac{1}{1+\exp(-z)}" /></a>
+[![](../images/公式_20180610214846.png)](http://www.codecogs.com/eqnedit.php?latex=g(z)=\sigma(z)=\frac{1}{1&plus;\exp(-z)})
 
 ![](../images/TIM截图20180608195851.png)
 
 或者 tanh（双曲正切函数）：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=g(z)&space;=&space;\tanh(z)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z)&space;=&space;\tanh(z)" title="g(z) = \tanh(z)" /></a>
+[![](../images/公式_20180610214926.png)](http://www.codecogs.com/eqnedit.php?latex=g(z)&space;=&space;\tanh(z))
 
 tanh 的图像类似于 sigmoid，区别在其值域为 (-1, 1).
 
 这两个函数有如下关系：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=\tanh(z)=2\sigma&space;(2z)-1" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\tanh(z)=2\sigma&space;(2z)-1" title="\tanh(z)=2\sigma (2z)-1" /></a>
+[![](../images/公式_20180610215029.png)](http://www.codecogs.com/eqnedit.php?latex=\tanh(z)=2\sigma&space;(2z)-1)
 
 **sigmoid 函数要点**：
 - sigmoid 常作为输出单元用来预测二值型变量取值为 1 的概率
@@ -361,13 +361,13 @@ softmax 单元常作为网络的输出层，它很自然地表示了具有 k 个
 
 **径向基函数（radial basis function, RBF）**：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=h_i=\exp(-\frac{1}{\sigma_i^2}\left&space;\|&space;W_{:,i}-x&space;\right&space;\|^2)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?h_i=\exp(-\frac{1}{\sigma_i^2}\left&space;\|&space;W_{:,i}-x&space;\right&space;\|^2)" title="h_i=\exp(-\frac{1}{\sigma_i^2}\left \| W_{:,i}-x \right \|^2)" /></a>
+[![](../images/公式_20180610215150.png)](http://www.codecogs.com/eqnedit.php?latex=h_i=\exp(-\frac{1}{\sigma_i^2}\left&space;\|&space;W_{:,i}-x&space;\right&space;\|^2))
 
 在神经网络中很少使用 RBF 作为激活函数，因为它对大部分 x 都饱和到 0，所以很难优化。
 
 **softplus**：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=g(z)=\zeta(z)=\log(1&plus;\exp(z))" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z)=\zeta(z)=\log(1&plus;\exp(z))" title="g(z)=\zeta(z)=\log(1+\exp(z))" /></a>
+[![](../images/公式_20180610215222.png)](http://www.codecogs.com/eqnedit.php?latex=g(z)=\zeta(z)=\log(1&plus;\exp(z)))
 
 ![](../images/TIM截图20180608204913.png)
 
@@ -376,7 +376,7 @@ softplus 是 ReLU 的平滑版本。通常不鼓励使用 softplus 函数，大�
 
 **硬双曲正切函数（hard tanh）**：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=g(z)=\max(-1,\min(1,a))" target="_blank"><img src="http://latex.codecogs.com/gif.latex?g(z)=\max(-1,\min(1,a))" title="g(z)=\max(-1,\min(1,a))" /></a>
+[![](../images/公式_20180610215308.png)](http://www.codecogs.com/eqnedit.php?latex=g(z)=\max(-1,\min(1,a)))
 
 它的形状和 tanh 以及整流线性单元类似，但是不同于后者，它是有界的。
 > Collobert, 2004
@@ -406,13 +406,13 @@ softplus 是 ReLU 的平滑版本。通常不鼓励使用 softplus 函数，大�
 
 自信息（self-information）是一种量化以上性质的函数，定义一个事件 x 的自信息为：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=I(x)=-\log&space;P(x)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?I(x)=-\log&space;P(x)" title="I(x)=-\log P(x)" /></a>
+[![](../images/公式_20180610215339.png)](http://www.codecogs.com/eqnedit.php?latex=I(x)=-\log&space;P(x))
 
 > 当该对数的底数为 e 时，单位为奈特（nats，本书标准）；当以 2 为底数时，单位为比特（bit）或香农（shannons）
 
 自信息只处理单个的输出。此时，用信息熵（Information-entropy）来对整个概率分布中的不确定性总量进行量化：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=H(\mathrm{X})=\mathbb{E}_{\mathrm{X}&space;\sim&space;P}[I(x)]=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;P(x)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?H(\mathrm{X})=\mathbb{E}_{\mathrm{X}&space;\sim&space;P}[I(x)]=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;P(x)" title="H(\mathrm{X})=\mathbb{E}_{\mathrm{X} \sim P}[I(x)]=-\sum_{x \in \mathrm{X}}P(x)\log P(x)" /></a>
+[![](../images/公式_20180610215417.png)](http://www.codecogs.com/eqnedit.php?latex=H(\mathrm{X})=\mathbb{E}_{\mathrm{X}&space;\sim&space;P}[I(x)]=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;P(x))
 
 > 信息熵也称香农熵（Shannon entropy）
 >
@@ -422,7 +422,7 @@ softplus 是 ReLU 的平滑版本。通常不鼓励使用 softplus 函数，大�
 
 P 对 Q 的 **KL散度**（Kullback-Leibler divergence）：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=D_P(Q)=\mathbb{E}_{\mathrm{X}\sim&space;P}\left&space;[&space;\log&space;\frac{P(x)}{Q(x)}&space;\right&space;]=\sum_{x&space;\in&space;\mathrm{X}}P(x)\left&space;[&space;P(x)-Q(x)&space;\right&space;]" target="_blank"><img src="http://latex.codecogs.com/gif.latex?D_P(Q)=\mathbb{E}_{\mathrm{X}\sim&space;P}\left&space;[&space;\log&space;\frac{P(x)}{Q(x)}&space;\right&space;]=\sum_{x&space;\in&space;\mathrm{X}}P(x)\left&space;[&space;P(x)-Q(x)&space;\right&space;]" title="D_P(Q)=\mathbb{E}_{\mathrm{X}\sim P}\left [ \log \frac{P(x)}{Q(x)} \right ]=\sum_{x \in \mathrm{X}}P(x)\left [ P(x)-Q(x) \right ]" /></a>
+[![](../images/公式_20180610215445.png)](http://www.codecogs.com/eqnedit.php?latex=D_P(Q)=\mathbb{E}_{\mathrm{X}\sim&space;P}\left&space;[&space;\log&space;\frac{P(x)}{Q(x)}&space;\right&space;]=\sum_{x&space;\in&space;\mathrm{X}}P(x)\left&space;[&space;P(x)-Q(x)&space;\right&space;])
 
 **KL 散度在信息论中度量的是那个直观量**：
 
@@ -434,7 +434,7 @@ P 对 Q 的 **KL散度**（Kullback-Leibler divergence）：
 
 **交叉熵**（cross-entropy）：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=-\mathbb{E}_{\mathrm{X}\sim&space;P}\log&space;Q(x)=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;Q(x)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?H_P(Q)=-\mathbb{E}_{\mathrm{X}\sim&space;P}\log&space;Q(x)=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;Q(x)" title="H_P(Q)=-\mathbb{E}_{\mathrm{X}\sim P}\log Q(x)=-\sum_{x \in \mathrm{X}}P(x)\log Q(x)" /></a>
+[![](../images/公式_20180610215522.png)](http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=-\mathbb{E}_{\mathrm{X}\sim&space;P}\log&space;Q(x)=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;Q(x))
 
 > 《深度学习》 ch3.13 - 信息论
 >
@@ -442,7 +442,7 @@ P 对 Q 的 **KL散度**（Kullback-Leibler divergence）：
 
 **交叉熵与 KL 散度的关系**：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=H(P)&plus;D_P(Q)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?H_P(Q)=H(P)&plus;D_P(Q)" title="H_P(Q)=H(P)+D_P(Q)" /></a>
+[![](../images/公式_20180610215554.png)](http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=H(P)&plus;D_P(Q))
 
 **针对 Q 最小化交叉熵等价于最小化 KL 散度**，因为 Q 并不参与被省略的那一项。
 
@@ -458,12 +458,12 @@ P 对 Q 的 **KL散度**（Kullback-Leibler divergence）：
 
 必须对上溢和下溢进行**数值稳定**的一个例子是 **softmax 函数**：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=\mathrm{softmax}(x)=\frac{\exp(x_i)}{\sum_{j=1}^n&space;\exp(x_j)}" target="_blank"><img src="http://latex.codecogs.com/gif.latex?\mathrm{softmax}(x)=\frac{\exp(x_i)}{\sum_{j=1}^n&space;\exp(x_j)}" title="\mathrm{softmax}(x)=\frac{\exp(x_i)}{\sum_{j=1}^n \exp(x_j)}" /></a>
+[![](../images/公式_20180610215623.png)](http://www.codecogs.com/eqnedit.php?latex=\mathrm{softmax}(x)=\frac{\exp(x_i)}{\sum_{j=1}^n&space;\exp(x_j)})
 
 因为 softmax 解析上的函数值不会因为从输入向量减去或加上**标量**而改变，
 于是一个简单的解决办法是对 x：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=x=x-\max_ix_i" target="_blank"><img src="http://latex.codecogs.com/gif.latex?x=x-\max_ix_i" title="x=x-\max_ix_i" /></a>
+[![](../images/公式_20180610215656.png)](http://www.codecogs.com/eqnedit.php?latex=x=x-\max_ix_i)
 
 减去 `max(x_i)` 导致 `exp` 的最大参数为 `0`，这排除了上溢的可能性。同样地，分母中至少有一个值为 `1=exp(0)` 的项，这就排除了因分母下溢而导致被零除的可能性。
 
@@ -482,9 +482,10 @@ P 对 Q 的 **KL散度**（Kullback-Leibler divergence）：
 ### 18. 高斯分布的广泛应用的原因**
 
 #### 高斯分布（Gaussian distribution）
+
 高斯分布，即正态分布（normal distribution）：
 
-<a href="http://www.codecogs.com/eqnedit.php?latex=N(x;\mu,\sigma^2)=\sqrt\frac{1}{2\pi\sigma^2}\exp\left&space;(&space;-\frac{1}{2\sigma^2}(x-\mu)^2&space;\right&space;)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?N(x;\mu,\sigma^2)=\sqrt\frac{1}{2\pi\sigma^2}\exp\left&space;(&space;-\frac{1}{2\sigma^2}(x-\mu)^2&space;\right&space;)" title="N(x;\mu,\sigma^2)=\sqrt\frac{1}{2\pi\sigma^2}\exp\left ( -\frac{1}{2\sigma^2}(x-\mu)^2 \right )" /></a>
+[![](../images/公式_20180610215732.png)](http://www.codecogs.com/eqnedit.php?latex=N(x;\mu,\sigma^2)=\sqrt\frac{1}{2\pi\sigma^2}\exp\left&space;(&space;-\frac{1}{2\sigma^2}(x-\mu)^2&space;\right&space;))
 
 概率密度函数图像：
 
@@ -614,8 +615,7 @@ P 对 Q 的 **KL散度**（Kullback-Leibler divergence）：
 
 可以想象，这些任务会足够相似（或许具有相似的输入和输出分布），因此我们认为模型参数 w(A) 和 w(B) 应彼此靠近。具体来说，我们可以使用以下形式的参数范数惩罚：
 
-[![](../images/2018年6月10日21_13_20.png)](http://www.codecogs.com/eqnedit.php?latex=\Omega&space;(w^{(A)},w^{(B)})=\left&space;\|&space;w^{(A)}-w^{(B)}&space;\right&space;\|^2_2)
-
+[![](../images/公式_20180610215812.png)](http://www.codecogs.com/eqnedit.php?latex=\Omega&space;(w^{(A)},w^{(B)})=\left&space;\|&space;w^{(A)}-w^{(B)}&space;\right&space;\|^2_2)
 
 
 
