@@ -1,5 +1,46 @@
 ## 问题与答案
 
+<!-- TOC -->
+
+- [问题与答案](#问题与答案)
+    - [1. 如何设置网络的初始值？](#1-如何设置网络的初始值)
+    - [2. 梯度爆炸的解决办法](#2-梯度爆炸的解决办法)
+    - [3. MLP 的万能近似定理](#3-mlp-的万能近似定理)
+    - [4. 在 MLP 中，深度与宽度的关系，及其表示能力的差异](#4-在-mlp-中深度与宽度的关系及其表示能力的差异)
+    - [5. 稀疏表示，低维表示，独立表示](#5-稀疏表示低维表示独立表示)
+    - [6. 局部不变性（平滑先验）及其在基于梯度的学习上的局限性](#6-局部不变性平滑先验及其在基于梯度的学习上的局限性)
+    - [7. 为什么交叉熵损失相比均方误差损失能提高以 sigmoid 和 softmax 作为激活函数的层的性能？](#7-为什么交叉熵损失相比均方误差损失能提高以-sigmoid-和-softmax-作为激活函数的层的性能)
+    - [8. 分段线性单元（如 ReLU）代替 sigmoid 的利弊](#8-分段线性单元如-relu代替-sigmoid-的利弊)
+    - [9. 在做正则化过程中，为什么只对权重做正则惩罚，而不对偏置做权重惩罚](#9-在做正则化过程中为什么只对权重做正则惩罚而不对偏置做权重惩罚)
+    - [10. 列举常见的一些范数及其应用场景，如 L0, L1, L2, L∞, Frobenius 范数](#10-列举常见的一些范数及其应用场景如-l0-l1-l2-l∞-frobenius-范数)
+        - [权重衰减的目的：](#权重衰减的目的)
+    - [11. L1 和 L2 范数的异同](#11-l1-和-l2-范数的异同)
+        - [相同点](#相同点)
+        - [不同点](#不同点)
+    - [12. 为什么 L1 正则化可以产生稀疏权值，L2 正则化可以防止过拟合？](#12-为什么-l1-正则化可以产生稀疏权值l2-正则化可以防止过拟合)
+        - [为什么 L1 正则化可以产生稀疏权值？](#为什么-l1-正则化可以产生稀疏权值)
+        - [为什么 L2 正则化不会产生稀疏的解？](#为什么-l2-正则化不会产生稀疏的解)
+        - [为什么 L1 和 L2 正则化可以防止过拟合？](#为什么-l1-和-l2-正则化可以防止过拟合)
+    - [13. 简单介绍常用的激活函数，如 sigmoid, relu, softplus, tanh, RBF 及其应用场景](#13-简单介绍常用的激活函数如-sigmoid-relu-softplus-tanh-rbf-及其应用场景)
+        - [整流线性单元（ReLU）](#整流线性单元relu)
+        - [sigmoid 与 tanh（双曲正切函数）](#sigmoid-与-tanh双曲正切函数)
+        - [其他激活函数（隐藏单元）](#其他激活函数隐藏单元)
+        - [sigmoid 和 softplus 的一些性质](#sigmoid-和-softplus-的一些性质)
+    - [14. Jacobian 和 Hessian 矩阵及其在深度学习中的重要性](#14-jacobian-和-hessian-矩阵及其在深度学习中的重要性)
+    - [15. 信息论、KL 散度（相对熵）与交叉熵](#15-信息论kl-散度相对熵与交叉熵)
+        - [自信息（self-information）](#自信息self-information)
+        - [信息熵（Information-entropy）](#信息熵information-entropy)
+        - [相对熵/KL 散度（Kullback-Leibler divergence）](#相对熵kl-散度kullback-leibler-divergence)
+        - [交叉熵（cross-entropy）](#交叉熵cross-entropy)
+        - [交叉熵与 KL 散度的关系](#交叉熵与-kl-散度的关系)
+    - [16. 如何避免数值计算中的上溢和下溢问题，以 softmax 为例](#16-如何避免数值计算中的上溢和下溢问题以-softmax-为例)
+    - [17. 训练误差、泛化误差；过拟合、欠拟合；模型容量，表示容量，有效容量，最优容量的概念； 奥卡姆剃刀原则](#17-训练误差泛化误差过拟合欠拟合模型容量表示容量有效容量最优容量的概念-奥卡姆剃刀原则)
+    - [18. 高斯分布的广泛应用的原因](#18-高斯分布的广泛应用的原因)
+        - [高斯分布（Gaussian distribution）](#高斯分布gaussian-distribution)
+        - [为什么推荐使用高斯分布？](#为什么推荐使用高斯分布)
+
+<!-- /TOC -->
+
 ### 1. 如何设置网络的初始值？
 
 一般总是使用服从（截断）高斯或均匀分布的随机值，具体是高斯还是均匀分布影响不大，但是也没有详细的研究。
@@ -91,7 +132,7 @@
 > 《深度学习》 ch5.8 - 无监督学习算法
     
 
-### 6. 局部不变性（平滑先验）及其局限性
+### 6. 局部不变性（平滑先验）及其在基于梯度的学习上的局限性
 
 局部不变性：函数在局部小区域内不会发生较大的变化。
 
@@ -379,6 +420,8 @@ softplus 是 ReLU 的平滑版本。通常不鼓励使用 softplus 函数，大�
 <a href="http://www.codecogs.com/eqnedit.php?latex=H(\mathrm{X})=\mathbb{E}_{\mathrm{X}&space;\sim&space;P}[I(x)]=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;P(x)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?H(\mathrm{X})=\mathbb{E}_{\mathrm{X}&space;\sim&space;P}[I(x)]=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;P(x)" title="H(\mathrm{X})=\mathbb{E}_{\mathrm{X} \sim P}[I(x)]=-\sum_{x \in \mathrm{X}}P(x)\log P(x)" /></a>
 
 > 信息熵也称香农熵（Shannon entropy）
+>
+> 信息论中，记 `0log0 = 0`
 
 #### 相对熵/KL 散度（Kullback-Leibler divergence）
 
@@ -398,17 +441,19 @@ P 对 Q 的相对熵：
 
 <a href="http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=-\mathbb{E}_{\mathrm{X}\sim&space;P}\log&space;Q(x)=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;Q(x)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?H_P(Q)=-\mathbb{E}_{\mathrm{X}\sim&space;P}\log&space;Q(x)=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;Q(x)" title="H_P(Q)=-\mathbb{E}_{\mathrm{X}\sim P}\log Q(x)=-\sum_{x \in \mathrm{X}}P(x)\log Q(x)" /></a>
 
-**交叉熵与 KL 散度的关系**：
-
-<a href="http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=H(P)&plus;D_P(Q)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?H_P(Q)=H(P)&plus;D_P(Q)" title="H_P(Q)=H(P)+D_P(Q)" /></a>
-
-针对 Q 最小化交叉熵等价于最小化 KL 散度，因为 Q 并不参与被省略的那一项。
-
-> 信息论中，记 `0log0 = 0`
-
 > 《深度学习》 ch3.13 - 信息论
 >
 > [信息量，信息熵，交叉熵，KL散度和互信息（信息增益）](https://blog.csdn.net/haolexiao/article/details/70142571) - CSDN博客
+
+#### 交叉熵与 KL 散度的关系
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=H(P)&plus;D_P(Q)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?H_P(Q)=H(P)&plus;D_P(Q)" title="H_P(Q)=H(P)+D_P(Q)" /></a>
+
+**针对 Q 最小化交叉熵等价于最小化 KL 散度**，因为 Q 并不参与被省略的那一项。
+
+最大似然估计中，最小化 KL 散度其实就是在最小化分布之间的交叉熵。
+
+> 《深度学习》 ch5.5 - 最大似然估计
 
 
 ### 16. 如何避免数值计算中的上溢和下溢问题，以 softmax 为例
@@ -440,5 +485,33 @@ P 对 Q 的相对熵：
 
 
 ### 18. 高斯分布的广泛应用的原因
+
+#### 高斯分布（Gaussian distribution）
+高斯分布，即正态分布（normal distribution）：
+
+<a href="http://www.codecogs.com/eqnedit.php?latex=N(x;\mu,\sigma^2)=\sqrt\frac{1}{2\pi\sigma^2}\exp\left&space;(&space;-\frac{1}{2\sigma^2}(x-\mu)^2&space;\right&space;)" target="_blank"><img src="http://latex.codecogs.com/gif.latex?N(x;\mu,\sigma^2)=\sqrt\frac{1}{2\pi\sigma^2}\exp\left&space;(&space;-\frac{1}{2\sigma^2}(x-\mu)^2&space;\right&space;)" title="N(x;\mu,\sigma^2)=\sqrt\frac{1}{2\pi\sigma^2}\exp\left ( -\frac{1}{2\sigma^2}(x-\mu)^2 \right )" /></a>
+
+概率密度函数图像：
+
+![](../images/TIM截图20180610131620.png)
+
+其中峰的 `x` 坐标由 `µ` 给出，峰的宽度受 `σ` 控制；特别的，当 `µ = 0, σ = 1`时，称为标准正态分布
+
+正态分布的均值 `E = µ`；标准差 `std = σ`，方差为其平方
+
+#### 为什么推荐使用高斯分布？
+当我们由于缺乏关于某个实数上分布的先验知识而不知道该选择怎样的形式时，正态分布是默认的比较好的选择，其中有两个原因：
+1. 我们想要建模的很多分布的真实情况是比较接近正态分布的。**中心极限定理**（central limit theorem）说明很多独立随机变量的和近似服从正态分布。这意味着在实际中，很多复杂系统都可以被成功地建模成正态分布的噪声，即使系统可以被分解成一些更结构化的部分。
+2. 第二，在具有相同方差的所有可能的概率分布中，正态分布在实数上具有最大的不确定性。因此，我们可以认为正态分布是对模型加入的先验知识量最少的分布。
+    > 关于这一点的证明：《深度学习》 ch19.4.2 - 变分推断和变分学习
+
+**多维正态分布**
+
+正态分布可以推广到 n 维空间，这种情况下被称为**多维正态分布**。
+
+![](../images/TIM截图20180610132602.png)
+
+参数 `µ` 仍然表示分布的均值，只不过现在是一个向量。参数 Σ 给出了分布的协方差矩阵（一个正定对称矩阵）。
+
 
 > 《深度学习》 ch3.9.3 - 高斯分布
