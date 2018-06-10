@@ -614,7 +614,7 @@ P 对 Q 的 **KL散度**（Kullback-Leibler divergence）：
 
 可以想象，这些任务会足够相似（或许具有相似的输入和输出分布），因此我们认为模型参数 w(A) 和 w(B) 应彼此靠近。具体来说，我们可以使用以下形式的参数范数惩罚：
 
-[![](../images/2018-6-10-21_11_00.png)](http://www.codecogs.com/eqnedit.php?latex=\Omega&space;(w^{(A)},w^{(B)})=\left&space;\|&space;w^{(A)}-w^{(B)}&space;\right&space;\|^2_2)
+[![](../images/2018年6月10日21_13_20.png)](http://www.codecogs.com/eqnedit.php?latex=\Omega&space;(w^{(A)},w^{(B)})=\left&space;\|&space;w^{(A)}-w^{(B)}&space;\right&space;\|^2_2)
 
 
 
