@@ -27,6 +27,7 @@
     - [16.2. 相对熵（KL 散度）与交叉熵](#162-相对熵kl-散度与交叉熵)
 - [17. 如何避免数值计算中的上溢和下溢问题，以 softmax 为例*](#17-如何避免数值计算中的上溢和下溢问题以-softmax-为例)
 - [18. 训练误差、泛化误差；过拟合、欠拟合；模型容量，表示容量，有效容量，最优容量的概念； 奥卡姆剃刀原则*](#18-训练误差泛化误差过拟合欠拟合模型容量表示容量有效容量最优容量的概念-奥卡姆剃刀原则)
+    - [18.1. 过拟合的一些解决方案***](#181-过拟合的一些解决方案)
 - [19. 高斯分布的广泛应用的原因**](#19-高斯分布的广泛应用的原因)
     - [19.1. 高斯分布（Gaussian distribution）](#191-高斯分布gaussian-distribution)
     - [19.2. 为什么推荐使用高斯分布？](#192-为什么推荐使用高斯分布)
@@ -66,7 +67,10 @@
 - [36. 卷积与池化的意义、影响（作为一种无限强的先验）**](#36-卷积与池化的意义影响作为一种无限强的先验)
 - [37. RNN（循环神经网络） 的几种基本设计模式**](#37-rnn循环神经网络-的几种基本设计模式)
 - [38. RNN 更新方程（前向传播公式），包括 LSTM、GRU 等***](#38-rnn-更新方程前向传播公式包括-lstmgru-等)
-- [BPTT（back-propagation through time，通过时间反向传播）**](#bpttback-propagation-through-time通过时间反向传播)
+- [39. BPTT（back-propagation through time，通过时间反向传播）**](#39-bpttback-propagation-through-time通过时间反向传播)
+- [40. 自编码器在深度学习中的意义](#40-自编码器在深度学习中的意义)
+- [41. 自编码器一些常见的变形与应用：正则自编码器、稀疏自编码器、去噪自编码器*](#41-自编码器一些常见的变形与应用正则自编码器稀疏自编码器去噪自编码器)
+- [42. 半监督的思想以及在深度学习中的应用**](#42-半监督的思想以及在深度学习中的应用)
 
 <!-- /TOC -->
 
@@ -519,6 +523,14 @@ P 对 Q 的 **KL散度**（Kullback-Leibler divergence）：
 # 18. 训练误差、泛化误差；过拟合、欠拟合；模型容量，表示容量，有效容量，最优容量的概念； 奥卡姆剃刀原则*
 > 《深度学习》 5.2 容量、过拟合和欠拟合
 
+## 18.1. 过拟合的一些解决方案***
+- 参数范数惩罚（Parameter Norm Penalties）
+- 数据增强（Dataset Augmentation）
+- 提前终止（Early Stopping）
+- 参数绑定与参数共享（Parameter Tying and Parameter Sharing）
+- Bagging 和其他集成方法
+- Dropout
+- 批标准化（Batch Normalization）
 
 # 19. 高斯分布的广泛应用的原因**
 > 《深度学习》 3.9.3 高斯分布
@@ -1200,14 +1212,14 @@ net = MaxPooling2D(pool_size=(2, 2))(net)
 
 > 《深度学习》 默认的 RNN 是 Elman RNN > [37. RNN（循环神经网络） 的几种基本设计模式**](#37-rnn循环神经网络-的几种基本设计模式)
 
-**门限 RNN**（LSTM、GRU）与基本 RNN 的主要区别在于 Cell 部分的区别 
+**门限 RNN**（LSTM、GRU）与基本 RNN 的主要区别在于 Cell 部分
 
 **LSTM**
 > [Long short-term memory](https://en.wikipedia.org/wiki/Long_short-term_memory#Variants) - Wikipedia
 
 [![](../images/公式_20180613170734.png)](http://www.codecogs.com/eqnedit.php?latex={\displaystyle&space;{\begin{aligned}&space;f_{t}&=\sigma(W_{f}x_{t}&plus;U_{f}h_{t-1}&plus;b_{f})\\&space;i_{t}&=\sigma(W_{i}x_{t}&plus;U_{i}h_{t-1}&plus;b_{i})\\&space;\tilde{c}_{t}&=\tanh(W_{c}x_{t}&plus;U_{c}h_{t-1}&plus;b_{c})\\&space;c_{t}&=f_{t}\circ&space;c_{t-1}&plus;i_{t}\circ&space;\tilde{c}_{t}\\&space;o_{t}&=\sigma(W_{o}x_{t}&plus;U_{o}h_{t-1}&plus;b_{o})\\&space;h_{t}&=o_{t}\circ&space;\tanh(c_{t})&space;\end{aligned}}})
 
-- 其中 f 为遗忘门，i 为输入门，o 为输出门。
+- 其中 f 为遗忘门（forget），i 为输入门（input），o 为输出门（output）。
 - 每个门的输入都是 x 和 h，但是参数都是独立的（参数数量是基本 RNN 的 4 倍）
 - c 表示 cell state（如果用过 tensorflow 中的 RNN，会比较熟悉）
 - 如果遗忘门 f 取 0 的话，那么上一时刻的状态就会全部被清空，只关注此时刻的输入
@@ -1221,6 +1233,81 @@ net = MaxPooling2D(pool_size=(2, 2))(net)
 
 [![](../images/公式_20180613171757.png)](http://www.codecogs.com/eqnedit.php?latex={\displaystyle&space;{\begin{aligned}&space;z_{t}&=\sigma(W_{z}x_{t}&plus;U_{z}h_{t-1}&plus;b_{z})\\&space;r_{t}&=\sigma(W_{r}x_{t}&plus;U_{r}h_{t-1}&plus;b_{r})\\&space;\tilde{h}_t&=\tanh(W_{h}x_{t}&plus;U_{h}(r_{t}\circ&space;h_{t-1})&plus;b_{h})\\&space;h_{t}&=(1-z_{t})\circ&space;h_{t-1}&plus;z_{t}\circ&space;\tilde{h}_t&space;\end{aligned}}})
 
-# BPTT（back-propagation through time，通过时间反向传播）**
+- 其中 z 为更新门（update），r 为重置门（reset）
+- GRU 可以看作是将 LSTM 中的遗忘门和输入门合二为一了
+
+# 39. BPTT（back-propagation through time，通过时间反向传播）**
+> 《深度学习》 10.2.2 计算循环神经网络的梯度
+
+# 40. 自编码器在深度学习中的意义
+
+**自编码器的意义**：
+- 传统自编码器被用于降维或特征学习
+- 近年来，自编码器与潜变量模型理论的联系将自编码器带到了生成式建模的前沿
+    - 几乎任何带有潜变量并配有一个推断过程（计算给定输入的潜在表示）的生成模型，都可以看作是自编码器的一种特殊形式。
+    > 《深度学习》 20 深度生成模型，20.10.3 变分自编码器，20.12 生成随机网络
+
+**自编码器的一般结构**
+
+![](../images/TIM截图20180613200023.png)
+- 自编码器有两个组件：**编码器** f（将 x 映射到 h）和**解码器** g（将 h 映射到 r）
+- 一个简单的自编码器试图学习 `g(f(x)) = x`；换言之，自编码器尝试将输入复制到输出
+- 单纯将输入复制到输出没什么用，相反，训练自编码器的目标是获得有用的特征 h。
+
+自编码器的学习过程就是最小化一个损失函数：
+
+[![](../images/公式_20180613201829.png)](http://www.codecogs.com/eqnedit.php?latex=L(\boldsymbol{x},g(f(\boldsymbol{x}))))
+
+
+# 41. 自编码器一些常见的变形与应用：正则自编码器、稀疏自编码器、去噪自编码器*
+> [40. 自编码器在深度学习中的意义](#40-自编码器在深度学习中的意义)
+>
+> 《深度学习》 14.2 正则自编码器
+
+**欠完备自编码器**
+- 从自编码器获得有用特征的一种方法是**限制 h 的维度比 x 小**，这种编码维度小于输入维度的自编码器称为**欠完备**（undercomplete）自编码器；
+- 相反，如果 h 的维度大于 x，此时称为过完备自编码器。
+- **学习欠完备的表示将强制自编码器捕捉训练数据中最显著的特征**
+- 当解码器是线性的且 L 是均方误差，欠完备的自编码器会学习出与 PCA 相同的生成子空间
+- 而拥有**非线性**编码器函数 f 和**非线性**解码器函数 g 的自编码器能够学习出更强大的 PCA 非线性推广
+- 但如果编码器和解码器被赋予**过大的容量**，自编码器会执行复制任务而捕捉不到任何有关**数据分布**的有用信息。
+    - 过完备自编码器就可以看作是被赋予过大容量的情况
+ 
+**正则自编码器**
+- 通过加入正则项到损失函数可以限制模型的容量，同时鼓励模型学习除了复制外的其他特性。
+- 这些特性包括稀疏表示、表示的小导数、以及对噪声或输入缺失的鲁棒性。
+- 即使模型的容量依然大到足以学习一个无意义的恒等函数，正则自编码器仍然能够从数据中学到一些关于数据分布的信息。
+
+**稀疏自编码器**
+- 稀疏自编码器一般用来学习特征
+- 稀疏自编码器简单地在训练时结合编码层的**稀疏惩罚** Ω(h) 和重构误差：
+
+    [![](../images/公式_20180613211004.png)](http://www.codecogs.com/eqnedit.php?latex=L(\boldsymbol{x},g(f(\boldsymbol{x})))&plus;\Omega(\boldsymbol{h})&space;=&space;L(\boldsymbol{x},g(f(\boldsymbol{x})))&plus;\lambda\sum_i\left|h_i\right|)
+
+- 稀疏惩罚不算是一个正则项。这仅仅影响模型关于潜变量的分布。这个观点提供了训练自编码器的另一个动机：这是近似训练生成模型的一种途径。这也给出了为什么自编码器学到的特征是有用的另一个解释：它们描述的潜变量可以解释输入。
+    > 《深度学习》 14.2.1 稀疏自编码器
+
+**去噪自编码器（DAE）**
+- 去噪自编码器试图学习**更具鲁棒性的**特征
+- 与传统自编码器不同，去噪自编码器（denoising autoencoder, DAE）最小化：
+
+    [![](../images/公式_20180613211437.png)](http://www.codecogs.com/eqnedit.php?latex=L(\boldsymbol{x},g(f(\boldsymbol{\tilde{x}}))))
+
+- 这里的 x~ 是**被某种噪声损坏**的 x 的副本，去噪自编码器需要预测原始未被损坏数据
+- 破坏的过程一般是以某种概率分布（通常是二项分布）将一些值置 0.
+
+    ![](../images/TIM截图20180613211935.png)
+    > 《深度学习》 14.2.2 去噪自编码器，14.5 去噪自编码器
+
+**为什么DAE有用？**
+- 对比使用非破损数据进行训练，破损数据训练出来的权重噪声比较小——在破坏数据的过程中去除了真正的噪声
+- 破损数据一定程度上减轻了训练数据与测试数据的代沟——使训练数据更接近测试数据
+    > [降噪自动编码器（Denoising Autoencoder)](https://www.cnblogs.com/neopenx/p/4370350.html) - Physcal - 博客园
+    >> 感觉这两个理由很牵强，但是从数据分布的角度讲太难了
+
+
+# 42. 半监督的思想以及在深度学习中的应用**
+> 《深度学习》 15.3 半监督解释因果关系
+
 
 
