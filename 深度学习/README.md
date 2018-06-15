@@ -1423,12 +1423,17 @@ net = MaxPooling2D(pool_size=(2, 2))(net)
 - 相比于迁移学习和多任务学习，领域自适应的提法比较少，也更简单一些，其在每个情景之间任务（和最优的输入到输出的映射）都是相同的，但是**输入分布**稍有不同。
 - 例如，考虑情感分析的任务：网上的评论有许多类别。在书、视频和音乐等媒体内容上训练的顾客评论情感预测器，被用于分析诸如电视机或智能电话的消费电子产品的评论时，领域自适应情景可能会出现。可以想象，存在一个潜在的函数可以判断任何语句是正面的、中性的还是负面的，但是词汇和风格可能会因领域而有差异
 
-**一次学习和零次学习**
+**one-shot learning 和 zero-shot learning**
 - 迁移学习的两种极端形式是**一次学习**（one-shot learning）和**零次学习**（zero-shot learning）
-    - 只有一个标注样本的迁移任务被称为一次学习；没有标注样本的迁移任务被称为零次学习。
-    - 考虑一个zero-shot的例子：假设学习器已经学会了关于动物、腿和耳朵的概念。如果已知猫有四条腿和尖尖的耳朵，那么学习器可以在没有见过猫的情况下猜测该图像中的动物是猫。
+    - 只有少量标注样本的迁移任务被称为 one-shot learning；没有标注样本的迁移任务被称为 zero-shot learning.
+- **one-shot learning**
+    - one-shot learning 稍微简单一点：在大数据上学习 general knowledge，然后在特定任务的小数据上有技巧的 fine tuning。
+- **zero-shot learning**
+    - 相比 one-shot，zero-shot learning 要更复杂。
+    - 先来看一个 zero-shot 的例子：假设学习器已经学会了关于动物、腿和耳朵的概念。如果已知猫有四条腿和尖尖的耳朵，那么学习器可以在没有见过猫的情况下猜测该图像中的动物是猫。
+    - (todo)
 
-**多模态学习（multi-modal learning）与零次学习**
+**多模态学习（multi-modal learning）**
 - 与 zero-shot learning 相同的原理可以解释如何能执行**多模态学习**（multimodal learning）
 
     ![](../images/TIM截图20180615150955.png)
