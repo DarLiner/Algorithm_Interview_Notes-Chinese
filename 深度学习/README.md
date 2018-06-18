@@ -1486,7 +1486,13 @@ net = MaxPooling2D(pool_size=(2, 2))(net)
 **其他相关名词**：
 - 信念网络（有向图模型）
 - 马尔可夫网络（无向图模型）
-- 
+- 配分函数
+- 能量模型（无向图模型）
+- 分离（separation）/d-分离
+- 道德图（moralized graph）、弦图（chordal graph）
+- 因子图（factor graph）
+- Gibbs 采样
+- 结构学习（structure learning）
 
 
 # 48. 深度生成模型、受限玻尔兹曼机（RBM）相关概念
