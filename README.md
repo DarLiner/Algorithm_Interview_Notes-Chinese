@@ -38,3 +38,5 @@
 - GitHub 搜索：[Deep Learning Interview](https://github.com/search?q=deep+learning+interview)
 
 - GitHub 搜索：[Machine Learning Interview](https://github.com/search?q=machine+learning+interview)
+
+    - geekcircle/[machine-learning-interview-qa](https://github.com/geekcircle/machine-learning-interview-qa): 人工智能-机器学习笔试面试题解析 
