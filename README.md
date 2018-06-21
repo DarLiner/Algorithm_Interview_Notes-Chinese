@@ -12,13 +12,17 @@
 
 但是不会包括如前端/测试/JAVA/Android等岗位中与具体语言、框架等有关的问题。
 
+- ### [笔试面经](./笔试面经)
 
-- #### [深度学习相关](/深度学习)
+- #### [深度学习](./深度学习)
 
-- #### [机器学习相关](/机器学习)
+- #### [机器学习](./机器学习)
 
-- #### []
+- #### [基础算法](./基础算法)
 
+- #### OJ 记录
+    - [LeetCode](https://github.com/imhuay/LeetCode)
+    - [剑指Offer](https://github.com/imhuay/JZ-Offer)
 
 ### 欢迎分享你在深度学习/机器学习面试过程中遇见的问题！
 
@@ -40,3 +44,5 @@
 - GitHub 搜索：[Machine Learning Interview](https://github.com/search?q=machine+learning+interview)
 
     - geekcircle/[machine-learning-interview-qa](https://github.com/geekcircle/machine-learning-interview-qa): 人工智能-机器学习笔试面试题解析 
+
+- [牛客网-讨论区](https://www.nowcoder.com/discuss?type=2&order=0)
