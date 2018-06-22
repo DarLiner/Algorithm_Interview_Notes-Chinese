@@ -19,10 +19,8 @@
 - #### [机器学习](./机器学习)
 
 - #### [基础算法](./基础算法)
+    - [OJ 记录](https://github.com/imhuay/Algorithm_for_Interview-Chinese)
 
-- #### OJ 记录
-    - [LeetCode](https://github.com/imhuay/LeetCode)
-    - [剑指Offer](https://github.com/imhuay/JZ-Offer)
 
 ### 欢迎分享你在深度学习/机器学习面试过程中遇见的问题！
 
