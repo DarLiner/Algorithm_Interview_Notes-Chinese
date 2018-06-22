@@ -19,6 +19,7 @@
 - #### [机器学习](./机器学习)
 
 - #### [基础算法](./基础算法)
+    - [C++ 快速回忆](https://github.com/imhuay/Cpp_quick_review)
     - [OJ 记录](https://github.com/imhuay/Algorithm_for_Interview-Chinese)
 
 
