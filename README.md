@@ -29,6 +29,8 @@
 
 当然，你也可以直接创建 PR，分享问题的同时改正我的错误！
 
+> 我会经常修改文档的结构（特别是代码的链接）。如果文中有链接失效，请告诉我！
+> 文档中大部分链接都是指向仓库内的文件或标记；涉及编程代码的链接会指向我的另一个仓库（[Algorithm_for_Interview](https://github.com/imhuay/Algorithm_for_Interview-Chinese)）
 
 ### Reference
 
