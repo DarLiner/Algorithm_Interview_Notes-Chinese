@@ -17,6 +17,7 @@
 1. 判断链表是否有环；
     > Algorithm_for_Interview/链表/[链表中环的入口结点.hpp](https://github.com/imhuay/Algorithm_for_Interview-Chinese/blob/master/Algorithm_for_Interview/链表/链表中环的入口结点.hpp)
 1. 将数组元素划分成两部分，使两部分和的差最小，数组顺序可变；
+    > Algorithm_for_Interview/查找与排序/[暴力搜索_划分数组使和之差最小.hpp](https://github.com/imhuay/Algorithm_for_Interview-Chinese/blob/master/Algorithm_for_Interview/查找与排序/暴力搜索_划分数组使和之差最小.hpp)
 1. 智力题，在一个圆环上随机添加3个点，三个点组成一个锐角三角形的概率；
 1. 推导逻辑斯蒂回归/线性支持向量机算法；
 
