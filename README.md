@@ -23,7 +23,7 @@
     - [OJ 记录](https://github.com/imhuay/Algorithm_for_Interview-Chinese)
     
 - #### [数学问题](./数学问题)
-    以概率问题为主，少量积分问题
+    以概率问题为主，少量积分
 
 
 ### 欢迎分享你在深度学习/机器学习面试过程中遇见的问题！
