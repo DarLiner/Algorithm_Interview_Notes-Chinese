@@ -21,6 +21,9 @@
 - #### [基础算法](./基础算法)
     - [C++ 快速回忆](https://github.com/imhuay/Cpp_quick_review)
     - [OJ 记录](https://github.com/imhuay/Algorithm_for_Interview-Chinese)
+    
+- #### [数学问题](./数学问题)
+    以概率问题为主，少量积分问题
 
 
 ### 欢迎分享你在深度学习/机器学习面试过程中遇见的问题！
