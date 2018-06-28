@@ -23,7 +23,9 @@
     - [OJ 记录](https://github.com/imhuay/Algorithm_for_Interview-Chinese)
     
 - #### [数学问题](./数学问题)
-    以概率问题为主，少量积分
+    以概率问题为主，少量积分；
+    
+    此外还包括一些知识点的整理：
     - [微积分的本质](./数学问题/微积分的本质.md)
 
 
