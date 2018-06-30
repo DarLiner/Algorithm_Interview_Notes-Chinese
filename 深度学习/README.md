@@ -483,7 +483,7 @@ softplus 是 ReLU 的平滑版本。通常不鼓励使用 softplus 函数，大�
 
 P 对 Q 的 **KL散度**（Kullback-Leibler divergence）：
 
-[![](../images/公式_20180610215445.png)](http://www.codecogs.com/eqnedit.php?latex=D_P(Q)=\mathbb{E}_{\mathrm{X}\sim&space;P}\left&space;[&space;\log&space;\frac{P(x)}{Q(x)}&space;\right&space;]=\sum_{x&space;\in&space;\mathrm{X}}P(x)\left&space;[&space;P(x)-Q(x)&space;\right&space;])
+[![](../images/公式_20180610215445.png)](http://www.codecogs.com/eqnedit.php?latex=D_P(Q)=\mathbb{E}_{\mathrm{X}\sim&space;P}\left&space;[&space;\log&space;\frac{P(x)}{Q(x)}&space;\right&space;]=\sum_{x&space;\in&space;\mathrm{X}}P(x)\left&space;[&space;\log&space;P(x)-\log&space;Q(x)&space;\right&space;])
 
 **KL 散度在信息论中度量的是那个直观量**：
 
@@ -503,7 +503,7 @@ P 对 Q 的 **KL散度**（Kullback-Leibler divergence）：
 
 [![](../images/公式_20180610215554.png)](http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=H(P)&plus;D_P(Q))
 
-**针对 Q 最小化交叉熵等价于最小化 KL 散度**，因为 Q 并不参与被省略的那一项。
+**针对 Q 最小化交叉熵等价于最小化 P 对 Q 的 KL 散度**，因为 Q 并不参与被省略的那一项。
 
 最大似然估计中，最小化 KL 散度其实就是在最小化分布之间的交叉熵。
 
