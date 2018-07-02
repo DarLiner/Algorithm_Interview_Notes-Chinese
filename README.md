@@ -1,12 +1,7 @@
 ## 深度学习/机器学习面试笔记
 
-深度学习/机器学习面试问题整理，其中大部分问题来自于这个[仓库](https://github.com/elviswf/DeepLearningBookQA_cn).
-
-部分偏理论的问题没有收录，如有需要可以浏览原仓库。
-
-> 该仓库只列出了问题答案在《深度学习》实体书中的页码，与PDF版并不对应，我重新修改为了答案所在章节的名称。
->
-> [深度学习中文版 GitHub](https://github.com/exacity/deeplearningbook-chinese)
+深度学习/机器学习面试问题整理，想法来源与这个[仓库](https://github.com/elviswf/DeepLearningBookQA_cn).
+- 该仓库整理了“花书”《深度学习》中的一些常见问题，其中部分偏理论的问题没有收录，如有需要可以浏览原仓库。
 
 此外，还包括我看到的所有机器学习/深度学习面经中的问题。除了其中 DL/ML 相关的，其他与算法岗相关的计算机知识也会记录。
 
@@ -15,6 +10,7 @@
 - #### [笔试面经](./笔试面经)
 
 - #### [深度学习](./深度学习)
+    - [“花书”《深度学习》整理](./深度学习/“花书”《深度学习》整理.md)
 
 - #### [机器学习](./机器学习)
 
@@ -40,16 +36,11 @@
 
 ### Reference
 
+- “花书”[深度学习（中文版）](https://github.com/exacity/deeplearningbook-chinese)
 - exacity/[deeplearningbook-chinese](https://github.com/exacity/deeplearningbook-chinese): 深度学习中文版 
-
 - elviswf/[DeepLearningBookQA_cn](https://github.com/elviswf/DeepLearningBookQA_cn): 深度学习面试问题 回答对应的DeepLearning中文版页码 
-
 - 在线 LaTeX 公式编辑器 http://www.codecogs.com/latex/eqneditor.php
-
 - GitHub 搜索：[Deep Learning Interview](https://github.com/search?q=deep+learning+interview)
-
 - GitHub 搜索：[Machine Learning Interview](https://github.com/search?q=machine+learning+interview)
-
     - geekcircle/[machine-learning-interview-qa](https://github.com/geekcircle/machine-learning-interview-qa): 人工智能-机器学习笔试面试题解析 
-
 - [牛客网-讨论区](https://www.nowcoder.com/discuss?type=2&order=0)
