@@ -18,11 +18,11 @@
     - [C++ 快速回忆](https://github.com/imhuay/Cpp_quick_review)
     - [OJ 记录](https://github.com/imhuay/Algorithm_for_Interview-Chinese)
     
-- #### [数学问题](./数学问题)
+- #### [数学相关](./数学相关)
     以概率问题为主，少量积分；
     
     此外还包括一些知识点的整理：
-    - [微积分的本质](./数学问题/微积分的本质.md)
+    - [微积分的本质](./数学相关/微积分的本质.md)
 
 
 ### 欢迎分享你在深度学习/机器学习面试过程中遇见的问题！
