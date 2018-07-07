@@ -1,6 +1,8 @@
-[**算法常识**](./算法常识.md)
+**目录**
 ---
-- 动态规划
+- [Algorithm_for_Interview](https://github.com/imhuay/Algorithm_for_Interview-Chinese) - 我的 OJ 代码库
+- [算法理论](./算法理论.md)
+  - 动态规划
 
 **经典问题**
 ---
