@@ -22,7 +22,7 @@
 
 - 使用积分计算该概率
 
-    [![](../images//公式_20180624211704.png)](http://www.codecogs.com/eqnedit.php?latex=\int_{0}^{\pi}\frac{\theta&space;}{2\pi}\cdot&space;\frac{1}{\pi}=\frac{\theta^2}{4\pi^2}\Big|^\pi_0=\frac{1}{4})
+    [![](../assets/公式_20180624211704.png)](http://www.codecogs.com/eqnedit.php?latex=\int_{0}^{\pi}\frac{\theta&space;}{2\pi}\cdot&space;\frac{1}{\pi}=\frac{\theta^2}{4\pi^2}\Big|^\pi_0=\frac{1}{4})
     > [在一圆周上任意取三个点构成锐角三角形的概率是多少](https://zhidao.baidu.com/question/1884315387170029428.html) - 百度知道 
 
 > [【官方双语】如何优雅地解答最难数学竞赛的压轴题？ 1:50-4:25, 5:40-7:50](https://www.bilibili.com/video/av17275211) - bilibili 

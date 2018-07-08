@@ -51,13 +51,13 @@
 
   **标量形式**：
 
-  [![](../images/公式_20180705190236.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{\partial&space;{\color{Red}&space;a_j^{(L)}}}=\frac{\partial&space;C({\color{Red}&space;a_j^{(L)}},y_j)}{\partial&space;{\color{Red}&space;a_j^{(L)}}}&space;\end{aligned})
+  [![](../assets/公式_20180705190236.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{\partial&space;{\color{Red}&space;a_j^{(L)}}}=\frac{\partial&space;C({\color{Red}&space;a_j^{(L)}},y_j)}{\partial&space;{\color{Red}&space;a_j^{(L)}}}&space;\end{aligned})
 
-  [![](../images/公式_20180705134851.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{{\color{Red}&space;\partial&space;a_j^{(l)}}}={\color{Teal}\sum_{k=0}^{n_l-1}}&space;\frac{\partial&space;z_k^{(l&plus;1)}}{{\color{Red}&space;\partial&space;a_j^{(l)}}}&space;\frac{{\color{Blue}&space;\partial&space;a_k^{(l&plus;1)}}}{\partial&space;z_k^{(l&plus;1)}}&space;\frac{\partial&space;C}{{\color{Blue}&space;\partial&space;a_k^{(l&plus;1)}}}&space;\end{aligned})
+  [![](../assets/公式_20180705134851.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{{\color{Red}&space;\partial&space;a_j^{(l)}}}={\color{Teal}\sum_{k=0}^{n_l-1}}&space;\frac{\partial&space;z_k^{(l&plus;1)}}{{\color{Red}&space;\partial&space;a_j^{(l)}}}&space;\frac{{\color{Blue}&space;\partial&space;a_k^{(l&plus;1)}}}{\partial&space;z_k^{(l&plus;1)}}&space;\frac{\partial&space;C}{{\color{Blue}&space;\partial&space;a_k^{(l&plus;1)}}}&space;\end{aligned})
 
-  [![](../images/公式_20180705154543.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{{\color{Magenta}&space;\partial&space;w_{j,k}^{(l)}}}=\frac{\partial&space;z_j^{(l)}}{{\color{Magenta}&space;\partial&space;w_{j,k}^{(l)}}}\frac{{\color{Red}\partial&space;a_j^{(l)}}}{\partial&space;z_j^{(l)}}\frac{\partial&space;C}{{\color{Red}\partial&space;a_j^{(l)}}}&space;\end{aligned})
+  [![](../assets/公式_20180705154543.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{{\color{Magenta}&space;\partial&space;w_{j,k}^{(l)}}}=\frac{\partial&space;z_j^{(l)}}{{\color{Magenta}&space;\partial&space;w_{j,k}^{(l)}}}\frac{{\color{Red}\partial&space;a_j^{(l)}}}{\partial&space;z_j^{(l)}}\frac{\partial&space;C}{{\color{Red}\partial&space;a_j^{(l)}}}&space;\end{aligned})
 
-  [![](../images/公式_20180705154650.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{{\color{Magenta}&space;\partial&space;b_{j}^{(l)}}}=\frac{\partial&space;z_j^{(l)}}{{\color{Magenta}&space;\partial&space;b_{j}^{(l)}}}\frac{{\color{Red}\partial&space;a_j^{(l)}}}{\partial&space;z_j^{(l)}}\frac{\partial&space;C}{{\color{Red}\partial&space;a_j^{(l)}}}&space;\end{aligned})
+  [![](../assets/公式_20180705154650.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{{\color{Magenta}&space;\partial&space;b_{j}^{(l)}}}=\frac{\partial&space;z_j^{(l)}}{{\color{Magenta}&space;\partial&space;b_{j}^{(l)}}}\frac{{\color{Red}\partial&space;a_j^{(l)}}}{\partial&space;z_j^{(l)}}\frac{\partial&space;C}{{\color{Red}\partial&space;a_j^{(l)}}}&space;\end{aligned})
 
   > 其中，上标 `(l)` 表示网络的层次，`(L)` 表示输出层（最后一层）；下标 `j` 和 `k` 指示神经元的位置；
   >
@@ -65,7 +65,7 @@
   
   以 **均方误差（MSE）** 损失函数为例，有
 
-  [![](../images/公式_20180705190536.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{\partial&space;{\color{Red}&space;a_j^{(L)}}}&=\frac{\partial&space;C({\color{Red}&space;a_j^{(L)}},y_j)}{\partial&space;{\color{Red}&space;a_j^{(L)}}}&space;\\&space;&=\frac{\partial&space;\left&space;(&space;\frac{1}{2}({\color{Red}a_j^{(L)}}-y_j)^2&space;\right&space;)&space;}{\partial&space;{\color{Red}a_j^{(L)}}}={\color{Red}a_j^{(L)}}-y&space;\end{aligned})
+  [![](../assets/公式_20180705190536.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{\partial&space;{\color{Red}&space;a_j^{(L)}}}&=\frac{\partial&space;C({\color{Red}&space;a_j^{(L)}},y_j)}{\partial&space;{\color{Red}&space;a_j^{(L)}}}&space;\\&space;&=\frac{\partial&space;\left&space;(&space;\frac{1}{2}({\color{Red}a_j^{(L)}}-y_j)^2&space;\right&space;)&space;}{\partial&space;{\color{Red}a_j^{(L)}}}={\color{Red}a_j^{(L)}}-y&space;\end{aligned})
 
 - Nielsen 的课程中提供了另一种表述，本质上是一样的。
   > [The four fundamental equations behind backpropagation](http://neuralnetworksanddeeplearning.com/chap2.html#the_four_fundamental_equations_behind_backpropagation)
@@ -83,7 +83,7 @@
   1. 正负号在告诉输入向量应该调大还是调小——正调大，负调小
   1. 每一项的相对大小表明每个输入值对函数值的影响程度；换言之，也就是调整各权重对于网络的影响
 
-      ![](../images/TIM截图20180703103757.png)
+      ![](../assets/TIM截图20180703103757.png)
 
 ## 随机梯度下降
 - 基本的梯度下降法要求每次使用**所有训练样本**的平均损失来更新参数
@@ -121,15 +121,15 @@
 ### 整流线性单元 `ReLU`
 - 公式与图像
 
-  [![](../images/公式_20180610213451.png)](http://www.codecogs.com/eqnedit.php?latex=g(z)=\max(0,z))
+  [![](../assets/公式_20180610213451.png)](http://www.codecogs.com/eqnedit.php?latex=g(z)=\max(0,z))
 
-  ![](../images/TIM截图20180608212808.png) 
+  ![](../assets/TIM截图20180608212808.png) 
 - ReLU 通常是激活函数较好的默认选择
 
 #### `ReLU` 的拓展
 - `ReLU` 及其扩展都基于以下公式：
 
-  [![](../images/公式_20180610214123.png)](http://www.codecogs.com/eqnedit.php?latex=g(z;\alpha)&space;=\max(0,z)&plus;\alpha\min(0,z))
+  [![](../assets/公式_20180610214123.png)](http://www.codecogs.com/eqnedit.php?latex=g(z;\alpha)&space;=\max(0,z)&plus;\alpha\min(0,z))
 
   当 `α=0` 时，即标准的线性整流单元
 - **绝对值整流**（absolute value rectification）
@@ -161,9 +161,9 @@
 ### `sigmoid` 与 `tanh`
 - `sigmoid(z)`，常记作 `σ(z)`:
   
-  [![](../images/公式_20180610214846.png)](http://www.codecogs.com/eqnedit.php?latex=\sigma(z)=\frac{1}{1&plus;\exp(-z)})
+  [![](../assets/公式_20180610214846.png)](http://www.codecogs.com/eqnedit.php?latex=\sigma(z)=\frac{1}{1&plus;\exp(-z)})
 
-  ![](../images/TIM截图20180608195851.png)
+  ![](../assets/TIM截图20180608195851.png)
 
 - `tanh(z)` 的图像与 `sigmoid(z)` 大致相同，区别是**值域**为 `(-1, 1)`
 
@@ -180,7 +180,7 @@
 
 - **径向基函数（radial basis function, RBF）**：
 
-  [![](../images/公式_20180610215150.png)](http://www.codecogs.com/eqnedit.php?latex=h_i=\exp(-\frac{1}{\sigma_i^2}\left&space;\|&space;W_{:,i}-x&space;\right&space;\|^2))
+  [![](../assets/公式_20180610215150.png)](http://www.codecogs.com/eqnedit.php?latex=h_i=\exp(-\frac{1}{\sigma_i^2}\left&space;\|&space;W_{:,i}-x&space;\right&space;\|^2))
 
   在神经网络中很少使用 RBF 作为激活函数，因为它对大部分 x 都饱和到 0，所以很难优化。
 
@@ -188,16 +188,16 @@
 
   `softplus` 是 `ReLU` 的平滑版本。
 
-  [![](../images/公式_20180610215222.png)](http://www.codecogs.com/eqnedit.php?latex=g(z)=\zeta(z)=\log(1&plus;\exp(z)))
+  [![](../assets/公式_20180610215222.png)](http://www.codecogs.com/eqnedit.php?latex=g(z)=\zeta(z)=\log(1&plus;\exp(z)))
 
-  ![](../images/TIM截图20180608204913.png)
+  ![](../assets/TIM截图20180608204913.png)
 
   通常不鼓励使用 softplus 函数，大家可能希望它具有优于整流线性单元的性质，但根据经验来看，它并没有。
   > (Glorot et al., 2011a) 比较了这两者，发现 ReLU 的结果更好。
 
 - **硬双曲正切函数（hard tanh）**：
 
-  [![](../images/公式_20180610215308.png)](http://www.codecogs.com/eqnedit.php?latex=g(a)=\max(-1,\min(1,a)))
+  [![](../assets/公式_20180610215308.png)](http://www.codecogs.com/eqnedit.php?latex=g(a)=\max(-1,\min(1,a)))
 
   它的形状和 tanh 以及整流线性单元类似，但是不同于后者，它是有界的。
   
@@ -242,8 +242,8 @@
 - 对目标函数添加范数正则化，训练时相当于在范数的约束下求目标函数 `J` 的最小值
 - 带有**L1 范数**（左）和**L2 范数**（右）约束的二维图示
 
-  ![](../images/TIM截图20180608171710.png)
-  ![](../images/TIM截图20180608172312.png)
+  ![](../assets/TIM截图20180608171710.png)
+  ![](../assets/TIM截图20180608172312.png)
   - 图中 `J` 与 `L1` 首次相交的点即是最优解。`L1` 在和每个坐标轴相交的地方都会有“**顶点**”出现，多维的情况下，这些顶点会更多；在顶点的位置就会产生稀疏的解。而 `J` 与这些“顶点”相交的机会远大于其他点，因此 `L1` 正则化会产生稀疏的解。
   - `L2` 不会产生“**顶点**”，因此 `J` 与 `L2` 相交的点具有稀疏性的概率就会变得非常小。
 
@@ -269,7 +269,7 @@
 - 简单来说，Dropout 通过**参数共享**提供了一种廉价的 Bagging 集成近似—— Dropout 策略相当于集成了包括所有从基础网络除去部分单元后形成的子网络。
 - 通常，**隐藏层**的采样概率为 `0.5`，**输入**的采样概率为 `0.8`；超参数也可以采样，但其采样概率一般为 `1`
   
-  ![](../images/TIM截图20180611152559.png)
+  ![](../assets/TIM截图20180611152559.png)
 
 **权重比例推断规则**
 - 权重比例推断规则的目的是确保在测试时一个单元的期望总输入与在训练时该单元的期望总输入大致相同。
@@ -287,7 +287,7 @@
 - 一些**启发式**方法会根据**输入与输出的单元数**来决定初始值的范围
   - 比如 `glorot_uniform` 方法 (Glorot and Bengio, 2010)
 
-    [![](../images/公式_20180706115540.png)](http://www.codecogs.com/eqnedit.php?latex=W_{i,j}\sim&space;U\left&space;(&space;-\sqrt&space;\frac{6}{n_{in}&plus;n_{out}},&space;\sqrt&space;\frac{6}{n_{in}&plus;n_{out}}&space;\right&space;))
+    [![](../assets/公式_20180706115540.png)](http://www.codecogs.com/eqnedit.php?latex=W_{i,j}\sim&space;U\left&space;(&space;-\sqrt&space;\frac{6}{n_{in}&plus;n_{out}},&space;\sqrt&space;\frac{6}{n_{in}&plus;n_{out}}&space;\right&space;))
     > Keras 全连接层默认的**权重**初始化方法
 - **其他初始化方法**
   - 随机正交矩阵（Orthogonal）
