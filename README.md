@@ -14,8 +14,10 @@
     > 顺序比较乱，很多相关问题也没放在一起，目前正在做进一步整理
 - [机器学习](./机器学习)
 - [基础算法](./基础算法)
-    - [C++ 快速回忆](https://github.com/imhuay/Cpp_quick_review)
-    - [OJ 记录](https://github.com/imhuay/Algorithm_for_Interview-Chinese)
+    - [C++ 回顾](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/Cpp回顾)
+      - [在线 IO 模板](https://github.com/imhuay/Algorithm_for_Interview-Chinese/blob/master/Algorithm_for_Interview/Cpp回顾/IO模板.hpp)
+      - [STL 容器速览](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/Cpp回顾/STL容器)
+    - [在线 OJ 记录](https://github.com/imhuay/Algorithm_for_Interview-Chinese)
 - [数学相关](./数学相关)
   - [微积分的本质](./数学相关/微积分的本质.md)
   - [深度学习的核心](./数学相关/深度学习的核心.md)
