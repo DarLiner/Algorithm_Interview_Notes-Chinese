@@ -10,24 +10,39 @@
 ---
 <!-- TOC -->
 
-- [什么是推导](#什么是推导)
+- [符号说明](#符号说明)
 - [逻辑斯蒂回归](#逻辑斯蒂回归)
   - [逻辑斯蒂回归模型定义](#逻辑斯蒂回归模型定义)
   - [逻辑斯蒂回归推导](#逻辑斯蒂回归推导)
   - [多分类逻辑斯蒂回归模型（ToDo）](#多分类逻辑斯蒂回归模型todo)
 - [支持向量机](#支持向量机)
   - [支持向量机简述](#支持向量机简述)
-    - [支持向量的含义](#支持向量的含义)
+    - [什么是支持向量](#什么是支持向量)
     - [支持向量机的分类](#支持向量机的分类)
     - [核函数与核技巧](#核函数与核技巧)
     - [最大间隔超平面背后的原理](#最大间隔超平面背后的原理)
-  - [线性支持向量机推导](#线性支持向量机推导)
+  - [Linear SVM 推导](#linear-svm-推导)
 
 <!-- /TOC -->
 
-# 什么是推导
-- 给出一个问题或模型的定义，然后求其最优解的过程
+<!-- # 什么是推导
+- 给出一个问题或模型的定义，然后求其最优解的过程 -->
+# 符号说明
+- 基本遵从《统计学习方法》一书中的符号表示。
+- 除特别说明，默认`w`为行向量，`x`为列向量，以避免在`wx`中使用转置符号；但有些公式为了更清晰区分向量与标量，依然会使用`^T`的上标，注意区分。
 
+  输入实例`x`的特征向量记为：
+
+  [![](../assets/公式_20180713114026.png)](http://www.codecogs.com/eqnedit.php?latex=x=(x^{(1)},x^{(2)},\cdots,x^{(n)})^T)
+
+  注意：`x_i` 和 `x^(i)` 含义不同，前者表示训练集中第 i 个实例，后者表示特征向量中的第 i 个分量；因此，通常记训练集为：
+
+  [![](../assets/公式_20180713132400.png)](http://www.codecogs.com/eqnedit.php?latex=T=\left&space;\{&space;(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)&space;\right&space;\})
+  > 特征向量用小`n`表示维数，训练集用大`N`表示个数
+
+- **公式说明**
+
+  所有公式都可以**点击**跳转至编辑页面，但是部分公式符号会与超链接中的转义冲突；如果编辑页面的公式与本页面中的不同，可以打开源文件，通过原链接打开。
 
 # 逻辑斯蒂回归
 
@@ -66,22 +81,20 @@
     [![](../assets/公式_20180709161030.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;&P(Y=1|x)={\color{Blue}&space;\sigma(x)}\\&space;&P(Y=0|x)={\color{Blue}&space;1-\sigma(x)}&space;\end{aligned})
 2. **负对数似然**作为损失函数：
 
-    [![](../assets/公式_20180709155736.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;L(w)&=-\log\left&space;(&space;\prod_{i=1}^N&space;[{\color{Red}&space;\sigma(x^{(i)})}]^{{\color{Blue}&space;y^{(i)}}}&space;[{\color{Red}&space;1-&space;\sigma(x^{(i)})}]^{{\color{Blue}&space;1-y^{(i)}}}&space;\right&space;)\\&space;&=-\sum_{i=1}^N&space;\left&space;[&space;y^{(i)}\log\sigma(x^{(i)})&plus;(1-y^{(i)})\log(1-\sigma(x^{(i)}))&space;\right&space;]\\&space;&=-\sum_{i=1}^N&space;\left&space;[&space;y^{(i)}\log\frac{\sigma(x^{(i)})}{1-\sigma(x^{(i)})}&plus;\log(1-\sigma(x^{(i)}))&space;\right&space;]&space;\end{aligned})
+    [![](../assets/公式_20180713114855.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;L(w)&=-\log\left&space;(&space;\prod_{i=1}^N&space;[{\color{Red}&space;\sigma(x_i)}]^{{\color{Blue}&space;y_i}}&space;[{\color{Red}&space;1-&space;\sigma(x_i)}]^{{\color{Blue}&space;1-y_i}}&space;\right&space;)\\&space;&=-\sum_{i=1}^N&space;\left&space;[&space;y_i\log\sigma(x_i)&plus;(1-y_i)\log(1-\sigma(x_i))&space;\right&space;]\\&space;&=-\sum_{i=1}^N&space;\left&space;[&space;y_i\log\frac{\sigma(x_i)}{1-\sigma(x_i)}&plus;\log(1-\sigma(x_i))&space;\right&space;]&space;\end{aligned})
 
-    进一步带入 `σ(x)` 有：
+    进一步代入 `σ(x)` 有：
 
-    [![](../assets/公式_20180709160115.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;L(w)&=-\sum_{i=1}^N&space;\left&space;[&space;{\color{Blue}&space;y^{(i)}}(w{\color{Red}&space;x^{(i)}})-\log(1&plus;\exp(w{\color{Red}&space;x^{(i)}}))&space;\right&space;]&space;\end{aligned})
+    [![](../assets/公式_20180713131851.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;L(w)&=-\sum_{i=1}^N&space;\left&space;[&space;{\color{Blue}&space;y_i}(w{\color{Red}&space;x_i})-\log(1&plus;\exp(w{\color{Red}&space;x_i}))&space;\right&space;]&space;\end{aligned})
 3. **求梯度**
     
-    [![](../assets/公式_20180709160743.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;L(w)}{\partial&space;w}&=-\sum_{i=1}^N&space;\left&space;[&space;y^{(i)}x^{(i)}-\frac{\exp(wx^{(i)})}{1&plus;\exp(wx^{(i)})}x^{(i)}&space;\right&space;]\\&space;&=\sum_{i=1}^N&space;[\sigma&space;(x^{(i)})-y^{(i)}]x^{(i)}&space;\end{aligned})
-
-    > 原书中使用 `x_i` 作为第 i 个样本，但这里的 `x` 也是一个矢量，为了避免将 `x_i` 视为 `x` 的分量，故改用上标 `(i)`.
+    [![](../assets/公式_20180713132107.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;L(w)}{\partial&space;w}&=-\sum_{i=1}^N&space;\left&space;[&space;y_ix_i-\frac{\exp(wx_i)}{1&plus;\exp(wx_i)}x_i&space;\right&space;]\\&space;&=\sum_{i=1}^N&space;[\sigma&space;(x_i)-y_i]x_i&space;\end{aligned})
 
 ## 多分类逻辑斯蒂回归模型（ToDo）
 - 设 `Y ∈ {1,2,..K}`，则多项式逻辑斯蒂回归模型为：
 
     [![](../assets/公式_20180709162840.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;P(Y=k|x)&=\frac{\exp(w_kx)}{1&plus;\sum_{k=1}^{K-1}&space;\exp(w_kx)}&space;\quad&space;k=1,2,..,K-1&space;\\&space;P(Y=K|x)&=\frac{1}{1&plus;\sum_{k=1}^{K-1}\exp(w_kx)}&space;\end{aligned})
-  
+- 可当做 `Softmax` 理解
 
 # 支持向量机
 
@@ -90,9 +103,8 @@
 - **SVM 的学习策略就是间隔最大化**，可形式化为一个求解**凸二次规划**的问题，也等价于正则化的**合页损失函数**的最小化问题。
 - SVM 的最优化算法是求解凸二次规划的最优化算法。
 
-### 支持向量的含义
-- 决定最优分离超平面的样本点叫做支持向量
-- 离最优分离超平面的样本点
+### 什么是支持向量
+- 训练数据集中与分离超平面距离最近的样本点的实例称为支持向量
 - 更通俗的解释：
   - 数据集种的某些点，位置比较特殊。比如 `x+y-2=0` 这条直线，假设出现在直线上方的样本记为 A 类，下方的记为 B 类。
   - 在寻找找这条直线的时候，一般只需看两类数据，它们各自最靠近划分直线的那些点，而其他的点起不了决定作用。
@@ -118,18 +130,110 @@
   > 与 L2 正则化的区别
 - 相当于**限制了模型复杂度**——在一定程度上防止过拟合，具有更强的泛化能力
 
-## 线性支持向量机推导
-> 
+## Linear SVM 推导
+> 《统计学习方法》 & [支持向量机SVM推导及求解过程](https://blog.csdn.net/american199062/article/details/51322852#commentBox) - CSDN博客 
 - Linear SVM 的推导分为两部分
   1. 如何根据**间隔最大化**目标导出 SVM 的**标准问题**；
   1. 拉格朗日乘子法对偶问题的求解过程.
 
+**符号定义**：
+---
+- 训练集 `T`
+
+  [![](../assets/公式_20180713132400.png)](http://www.codecogs.com/eqnedit.php?latex=T=\left&space;\{&space;(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)&space;\right&space;\})
+
+- **分离超平面** `(w,b)`
+
+  [![](../assets/公式_20180713111647.png)](http://www.codecogs.com/eqnedit.php?latex=w^*\cdot&space;x&plus;b^*=0)
+
+  如果使用映射函数，那么分离超平面为
+
+  [![](../assets/公式_20180713111746.png)](http://www.codecogs.com/eqnedit.php?latex=w^*\cdot&space;\Phi&space;(x)&plus;b^*=0)
+  > 映射函数 `Φ(x)` 定义了从输入空间到特征空间的变换，特征空间通常是更高维的，甚至无穷维；方便起见，这里假设 `Φ(x)` 做的是恒等变换。
+  
+- 分类决策函数 `f(x)`
+
+  [![](../assets/公式_20180713132655.png)](http://www.codecogs.com/eqnedit.php?latex=f(x)=\mathrm{sign}(w^*\cdot&space;x&plus;b^*))
+
+**SVM 标准问题的推导**
+---
+1. **从“函数间隔”到“几何间隔”**
+
+    给定训练集`T`和超平面`(w,b)`，定义**函数间隔`γ^`**：
+
+    [![](../assets/公式_20180713134514.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\hat{\gamma}&=\underset{i=1,\cdots,N}{\min}\,y_i(wx_i&plus;b)&space;\\&space;&=\underset{i=1,\cdots,N}{\min}\,\hat{\gamma}_i\end{aligned})
+
+    对 `w` 作规范化，使函数间隔成为**几何间隔`γ`**
+
+    [![](../assets/公式_20180713134322.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\gamma&=\underset{i=1,\cdots,N}{\min}\,y_i(\frac{w}{{\color{Red}&space;\left&space;\|&space;w&space;\right&space;\|}}x_i&plus;\frac{b}{{\color{Red}&space;\left&space;\|&space;w&space;\right&space;\|}})\\&space;&=\underset{i=1,\cdots,N}{\min}\,\frac{\gamma_i}{{\color{Red}&space;\left&space;\|&space;w&space;\right&space;\|}}&space;\end{aligned})
+
+1. **最大化几何间隔**
+
+    [![](../assets/公式_20180713142726.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;&{\color{Red}&space;\underset{w,b}{\max}}&space;\quad\gamma&space;\\&space;&\&space;\mathrm{s.t.}\quad\,&space;y_i(\frac{w}{{\color{Red}&space;\left&space;\|&space;w&space;\right&space;\|}}x_i&plus;\frac{b}{{\color{Red}&space;\left&space;\|&space;w&space;\right&space;\|}})&space;\geq&space;\gamma,\quad&space;i=1,2,\cdots,N&space;\end{aligned})
+
+    由函数间隔与几何间隔的关系，等价于
+
+    [![](../assets/公式_20180713143756.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;&\underset{w,b}{\max}&space;\quad{\color{Red}&space;\frac{\hat{\gamma}}{\left&space;\|&space;w&space;\right&space;\|}}&space;\\&space;&\&space;\mathrm{s.t.}\quad\,&space;y_i(wx_i&plus;b)&space;\geq&space;{\color{Red}&space;\hat{\gamma}_i},\quad&space;i=1,2,\cdots,N&space;\end{aligned})
+    
+    函数间隔`γ^`的取值不会影响最终的超平面`(w,b)`：取`γ^=1`；又最大化 `1/||w||` 等价于最小化`1/2*||w||^2`，于是有
+
+    [![](../assets/公式_20180713143622.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;&{\color{Red}&space;\underset{w,b}{\max}&space;}&space;\quad\frac{\hat{\gamma}}{{\color{Red}&space;\left&space;\|&space;w&space;\right&space;\|}}&space;\\&space;&\&space;\mathrm{s.t.}\quad\,&space;y_i(wx_i&plus;b)&space;\geq&space;\hat{\gamma}_i,\quad&space;i=1,2,\cdots,N&space;\end{aligned})
+    > 为什么令`γ^=1`？——比例改变`(ω,b)`，超平面不会改变，但函数间隔`γ^`会成比例改变，因此可以通过等比例改变`(ω,b)`使函数间隔`γ^=1`
+    
+- 该约束最优化问题即为**线性支持向量机**的标准问题——这是一个**凸二次优化**问题，可以使用商业 QP 代码完成。
+
+  理论上，线性 SVM 的问题已经解决了；但在高等数学中，**带约束的最优化问题**还可以用另一种方法求解——**拉格朗日乘子法**。该方法的优点一是更容易求解，而是自然引入**核函数**，进而推广到非线性的情况。
+
+**SVM 对偶算法的推导**
+---
+1. 构建**拉格朗日函数**
+
+    [![](../assets/公式_20180713202306.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;L(w,b,{\color{Red}&space;\alpha})=&\frac{1}{2}w^Tw-\sum_{i=1}^N{\color{Red}&space;\alpha_i}[y_i(w^Tx_i&plus;b)-1]\\&space;&{\color{Red}&space;\alpha_i&space;\geq&space;0},\quad&space;i=1,2,\cdots,N&space;\end{aligned})
+    
+1. 标准问题是求极小极大问题：
+
+    [![](../assets/公式_20180713152150.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;{\color{Red}&space;\underset{w,b}{\min}}\&space;{\color{Blue}&space;\underset{\alpha}{\max}}\&space;L(w,b,\alpha)&space;\end{aligned})
+
+    其对偶问题为：
+
+    [![](../assets/公式_20180713152255.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;{\color{Blue}&space;\underset{\alpha}{\max}}\&space;{\color{Red}&space;\underset{w,b}{\min}}\&space;L(w,b,\alpha)&space;\end{aligned})
+    
+1. 求 `L` 对 `(w,b)` 的极小
+
+    [![](../assets/公式_20180713193142.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\mathrm{set}\quad&space;\frac{\partial&space;L}{\partial&space;w}=0&space;\;\;&\Rightarrow\;&space;w-\sum_{i=1}^N&space;{\color{Red}&space;\alpha_i&space;y_i&space;x_i}=0\\&space;&\Rightarrow\;&space;w=\sum_{i=1}^N&space;{\color{Red}&space;\alpha_i&space;y_i&space;x_i}&space;\end{aligned})
+
+    [![](../assets/公式_20180713193328.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\mathrm{set}\quad&space;\frac{\partial&space;L}{\partial&space;b}=0&space;\;\;&\Rightarrow\;&space;\sum_{i=1}^N&space;{\color{Red}&space;\alpha_i&space;y_i}=0&space;\end{aligned})
+
+    结果代入`L`，有：
+
+    [![](../assets/公式_20180713195055.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;L(w,b,{\color{Red}&space;\alpha})&space;&=\frac{1}{2}w^Tw-\sum_{i=1}^N{\color{Red}&space;\alpha_i}[y_i(w^Tx_i&plus;b)-1]\\&space;&=\frac{1}{2}w^Tw-w^T\sum_{i=1}^N&space;\alpha_iy_ix_i-b\sum_{i=1}^N&space;\alpha_iy_i&plus;\sum_{i=1}^N&space;\alpha_i\\&space;&=\frac{1}{2}w^Tw-w^Tw&plus;\sum_{i=1}^N&space;\alpha_i\\&space;&=-\frac{1}{2}w^Tw&plus;\sum_{i=1}^N&space;\alpha_i\\&space;&=-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N&space;\alpha_i\alpha_j\cdot&space;y_iy_j\cdot&space;{\color{Red}&space;x_i^Tx_j}&plus;\sum_{i=1}^N&space;\alpha_i&space;\end{aligned})
+
+    即
+
+    [![](../assets/公式_20180713195135.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;L(w,b,{\color{Red}&space;\alpha})&space;&=\frac{1}{2}w^Tw-\sum_{i=1}^N{\color{Red}&space;\alpha_i}[y_i(w^Tx_i&plus;b)-1]\\&space;&=\frac{1}{2}w^Tw-w^T\sum_{i=1}^N&space;\alpha_iy_ix_i-b\sum_{i=1}^N&space;\alpha_iy_i&plus;\sum_{i=1}^N&space;\alpha_i\\&space;&=\frac{1}{2}w^Tw-w^Tw&plus;\sum_{i=1}^N&space;\alpha_i\\&space;&=-\frac{1}{2}w^Tw&plus;\sum_{i=1}^N&space;\alpha_i\\&space;&=-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N&space;\alpha_i\alpha_j\cdot&space;y_iy_j\cdot&space;{\color{Red}&space;x_i^Tx_j}&plus;\sum_{i=1}^N&space;\alpha_i&space;\end{aligned})
+    
+1. 求 `L` 对 `α` 的极大，即
+
+    [![](../assets/公式_20180713200756.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;&\underset{\alpha}{\max}&space;\quad&space;-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N&space;\alpha_i\alpha_j\cdot&space;y_iy_j\cdot&space;x_i^Tx_j&plus;\sum_{i=1}^N&space;\alpha_i\\&space;&\&space;\mathrm{s.t.}\quad\;&space;\sum_{i=1}^N&space;\alpha_i&space;y_i=0,\&space;\&space;{\color{Red}&space;\alpha_i&space;\geq&space;0},\quad&space;i=1,2,\cdots,N&space;\end{aligned})
+    
+    该问题的对偶问题为：
+
+    [![](../assets/公式_20180713200840.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;&{\color{Red}&space;\underset{\alpha}{\min}&space;}&space;\quad\&space;\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N&space;\alpha_i\alpha_j\cdot&space;y_iy_j\cdot&space;x_i^Tx_j-\sum_{i=1}^N&space;\alpha_i\\&space;&\&space;\mathrm{s.t.}\quad\;&space;\sum_{i=1}^N&space;\alpha_i&space;y_i=0,\&space;\&space;{\color{Red}&space;\alpha_i&space;\geq&space;0},\quad&space;i=1,2,\cdots,N&space;\end{aligned})
+
+    于是，标准问题最后等价于求解该**对偶问题**
+    > 继续求解该优化问题，有 [SMO 方法](https://blog.csdn.net/ajianyingxiaoqinghan/article/details/73087304#t11)；因为《统计学习方法》也只讨论到这里，故推导也止于此
+
+1. 设 `α` 的解为 `α*`，则存在下标`j`使`α_j > 0`，可得标准问题的解为：
+
+    [![](../assets/公式_20180713203827.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;w^*&=\sum_{i=1}^N&space;\alpha_i^*y_ix_i\\&space;b^*&={\color{Red}&space;y_j}-\sum_{i=1}^N&space;\alpha_i^*y_i(x_i^T{\color{Red}&space;x_j})&space;\end{aligned})
+    
+    可得分离超平面及分类决策函数为：
+
+    [![](../assets/公式_20180713111647.png)](http://www.codecogs.com/eqnedit.php?latex=w^*\cdot&space;x&plus;b^*=0)
+
+    [![](../assets/公式_20180713132655.png)](http://www.codecogs.com/eqnedit.php?latex=f(x)=\mathrm{sign}(w^*\cdot&space;x&plus;b^*))
+    
 
 
 
-
-
-
-
-
-
+    
