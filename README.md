@@ -13,6 +13,10 @@
   - [“花书”《深度学习》整理](./深度学习/“花书”《深度学习》整理.md)
     > 顺序比较乱，很多相关问题也没放在一起，目前正在做进一步整理
 - [机器学习](./机器学习)
+  - [逻辑斯蒂回归](./机器学习/README.md#逻辑斯蒂回归)
+  - [支持向量机](./机器学习/README.md#支持向量机)
+  - [AdaBoost 算法](./机器学习/README.md#adaboost-算法)
+  - [GBDT 算法](./机器学习/README.md##梯度提升决策树-gbdt)
 - [基础算法](./基础算法)
     - [C++ 回顾](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/Cpp回顾)
       - [在线 IO 模板](https://github.com/imhuay/Algorithm_for_Interview-Chinese/blob/master/Algorithm_for_Interview/Cpp回顾/IO模板.hpp)

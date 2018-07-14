@@ -37,7 +37,6 @@
 <!-- /TOC -->
 
 # 反向传播算法
-> 基础数学/深度学习的核心/[反向传播的 4 个基本公式](../基础数学/深度学习的核心.md#323-反向传播的-4-个基本公式)
 
 ## 反向传播的作用/目的/本质
 - **反向传播概述**：
@@ -47,6 +46,7 @@
   而**反向传播算法**就是用于计算该梯度的具体方法，其本质是利用**链式法则**对每个参数求偏导。
 
 ## 反向传播的公式推导
+> 基础数学/深度学习的核心/[反向传播的 4 个基本公式](../基础数学/深度学习的核心.md#323-反向传播的-4-个基本公式)
 - 可以用 4 个公式总结反向传播的过程
 
   **标量形式**：
@@ -58,16 +58,23 @@
   [![](../assets/公式_20180705154543.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{{\color{Magenta}&space;\partial&space;w_{j,k}^{(l)}}}=\frac{\partial&space;z_j^{(l)}}{{\color{Magenta}&space;\partial&space;w_{j,k}^{(l)}}}\frac{{\color{Red}\partial&space;a_j^{(l)}}}{\partial&space;z_j^{(l)}}\frac{\partial&space;C}{{\color{Red}\partial&space;a_j^{(l)}}}&space;\end{aligned})
 
   [![](../assets/公式_20180705154650.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{{\color{Magenta}&space;\partial&space;b_{j}^{(l)}}}=\frac{\partial&space;z_j^{(l)}}{{\color{Magenta}&space;\partial&space;b_{j}^{(l)}}}\frac{{\color{Red}\partial&space;a_j^{(l)}}}{\partial&space;z_j^{(l)}}\frac{\partial&space;C}{{\color{Red}\partial&space;a_j^{(l)}}}&space;\end{aligned})
+  > 上标 `(l)` 表示网络的层，`(L)` 表示输出层（最后一层）；下标 `j` 和 `k` 指示神经元的位置；`w_jk` 表示 `l` 层的第 `j` 个神经元与`(l-1)`层第 `k` 个神经元连线上的权重
 
-  > 其中，上标 `(l)` 表示网络的层次，`(L)` 表示输出层（最后一层）；下标 `j` 和 `k` 指示神经元的位置；
-  >
-  > `w_jk` 表示 `l` 层的第 `j` 个神经元与`(l-1)`层第 `k` 个神经元连线上的权重
-  
-  以 **均方误差（MSE）** 损失函数为例，有
+- **符号说明**，其中：
+  - `(w,b)` 为网络参数：权值和偏置
+  - `z` 表示上一层激活值的线性组合
+  - `a` 即 "activation"，表示每一层的激活值，上标`(l)`表示所在隐藏层，`(L)`表示输出层
+  - `C` 表示激活函数，其参数为神经网络输出层的激活值`a^(L)`，与样本的标签`y`
+
+    ![](../assets/TIM截图20180704193955.png)
+
+- 以 **均方误差（MSE）** 损失函数为例，有
 
   [![](../assets/公式_20180705190536.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{\partial&space;{\color{Red}&space;a_j^{(L)}}}&=\frac{\partial&space;C({\color{Red}&space;a_j^{(L)}},y_j)}{\partial&space;{\color{Red}&space;a_j^{(L)}}}&space;\\&space;&=\frac{\partial&space;\left&space;(&space;\frac{1}{2}({\color{Red}a_j^{(L)}}-y_j)^2&space;\right&space;)&space;}{\partial&space;{\color{Red}a_j^{(L)}}}={\color{Red}a_j^{(L)}}-y&space;\end{aligned})
 
-- Nielsen 的课程中提供了另一种表述，本质上是一样的。
+- Nielsen 的课程中提供了另一种更利于计算的表述，本质上是一样的。
+
+  ![](../assets/TIM截图20180705162841.png)
   > [The four fundamental equations behind backpropagation](http://neuralnetworksanddeeplearning.com/chap2.html#the_four_fundamental_equations_behind_backpropagation)
 
 
