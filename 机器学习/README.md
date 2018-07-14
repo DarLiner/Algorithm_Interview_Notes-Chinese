@@ -14,8 +14,10 @@
 - [数学基础](#数学基础)
   - [微积分](#微积分)
   - [信息论](#信息论)
-    - [自信息与信息熵](#自信息与信息熵)
-  - [16.2. 相对熵（KL 散度）与交叉熵](#162-相对熵kl-散度与交叉熵)
+    - [信息熵 与 自信息](#信息熵-与-自信息)
+    - [交叉熵 与 相对熵/KL散度](#交叉熵-与-相对熵kl散度)
+      - [**KL 散度在信息论中度量的是哪个直观量**](#kl-散度在信息论中度量的是哪个直观量)
+      - [交叉熵 与 KL 散度的关系](#交叉熵-与-kl-散度的关系)
 - [逻辑斯蒂回归](#逻辑斯蒂回归)
   - [逻辑斯蒂回归模型定义](#逻辑斯蒂回归模型定义)
   - [逻辑斯蒂回归推导](#逻辑斯蒂回归推导)
@@ -73,29 +75,27 @@
   2. 比较不可能发生的事件具有更大的信息量。
   3. 独立事件应具有增量的信息。例如，投掷的硬币两次正面朝上传递的信息量，应该是投掷一次硬币正面朝上的信息量的两倍。
 
-### 自信息与信息熵
+### 信息熵 与 自信息
 - **自信息**（self-information）是一种量化以上性质的函数，定义一个事件`x`的自信息为：
 
   [![](../assets/公式_20180610215339.png)](http://www.codecogs.com/eqnedit.php?latex=I(x)=-\log&space;P(x))
   > 当该对数的底数为自然对数 e 时，单位为奈特（nats）；当以 2 为底数时，单位为比特（bit）或香农（shannons）
 
 - 自信息只处理单个的输出。
-- **信息熵**（Information-entropy）来对整个概率分布中的**不确定性总量**进行量化：
+- **信息熵**（Information-entropy）用于对整个概率分布中的**不确定性总量**进行量化：
 
   [![](../assets/公式_20180610215417.png)](http://www.codecogs.com/eqnedit.php?latex=H(\mathrm{X})=\mathbb{E}_{\mathrm{X}&space;\sim&space;P}[I(x)]=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;P(x))
   > 信息论中，记 `0log0 = 0`
 
-## 16.2. 相对熵（KL 散度）与交叉熵
+### 交叉熵 与 相对熵/KL散度
+- 定义 **P 对 Q** 的 **KL 散度**（Kullback-Leibler divergence）：
 
-P 对 Q 的 **KL散度**（Kullback-Leibler divergence）：
+  [![](../assets/公式_20180610215445.png)](http://www.codecogs.com/eqnedit.php?latex=D_P(Q)=\mathbb{E}_{\mathrm{X}\sim&space;P}\left&space;[&space;\log&space;\frac{P(x)}{Q(x)}&space;\right&space;]=\sum_{x&space;\in&space;\mathrm{X}}P(x)\left&space;[&space;\log&space;P(x)-\log&space;Q(x)&space;\right&space;])
 
-[![](../assets/公式_20180610215445.png)](http://www.codecogs.com/eqnedit.php?latex=D_P(Q)=\mathbb{E}_{\mathrm{X}\sim&space;P}\left&space;[&space;\log&space;\frac{P(x)}{Q(x)}&space;\right&space;]=\sum_{x&space;\in&space;\mathrm{X}}P(x)\left&space;[&space;\log&space;P(x)-\log&space;Q(x)&space;\right&space;])
+#### **KL 散度在信息论中度量的是哪个直观量**
+- 在离散型变量的情况下， KL 散度衡量的是：当我们使用一种被设计成能够使得概率分布 Q 产生的消息的长度最小的编码，发送包含由概率分布 P 产生的符号的消息时，所需要的额外信息量。
 
-**KL 散度在信息论中度量的是那个直观量**：
-
-在离散型变量的情况下， KL 散度衡量的是，当我们使用一种被设计成能够使得概率分布 Q 产生的消息的长度最小的编码，发送包含由概率分布 P 产生的符号的消息时，所需要的额外信息量。
-
-**KL 散度的性质**：
+**KL散度的性质**：
 - 非负；KL 散度为 0 当且仅当P 和 Q 在离散型变量的情况下是相同的分布，或者在连续型变量的情况下是“几乎处处”相同的
 - 不对称；D_p(q) != D_q(p)
 
@@ -105,15 +105,11 @@ P 对 Q 的 **KL散度**（Kullback-Leibler divergence）：
 
 > [信息量，信息熵，交叉熵，KL散度和互信息（信息增益）](https://blog.csdn.net/haolexiao/article/details/70142571) - CSDN博客
 
-**交叉熵与 KL 散度的关系**：
-
-[![](../assets/公式_20180610215554.png)](http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=H(P)&plus;D_P(Q))
-
-**针对 Q 最小化交叉熵等价于最小化 P 对 Q 的 KL 散度**，因为 Q 并不参与被省略的那一项。
-
-最大似然估计中，最小化 KL 散度其实就是在最小化分布之间的交叉熵。
-
-> 《深度学习》 ch5.5 - 最大似然估计
+#### 交叉熵 与 KL 散度的关系
+- **针对 Q 最小化交叉熵等价于最小化 P 对 Q 的 KL 散度**，因为 Q 并不参与被省略的那一项。
+  [![](../assets/公式_20180610215554.png)](http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=H(P)&plus;D_P(Q))
+- 最大似然估计中，最小化 KL 散度其实就是在最小化分布之间的交叉熵。
+  > 《深度学习》 ch5.5 - 最大似然估计
 
 # 逻辑斯蒂回归
 
