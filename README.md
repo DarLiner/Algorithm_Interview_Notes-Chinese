@@ -18,9 +18,9 @@
       - [在线 IO 模板](https://github.com/imhuay/Algorithm_for_Interview-Chinese/blob/master/Algorithm_for_Interview/Cpp回顾/IO模板.hpp)
       - [STL 容器速览](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/Cpp回顾/STL容器)
     - [在线 OJ 记录](https://github.com/imhuay/Algorithm_for_Interview-Chinese)
-- [数学相关](./数学相关)
-  - [微积分的本质](./数学相关/微积分的本质.md)
-  - [深度学习的核心](./数学相关/深度学习的核心.md)
+- [基础数学](./基础数学)
+  - [微积分的本质](./基础数学/微积分的本质.md)
+  - [深度学习的核心](./基础数学/深度学习的核心.md)
 
 
 **欢迎分享你在深度学习/机器学习面试过程中遇见的问题！**
