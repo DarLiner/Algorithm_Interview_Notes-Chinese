@@ -39,8 +39,8 @@
     - [2. Bagging](#2-bagging)
     - [3. Stacking](#3-stacking)
   - [AdaBoost 算法](#adaboost-算法)
-    - [AdaBoost 算法解决 Boosting 两个基本问题的方法](#adaboost-算法解决-boosting-两个基本问题的方法)
     - [AdaBoost 算法描述](#adaboost-算法描述)
+    - [AdaBoost 算法要点说明](#adaboost-算法要点说明)
 - [梯度提升决策树 GBDT](#梯度提升决策树-gbdt)
   - [提升树 Boosting Tree](#提升树-boosting-tree)
   - [梯度提升树](#梯度提升树)
@@ -341,13 +341,61 @@
 
 ## AdaBoost 算法
 - AdaBoost 是 Boosting 策略的一种具体算法
-### AdaBoost 算法解决 Boosting 两个基本问题的方法
-> [Boosting 两个基本问题](#boosting-策略要解决的两个基本问题)
+
+AdaBoost 算法解决 [Boosting 两个基本问题](#boosting-策略要解决的两个基本问题)的方法
+---
 1. 每一轮如何改变数据的权值或概率分布？——开始时，每个样本的权值是一样的，AdaBoost 的做法是提高上一轮弱分类器错误分类样本的权值，同时降低那些被正确分类样本的权值。
 1. 如何将弱分类器组合成一个强分类器？—— AdaBoost 采取加权表决的方法。具体的，AdaBoost 会加大分类误差率小的基学习器的权值，使其在表决中起到更大的作用，同时减小分类误差率大的基学习器的权值。
 
 ### AdaBoost 算法描述
+- 输入：训练集 `T={(xi,yi)}, xi ∈ R^n, yi ∈ {-1,+1} `，基学习器 `G1(x)`
+- 输出：最终学习器 `G(x)`
 
+1. 初始化训练数据的全职分布
+
+    [![](../assets/公式_20180715133122.png)](http://www.codecogs.com/eqnedit.php?latex=D_1=(w_{1,1},\cdots,w_{1,i},\cdots,w_{1,N}),\quad&space;w_{1,i}=\frac{1}{N},\quad&space;i=1,2,\cdots,N)
+
+1. 对 `m=1,2,..,M`
+    1. 使用权值分布为`D_m`的训练集，得到基分类器：
+
+        [![](../assets/公式_20180715132515.png)](http://www.codecogs.com/eqnedit.php?latex=G_m(x):\chi&space;\rightarrow&space;\{-1,&plus;1\})
+    1. 计算 `G_m(x)` 在训练集上的分类误差率
+
+        [![](../assets/公式_20180715142042.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;e_m&=P(G_m(x_i)\neq&space;y_i)\\&=\sum_{i=1}^Nw_{m,i}\cdot&space;{\color{Red}&space;I(G_m(x_i)\neq&space;y_i)}&space;\end{aligned})
+        > `I(x)` 为指示函数：若`G(x)!=y`为真，则`I(G(x)!=y)=1`，反之为 `0`
+        >
+        > 实际上分类误差率就等于所有**分类错误的数据的权值之和**
+    1. 计算 `G_m(x)` 的系数
+
+        [![](../assets/公式_20180715133256.png)](http://www.codecogs.com/eqnedit.php?latex=\alpha_m=\frac{1}{2}\ln\frac{1-e_m}{e_m})
+    1. 更新训练集的权值分布
+
+        <!-- [![](../assets/公式_20180715134037.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;D_{{\color{Red}m&plus;1}}&=(w_{m&plus;1,1},\cdots,w_{m&plus;1,i},\cdots,w_{m&plus;1,N})\\&space;w_{{\color{Red}m&plus;1},i}&=\frac{w_{{\color{Red}m},i}\cdot\exp(-\alpha_{\color{Red}m}\cdot{\color{Blue}y_iG_m(x_i)&space;})}{\sum_{i=1}^Nw_{{\color{Red}m},i}\cdot\exp(-\alpha_{\color{Red}m}\cdot{\color{Blue}y_iG_m(x_i)&space;})}&space;\end{aligned}) -->
+        <!-- [![](../assets/公式_20180715135300.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;D_{{\color{Red}m&plus;1}}&=(w_{m&plus;1,1},\cdots,w_{m&plus;1,i},\cdots,w_{m&plus;1,N})\\&space;w_{{\color{Red}m&plus;1},i}&=\frac{w_{{\color{Red}m},i}\cdot\exp(-\alpha_{\color{Red}m}\cdot{\color{Blue}y_iG_m(x_i)&space;})}{Z_{\color{Red}m}}&space;\end{aligned}) -->
+        [![](../assets/公式_20180715140328.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;D_{{\color{Red}m&plus;1}}&=(w_{m&plus;1,1},\cdots,w_{m&plus;1,i},\cdots,w_{m&plus;1,N})\\&space;w_{{\color{Red}m&plus;1},i}&=\frac{w_{{\color{Red}m},i}\cdot\exp(-\alpha_{\color{Red}m}\cdot{\color{Blue}y_iG_m(x_i)&space;})}{Z_{\color{Red}m}}&space;\end{aligned})
+
+        其中 `Z_m` 为**规范化因子**，使 `D_m+1` 成为一个**概率分布**，类似 `Softmax` 函数
+
+        <!-- [![](../assets/公式_20180715135456.png)](http://www.codecogs.com/eqnedit.php?latex=Z_{\color{Red}m}=\sum_{i=1}^Nw_{{\color{Red}m},i}\cdot\exp(-\alpha_{\color{Red}m}\cdot{\color{Blue}y_iG_m(x_i)&space;})) -->
+
+        因为 `y, G(x) ∈ {-1, 1}`，所以实际上
+
+        [![](../assets/公式_20180715134916.png)](http://www.codecogs.com/eqnedit.php?latex={\color{Blue}y_iG_m(x_i)&space;}=\left\{\begin{matrix}&space;1,&&space;G_m(x_i)=y_i&space;\\&space;-1,&&space;G_m(x_i)\neq&space;y_i&space;\end{matrix}\right.)
+        
+        因此 `w_{m+1,i}` 也可以写作
+
+        [![](../assets/公式_20180715135945.png)](http://www.codecogs.com/eqnedit.php?latex=\dpi{120}&space;w_{m&plus;1,i}=\left\{\begin{matrix}&space;\frac{w_{m,i}}{Z_m}e^{\color{Red}&space;{-\alpha_m}},&space;&&space;G_m(x_i)=y_i&space;\\&space;\frac{w_{m,i}}{Z_m}e^{\color{Red}&space;{\alpha_m}},&&space;G_m(x_i)\neq&space;y_i&space;\end{matrix}\right.)
+    
+1. 构建基学习器的**线性组合**
+
+    [![](../assets/公式_20180715141210.png)](http://www.codecogs.com/eqnedit.php?latex=G(x)=\mathrm{sign}(\sum_{m=1}^M\alpha_mG_m(x)))
+
+### AdaBoost 算法要点说明
+- 开始时，训练集中所有数据具有均匀的权值分布
+- 计算分类误差率，实际上就是计算所有分类错误的数据的权值之和
+- `G_m(x)` 的系数 `α_m` 表示该学习器在最终学习器中的重要性；公式 
+  [![](../assets/公式_20180715133256.png)](http://www.codecogs.com/eqnedit.php?latex=\alpha_m=\frac{1}{2}\ln\frac{1-e_m}{e_m}) 表明当分类错误率 `e_m <= 1/2` 时，`α_m >= 0`，并且 `α_m` 随 `e_m` 的减小而增大
+- 被基分类器分类错误的样本权值会扩大，而分类正确的权值会缩小——**不改变训练数据，而不断改变训练数据权值的分布，使训练数据在基学习器的学习中起到不同的作用**，这是 AdaBoost 的一个特点。
 
 # 梯度提升决策树 GBDT
 - 以**决策树**为基学习器、采用 Boosting 策略的一种集成学习模型
