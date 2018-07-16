@@ -351,7 +351,7 @@
 1. 如何将弱分类器组合成一个强分类器？—— AdaBoost 采取加权表决的方法（[加法模型](#加法模型)）。具体的，AdaBoost 会加大分类误差率小的基学习器的权值，使其在表决中起到更大的作用，同时减小分类误差率大的基学习器的权值。
 
 ### AdaBoost 算法描述
-- 输入：训练集 `T={(xi,yi)}, xi ∈ R^n, yi ∈ {-1,+1} `，基学习器 `G1(x)`
+- 输入：训练集 `T={(x1,y1),..,(xN,yN)}, xi ∈ R^n, yi ∈ {-1,+1} `，基学习器 `G1(x)`
 - 输出：最终学习器 `G(x)`
 
 1. 初始化训练数据的全职分布
@@ -412,10 +412,27 @@
   [![](../assets/公式_20180715230941.png)](http://www.codecogs.com/eqnedit.php?latex={\color{Red}&space;\underset{\beta_m,\gamma_m}{\min}}\sum_{i=1}^N&space;L\left&space;(&space;y_i,{\color{Blue}&space;\sum_{m=1}^M\beta_m\,b(x;\gamma_m)}&space;\right&space;))
 
 ### 前向分步算法描述
-- 前向分步算法求解加法模型的想法是：如果能够从前向后，每一步只学习一个基函数及其系数，逐步优化目标函数
+前向分步算法求解加法模型的想法是：如果能够从前向后，每一步只学习一个基函数及其系数，逐步优化目标函数
+- 输入：训练集 `T={(x1,y1),..,(xN,yN)}`，损失函数 `L(y,f(x))`，基函数集 `{b(x;γ)}`
+- 输出：加法模型 `f(x)`
+1. 初始化 `f_0(x)=0`
+1. 对 `m=1,2,..,M`
+    1. 极小化损失函数，得到 `(β_m,γ_m)`
+
+        [![](../assets/公式_20180716142855.png)](http://www.codecogs.com/eqnedit.php?latex=(\beta_m,\gamma_m)=\arg\underset{\beta,\gamma}{\min}\sum_{i=1}^NL\left&space;(&space;y_i,{\color{Red}&space;f_{m-1}(x_i)&plus;\beta&space;b(x_i;\gamma)}&space;\right&space;))
+
+    1. 更新模型 `f_m(x)`
+
+        [![](../assets/公式_20180716143232.png)](http://www.codecogs.com/eqnedit.php?latex=f_m(x)={\color{Red}&space;f_{m-1}(x)&plus;\beta&space;b(x;\gamma)})
+1. 得到加法模型
+
+    [![](../assets/公式_20180716143509.png)](http://www.codecogs.com/eqnedit.php?latex=f(x)=f_M(x)={\color{Red}&space;\sum_{m=1}^M}{\color{Blue}&space;\beta_m}b(x;\gamma_m))
+
+- 前向分步算法将**同时**求解`m=1,2,..,M`所有参数`(β_m,γ_m)`的问题**简化**为**逐次**求解各`(β_m,γ_m)`的优化问题——思想上有点像**梯度下降**
 
 ### 前向分步算法与 AdaBoost
 - AdaBoost 算法是前向分步算法的特例。
+- 此时，基函数为基分类器，损失函数为指数函数`L(y,f(x)) = exp(-y*f(x))`
 
 # 梯度提升决策树 GBDT
 - GBDT 是以**决策树**为基学习器、采用 Boosting 策略的一种集成学习模型
