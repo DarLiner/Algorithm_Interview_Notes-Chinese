@@ -30,6 +30,11 @@
     - [最大间隔超平面背后的原理](#最大间隔超平面背后的原理)
   - [支持向量机推导](#支持向量机推导)
     - [线性可分支持向量机推导](#线性可分支持向量机推导)
+- [决策树](#决策树)
+  - [信息增益与信息增益比 todo](#信息增益与信息增益比-todo)
+  - [分类树 - ID3 决策树与 C4.5 决策树 todo](#分类树---id3-决策树与-c45-决策树-todo)
+  - [回归树 - CART 决策树](#回归树---cart-决策树)
+    - [回归树算法推导](#回归树算法推导)
 - [集成学习](#集成学习)
   - [集成学习的基本策略(3)](#集成学习的基本策略3)
     - [1. Boosting](#1-boosting)
@@ -45,6 +50,8 @@
     - [前向分步算法与 AdaBoost](#前向分步算法与-adaboost)
 - [梯度提升决策树 GBDT](#梯度提升决策树-gbdt)
   - [提升树 Boosting Tree](#提升树-boosting-tree)
+    - [回归提升树算法描述](#回归提升树算法描述)
+  - [梯度提升算法](#梯度提升算法)
   - [GBDT 算法描述](#gbdt-算法描述)
 
 <!-- /TOC -->
@@ -319,6 +326,24 @@
     [![](../assets/公式_20180713132655.png)](http://www.codecogs.com/eqnedit.php?latex=f(x)=\mathrm{sign}(w^*\cdot&space;x&plus;b^*))
 
 
+# 决策树
+- 决策树的训练通常由三部分组成：**特征选择**、**树的生成**、**剪枝**。
+
+## 信息增益与信息增益比 todo
+## 分类树 - ID3 决策树与 C4.5 决策树 todo
+- ID3 决策树和 C4.5 决策树的**区别**在于：前者使用**信息增益**来进行特征选择，而后者使用**信息增益比**。
+
+## 回归树 - CART 决策树
+- CART 算法是在给定输入随机变量 _`X`_ 条件下输出随机变量 _`Y`_ 的**条件概率分布**的学习方法。 
+- CART 算法假设决策树是**二叉树**，内部节点特征的取值为“**是**”和“**否**”。
+
+  这样的决策树等价于递归地二分每个特征，**将输入空间/特征空间划分为有限个单元**，然后在这些单元上确定在输入给定的条件下输出的**条件概率分布**。
+- CART 决策树既可以用于分类，也可以用于回归。
+
+### 回归树算法推导
+todo
+
+
 # 集成学习
 - 基本思想：由多个学习器组合成一个性能更好的学习器
 - **集成学习为什么有效？**——不同的模型通常会在测试集上产生不同的误差。平均上，集成模型能至少与其任一成员表现一致；并且**如果成员的误差是独立的**，集成模型将显著地比其成员表现更好。
@@ -354,7 +379,7 @@
 1. 如何将弱分类器组合成一个强分类器？—— AdaBoost 采取加权表决的方法（[加法模型](#加法模型)）。具体的，AdaBoost 会加大分类误差率小的基学习器的权值，使其在表决中起到更大的作用，同时减小分类误差率大的基学习器的权值。
 
 ### AdaBoost 算法描述
-- 输入：训练集 `T={(x1,y1),..,(xN,yN)}, xi ∈ R^n, yi ∈ {-1,+1} `，基学习器 `G1(x)`
+- 输入：训练集 `T={(x1,y1),..,(xN,yN)}, xi ∈ R^n, yi ∈ {-1,+1}`，基学习器 `G1(x)`
 - 输出：最终学习器 `G(x)`
 
 1. 初始化训练数据的全职分布
@@ -445,14 +470,65 @@
 - 以**决策树**为基学习器，对分类问题使用二叉分类树，回归问题使用二叉回归树。
 - 解决回归问题时，通过不断拟合残差得到新的树。
 - 提升树模型可表示为**决策树的加法模型**：
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_M(x)=\sum_{m=1}^MT(x;\Theta_m)"><img src="../assets/公式_20180717101425.png" /></a></div>
 
-  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_M(x)=\sum_{m=1}^MT(x;\Theta_m)" target="_blank"><img src="../assets/公式_20180717101425.png" title="f_M(x)=\sum_{m=1}^MT(x;\Theta_m)" /></a></div>
 - 首先初始化提升树 `f_0(x)=0`，则第 m 步的模型为
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_m(x)=f_{m-1}(x)&plus;T(x;\Theta_m)" target="_blank"><img src="../assets/公式_20180717110557.png" /></a></div>
 
-  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_m(x)=f_{m-1}(x)&plus;T(x;\Theta_m)" target="_blank"><img src="../assets/公式_20180717110557.png" title="f_m(x)=f_{m-1}(x)+T(x;\Theta_m)" /></a></div>
 - 然后通过最小化损失函数决定下一个决策树的参数
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\hat{\Theta}_m=\arg\underset{\Theta_m}{\min}\sum_{i=1}^NL(y_i,{\color{Red}&space;f_{m-1}(x_i)&plus;T(x_i;\Theta_m)})"><img src="../assets/公式_20180717112341.png" /></a></div>
 
-  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_m(x)=f_{m-1}(x)&plus;T(x;\Theta_m)" target="_blank"><img src="../assets/公式_20180717110557.png" title="f_m(x)=f_{m-1}(x)+T(x;\Theta_m)" /></a></div>
+- 对于二分类问题，提升树算法只需要将[AdaBoost 算法](#adaboost-算法描述)中的基学习器限制为二叉分类树即可
 
-    
+### 回归提升树算法描述
+在回归问题中，新的树是通过不断拟合**残差**（residual）得到的。
+- 输入：训练集 `T={(x1,y1),..,(xN,yN)}, xi ∈ R^n, yi ∈ R`
+- 输出：回归提升树 `f_M(x)`
+1. 初始化 `f_0(x)=0`  
+1. 对 `m=1,2,..,M`
+    1. 计算**残差**
+        <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex={\color{Red}&space;r_{m,i}}=y_i-f_{m-1}(x_i),\quad&space;i=1,2,..,N"><img src="../assets/公式_20180717114628.png" /></a></div>
+
+    1. **拟合残差**学习下一个回归树的参数
+        <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\hat{\Theta}_m=\arg\underset{\Theta_m}{\min}\sum_{i=1}^N&space;L({\color{Red}&space;r_{m,i}},{\color{Blue}&space;T(x_i;\Theta_m)})"><img src="../assets/公式_20180717115402.png" /></a></div>
+        
+        > [回归树算法推导](#回归树算法推导) todo
+    1. 更新 `f_m(x)`
+        <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_m(x)=f_{m-1}(x)&plus;T(x;\Theta_m)"><img src="../assets/公式_20180717115616.png" /></a></div>
+
+1. 得到回归提升树
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_M(x)=\sum_{m=1}^MT(x;\Theta_m)"><img src="../assets/公式_20180717101425.png" /></a></div>
+
+- 以平凡损失为例 todo
+
+## 梯度提升算法
+- 当损失函数或指数损失时，每一步的优化是很直观的；但对于一般的损失函数而言，不太容易——梯度提升树正是针对这一问题提出的算法
+- 梯度提升是梯度下降的近似方法，其关键是利用损失函数的**负梯度作为残差的近似值**，来拟合下一个决策树
+
 ## GBDT 算法描述
+- 输入：训练集 `T={(x1,y1),..,(xN,yN)}, xi ∈ R^n, yi ∈ R`；损失函数 `L(y,f(x))`；
+- 输出：回归树 `f_M(x)`
+1. 初始化回归树
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_0(x)={\color{Red}&space;\arg\underset{c}{\min}}\sum_{i=1}^NL(y_i,c)"><img src="../assets/公式_20180717144338.png" /></a></div>
+
+1. 对 `m=1,2,..,M`
+    1. 对 `i=1,2,..,N`，计算残差/负梯度
+        <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=r_{m,i}=-\frac{\partial&space;L(y_i,{\color{Red}&space;f_{m-1}(x_i)}))}{\partial&space;{\color{Red}&space;f_{m-1}(x_i)}}"><img src="../assets/公式_20180717144904.png" /></a></div>
+    
+    1. 对 `r_mi` 拟合一个回归树，得到第 `m` 棵树的叶节点区域（？）
+        <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=R_{m,j},\quad&space;j=1,2,..,J"><img src="../assets/公式_20180717145223.png" /></a></div>
+
+    1. 对 `j=1,2,..,J`，计算
+        <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=c_{m,j}={\color{Red}&space;\arg\underset{c}{\min}}\sum_{x_i\in&space;R_{m,j}}L(y_i,{\color{Blue}&space;f_{m-1}(x_i)&plus;c})"><img src="../assets/公式_20180717145448.png" /></a></div>
+
+    1. 更新回归树
+        <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_m(x)=f_{m-1}&plus;\sum_{j=1}^J&space;c_{m,j}{\color{Blue}&space;I(x\in&space;R_{m,j})}"><img src="../assets/公式_20180717145625.png" /></a></div>
+1. 得到回归树
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_M(x)=\sum_{i=1}^M\sum_{j=1}^Jc_{m,j}{\color{Blue}&space;I(x\in&space;R_{m,j})}"><img src="../assets/公式_20180717145841.png" /></a></div>
+
+- 说明：
+  - 算法第 1 步初始化，估计使损失函数最小的常数值，得到一棵只有一个根节点的树
+  - 第 2(i) 步计算损失函数的负梯度，将其作为残差的估计
+    - 对平方损失而言，负梯度就是残差；对于一般的损失函数，它是残差的近似
+  - 第 2(ii) 步估计回归树的节点区域，以拟合残差的近似值
+  - 第 2(iii) 步利用线性搜索估计叶节点区域的值，使损失函数最小化
