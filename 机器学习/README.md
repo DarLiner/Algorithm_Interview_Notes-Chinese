@@ -445,8 +445,10 @@
 - 以**决策树**为基学习器，对分类问题使用二叉分类树，回归问题使用二叉回归树。
 - 解决回归问题时，通过不断拟合残差得到新的树。
 - 提升树模型可表示为**决策树的加法模型**：
+
   <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_M(x)=\sum_{m=1}^MT(x;\Theta_m)"><img src="../assets/公式_20180717101425.png" /></a></div>
 - 首先初始化提升树 `f_0(x)=0`，则第 m 步的模型为
+
   <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_m(x)=f_{m-1}(x)&plus;T(x;\Theta_m)" target="_blank"><img src="../assets/公式_20180717110557.png" title="f_m(x)=f_{m-1}(x)+T(x;\Theta_m)" /></a></div>
 
     
