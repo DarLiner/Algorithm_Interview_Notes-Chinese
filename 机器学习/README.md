@@ -13,17 +13,15 @@
 - [符号说明](#符号说明)
 - [数学基础](#数学基础)
   - [微积分](#微积分)
-  - [线性代数](#线性代数)
-  - [概率论](#概率论)
+  - [线性代数 todo](#线性代数-todo)
+  - [概率论 todo](#概率论-todo)
   - [信息论](#信息论)
-    - [信息熵 与 自信息](#信息熵-与-自信息)
-    - [交叉熵 与 相对熵/KL散度](#交叉熵-与-相对熵kl散度)
-      - [KL 散度在信息论中度量的是哪个直观量](#kl-散度在信息论中度量的是哪个直观量)
-      - [交叉熵 与 KL 散度的关系](#交叉熵-与-kl-散度的关系)
+- [机器学习基础](#机器学习基础)
+  - [偏差与方差 todo](#偏差与方差-todo)
 - [逻辑斯蒂回归](#逻辑斯蒂回归)
   - [逻辑斯蒂回归模型定义](#逻辑斯蒂回归模型定义)
   - [逻辑斯蒂回归推导](#逻辑斯蒂回归推导)
-  - [多分类逻辑斯蒂回归模型（ToDo）](#多分类逻辑斯蒂回归模型todo)
+  - [多分类逻辑斯蒂回归模型 todo](#多分类逻辑斯蒂回归模型-todo)
 - [支持向量机](#支持向量机)
   - [支持向量机简述](#支持向量机简述)
     - [什么是支持向量](#什么是支持向量)
@@ -47,7 +45,7 @@
     - [前向分步算法与 AdaBoost](#前向分步算法与-adaboost)
 - [梯度提升决策树 GBDT](#梯度提升决策树-gbdt)
   - [提升树 Boosting Tree](#提升树-boosting-tree)
-  - [梯度提升树](#梯度提升树)
+  - [GBDT 算法描述](#gbdt-算法描述)
 
 <!-- /TOC -->
 
@@ -74,9 +72,9 @@
 # 数学基础
 ## 微积分
 > ../基础数学/[微积分的本质](./基础数学/微积分的本质.md)
-## 线性代数
+## 线性代数 todo
 
-## 概率论
+## 概率论 todo
 
 ## 信息论
 > 《深度学习》 3.13 信息论
@@ -86,7 +84,7 @@
   2. 比较不可能发生的事件具有更大的信息量。
   3. 独立事件应具有增量的信息。例如，投掷的硬币两次正面朝上传递的信息量，应该是投掷一次硬币正面朝上的信息量的两倍。
 
-### 信息熵 与 自信息
+<h3>信息熵 与 自信息</h3>
 - **自信息**（self-information）是一种量化以上性质的函数，定义一个事件`x`的自信息为：
 
   [![](../assets/公式_20180610215339.png)](http://www.codecogs.com/eqnedit.php?latex=I(x)=-\log&space;P(x))
@@ -98,12 +96,12 @@
   [![](../assets/公式_20180610215417.png)](http://www.codecogs.com/eqnedit.php?latex=H(\mathrm{X})=\mathbb{E}_{\mathrm{X}&space;\sim&space;P}[I(x)]=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;P(x))
   > 信息论中，记 `0log0 = 0`
 
-### 交叉熵 与 相对熵/KL散度
+<h3>交叉熵 与 相对熵/KL散度</h3>
 - 定义 **P 对 Q** 的 **KL 散度**（Kullback-Leibler divergence）：
 
   [![](../assets/公式_20180610215445.png)](http://www.codecogs.com/eqnedit.php?latex=D_P(Q)=\mathbb{E}_{\mathrm{X}\sim&space;P}\left&space;[&space;\log&space;\frac{P(x)}{Q(x)}&space;\right&space;]=\sum_{x&space;\in&space;\mathrm{X}}P(x)\left&space;[&space;\log&space;P(x)-\log&space;Q(x)&space;\right&space;])
 
-#### KL 散度在信息论中度量的是哪个直观量
+**KL 散度在信息论中度量的是哪个直观量**
 - 在离散型变量的情况下， KL 散度衡量的是：当我们使用一种被设计成能够使得概率分布 Q 产生的消息的长度最小的编码，发送包含由概率分布 P 产生的符号的消息时，所需要的额外信息量。
 
 **KL散度的性质**：
@@ -116,11 +114,16 @@
 
 > [信息量，信息熵，交叉熵，KL散度和互信息（信息增益）](https://blog.csdn.net/haolexiao/article/details/70142571) - CSDN博客
 
-#### 交叉熵 与 KL 散度的关系
+**交叉熵 与 KL 散度的关系**
 - **针对 Q 最小化交叉熵等价于最小化 P 对 Q 的 KL 散度**，因为 Q 并不参与被省略的那一项。
   [![](../assets/公式_20180610215554.png)](http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=H(P)&plus;D_P(Q))
 - 最大似然估计中，最小化 KL 散度其实就是在最小化分布之间的交叉熵。
   > 《深度学习》 ch5.5 - 最大似然估计
+
+
+# 机器学习基础
+## 偏差与方差 todo
+> cs229-note4 - https://github.com/Kivy-CN/Stanford-CS-229-CN/blob/master/已翻译完毕的内容打包
 
 # 逻辑斯蒂回归
 
@@ -168,11 +171,11 @@
     
     [![](../assets/公式_20180713132107.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;L(w)}{\partial&space;w}&=-\sum_{i=1}^N&space;\left&space;[&space;y_ix_i-\frac{\exp(wx_i)}{1&plus;\exp(wx_i)}x_i&space;\right&space;]\\&space;&=\sum_{i=1}^N&space;[\sigma&space;(x_i)-y_i]x_i&space;\end{aligned})
 
-## 多分类逻辑斯蒂回归模型（ToDo）
+## 多分类逻辑斯蒂回归模型 todo
 - 设 `Y ∈ {1,2,..K}`，则多项式逻辑斯蒂回归模型为：
 
     [![](../assets/公式_20180709162840.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;P(Y=k|x)&=\frac{\exp(w_kx)}{1&plus;\sum_{k=1}^{K-1}&space;\exp(w_kx)}&space;\quad&space;k=1,2,..,K-1&space;\\&space;P(Y=K|x)&=\frac{1}{1&plus;\sum_{k=1}^{K-1}\exp(w_kx)}&space;\end{aligned})
-- 可当做 `Softmax` 理解
+- 类似 `Softmax` 理解
 
 # 支持向量机
 
@@ -439,7 +442,12 @@
 - **与提升树的区别**：残差的计算不同，提升树使用的是真正的残差，梯度提升树用当前模型的负梯度来拟合残差。
 
 ## 提升树 Boosting Tree
-- 以**决策树**为基学习器，通过不断拟合残差得到新的树。
-todo
+- 以**决策树**为基学习器，对分类问题使用二叉分类树，回归问题使用二叉回归树。
+- 解决回归问题时，通过不断拟合残差得到新的树。
+- 提升树模型可表示为**决策树的加法模型**：
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_M(x)=\sum_{m=1}^MT(x;\Theta_m)"><img src="../assets/公式_20180717101425.png" /></a></div>
+- 首先初始化提升树 `f_0(x)=0`，则第 m 步的模型为
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_m(x)=f_{m-1}(x)&plus;T(x;\Theta_m)" target="_blank"><img src="../assets/公式_20180717110557.png" title="f_m(x)=f_{m-1}(x)+T(x;\Theta_m)" /></a></div>
+
     
-## 梯度提升树
+## GBDT 算法描述
