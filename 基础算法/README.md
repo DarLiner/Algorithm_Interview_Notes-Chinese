@@ -1,5 +1,6 @@
 **目录**
 ---
+- [算法常识](./算法常识.md)
 - [Algorithm_for_Interview](https://github.com/imhuay/Algorithm_for_Interview-Chinese) - 我的 OJ 代码库
   - [必背算法](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/_必背算法)
 <!-- - [常用子函数](./常用子函数.md) -->
