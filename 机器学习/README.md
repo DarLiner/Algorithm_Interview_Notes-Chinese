@@ -34,7 +34,8 @@
   - [信息增益与信息增益比 todo](#信息增益与信息增益比-todo)
   - [分类树 - ID3 决策树与 C4.5 决策树 todo](#分类树---id3-决策树与-c45-决策树-todo)
   - [回归树 - CART 决策树](#回归树---cart-决策树)
-    - [回归树算法推导](#回归树算法推导)
+    - [CART 回归树算法推导](#cart-回归树算法推导)
+    - [示例: 选择切分变量与切分点](#示例-选择切分变量与切分点)
 - [集成学习](#集成学习)
   - [集成学习的基本策略(3)](#集成学习的基本策略3)
     - [1. Boosting](#1-boosting)
@@ -334,14 +335,70 @@
 - ID3 决策树和 C4.5 决策树的**区别**在于：前者使用**信息增益**来进行特征选择，而后者使用**信息增益比**。
 
 ## 回归树 - CART 决策树
+> 《统计学习方法》 5.5 CART 算法
 - CART 算法是在给定输入随机变量 _`X`_ 条件下输出随机变量 _`Y`_ 的**条件概率分布**的学习方法。 
 - CART 算法假设决策树是**二叉树**，内部节点特征的取值为“**是**”和“**否**”。
 
   这样的决策树等价于递归地二分每个特征，**将输入空间/特征空间划分为有限个单元**，然后在这些单元上确定在输入给定的条件下输出的**条件概率分布**。
-- CART 决策树既可以用于分类，也可以用于回归。
+- CART 决策树**既可以用于分类，也可以用于回归**；
 
-### 回归树算法推导
-todo
+  对回归树 CART 算法用**平方误差最小化**准则来选择特征，对分类树用**基尼指数最小化**准则选择特征
+
+### CART 回归树算法推导
+- 一个回归树对应着输入空间/**特征空间**的一个**划分**以及在划分单元上的**输出值**；
+- 假设已将输入空间划分为 `M` 个单元：`{R_1,..,R_m,..,R_M}`，并在每个单元上对应有输出值 `c_m`，则该回归树可表示为
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_M(x)=\sum_{i=1}^M\sum_{j=1}^Jc_{m,j}{\color{Blue}&space;I(x\in&space;R_{m,j})}"><img src="../assets/公式_20180717212747.png" /></a></div>
+
+  > `I(x)` 为指示函数
+- **如果已经划分好了输入空间**，通常使用**平方误差**作为损失函数来表示回归树对于训练数据的预测误差，通过最小化损失函数来求解每个划分单元的**最优输出值**。
+- 如果使用**平方误差**，易知**最优输出值**即每个划分单元上所有实例的均值
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\hat{c}_m={\color{Red}&space;\mathrm{avg}}(y_i|x_i\in&space;R_m)"><img src="../assets/公式_20180717214302.png" /></a></div>
+
+  > 选用**平方误差**作为损失的原因
+
+<h3>如何划分输入空间</h3>
+
+- 一个启发式方法是：**以特征向量中的某一个特征为标准进行切分**。
+
+  假设选择**特征向量中第 `j` 个变量**作为**切分变量**，然后选择**某个实例中第 `j` 个值 `s`** 作为**切分点**，则定义如下两个划分单元
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\hat{c}_m={\color{Red}&space;\mathrm{avg}}(y_i|x_i\in&space;R_m)"><img src="../assets/公式_20180717223137.png" /></a></div>
+
+  > 原书中这里表述不够清楚，需要结合 8.4.2 节中的示例一起看。
+- 遍历**每个实例**的第`j`个值`s`，选择满足以下条件的作为**最优切分变量`j`和切分点`s`**
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\hat{c}_m={\color{Red}&space;\mathrm{avg}}(y_i|x_i\in&space;R_m)"><img src="../assets/公式_2018071891909.png" /></a></div>
+
+  其中输出值 `c1` 和 `c2` 分别为
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\hat{c}_1={\color{Red}&space;\mathrm{avg}}(y_i|x_i\in&space;R_1(j,s)),\quad\&space;\hat{c}_2={\color{Red}&space;\mathrm{avg}}(y_i|x_i\in&space;R_2(j,s))"><img src="../assets/公式_2018071893503.png" /></a></div>
+  
+  > 示例: [选择切分变量与切分点](#示例-选择切分变量与切分点)
+- 接着，继续对两个子空间重复以上步骤，直到满足条件为止；得到将输入空间划分为`M`个区域的决策树
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f(x)=\sum_{m=1}^M&space;\hat{c}_m{\color{Red}&space;I(x\in&space;R_m)}"><img src="../assets/公式_2018071895945.png" /></a></div>
+
+### 示例: 选择切分变量与切分点
+> 《统计学习方法》 8.4.2
+- 训练集
+
+ x_i | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+-----|---|---|---|---|---|---|---|---|---|---
+ y_i |5.56|5.70|5.91|6.40|6.80|7.05|8.90|8.70|9.00|9.05
+- 这里只有一个特征，即`j=1`；然后遍历每个实例的值作为**切分点**
+
+  `s = {1, 2, 3, 4, 5, 6, 7, 8, 9}`
+  > 原书使用的切分点为 `{1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5}`，即相邻两个点的均值；没有选择最后一个点是因为它无法将数据划分为两个空间
+- 以 `s=1` 为例
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;&R_1(1,1)=\{x|x\le&space;1\}=\{1\}\\&space;&R_2(1,1)=\{x|x>1\}=\{2,3,4,5,6,7,8,9,10\}\\&space;&\&space;c_1=\frac{1}{|R_1|}=\frac{1}{1}\sum_{x_i\in&space;R_1}y_i=5.56\\&space;&\&space;c_2=\frac{1}{|R_2|}=\frac{1}{9}\sum_{x_i\in&space;R_2}y_i=7.50\\&space;&\&space;m(s)=\underset{c_1}{\min}\sum_{x_i\in&space;R_1}(y_i-c_1)^2&plus;\underset{c_2}{\min}\sum_{x_i\in&space;R_2}(y_i-c_2)^2=0&plus;15.72=15.72&space;\end{aligned}"><img src="../assets/公式_20180718103749.png" /></a></div>
+
+  所有 `m(s)` 的计算结果如下
+
+  s   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 
+  ----|---|---|---|---|---|---|---|---|---
+  m(s)|15.72|12.07|8.36|5.78|3.91|1.93|8.01|11.73|15.74
+
+- 当 `s=6` 时 `m(s)` 达到最小值，此时
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;&R_1(1,6)=\{x|x\le&space;6\}=\{1,2,3,4,5,6\}\\&space;&R_2(1,6)=\{x|x>6\}=\{7,8,9,10\}\\&space;&\&space;c_1=\frac{1}{|R_1|}=\frac{1}{6}\sum_{x_i\in&space;R_1}y_i=6.24\\&space;&\&space;c_2=\frac{1}{|R_2|}=\frac{1}{4}\sum_{x_i\in&space;R_2}y_i=8.91\\&space;\end{aligned}"><img src="../assets/公式_20180718104559.png" /></a></div>
+
+- 所以第一棵决策树为
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;T_1(x)&=\left\{\begin{matrix}&space;6.24,&space;&x<6&space;\\&space;8.91,&space;&x\ge6&space;\end{matrix}\right.\\&space;f_1(x)&=T_1(x)&space;\end{aligned}"><img src="../assets/公式_20180718105727.png" /></a></div>
 
 
 # 集成学习
@@ -502,8 +559,8 @@ todo
 - 以平凡损失为例 todo
 
 ## 梯度提升算法
-- 当损失函数或指数损失时，每一步的优化是很直观的；但对于一般的损失函数而言，不太容易——梯度提升树正是针对这一问题提出的算法
-- 梯度提升是梯度下降的近似方法，其关键是利用损失函数的**负梯度作为残差的近似值**，来拟合下一个决策树
+- 当损失函数为平方损失或指数损失时，每一步的优化是很直观的；但对于一般的损失函数而言，不太容易——梯度提升正是针对这一问题提出的算法；
+- 梯度提升是梯度下降的近似方法，其关键是利用损失函数的**负梯度作为残差的近似值**，来拟合下一个决策树。
 
 ## GBDT 算法描述
 - 输入：训练集 `T={(x1,y1),..,(xN,yN)}, xi ∈ R^n, yi ∈ R`；损失函数 `L(y,f(x))`；
@@ -515,9 +572,10 @@ todo
     1. 对 `i=1,2,..,N`，计算残差/负梯度
         <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=r_{m,i}=-\frac{\partial&space;L(y_i,{\color{Red}&space;f_{m-1}(x_i)}))}{\partial&space;{\color{Red}&space;f_{m-1}(x_i)}}"><img src="../assets/公式_20180717144904.png" /></a></div>
     
-    1. 对 `r_mi` 拟合一个回归树，得到第 `m` 棵树的叶节点区域（？）
+    1. 对 `r_mi` 拟合一个回归树，得到第 `m` 棵树的叶节点区域
         <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=R_{m,j},\quad&space;j=1,2,..,J"><img src="../assets/公式_20180717145223.png" /></a></div>
 
+        > [回归树算法推导](#回归树算法推导) todo
     1. 对 `j=1,2,..,J`，计算
         <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=c_{m,j}={\color{Red}&space;\arg\underset{c}{\min}}\sum_{x_i\in&space;R_{m,j}}L(y_i,{\color{Blue}&space;f_{m-1}(x_i)&plus;c})"><img src="../assets/公式_20180717145448.png" /></a></div>
 
