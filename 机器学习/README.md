@@ -384,7 +384,9 @@
 - 这里只有一个特征，即`j=1`；然后遍历每个实例的值作为**切分点**
 
   `s = {1, 2, 3, 4, 5, 6, 7, 8, 9}`
-  > 原书使用的切分点为 `{1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5}`，即相邻两个点的均值；没有选择最后一个点是因为它无法将数据划分为两个空间
+  > 原书使用的切分点为 `{1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5}`，即相邻两个点的均值；因为切分点并没有参与运算，所以我觉得两者没有区别；
+  >
+  > 最后一个点无法将数据划分为两个空间，所以不需要
 - 以 `s=1` 为例
   <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;&R_1(1,1)=\{x|x\le&space;1\}=\{1\}\\&space;&R_2(1,1)=\{x|x>1\}=\{2,3,4,5,6,7,8,9,10\}\\&space;&\&space;c_1=\frac{1}{|R_1|}=\frac{1}{1}\sum_{x_i\in&space;R_1}y_i=5.56\\&space;&\&space;c_2=\frac{1}{|R_2|}=\frac{1}{9}\sum_{x_i\in&space;R_2}y_i=7.50\\&space;&\&space;m(s)=\underset{c_1}{\min}\sum_{x_i\in&space;R_1}(y_i-c_1)^2&plus;\underset{c_2}{\min}\sum_{x_i\in&space;R_2}(y_i-c_2)^2=0&plus;15.72=15.72&space;\end{aligned}"><img src="../assets/公式_20180718103749.png" /></a></div>
 
@@ -575,7 +577,7 @@
     1. 对 `r_mi` 拟合一个回归树，得到第 `m` 棵树的叶节点区域
         <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=R_{m,j},\quad&space;j=1,2,..,J"><img src="../assets/公式_20180717145223.png" /></a></div>
 
-        > [回归树算法推导](#回归树算法推导) todo
+        > [CART 回归树算法推导](#cart-回归树算法推导)
     1. 对 `j=1,2,..,J`，计算
         <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=c_{m,j}={\color{Red}&space;\arg\underset{c}{\min}}\sum_{x_i\in&space;R_{m,j}}L(y_i,{\color{Blue}&space;f_{m-1}(x_i)&plus;c})"><img src="../assets/公式_20180717145448.png" /></a></div>
 

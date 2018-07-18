@@ -15,7 +15,7 @@
 ## 一面
 1. 自我介绍；
 1. 二分查找；
-    > Algorithm_for_Interview/常用子函数/[二分查找模板.hpp](https://github.com/imhuay/Algorithm_for_Interview-Chinese/blob/master/Algorithm_for_Interview/utils/二分查找模板.hpp)
+    > Algorithm_for_Interview/常用子函数/[二分查找模板.hpp](https://github.com/imhuay/Algorithm_for_Interview-Chinese/blob/master/Algorithm_for_Interview/_utils工具函数/二分查找模板.hpp)
 1. 判断链表是否有环；
     > Algorithm_for_Interview/链表/[链表中环的入口结点.hpp](https://github.com/imhuay/Algorithm_for_Interview-Chinese/blob/master/Algorithm_for_Interview/链表/链表中环的入口结点.hpp)
 1. 将数组元素划分成两部分，使两部分和的差最小，数组顺序可变；

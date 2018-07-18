@@ -1,9 +1,8 @@
 **目录**
 ---
 - [Algorithm_for_Interview](https://github.com/imhuay/Algorithm_for_Interview-Chinese) - 我的 OJ 代码库
-- [算法理论](./算法理论.md)
-  - 动态规划
-- [常用子函数](./常用子函数.md)
+  - [必背算法](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/_必背算法)
+<!-- - [常用子函数](./常用子函数.md) -->
 
 **经典问题**
 ---
