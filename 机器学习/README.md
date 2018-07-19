@@ -51,9 +51,13 @@
     - [前向分步算法与 AdaBoost](#前向分步算法与-adaboost)
 - [梯度提升决策树 GBDT](#梯度提升决策树-gbdt)
   - [提升树 Boosting Tree](#提升树-boosting-tree)
-    - [回归提升树算法描述](#回归提升树算法描述)
-  - [梯度提升算法](#梯度提升算法)
+    - [提升树算法描述](#提升树算法描述)
+  - [梯度提升(GB)算法](#梯度提升gb算法)
   - [GBDT 算法描述](#gbdt-算法描述)
+  - [XGBoost 算法](#xgboost-算法)
+    - [XGBoost 与 GB 的主要区别](#xgboost-与-gb-的主要区别)
+    - [XGBoost 的一些内部优化](#xgboost-的一些内部优化)
+- [随机森林](#随机森林)
 
 <!-- /TOC -->
 
@@ -424,7 +428,7 @@
 ### 2. Bagging
 - Bagging 基于**并行策略**：基学习器之间不存在依赖关系，可同时生成。
 - **代表算法/模型**：
-  - 随机森林
+  - [随机森林](#随机森林)
   - 神经网络的 **Dropout** 策略
 
 ### 3. Stacking
@@ -539,7 +543,7 @@
 
 - 对于二分类问题，提升树算法只需要将[AdaBoost 算法](#adaboost-算法描述)中的基学习器限制为二叉分类树即可
 
-### 回归提升树算法描述
+### 提升树算法描述
 在回归问题中，新的树是通过不断拟合**残差**（residual）得到的。
 - 输入：训练集 `T={(x1,y1),..,(xN,yN)}, xi ∈ R^n, yi ∈ R`
 - 输出：回归提升树 `f_M(x)`
@@ -560,7 +564,7 @@
 
 - 以平凡损失为例 todo
 
-## 梯度提升算法
+## 梯度提升(GB)算法
 - 当损失函数为平方损失或指数损失时，每一步的优化是很直观的；但对于一般的损失函数而言，不太容易——梯度提升正是针对这一问题提出的算法；
 - 梯度提升是梯度下降的近似方法，其关键是利用损失函数的**负梯度作为残差的近似值**，来拟合下一个决策树。
 
@@ -592,3 +596,42 @@
     - 对平方损失而言，负梯度就是残差；对于一般的损失函数，它是残差的近似
   - 第 2(ii) 步估计回归树的节点区域，以拟合残差的近似值
   - 第 2(iii) 步利用线性搜索估计叶节点区域的值，使损失函数最小化
+
+
+## XGBoost 算法
+> [一步一步理解GB、GBDT、xgboost](https://www.cnblogs.com/wxquare/p/5541414.html) - wxquare - 博客园 
+- XGBoost 是改进的[梯度提升(GB)算法](#梯度提升GB算法)；
+- [XGBoost 库](https://github.com/dmlc/xgboost)是 XGBoost 算法的高效实现
+
+### XGBoost 与 GB 的主要区别
+> [Introduction to Boosted Trees](http://xgboost.readthedocs.io/en/latest/model.html) — xgboost 0.72 documentation 
+- 首先，定义一棵树 `f(x)` 为
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_t(x)&space;=&space;w_{q(x)},&space;w&space;\in&space;R^T,\quad&space;q:R^d\rightarrow&space;\{1,2,\cdots,T\}&space;."><img src="../assets/公式_201807191434562.png" /></a></div>
+
+  > Here `w` is the vector of scores on leaves, `q` is a function assigning each data point to the corresponding leaf, and `T` is the number of leaves.
+
+- 对损失函数加入**正则项**，包括 L2 权重衰减和对叶子数的限制
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;&L(\theta)&space;=&space;\sum_{i=1}^n&space;l(y_i,&space;\hat{y}_i^{(t)})&space;&plus;&space;\sum_{i=1}^t\Omega(f_i)&space;\\&space;\text{where}\quad&space;&\Omega(f)&space;=&space;\gamma&space;T&space;&plus;&space;\frac{1}{2}\lambda&space;\sum_{j=1}^T&space;w_j^2&space;\end{aligned}"><img src="../assets/公式_20180719142639.png" /></a></div>
+
+- 使用**牛顿法**代替**梯度下降法**寻找最优解
+
+  前者使用一阶+二阶导数作为残差，后者只使用了一阶导数
+- 传统 CART树寻找最优切分点的标准是**最小化均方差**；
+
+  XGBoost 通过最大化**得分公式**来寻找最优切分点：
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=Gain&space;=&space;\frac{1}{2}&space;\left[\frac{G_L^2}{H_L&plus;\lambda}&plus;\frac{G_R^2}{H_R&plus;\lambda}-\frac{(G_L&plus;G_R)^2}{H_L&plus;H_R&plus;\lambda}\right]&space;-&space;\gamma"><img src="../assets/公式_20180719144515.png" /></a></div>
+
+  > This formula can be decomposed as 1). the score on the new left leaf 2). the score on the new right leaf 3). The score on the original leaf 4). regularization on the additional leaf.
+
+  这同时也起到了“**剪枝**”的作用——如果分数小于`γ`，则不会增加分支；
+
+### XGBoost 的一些内部优化
+- 在寻找最佳分割点时，传统的方法会枚举每个特征的所有可能切分点。XGBoost 实现了一种近似的算法，大致的思想是根据百分位法列举几个可能成为分割点的候选者，然后从候选者中根据上面求分割点的公式计算找出最佳的分割点。
+- XGBoost 考虑了训练数据为稀疏值的情况，可以为缺失值或者指定的值指定分支的默认方向，这能大大提升算法的效率，paper 提到能提高 50 倍。
+- **特征列**排序后以块的形式存储在内存中，在迭代中可以重复使用；虽然 Boosting 算法迭代必须串行，但是在处理每个特征列时可以做到并行。
+- 按照**特征列**方式存储能优化寻找最佳的分割点，但是当**以行计算梯度数据**时会导致内存的不连续访问，严重时会导致 **cache miss**，降低算法效率。Paper 中提到，可先将数据收集到线程内部的 buffer，然后再计算，提高算法的效率。
+- XGBoost 还考虑了数据量比较大的情况，当内存不够时怎么有效的使用磁盘，主要是结合多线程、数据压缩、分片的方法，尽可能的提高算法的效率。
+
+
+
+# 随机森林
