@@ -13,15 +13,15 @@
 - [符号说明](#符号说明)
 - [数学基础](#数学基础)
   - [微积分](#微积分)
-  - [线性代数 todo](#线性代数-todo)
-  - [概率论 todo](#概率论-todo)
+  - [线性代数 TODO](#线性代数-TODO)
+  - [概率论 TODO](#概率论-TODO)
   - [信息论](#信息论)
 - [机器学习基础](#机器学习基础)
-  - [偏差与方差 todo](#偏差与方差-todo)
+  - [偏差与方差 TODO](#偏差与方差-TODO)
 - [逻辑斯蒂回归](#逻辑斯蒂回归)
   - [逻辑斯蒂回归模型定义](#逻辑斯蒂回归模型定义)
   - [逻辑斯蒂回归推导](#逻辑斯蒂回归推导)
-  - [多分类逻辑斯蒂回归模型 todo](#多分类逻辑斯蒂回归模型-todo)
+  - [多分类逻辑斯蒂回归模型 TODO](#多分类逻辑斯蒂回归模型-TODO)
 - [支持向量机](#支持向量机)
   - [支持向量机简述](#支持向量机简述)
     - [什么是支持向量](#什么是支持向量)
@@ -31,8 +31,8 @@
   - [支持向量机推导](#支持向量机推导)
     - [线性可分支持向量机推导](#线性可分支持向量机推导)
 - [决策树](#决策树)
-  - [信息增益与信息增益比 todo](#信息增益与信息增益比-todo)
-  - [分类树 - ID3 决策树与 C4.5 决策树 todo](#分类树---id3-决策树与-c45-决策树-todo)
+  - [信息增益与信息增益比 TODO](#信息增益与信息增益比-TODO)
+  - [分类树 - ID3 决策树与 C4.5 决策树 TODO](#分类树---id3-决策树与-c45-决策树-TODO)
   - [回归树 - CART 决策树](#回归树---cart-决策树)
     - [CART 回归树算法推导](#cart-回归树算法推导)
     - [示例: 选择切分变量与切分点](#示例-选择切分变量与切分点)
@@ -84,9 +84,9 @@
 # 数学基础
 ## 微积分
 > ../基础数学/[微积分的本质](./基础数学/微积分的本质.md)
-## 线性代数 todo
+## 线性代数 TODO
 
-## 概率论 todo
+## 概率论 TODO
 
 ## 信息论
 > 《深度学习》 3.13 信息论
@@ -134,7 +134,7 @@
 
 
 # 机器学习基础
-## 偏差与方差 todo
+## 偏差与方差 TODO
 > cs229-note4 - https://github.com/Kivy-CN/Stanford-CS-229-CN/blob/master/已翻译完毕的内容打包
 
 # 逻辑斯蒂回归
@@ -183,7 +183,7 @@
     
     [![](../assets/公式_20180713132107.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;L(w)}{\partial&space;w}&=-\sum_{i=1}^N&space;\left&space;[&space;y_ix_i-\frac{\exp(wx_i)}{1&plus;\exp(wx_i)}x_i&space;\right&space;]\\&space;&=\sum_{i=1}^N&space;[\sigma&space;(x_i)-y_i]x_i&space;\end{aligned})
 
-## 多分类逻辑斯蒂回归模型 todo
+## 多分类逻辑斯蒂回归模型 TODO
 - 设 `Y ∈ {1,2,..K}`，则多项式逻辑斯蒂回归模型为：
 
     [![](../assets/公式_20180709162840.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;P(Y=k|x)&=\frac{\exp(w_kx)}{1&plus;\sum_{k=1}^{K-1}&space;\exp(w_kx)}&space;\quad&space;k=1,2,..,K-1&space;\\&space;P(Y=K|x)&=\frac{1}{1&plus;\sum_{k=1}^{K-1}\exp(w_kx)}&space;\end{aligned})
@@ -334,8 +334,8 @@
 # 决策树
 - 决策树的训练通常由三部分组成：**特征选择**、**树的生成**、**剪枝**。
 
-## 信息增益与信息增益比 todo
-## 分类树 - ID3 决策树与 C4.5 决策树 todo
+## 信息增益与信息增益比 TODO
+## 分类树 - ID3 决策树与 C4.5 决策树 TODO
 - ID3 决策树和 C4.5 决策树的**区别**在于：前者使用**信息增益**来进行特征选择，而后者使用**信息增益比**。
 
 ## 回归树 - CART 决策树
@@ -555,14 +555,14 @@
     1. **拟合残差**学习下一个回归树的参数
         <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\hat{\Theta}_m=\arg\underset{\Theta_m}{\min}\sum_{i=1}^N&space;L({\color{Red}&space;r_{m,i}},{\color{Blue}&space;T(x_i;\Theta_m)})"><img src="../assets/公式_20180717115402.png" /></a></div>
         
-        > [回归树算法推导](#回归树算法推导) todo
+        > [回归树算法推导](#回归树算法推导) TODO
     1. 更新 `f_m(x)`
         <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_m(x)=f_{m-1}(x)&plus;T(x;\Theta_m)"><img src="../assets/公式_20180717115616.png" /></a></div>
 
 1. 得到回归提升树
     <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f_M(x)=\sum_{m=1}^MT(x;\Theta_m)"><img src="../assets/公式_20180717101425.png" /></a></div>
 
-- 以平凡损失为例 todo
+- 以平凡损失为例 TODO
 
 ## 梯度提升(GB)算法
 - 当损失函数为平方损失或指数损失时，每一步的优化是很直观的；但对于一般的损失函数而言，不太容易——梯度提升正是针对这一问题提出的算法；
