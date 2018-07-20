@@ -197,6 +197,7 @@
   ```
 
 ## 思路
+- 参考模型：BiDAF https://allenai.github.io/bi-att-flow/
 - 参考论文：[[1607.06275]](https://arxiv.org/abs/1607.06275)——百度利用百度知道等资源构建一个 WebQA 数据集，数据形式与本次评测基本一致；
 
   论文使用的模型如下：
