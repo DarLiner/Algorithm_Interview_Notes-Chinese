@@ -8,9 +8,10 @@
 但是不会包括如前端/测试/JAVA/Android等岗位中有关的问题。
 
 ## 速记清单
-- [深度学习常识](./深度学习/README.md)
+- [深度学习](./深度学习/README.md)
   - [反向传播算法](./深度学习/README.md#反向传播算法)
   - [梯度下降法](#梯度下降法)
+  - [深度学习实践](./项目经验/README.md)（项目经验）
   - 相关代码 TODO
 - [机器学习算法](./机器学习/README.md)
   - [逻辑斯蒂回归](./机器学习/README.md#逻辑斯蒂回归)
@@ -27,8 +28,8 @@
 - [深度学习](./深度学习)
   - [“花书”《深度学习》整理](./深度学习/“花书”《深度学习》整理.md)
     > 顺序比较乱，很多相关问题也没放在一起，目前正在做进一步整理
+  - [深度学习实践](./项目经验/README.md)（项目经验）
 - [机器学习](./机器学习)
-- [项目经验](./项目经验)
 - [OJ 记录](https://github.com/imhuay/Algorithm_for_Interview-Chinese)
   - [必背算法](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/_必背算法)
   - [C++ 回顾](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/_cpp回顾)
