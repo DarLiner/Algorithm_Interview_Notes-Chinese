@@ -109,15 +109,16 @@
 - 示例：Conv1D + 空洞卷积
   <div align="center"><img src="../assets/普通卷积与膨胀卷积.png" height="200" /></div>
 
+  <!-- - 普通卷积在第三层时，每个节点只能捕捉到前后3个输入 -->
 
 ## 可分离卷积
 - 可分离卷积（separable convolution）
 - TODO
 
 # 门卷积
+> [卷积新用之语言模型](https://blog.csdn.net/stdcoutzyx/article/details/55004458) - CSDN博客 
 
 - 类似 LSTM 的过滤机制，实际上是卷积网络与**门限单元**（Gated Linear Unit）的组合
-  > [卷积新用之语言模型](https://blog.csdn.net/stdcoutzyx/article/details/55004458) - CSDN博客 
 - 核心公式
   <div align="center"><a href=""><img src="../assets/公式_20180720110804.png" /></a></div>
   <!-- \boldsymbol{Y}=\text{Conv1D}_{(1)}(\boldsymbol{X}) \otimes \sigma\Big(\text{Conv1D}_{(2)}(\boldsymbol{X})\Big)dsymbol{X})\Big) -->
@@ -126,7 +127,7 @@
 
 ## 门卷积是如何防止梯度消失的
 - 因为公式中有一个卷积没有经过激活函数，所以对这部分求导是个常数，所以梯度消失的概率很小。
-- 如果还是担心梯度消失，还可以加入**残差**
+- 如果还是担心梯度消失，还可以加入**残差**——要求输入输出的 shape 一致
   <div align="center"><a href=""><img src="../assets/公式_20180720113735.png" /></a></div>
   <!-- \boldsymbol{Y}={\color{Red} \boldsymbol{X} \,+\;} \text{Conv1D}_{(1)}(\boldsymbol{X}) \otimes \sigma\Big(\text{Conv1D}_{(2)}(\boldsymbol{X})\Big) -->
 
@@ -137,4 +138,4 @@
   即信息以 `1-σ` 的概率直接通过，以 `σ` 的概率经过变换后通过——类似 GRU
   > 因为`Conv1D(X)`没有经过激活函数，所以实际上它只是一个线性变化；因此与 `Conv1D(X) - X` 是等价的
   >
-  > [基于CNN的阅读理解式问答模型：DGCNN](https://kexue.fm/archives/5409#门机制) - 科学空间|Scientific Spaces —— 当时评测的第一名
+  > [基于CNN的阅读理解式问答模型：DGCNN](https://kexue.fm/archives/5409#门机制) - 科学空间|Scientific Spaces
