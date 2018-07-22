@@ -140,6 +140,7 @@
 # 逻辑斯蒂回归
 
 ## 逻辑斯蒂回归模型定义
+<!-- TODO: 符号修改，匹配神经网络中的符号表示 -->
 - **二项**逻辑斯蒂回归模型即如下的**条件概率分布**
 
   <!-- [![](../assets/公式_20180709113033.png)](http://www.codecogs.com/eqnedit.php?latex=P(Y=1|x)=\frac{\exp(z)}{1&plus;\exp(z)}=\frac{1}{1&plus;\exp(-z)}) -->
@@ -172,7 +173,7 @@
 1. **逻辑斯蒂回归**的定义：
 
     [![](../assets/公式_20180709161030.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;&P(Y=1|x)={\color{Blue}&space;\sigma(x)}\\&space;&P(Y=0|x)={\color{Blue}&space;1-\sigma(x)}&space;\end{aligned})
-2. **负对数似然**作为损失函数：
+2. **负对数函数**作为损失函数：
 
     [![](../assets/公式_20180713114855.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;L(w)&=-\log\left&space;(&space;\prod_{i=1}^N&space;[{\color{Red}&space;\sigma(x_i)}]^{{\color{Blue}&space;y_i}}&space;[{\color{Red}&space;1-&space;\sigma(x_i)}]^{{\color{Blue}&space;1-y_i}}&space;\right&space;)\\&space;&=-\sum_{i=1}^N&space;\left&space;[&space;y_i\log\sigma(x_i)&plus;(1-y_i)\log(1-\sigma(x_i))&space;\right&space;]\\&space;&=-\sum_{i=1}^N&space;\left&space;[&space;y_i\log\frac{\sigma(x_i)}{1-\sigma(x_i)}&plus;\log(1-\sigma(x_i))&space;\right&space;]&space;\end{aligned})
 

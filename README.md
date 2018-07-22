@@ -26,9 +26,9 @@
 
 ## RoadMap
 - [深度学习](./深度学习)
+  - [深度学习实践](./项目经验/README.md)（项目经验）
   - [“花书”《深度学习》整理](./深度学习/“花书”《深度学习》整理.md)
     > 顺序比较乱，很多相关问题也没放在一起，目前正在做进一步整理
-  - [深度学习实践](./项目经验/README.md)（项目经验）
 - [机器学习](./机器学习)
 - [OJ 记录](https://github.com/imhuay/Algorithm_for_Interview-Chinese)
   - [必背算法](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/_必背算法)
@@ -54,7 +54,6 @@
 
 ### Reference
 
-- “花书”[深度学习（中文版）](https://github.com/exacity/deeplearningbook-chinese)
 - exacity/[deeplearningbook-chinese](https://github.com/exacity/deeplearningbook-chinese): 深度学习中文版 
 - elviswf/[DeepLearningBookQA_cn](https://github.com/elviswf/DeepLearningBookQA_cn): 深度学习面试问题 回答对应的DeepLearning中文版页码 
 - 在线 LaTeX 公式编辑器 http://www.codecogs.com/latex/eqneditor.php

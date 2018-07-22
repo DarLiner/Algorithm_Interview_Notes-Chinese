@@ -8,7 +8,9 @@
   - [转置卷积](#转置卷积)
   - [空洞卷积](#空洞卷积)
   - [可分离卷积](#可分离卷积)
+  - [Keras 实现](#keras-实现)
 - [门卷积](#门卷积)
+  - [门卷积的作用](#门卷积的作用)
   - [门卷积是如何防止梯度消失的](#门卷积是如何防止梯度消失的)
 
 <!-- /TOC -->
@@ -115,6 +117,15 @@
 - 可分离卷积（separable convolution）
 - TODO
 
+## Keras 实现
+- Keras 中通过在卷积层中加入参数 `dilation_rate`实现
+  ```Python
+  Conv1D(filters=config.filters,
+        kernel_size=config.kernel_size,
+        dilation_rate=2)
+  ```
+  TODO: 维度变化
+
 # 门卷积
 > [卷积新用之语言模型](https://blog.csdn.net/stdcoutzyx/article/details/55004458) - CSDN博客 
 
@@ -124,6 +135,17 @@
   <!-- \boldsymbol{Y}=\text{Conv1D}_{(1)}(\boldsymbol{X}) \otimes \sigma\Big(\text{Conv1D}_{(2)}(\boldsymbol{X})\Big)dsymbol{X})\Big) -->
   
   > 中间的运算符表示**逐位相乘**—— Tensorflow 中由 `tf.multiply(a, b)` 实现，其中 a 和 b 的 shape 要相同；后一个卷积使用`sigmoid`激活函数
+
+- 一个门卷积 Block
+  <div align="center"><a href=""><img src="../assets/门卷积.jpg" height="" /></a></div>
+
+  > `W` 和 `V` 表明参数不共享
+- 实践中，为了防止梯度消失，还会在每个 Block 中加入残差
+
+## 门卷积的作用
+- 减缓梯度消失
+- 解决语言顺序依存问题（？ TODO）
+- 
 
 ## 门卷积是如何防止梯度消失的
 - 因为公式中有一个卷积没有经过激活函数，所以对这部分求导是个常数，所以梯度消失的概率很小。
