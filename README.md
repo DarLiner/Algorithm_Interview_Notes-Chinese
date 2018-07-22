@@ -7,22 +7,6 @@
 
 但是不会包括如前端/测试/JAVA/Android等岗位中有关的问题。
 
-## 速记清单
-- [深度学习](./深度学习/README.md)
-  - [反向传播算法](./深度学习/README.md#反向传播算法)
-  - [梯度下降法](#梯度下降法)
-  - [深度学习实践](./项目经验/README.md)（项目经验）
-  - 相关代码 TODO
-- [机器学习算法](./机器学习/README.md)
-  - [逻辑斯蒂回归](./机器学习/README.md#逻辑斯蒂回归)
-  - [支持向量机](./机器学习/README.md#支持向量机)
-  - [AdaBoost 算法](./机器学习/README.md#adaboost-算法)
-  - [GBDT 梯度提升决策树](./机器学习/README.md#梯度提升决策树-gbdt)
-  - 相关代码 TODO
-- 计算机基础
-  - [必背算法](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/_必背算法)
-  - Python 常识 TODO
-  - C++ 常识 TODO
 
 ## RoadMap
 - [深度学习](./深度学习)
@@ -41,6 +25,23 @@
   - [深度学习的核心](./基础数学/深度学习的核心.md)
 - [笔试面经](./笔试面经)
 
+
+## 必备清单
+- [深度学习](./深度学习/README.md)
+  - [反向传播算法](./深度学习/README.md#反向传播算法)
+  - [梯度下降法](#梯度下降法)
+  - [深度学习实践](./项目经验/README.md)（项目经验）
+  - 相关代码 TODO
+- [机器学习算法](./机器学习/README.md)
+  - [逻辑斯蒂回归](./机器学习/README.md#逻辑斯蒂回归)
+  - [支持向量机](./机器学习/README.md#支持向量机)
+  - [AdaBoost 算法](./机器学习/README.md#adaboost-算法)
+  - [GBDT 梯度提升决策树](./机器学习/README.md#梯度提升决策树-gbdt)
+  - 相关代码 TODO
+- 计算机基础
+  - [必背算法](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/_必背算法)
+  - Python 常识 TODO
+  - C++ 常识 TODO
 
 
 **欢迎分享你在深度学习/机器学习面试过程中遇见的问题！**
