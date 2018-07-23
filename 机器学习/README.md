@@ -62,7 +62,7 @@
     - [XGBoost 的一些内部优化](#xgboost-的一些内部优化)
 - [随机森林](#随机森林)
 - [机器学习实践](#机器学习实践)
-  - [已知一个均值分布，如何得到正态分布](#已知一个均值分布如何得到正态分布)
+  - [Box–Muller 变换](#boxmuller-变换)
 
 <!-- /TOC -->
 
@@ -188,12 +188,14 @@
 3. **求梯度**
     
     [![](../assets/公式_20180713132107.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;L(w)}{\partial&space;w}&=-\sum_{i=1}^N&space;\left&space;[&space;y_ix_i-\frac{\exp(wx_i)}{1&plus;\exp(wx_i)}x_i&space;\right&space;]\\&space;&=\sum_{i=1}^N&space;[\sigma&space;(x_i)-y_i]x_i&space;\end{aligned})
+4. 使用**梯度下降法**求解参数
+    > 深度学习/[梯度下降法](../深度学习/README.md#梯度下降法)
 
 ## 多分类逻辑斯蒂回归模型 TODO
 - 设 `Y ∈ {1,2,..K}`，则多项式逻辑斯蒂回归模型为：
 
     [![](../assets/公式_20180709162840.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;P(Y=k|x)&=\frac{\exp(w_kx)}{1&plus;\sum_{k=1}^{K-1}&space;\exp(w_kx)}&space;\quad&space;k=1,2,..,K-1&space;\\&space;P(Y=K|x)&=\frac{1}{1&plus;\sum_{k=1}^{K-1}\exp(w_kx)}&space;\end{aligned})
-- 类似 `Softmax` 理解
+- 类似 `Softmax`
 
 # 支持向量机
 
@@ -647,5 +649,16 @@
 
 # 机器学习实践
 
-## 已知一个均值分布，如何得到正态分布
-> [基于Box–Muller变换的正态随机数生成方法](https://blog.csdn.net/baimafujinji/article/details/6492982) - CSDN博客
+## Box–Muller 变换
+- Box–Muller 变换是一个从**均匀分布**中得到**正态分布**采样的算法
+> [Box-Muller变换原理详解](http://shishuai.org/index.php/2018/06/28/1-2/) – 史帅个人网站 
+
+- Box–Muller 变换定理：
+
+  假设随机变量`U1`和`U2`是 IID(独立同分布) 的，且 `U1,U2 ∽ U(0,1)`，令`Z1,Z2`满足
+  <div align="center"><img src="../assets/公式_20180723153506.png" /></div>
+  <!-- \begin{aligned}Z_0&=\cos(2\pi U_1)\sqrt{-2\ln U_2}\\Z_1&=\sin(2\pi U_1)\sqrt{-2\ln U_2}\end{aligned} -->
+  
+  则 `Z1,Z2 ∽ N(0, 1)`，即 `Z1,Z2` 服从标准正态分布。
+
+  
