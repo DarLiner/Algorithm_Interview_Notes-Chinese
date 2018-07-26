@@ -29,7 +29,7 @@
 - 解决 NLP 问题的一般思路
   - 这个问题人能做好吗？
     - 可以 - 设计流程让计算机模型人的思路
-    - 很难 - 尝试从计算机的角度、
+    - 很难 - 尝试从计算机的角度来思考问题
 
 - Bash Script
   - wc/sed/awk/grep/sort/uniq/paste/cat/head/tail
@@ -42,3 +42,10 @@
   - 句子划分
   - 读取语义树
 - spacy
+- 超参数搜索
+- Seq2Seq 模型可视化
+  - Hidden States 可视化
+  - Word Embedding 可视化
+    - 降维 - PCA、t-SNE
+  - Attention 可视化
+- BLEU score

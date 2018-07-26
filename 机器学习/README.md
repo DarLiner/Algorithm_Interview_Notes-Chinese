@@ -63,6 +63,11 @@
 - [随机森林](#随机森林)
 - [机器学习实践](#机器学习实践)
   - [Box–Muller 变换](#boxmuller-变换)
+- [降维](#降维)
+  - [SVD](#svd)
+  - [PCA](#pca)
+  - [t-SNE](#t-sne)
+  - [Reference](#reference)
 
 <!-- /TOC -->
 
@@ -643,8 +648,8 @@
 - XGBoost 还考虑了数据量比较大的情况，当内存不够时怎么有效的使用磁盘，主要是结合多线程、数据压缩、分片的方法，尽可能的提高算法的效率。
 
 
-
 # 随机森林
+TODO
 
 
 # 机器学习实践
@@ -661,4 +666,18 @@
   
   则 `Z1,Z2 ∽ N(0, 1)`，即 `Z1,Z2` 服从标准正态分布。
 
-  
+
+# 降维
+
+TODO
+## SVD
+
+## PCA
+- 
+
+## t-SNE
+- 在高维中接近，在低维中也接近
+- 目标函数：KL 散度（非对称）
+
+## Reference
+- [Visualizing MNIST: An Exploration of Dimensionality Reduction](http://colah.github.io/posts/2014-10-Visualizing-MNIST/) - colah's blog 
