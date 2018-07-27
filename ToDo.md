@@ -49,3 +49,5 @@
     - 降维 - PCA、t-SNE
   - Attention 可视化
 - BLEU score
+- Seq2Seq 加速
+- Sense2Vec
