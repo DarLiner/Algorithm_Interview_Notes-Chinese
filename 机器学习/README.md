@@ -119,6 +119,7 @@
   > 信息论中，记 `0log0 = 0`
 
 <h3>交叉熵 与 相对熵/KL散度</h3>
+
 - 定义 **P 对 Q** 的 **KL 散度**（Kullback-Leibler divergence）：
 
   [![](../assets/公式_20180610215445.png)](http://www.codecogs.com/eqnedit.php?latex=D_P(Q)=\mathbb{E}_{\mathrm{X}\sim&space;P}\left&space;[&space;\log&space;\frac{P(x)}{Q(x)}&space;\right&space;]=\sum_{x&space;\in&space;\mathrm{X}}P(x)\left&space;[&space;\log&space;P(x)-\log&space;Q(x)&space;\right&space;])
