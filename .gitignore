@@ -3,6 +3,8 @@
 
 # folder
 __*/
+.ipynb_checkpoints/
+out/
 
 # root
 /demo.py
