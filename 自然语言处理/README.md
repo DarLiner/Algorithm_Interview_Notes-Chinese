@@ -56,10 +56,14 @@
 > [一种机器翻译的评价准则——BLEU](https://blog.csdn.net/qq_21190081/article/details/53115580) - CSDN博客 
 - 机器翻译评价准则
 - 计算公式
-  <div style="position:relative;left:25%"><img src="../assets/TIM截图20180728212444.png" height="" /></div>
-  <div style="position:relative;left:25%"><img src="../assets/TIM截图20180728212554.png" height="" /></div>
+  <div align="center"><img src="../assets/TIM截图20180728212554.png" height="" /></div>
 
-  > 其中 `c` 为生成句子的长度；`r` 为参考句子的长度
+  其中
+  <div style="position:relative;left:25%"><img src="../assets/TIM截图20180728215749.png" height="" /></div>
+  <div style="position:relative;left:25%"><img src="../assets/TIM截图20180728212444.png" height="" /></div>
+  <!-- <div style="position:relative;left:25%"><img src="../assets/TIM截图20180728212444.png" height="" /></div> -->
+
+  > `c` 为生成句子的长度；`r` 为参考句子的长度——目的是**惩罚**长度过短的候选句子
 
 - 为了计算方便，会加一层 `log` 
   <div align="center"><img src="../assets/TIM截图20180728213300.png" height="" /></div>
