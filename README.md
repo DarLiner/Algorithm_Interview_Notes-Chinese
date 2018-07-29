@@ -19,10 +19,10 @@
   - [C++ 回顾](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/_cpp回顾)
     - [传统OJ IO模板](https://github.com/imhuay/Algorithm_for_Interview-Chinese/blob/master/Algorithm_for_Interview/_cpp回顾/IO模板.hpp)
     - [STL 容器速览](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/_Cpp回顾/STL容器)
-- [基础算法](./基础算法)
-- [基础数学](./基础数学)
-  - [微积分的本质](./基础数学/微积分的本质.md)
-  - [深度学习的核心](./基础数学/深度学习的核心.md)
+- [算法](./算法)
+- [数学](./数学)
+  - [微积分的本质](./数学/微积分的本质.md)
+  - [深度学习的核心](./数学/深度学习的核心.md)
 - [笔试面经](./笔试面经)
 
 
