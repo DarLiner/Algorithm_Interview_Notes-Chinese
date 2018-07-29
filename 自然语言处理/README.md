@@ -68,7 +68,7 @@
 - 为了计算方便，会加一层 `log` 
   <div align="center"><img src="../assets/TIM截图20180728213300.png" height="" /></div>
   
-  > 通常 `N=4, w_n=1/4` 
+  > 通常 `N=4, w_n=1/4`
 
 ## ROUGE
 > [自动文摘评测方法：Rouge-1、Rouge-2、Rouge-L、Rouge-S](https://blog.csdn.net/qq_25222361/article/details/78694617) - CSDN博客 
