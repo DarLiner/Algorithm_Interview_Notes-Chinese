@@ -29,6 +29,13 @@
 - [7. 重建二叉树](#7-重建二叉树)
 - [8. 二叉树的下一个结点](#8-二叉树的下一个结点)
 - [9. 用两个栈实现队列](#9-用两个栈实现队列)
+- [10.1 斐波那契数列](#101-斐波那契数列)
+- [10.2 跳台阶（递归）](#102-跳台阶递归)
+- [10.3 变态跳台阶（动态规划）](#103-变态跳台阶动态规划)
+- [10.4 矩形覆盖（动态规划）](#104-矩形覆盖动态规划)
+- [11. 旋转数组的最小数字（二分查找）](#11-旋转数组的最小数字二分查找)
+- [12. 矩阵中的路径（BFS）](#12-矩阵中的路径bfs)
+- [](#)
 
 <!-- /TOC -->
 
@@ -37,10 +44,10 @@
 > [数组中重复的数字](https://www.nowcoder.com/practice/623a5ac0ea5b4e5f95552655361ae0a8?tpId=13&tqId=11203&tPage=3&rp=3&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
 
 **题目描述**
-```// 面试题3（一）：找出数组中重复的数字
-// 题目：在一个长度为n的数组里的所有数字都在0到n-1的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，
-// 也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。例如，如果输入长度为7的数组{2, 3, 1, 0, 2, 5, 3}，
-// 那么对应的输出是重复的数字2或者3。
+```
+在一个长度为 n 的数组里的所有数字都在 0 到 n-1 的范围内。
+数组中某些数字是重复的，但不知道有几个数字是重复的，也不知道每个数字重复几次。
+请找出数组中任意一个重复的数字。
 ```
 - 要求：时间复杂度`O(N)`，空间复杂度`O(1)`
 - 示例
@@ -94,11 +101,10 @@ public:
 > 未加入牛客网 OJ
 
 **题目描述**
-```// 面试题3（二）：不修改数组找出重复的数字
-// 题目：在一个长度为n+1的数组里的所有数字都在1到n的范围内，所以数组中至
-// 少有一个数字是重复的。请找出数组中任意一个重复的数字，但不能修改输入的
-// 数组。例如，如果输入长度为8的数组{2, 3, 5, 4, 3, 2, 6, 7}，那么对应的
-// 输出是重复的数字2或者3。
+```
+在一个长度为n+1的数组里的所有数字都在1到n的范围内，所以数组中至少有一个数字是重复的。
+请找出数组中任意一个重复的数字，但不能修改输入的数组。
+例如，如果输入长度为8的数组{2, 3, 5, 4, 3, 2, 6, 7}，那么对应的输出是重复的数字2或者3。
 ```
 - 要求：时间复杂度`O(NlogN)`，空间复杂度`O(1)`
 
@@ -154,10 +160,9 @@ int countRange(const int* numbers, int length, int start, int end) {
 > [二维数组中的查找](https://www.nowcoder.com/practice/abc3fe2ce8e146608e868a70efebf62e?tpId=13&tqId=11154&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
 
 **题目描述**
-```// 面试题4：二维数组中的查找
-// 题目：在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按
-// 照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个
-// 整数，判断数组中是否含有该整数。
+```
+在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。
+请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
 ```
 - 示例
   ```html
@@ -207,9 +212,9 @@ public:
 > [替换空格](https://www.nowcoder.com/practice/4060ac7e3e404ad1a894ef3e17650423?tpId=13&tqId=11155&tPage=1&rp=1&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - NowCoder 
 
 **题目描述**
-```// 面试题5：替换空格
-// 题目：请实现一个函数，把字符串中的每个空格替换成"%20"。例如输入“We are happy.”，
-// 则输出“We%20are%20happy.”。
+```
+请实现一个函数，将一个字符串中的空格替换成“%20”。
+例如，当字符串为 "We Are Happy". 则经过替换之后的字符串为 "We%20Are%20Happy"。
 ```
 
 **思路**
@@ -250,8 +255,8 @@ public:
 > [从尾到头打印链表](https://www.nowcoder.com/practice/d0267f7f55b3412ba93bd35cfa8e8035?tpId=13&tqId=11156&tPage=1&rp=1&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - NowCoder
 
 **题目描述**
-```// 面试题6：从尾到头打印链表
-// 题目：输入一个链表的头结点，从尾到头反过来打印出每个结点的值。
+```
+输入链表的第一个节点，从尾到头反过来打印出每个结点的值。
 ```
 
 **思路**
@@ -281,9 +286,9 @@ public:
 > [重建二叉树](https://www.nowcoder.com/practice/8a19cbe657394eeaac2f6ea9b0f6fcf6?tpId=13&tqId=11157&tPage=1&rp=1&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - NowCoder
 
 **题目描述**
-```// 面试题7：重建二叉树
-// 题目：输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。
-// 假设输入的前序遍历和中序遍历的结果中都不含重复的数字。输出它的头结点。
+```
+根据二叉树的前序遍历和中序遍历的结果，重建出该二叉树。
+假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
 ```
 
 **思路**
@@ -346,9 +351,9 @@ public:
 > [二叉树的下一个结点](https://www.nowcoder.com/practice/9023a0c988684a53960365b889ceaf5e?tpId=13&tqId=11210&tPage=3&rp=1&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - NowCoder
 
 **题目描述**
-```// 面试题8：二叉树的下一个结点
-// 题目：给定一棵二叉树和其中的一个结点，如何找出中序遍历顺序的下一个结点？
-// 树中的结点除了有两个分别指向左右子结点的指针以外，还有一个指向父结点的指针。
+```
+给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。
+注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
 ```
 
 **思路**
@@ -396,9 +401,8 @@ public:
 > [用两个栈实现队列](https://www.nowcoder.com/practice/54275ddae22f475981afa2244dd448c6?tpId=13&tqId=11158&tPage=1&rp=3&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - NowCoder
 
 **题目描述**
-```// 面试题9：用两个栈实现队列
-// 题目：用两个栈实现一个队列。队列的声明如下，请实现它的两个函数appendTail
-// 和deleteHead，分别完成在队列尾部插入结点和在队列头部删除结点的功能。
+```
+用两个栈来实现一个队列，完成队列的 Push 和 Pop 操作。
 ```
 
 **思路**
@@ -436,3 +440,270 @@ private:
     stack<int> stack_out;
 };
 ```
+
+
+## 10.1 斐波那契数列
+> [斐波那契数列](https://www.nowcoder.com/practice/c6c7742f5ba7442aada113136ddea0c3?tpId=13&tqId=11160&tPage=1&rp=3&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - NowCoder
+
+**题目描述**
+```
+写一个函数，输入n，求斐波那契（Fibonacci）数列的第n项。
+数列的前两项为 0 和 1
+```
+
+**思路**
+- 递归
+  - 递归可能会重复计算子问题——例如，计算 f(10) 需要计算 f(9) 和 f(8)，计算 f(9) 需要计算 f(8) 和 f(7)，可以看到 f(8) 被重复计算了
+  - 可以利用额外空间将计算过的子问题存起来
+- 查表
+  - 因为只需要前 40 项，所以可以先将值都求出来
+
+**Code - 递归**
+```C++
+// 该代码会因复杂度过大无法通过评测
+class Solution {
+public:
+    int Fibonacci(int n) {
+        if(n <= 0)
+            return 0;
+        if(n == 1)
+            return 1;
+        return Fibonacci(n - 1) + Fibonacci(n - 2);
+    }
+};
+```
+
+**Code - 循环**
+```C++
+class Solution {
+public:
+    int Fibonacci(int n) {
+        int f = 0;
+        int g = 1;
+        while (n--) {
+            g = g + f;
+            f = g - f;
+        }
+        return f;
+    }
+};
+```
+
+**Code - 查表**
+```C++
+class Solution {
+public:
+    Solution(){
+        fib = new int[40];
+        fib[0] = 0;
+        fib[1] = 1;
+        for (int i = 2; i < 40; i++)
+            fib[i] = fib[i - 1] + fib[i - 2];
+    }
+    int Fibonacci(int n) {
+        return fib[n];
+    }
+
+private:
+    int* fib;
+};
+```
+
+
+## 10.2 跳台阶（递归）
+> [跳台阶](https://www.nowcoder.com/practice/8c82a5b80378478f9484d87d1c5f12a4?tpId=13&tqId=11161&tPage=1&rp=3&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) | [变态跳台阶](https://www.nowcoder.com/practice/22243d016f6b47f2a6928b4313c85387?tpId=13&tqId=11162&tPage=1&rp=3&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - NowCoder
+
+**题目描述**
+```
+一只青蛙一次可以跳上1级台阶，也可以跳上2级。
+求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。
+```
+
+**思路**
+- 递归
+- 记跳 n 级台阶有 `f(n)` 种方法
+  - 如果第一次跳 1 级，那么之后的 n-1 级有 `f(n-1)` 种跳法
+  - 如果第一次跳 2 级，那么之后的 n-2 级有 `f(n-2)` 种跳法
+- 实际上就是首两项为 1 和 2 的斐波那契数列
+
+**Code**
+```C++
+class Solution {
+public:
+    int jumpFloor(int number) {
+        int f = 1;
+        int g = 2;
+        
+        number--;
+        while (number--) {
+            g = g + f;
+            f = g - f;
+        }
+        return f;
+    }
+};
+```
+
+## 10.3 变态跳台阶（动态规划）
+> [变态跳台阶](https://www.nowcoder.com/practice/22243d016f6b47f2a6928b4313c85387?tpId=13&tqId=11162&tPage=1&rp=3&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - NowCoder
+
+**题目描述**
+```
+一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。
+求该青蛙跳上一个n级的台阶总共有多少种跳法。
+```
+
+**思路**
+- 动态规划
+- 递推公式 
+  ```
+  f(1) = 1
+  f(n) = 1 + f(1) + .. + f(n-1)
+  ```
+
+**Code - DP**
+```C++
+class Solution {
+public:
+    int jumpFloorII(int number) {
+        vector<int> dp(number+1, 1);
+        for (int i=2; i<=number; i++)
+            for(int j=1; j<i; j++)
+                dp[i] += dp[j];
+        
+        return dp[number];
+    }
+};
+```
+
+**Code - 空间优化**
+```C++
+class Solution {
+public:
+    int jumpFloorII(int number) {
+        int f = 1;
+        int sum = 1 + f;
+        for (int i = 2; i <= number; i++) {
+            f = sum;
+            sum += f;
+        }
+        return f;
+    }
+};
+```
+
+## 10.4 矩形覆盖（动态规划）
+> [矩形覆盖](https://www.nowcoder.com/practice/72a5a919508a4251859fb2cfb987a0e6?tpId=13&tqId=11163&tPage=1&rp=3&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - NowCoder
+
+**题目描述**
+```
+我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。
+请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？
+```
+
+**思路**
+- 动态规划
+- 递推公式
+  ```
+  f(1) = 1
+  f(2) = 2
+  f(n) = f(n-1) + f(n-2)
+  ```
+- 即前两项为 1 和 2 的斐波那契数列
+
+**Code**
+```C++
+class Solution {
+public:
+    int rectCover(int number) {
+        if (number == 0)
+            return 0;
+
+        int f = 1;
+        int g = 2;
+        for (int i = 2; i <= number; i++) {
+            g = g + f;
+            f = g - f;
+        }
+        return f;
+    }
+};
+```
+
+## 11. 旋转数组的最小数字（二分查找）
+> [旋转数组的最小数字](https://www.nowcoder.com/practice/9f3231a991af4f55b95579b44b7a01ba?tpId=13&tqId=11159&tPage=1&rp=3&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - NowCoder
+
+**题目描述**
+```
+把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
+输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。
+
+例如数组 {3, 4, 5, 1, 2} 为 {1, 2, 3, 4, 5} 的一个旋转，该数组的最小值为 1。
+NOTE：给出的所有元素都大于 0，若数组大小为 0，请返回 0。
+```
+
+**思路**
+- 二分查找
+- target 可以选 `num[hi]` 或 `num[lo]`
+
+**Code**
+```C++
+class Solution {
+public:
+    int minNumberInRotateArray(vector<int> rotateArray) {
+        if (rotateArray.empty())
+            return 0;
+
+        int lo = 0;
+        int hi = rotateArray.size() - 1;
+
+        // 完全旋转，或者说没有旋转（不需要）
+        //if (rotateArray[lo] < rotateArray[hi])
+        //   return rotateArray[lo];
+
+        while (lo + 1 < hi) {
+            int mid = lo + (hi - lo) / 2;
+
+            if (rotateArray[mid] > rotateArray[hi])
+                lo = mid;
+            else if (rotateArray[mid] < rotateArray[hi])
+                hi = mid;
+            else
+                hi--;  // 防止这种情况 {3,4,5,1,2,3}
+        }
+        
+        return rotateArray[hi];
+    }
+};
+```
+
+## 12. 矩阵中的路径（BFS）
+> [矩阵中的路径](https://www.nowcoder.com/practice/c61c6999eecb4b8f88a98f66b273a3cc?tpId=13&tqId=11218&tPage=4&rp=3&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - NowCoder
+
+**题目描述**
+```
+请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一个格子开始，每一步可以在矩阵中向左，向右，向上，向下移动一个格子。如果一条路径经过了矩阵中的某一个格子，则该路径不能再进入该格子。
+```
+- 例如下面的矩阵包含了一条 bfce 路径。
+  <div align="center"><img src="../assets/TIM截图20180729232751.png" width=""/> </div>
+
+**思路**
+- 深度优先搜索（BFS）
+- 注意**边界判断**
+
+**Code**
+```C++
+
+```
+
+
+## 
+> 
+
+**题目描述**
+
+
+**思路**
+
+
+**Code**
