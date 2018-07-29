@@ -644,7 +644,8 @@ NOTE：给出的所有元素都大于 0，若数组大小为 0，请返回 0。
 
 **思路**
 - 二分查找
-- target 可以选 `num[hi]` 或 `num[lo]`
+- 二分查找需要有一个目标值 target，这里的 target 可以选 `nums[hi]` 或 `nums[lo]`，这里使用过的是 `nums[hi]`
+- 注意有重复的情况，特别是 `{3, 4, 5, 1, 2, 3}`，这里有一个简单的处理方法，具体看代码
 
 **Code**
 ```C++
@@ -669,7 +670,7 @@ public:
             else if (rotateArray[mid] < rotateArray[hi])
                 hi = mid;
             else
-                hi--;  // 防止这种情况 {3,4,5,1,2,3}
+                hi--;         // 防止这种情况 {3,4,5,1,2,3}
         }
         
         return rotateArray[hi];

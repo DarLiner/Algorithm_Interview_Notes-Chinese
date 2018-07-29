@@ -51,3 +51,5 @@
 - BLEU score
 - Seq2Seq 加速
 - Sense2Vec
+
+- wide && deep 模型
