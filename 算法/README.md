@@ -1,11 +1,15 @@
 **题解**
 ---
-- [剑指Offer 题解](./题解-剑指Offer.md)
-- [Leetcode 题解](./题解-LeetCode.md)
+- [剑指Offer 题解](../notes/题解-剑指Offer.md)
+- [Leetcode 题解](../notes/题解-LeetCode.md)
 
 **专题**
 ---
-- 局部敏感哈希
+- [局部敏感哈希](../notes/专题-局部敏感哈希.md)
+- [经典算法问题](../notes/专题-经典算法问题.md)
+  - 蓄水池抽样
+  - 鹰蛋问题
+  - ...
 
 <h3>Index</h3>
 <!-- TOC -->
