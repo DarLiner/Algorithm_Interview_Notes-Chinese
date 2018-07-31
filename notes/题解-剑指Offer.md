@@ -45,7 +45,22 @@
 - [22. 链表中倒数第 K 个结点（链表 + 双指针）](#22-链表中倒数第-k-个结点链表--双指针)
 - [23. 链表中环的入口结点（链表 + 双指针）](#23-链表中环的入口结点链表--双指针)
 - [24. 反转链表（链表）](#24-反转链表链表)
-- [25. 合并两个排序的链表](#25-合并两个排序的链表)
+- [25. 合并两个排序的链表（链表）](#25-合并两个排序的链表链表)
+- [26. 树的子结构（二叉树）](#26-树的子结构二叉树)
+- [27. 二叉树的镜像（二叉树）](#27-二叉树的镜像二叉树)
+- [28 对称的二叉树（二叉树）](#28-对称的二叉树二叉树)
+- [29. 顺时针打印矩阵（二维数组）](#29-顺时针打印矩阵二维数组)
+- [30. 包含 min 函数的栈（数据结构：栈）](#30-包含-min-函数的栈数据结构栈)
+- [31. 栈的压入、弹出序列（数据结构：栈）](#31-栈的压入弹出序列数据结构栈)
+- [32.1 从上往下打印二叉树（BFS）](#321-从上往下打印二叉树bfs)
+- [32.2 分行从上到下打印二叉树（BFS）](#322-分行从上到下打印二叉树bfs)
+- [32.3 按之字形顺序打印二叉树（BFS）](#323-按之字形顺序打印二叉树bfs)
+- [](#)
+- [](#-1)
+- [](#-2)
+- [](#-3)
+- [](#-4)
+- [](#-5)
 
 <!-- /TOC -->
 
@@ -655,7 +670,7 @@ NOTE：给出的所有元素都大于 0，若数组大小为 0，请返回 0。
 **思路**
 - 二分查找
 - 二分查找需要有一个目标值 target，这里的 target 可以选 `nums[hi]` 或 `nums[lo]`，这里使用过的是 `nums[hi]`
-- 注意有重复的情况，特别是 `{3, 4, 5, 1, 2, 3}`，这里有一个简单的处理方法，具体看代码
+- 注意有重复的情况，特别是 `{3, 4, 5, 1, 2, 3}`，这里有一个简单的处理方法
 
 **Code**
 ```C++
@@ -780,7 +795,7 @@ public:
     ```
   - 注意：当 `n <= 3` 时因为必须剪至少一次的缘故，导致 `f(1)=0, f(2)=1*1=1, f(3)=1*2=2`；但是当 `n>=4` 时，将`n<=3`的部分单独作为一段能提供更大的乘积
 
-    因此，初始化时应该 `dp[1]=1≠f(1), dp[2]=2≠f(2), dp[3]=3≠f(3)`，同时将 `f(1), f(2), f(3)` 单独返回，具体看代码
+    因此，初始化时应该 `dp[1]=1≠f(1), dp[2]=2≠f(2), dp[3]=3≠f(3)`，同时将 `f(1), f(2), f(3)` 单独返回
   - 时间复杂度：`O(N^2)`，空间复杂度：`O(N)`
 - 贪心
   - 当 `n>=5` 时，尽可能多剪长度为 3 的绳子；当 `n=4` 时，剪成两段长度为 2 的绳子
@@ -1314,9 +1329,9 @@ public class Solution {
 - 本题与原书不同，这里要求相对顺序不变，原书的侧重点在于函数指针
 
 **思路**
-- 如果可以使用额外空间，那么问题就很简单，具体看代码
+- 如果可以使用额外空间，那么问题就很简单
 - 如果不想使用额外空间，那么~~只能通过循环移位来达到避免覆盖的目的~~，时间复杂度 `O(N^2)`
-  - 可以利用“冒泡排序”的思想避免循环位移，具体看代码
+  - 可以利用“冒泡排序”的思想避免循环位移
 
 **Code - 使用额外空间**
 ```C++
@@ -1454,7 +1469,7 @@ public:
 - 要求：不使用额外空间
 
 **思路**
-- 可以辅助图示思考，具体看代码
+- 可以辅助图示思考
 
 **Code - 迭代**
 ```C++
@@ -1497,8 +1512,475 @@ public:
 ```
 
 
-## 25. 合并两个排序的链表
+## 25. 合并两个排序的链表（链表）
 > [合并两个排序的链表](https://www.nowcoder.com/practice/d8b6b4358f774294a89de2a6ac4d9337?tpId=13&tqId=11169&tPage=1&rp=3&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - NowCoder
+
+**题目描述**
+```
+输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
+```
+
+**Code - 迭代**
+```C++
+class Solution {
+public:
+    ListNode * Merge(ListNode* pHead1, ListNode* pHead2) {
+        ListNode head{-1};
+        ListNode *cur = &head;
+        while (pHead1 && pHead2) {
+            if (pHead1->val <= pHead2->val) {
+                cur->next = pHead1;
+                pHead1 = pHead1->next;
+            } else {
+                cur->next = pHead2;
+                pHead2 = pHead2->next;
+            }
+            cur = cur->next;
+        }
+        if (pHead1) cur->next = pHead1;
+        if (pHead2) cur->next = pHead2;
+        
+        return head.next;
+    }
+};
+```
+
+**Code - 递归**
+```C++
+class Solution {
+public:
+    ListNode* Merge(ListNode* pHead1, ListNode* pHead2) {
+        if (!pHead1) return pHead2;
+        if (!pHead2) return pHead1;
+        if(pHead1->val <= pHead2->val){
+            pHead1->next = Merge(pHead1->next, pHead2);
+            return pHead1;
+        } else {
+            pHead2->next = Merge(pHead1, pHead2->next);
+            return pHead2;
+        }
+    }
+};
+```
+
+
+## 26. 树的子结构（二叉树）
+> [树的子结构](https://www.nowcoder.com/practice/6e196c44c7004d15b1610b9afca8bd88?tpId=13&tqId=11170&tPage=1&rp=1&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) -NowCoder
+
+**题目描述**
+```
+输入两棵二叉树A，B，判断B是不是A的子结构。
+约定空树不是任意一个树的子结构。
+```
+- 图示
+  <div align="center"><img src="../assets/TIM截图20180731101152.png" height="150"/></div>
+
+**思路**
+- 递归
+- 有两个递归的点：一、递归寻找与子树根节点相同的点；二、递归判断子结构是否相同
+
+**Code**
+```C++
+class Solution {
+public:
+    bool HasSubtree(TreeNode* pRoot1, TreeNode* pRoot2) {
+        if (pRoot2 == NULL || pRoot1 == NULL)
+            return false;
+
+        // 递归寻找与子树根节点相同的点
+        return isSubTree(pRoot1, pRoot2)
+            || HasSubtree(pRoot1->left, pRoot2)
+            || HasSubtree(pRoot1->right, pRoot2);
+    }
+
+    bool isSubTree(TreeNode* pRoot1, TreeNode* pRoot2) {
+        if (pRoot2 == NULL) return true;
+        if (pRoot1 == NULL) return false;
+
+        // 递归判断子结构是否相同
+        if (pRoot1->val == pRoot2->val)
+            return isSubTree(pRoot1->left, pRoot2->left)
+                && isSubTree(pRoot1->right, pRoot2->right);
+        else
+            return false;
+    }
+};
+```
+
+
+## 27. 二叉树的镜像（二叉树）
+> [二叉树的镜像](https://www.nowcoder.com/practice/564f4c26aa584921bc75623e48ca3011?tpId=13&tqId=11171&tPage=1&rp=1&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - NowCoder
+
+**题目描述**
+```
+操作给定的二叉树，将其变换为源二叉树的镜像。
+```
+- 图示
+    <div align="center"><img src="../assets/TIM截图20180731103855.png" height=""/></div>
+
+**思路**
+- 前序遍历，每次交换节点的左右子树；即必须先交换节点的左右子树后，才能继续遍历
+
+**Code**
+```C++
+class Solution {
+public:
+    void Mirror(TreeNode *pRoot) {
+        if (pRoot == nullptr) return;
+
+        auto tmp = pRoot->left;
+        pRoot->left = pRoot->right;
+        pRoot->right = tmp;
+        
+        Mirror(pRoot->left);
+        Mirror(pRoot->right);
+    }
+};
+```
+
+
+## 28 对称的二叉树（二叉树）
+> [对称的二叉树](https://www.nowcoder.com/practice/ff05d44dfdb04e1d83bdbdab320efbcb?tpId=13&tqId=11211&tPage=3&rp=1&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) NowCoder
+ 
+**题目描述**
+```
+请实现一个函数，用来判断一颗二叉树是不是对称的。
+注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。
+空树也认为是对称的
+```
+
+**思路**
+- 递归
+- 同时遍历左子树和右子树，然后是“左子树的左子树和右子树的右子树”，及左子树的右子树和右子树的左子树，递归以上步骤
+
+**Code**
+```C++
+class Solution {
+public:
+    bool isSymmetrical(TreeNode* pRoot) {
+        if (pRoot == nullptr) return true;
+        
+        return dfs(pRoot->left, pRoot->right);
+    }
+    
+    bool dfs(TreeNode* l, TreeNode* r) {
+        if (l == nullptr && r == nullptr)
+            return true;
+        if (l == nullptr || r == nullptr)   // 注意这个条件
+            return false;
+        
+        if (l->val == r->val)
+            return dfs(l->left, r->right)
+                && dfs(l->right, r->left);
+        else
+            return false;
+    }
+};
+```
+
+
+## 29. 顺时针打印矩阵（二维数组）
+> [顺时针打印矩阵](https://www.nowcoder.com/practice/9b4c81a02cd34f76be2659fa0d54342a?tpId=13&tqId=11172&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+
+**题目描述**
+```
+下图的矩阵顺时针打印结果为：1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10
+```
+- 图示
+  <div align="center"><img src="../assets/TIM截图20180731113917.png" height=""/></div>
+
+- 注意，不是蛇形打印，而是一层一层顺时针打印
+
+**思路**
+- 二维数组遍历
+
+**Code**
+```C++
+class Solution {
+public:
+    vector<int> printMatrix(vector<vector<int> > matrix) {
+        vector<int> ret;
+        
+        int rl = 0, rr = matrix.size()-1;
+        int cl = 0, cr = matrix[0].size()-1;
+        while(rl <= rr && cl <= cr) {
+            for (int i = cl; i <= cr; i++)
+                ret.push_back(matrix[rl][i]);
+            for (int i = rl+1; i <= rr; i++)
+                ret.push_back(matrix[i][cr]);
+            if (rl != rr)
+                for (int i = cr - 1; i >= cl; i--)
+                    ret.push_back(matrix[rr][i]);
+            if (cl != cr)
+                for (int i = rr - 1; i > rl; i--)
+                    ret.push_back(matrix[i][cl]);
+            rl++; rr--; cl++; cr--;
+        }
+        return ret;
+    }
+};
+```
+
+
+## 30. 包含 min 函数的栈（数据结构：栈）
+> [包含min函数的栈](https://www.nowcoder.com/practice/4c776177d2c04c2494f2555c9fcc1e49?tpId=13&tqId=11173&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+
+**题目描述**
+```
+定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数
+```
+- 要求：时间复杂度 `O(1)`
+
+**思路**
+- 因为要求在常数时间内完成所有操作，所以不能有排序操作
+- 使用一个辅助栈保存最小、次小、...
+
+**Code**
+```C++
+class Solution {
+    stack<int> s;
+    stack<int> s_min;
+    
+public:
+    void push(int value) {
+        s.push(value);
+        
+        if (s_min.empty())
+            s_min.push(value);
+        
+        if (value <= s_min.top())  // 注意是小于等于
+            s_min.push(value);
+    }
+    
+    void pop() {
+        if (s.top() == s_min.top())
+            s_min.pop();
+        s.pop();
+    }
+    
+    int top() {
+        return s.top();
+    }
+    
+    int min() {
+        return s_min.top();
+    }
+
+};
+```
+
+
+## 31. 栈的压入、弹出序列（数据结构：栈）
+> [栈的压入、弹出序列](https://www.nowcoder.com/practice/d77d11405cc7470d82554cb392585106?tpId=13&tqId=11174&tPage=2&rp=1&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) -NowCoder
+
+**题目描述**
+```
+输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否为该栈的弹出顺序。
+假设压入栈的所有数字均不相等。
+例如序列 1,2,3,4,5 是某栈的压入顺序，序列 4,5,3,2,1 是该压栈序列对应的一个弹出序列，
+但 4,3,5,1,2 就不可能是该压栈序列的弹出序列。
+```
+
+**思路**
+- 使用一个辅助栈
+- 依次将入栈序列入栈，如果栈顶元素等于出栈序列的栈顶元素，则弹出
+- 当流程无法继续时，如果辅助栈是空的，则出栈序列是符合的
+
+**Code**
+```C++
+class Solution {
+public:
+    bool IsPopOrder(vector<int> pushV, vector<int> popV) {
+        if (pushV.empty()) return false;
+
+        stack<int> tmp;
+        int j = 0;
+        for (int i = 0; i < pushV.size(); i++) {
+            tmp.push(pushV[i]);
+            while (!tmp.empty() && tmp.top() == popV[j]) {
+                tmp.pop();
+                j++;
+            }
+        }
+        return tmp.empty();
+    }
+};
+```
+
+
+## 32.1 从上往下打印二叉树（BFS）
+> [从上往下打印二叉树](https://www.nowcoder.com/practice/7fe2212963db4790b57431d9ed259701?tpId=13&tqId=11175&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+
+**题目描述**
+```
+从上往下打印出二叉树的每个节点，同层节点从左至右打印。
+例如，以下二叉树层次遍历的结果为：1,2,3,4,5,6,7
+```
+- 图示
+  <div align="center"><img src="../assets/TIM截图20180731145306.png" height=""/></div>
+
+**思路**
+- 广度优先搜索 + 队列
+- 注意入队时先左子节点，后右节点
+- 注意不需要修改原二叉树
+
+**Code**
+```C++
+class Solution {
+    queue<TreeNode*> q;   // 辅助队列
+public:
+    vector<int> PrintFromTopToBottom(TreeNode* root) {
+        if (root == nullptr) 
+            return vector<int>();
+
+        q.push(root);
+        vector<int> ret;
+        while (!q.empty()) {
+            auto cur = q.front();
+            q.pop();
+            ret.push_back(cur->val);
+
+            if (cur->left != nullptr)
+                q.push(cur->left);
+            if (cur->right != nullptr)
+                q.push(cur->right);
+        }
+
+        return ret;
+    }
+};
+```
+
+
+## 32.2 分行从上到下打印二叉树（BFS）
+> [把二叉树打印成多行](https://www.nowcoder.com/practice/445c44d982d04483b04a54f298796288?tpId=13&tqId=11213&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+
+**题目描述**
+```
+从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。
+```
+
+**思路**
+- 除了利用队列和 BFS
+- 为了分行输出，还需要两个变量：一个表示在当前层中还没有打印的节点数、一个表示下一层的节点数
+- 注意根节点为空的情况
+
+**Code**
+```C++
+class Solution {
+    queue<TreeNode*> q;
+public:
+    vector<vector<int>> Print(TreeNode* pRoot) {
+        if (pRoot == nullptr) 
+            return vector<vector<int>>();
+        
+        vector<vector<int>> ret;
+        q.push(pRoot);
+        int curL = 1;    // 当前层的节点数，初始化为 1，根节点
+        int nxtL = 0;    // 下一层的节点数
+        vector<int> tmp;
+        while (!q.empty()) {
+            auto cur = q.front();
+            tmp.push_back(cur->val);
+            if (cur->left != nullptr) {
+                q.push(cur->left);
+                nxtL++;
+            }
+            if (cur->right != nullptr) {
+                q.push(cur->right);
+                nxtL++;
+            }
+            
+            q.pop();
+            curL--;
+            if (curL == 0) {
+                ret.push_back(tmp);
+                tmp.clear();
+                curL = nxtL;
+                nxtL = 0;
+            }
+        }
+        return ret;
+    }
+};
+```
+
+
+## 32.3 按之字形顺序打印二叉树（BFS）
+> [按之字形顺序打印二叉树](https://www.nowcoder.com/practice/91b69814117f4e8097390d107d2efbe0?tpId=13&tqId=11212&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder 
+
+**题目描述**
+```
+请实现一个函数按照之字形打印二叉树，
+即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，
+第三行按照从左到右的顺序打印，其他行以此类推。
+```
+
+**思路**
+1. 利用一个队列+一个栈，分奇偶讨论；
+  
+   也可以使用两个栈或两个队列，此时需要根据奇偶，改变左右子树的入栈/入队顺序
+
+   从代码量来看，使用两个栈/队列要少一点
+2. 利用双端队列，分奇偶改变入队/出队方向（C++ 不推荐，编码量大）
+3. 反转队列（Java 推荐方法，因为有快速反转的方法）
+
+**Code - 栈+队列**
+```C++
+
+```
+
+**Code - 两个栈**
+```C++
+class Solution {
+public:
+    vector<vector<int>> Print(TreeNode* pRoot) {
+        if(pRoot == nullptr)
+            return vector<vector<int>>();
+        
+        // 定义两个栈，s[0] 始终存放偶数层的节点，s[1] 始终存放奇数层的节点
+        stack<TreeNode*> s[2];
+        int cur = 0;    // 当前层（假设根节点所在的第0层是偶数层）
+
+        s[cur & 1].push(pRoot);    // 第 0 层入栈
+        vector<vector<int>> ret;
+        vector<int> tmp;
+        while(!s[0].empty() || !s[1].empty()) {
+            auto pNode = s[cur & 1].top();
+            s[cur & 1].pop();
+            tmp.push_back(pNode->val);
+
+            if(cur & 1) { // 当前是奇数层
+                // 下一层是偶数层
+                // 先压右节点
+                if(pNode->right != nullptr)
+                    s[0].push(pNode->right);
+                if(pNode->left != nullptr)
+                    s[0].push(pNode->left);
+            }
+            else {
+                // 下一层是奇数层，压入 s1
+                // 先压左节点
+                if(pNode->left != nullptr)
+                    s[1].push(pNode->left);
+                if(pNode->right != nullptr)
+                    s[1].push(pNode->right);
+            }
+
+            if(s[cur & 1].empty()) {
+                ret.push_back(tmp);
+                tmp.clear();
+                cur++;        // 累计层数
+            }
+        }
+        return ret;
+    }
+};
+```
+
+
+## 
+> 
 
 **题目描述**
 ```
@@ -1510,4 +1992,90 @@ public:
 
 **Code**
 ```C++
+
+```
+
+
+## 
+> 
+
+**题目描述**
+```
+
+```
+
+**思路**
+
+
+**Code**
+```C++
+
+```
+
+
+## 
+> 
+
+**题目描述**
+```
+
+```
+
+**思路**
+
+
+**Code**
+```C++
+
+```
+
+
+## 
+> 
+
+**题目描述**
+```
+
+```
+
+**思路**
+
+
+**Code**
+```C++
+
+```
+
+
+## 
+> 
+
+**题目描述**
+```
+
+```
+
+**思路**
+
+
+**Code**
+```C++
+
+```
+
+
+## 
+> 
+
+**题目描述**
+```
+
+```
+
+**思路**
+
+
+**Code**
+```C++
+
 ```
