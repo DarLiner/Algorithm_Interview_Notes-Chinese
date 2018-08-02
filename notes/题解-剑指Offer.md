@@ -59,18 +59,18 @@
 - [34. 二叉树中和为某一值的路径（DFS）](#34-二叉树中和为某一值的路径dfs)
 - [35. 复杂链表的复制（链表）](#35-复杂链表的复制链表)
 - [36. 二叉搜索树与双向链表（DFS）](#36-二叉搜索树与双向链表dfs)
-- [37. 序列化二叉树](#37-序列化二叉树)
+- [37. 序列化二叉树（DFS）***](#37-序列化二叉树dfs)
 - [38. 字符串的排列（DFS）](#38-字符串的排列dfs)
 - [39.1 数组中出现次数超过一半的数字（多数投票问题）](#391-数组中出现次数超过一半的数字多数投票问题)
-- [40. 找出数组中第 k 大的数字](#40-找出数组中第-k-大的数字)
-- [41.1 数据流中的中位数](#411-数据流中的中位数)
+- [40. 找出数组中第 k 大的数字（数据结构：堆）***](#40-找出数组中第-k-大的数字数据结构堆)
+- [41.1 数据流中的中位数（数据结构：堆）](#411-数据流中的中位数数据结构堆)
+- [41.2 字符流中第一个不重复的字符（数据结构：队列）](#412-字符流中第一个不重复的字符数据结构队列)
+- [42. 连续子数组的最大和（DP）](#42-连续子数组的最大和dp)
 - [](#)
 - [](#-1)
 - [](#-2)
 - [](#-3)
 - [](#-4)
-- [](#-5)
-- [](#-6)
 
 <!-- /TOC -->
 
@@ -133,7 +133,6 @@ public:
 
 
 ## 3.2 不修改数组找出重复的数字
-> 未加入牛客网 OJ
 
 **题目描述**
 ```
@@ -330,7 +329,7 @@ public:
 - 涉及二叉树的问题，应该条件反射般的使用**递归**（无优化要求时）
 - 前序遍历的第一个值为根节点的值，使用这个值将中序遍历结果分成两部分，左部分为左子树的中序遍历结果，右部分为右子树的中序遍历的结果。
 
-**Code 1 - 直观无优化**
+**Code - 无优化**
 ```C++
 struct TreeNode {
     int val;
@@ -357,7 +356,7 @@ public:
 };
 ```
 
-**Code 2 - 优化版**
+**Code - 优化**
 ```C++
 class Solution {
 public:
@@ -2235,7 +2234,7 @@ public:
 ```
 
 
-## 37. 序列化二叉树
+## 37. 序列化二叉树（DFS）***
 > [序列化二叉树](https://www.nowcoder.com/practice/cf7e25aa97c04cc1a68c8f040e71fb84?tpId=13&tqId=11214&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
 
 **题目描述**
@@ -2306,6 +2305,8 @@ public:
 
 ## 38. 字符串的排列（DFS）
 > [字符串的排列](https://www.nowcoder.com/practice/fe6b651b66ae47d7acce78ffdd9a96c7?tpId=13&tqId=11180&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+>
+> 排列组合专题 TODO
 
 **题目描述**
 ```
@@ -2315,7 +2316,6 @@ public:
 
 **思路**
 - 深度优先搜索
-- 排列组合专题 TODO
 
 **Code**
 ```C++
@@ -2415,7 +2415,7 @@ public:
 ```
 
 
-## 40. 找出数组中第 k 大的数字
+## 40. 找出数组中第 k 大的数字（数据结构：堆）***
 > [数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/description/) - LeetCode
 >
 > [最小的K个数](https://www.nowcoder.com/practice/6a296eb82cf844ca8539b57c23e6e9bf?tpId=13&tqId=11182&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
@@ -2603,7 +2603,7 @@ public:
 ```
 
 
-## 41.1 数据流中的中位数
+## 41.1 数据流中的中位数（数据结构：堆）
 > [数据流中的中位数](https://www.nowcoder.com/practice/9be0172896bd43948f8a32fb954e1be1?tpId=13&tqId=11216&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
 
 **题目描述**
@@ -2615,32 +2615,137 @@ public:
 ```
 
 **思路**
+- 使用平衡二叉树 AVL
+  - 不推荐，因为一般没有哪个语言会实现这个结构，它的综合性能不如红黑树
 - 使用两个堆：一个最大堆，一个最小堆
 - 保持两个堆的大小平衡
 
-**Code**
+**Code - 使用\*_heap系列函数**
 ```C++
+class Solution {
+    // 用优先队列会更方便，这里试试使用 C++ 的 *_heap() 系列函数
+    vector<int> left; // 最大堆
+    vector<int> right; // 最小堆，最小堆中的元素都大于最大堆中的元素
+    int N;  // 记录读入的元素数
+public:
+    Solution(): N(0) {} // 这一步不用也没关系，默认会初始化为 0
+    void Insert(int num) {
+        N++;  // 从 1 开始计数
+        if (N & 1) { // 通过奇偶确保两个堆中的元素数是平衡的
+            // 如果是第奇数个就加入到 right
+            // 为了保证 right 永远大于 left，正确的添加方法是，
+            // 先加入到 left，然后弹出 left 的堆顶元素加入到 right
+            left.push_back(num);
+            push_heap(left.begin(), left.end());  // push 后要重新调整堆，默认是最大堆
+            
+            num = left[0];  // 保存堆顶元素
+            
+            pop_heap(left.begin(), left.end());  // 在 pop 前，需要将堆顶元素移到末尾
+            left.pop_back();
+            
+            right.push_back(num);
+            push_heap(right.begin(), right.end(), greater<int>());  // 调整到最小堆，需要加入仿函数
+        } else {
+            // 如果是第偶数个就加入到左边
+            right.push_back(num);
+            push_heap(right.begin(), right.end(), greater<int>());
+            
+            num = right[0];
+            
+            pop_heap(right.begin(), right.end(), greater<int>());
+            right.pop_back();
+            
+            left.push_back(num);
+            push_heap(left.begin(), left.end());
+        }
+    }
+
+    double GetMedian() { 
+        if (N & 1) { // 如果是奇数，那么中位数就是 right 的堆顶
+            return (double)right[0];
+        } else {
+            return (double)(left[0] + right[0]) / 2;
+        }
+    }
+};
+```
+
+**Code - 使用优先队列**
+```C++
+class Solution {
+    priority_queue<int> left;  // 最大堆
+    priority_queue<int, vector<int>, greater<int>> right;  // 最小堆，最小堆中的元素都大于最大堆中的元素
+    int N;  // 记录读入的元素数
+public:
+    Solution(): N(0) {}           // 这一步不用也没关系，默认会初始化为 0
+    void Insert(int num) {
+        N++;                      // 从 1 开始计数
+        if(N & 1) { // 通过奇偶确保两个堆中的元素数是平衡的
+            // 如果是第奇数个就加入到 right
+            // 为了保证 right 永远大于 left，正确的添加方法是，
+            // 先加入到 left，然后弹出 left 的堆顶元素加入到 right
+            left.push(num);
+            num = left.top();
+            left.pop();
+            right.push(num);
+        } else {  // 如果是第偶数个就加入到左边
+            right.push(num);
+            num = right.top();
+            right.pop();
+            left.push(num);
+        }
+    }
+
+    double GetMedian() { 
+        if (N & 1) {  // 如果是奇数，那么中位数就是 right 的堆顶
+            return (double)right.top();
+        } else {
+            return (double)(left.top() + right.top()) / 2;
+        }
+    }
+};
 ```
 
 
-## 
-> 
+## 41.2 字符流中第一个不重复的字符（数据结构：队列）
+> [字符流中第一个不重复的字符](https://www.nowcoder.com/practice/00de97733b8e4f97a3fb5c680ee10720?tpId=13&tqId=11207&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
 
 **题目描述**
 ```
-
+请实现一个函数用来找出字符流中第一个只出现一次的字符。
+例如，当从字符流中只读出前两个字符"go"时，第一个只出现一次的字符是"g"。
+当从该字符流中读出前六个字符“google"时，第一个只出现一次的字符是"l"。
 ```
 
 **思路**
+- 计数排序——使用一个数组数组保存出现元素的次数
+- 使用队列保存出现的元素
 
-
-**Code**
+**Code - 队列**
 ```C++
+class Solution {
+    int book[256];
+    queue<char> q;
+public:
+    Solution() {
+        fill(book, book + 256, 0);  // 初始化，实际不需要这步，默认全部初始化为 0
+    }
+    void Insert(char ch) {
+        book[ch] += 1;
+        q.push(ch);
+        while (!q.empty() && book[q.front()] > 1) {
+            q.pop();
+        }
+    }
+    char FirstAppearingOnce() {
+        return q.empty() ? '#' : q.front();
+    }
+};
 ```
 
 
-## 
-> 
+## 42. 连续子数组的最大和（DP）
+> [连续子数组的最大和](https://www.nowcoder.com/practice/459bd355da1549fa8a49e350bf3df484?tpId=13&tqId=11183&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
 
 **题目描述**
 ```
