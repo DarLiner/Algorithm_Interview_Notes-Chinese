@@ -55,12 +55,22 @@
 - [32.1 从上往下打印二叉树（BFS）](#321-从上往下打印二叉树bfs)
 - [32.2 分行从上到下打印二叉树（BFS）](#322-分行从上到下打印二叉树bfs)
 - [32.3 按之字形顺序打印二叉树（BFS）](#323-按之字形顺序打印二叉树bfs)
+- [33. 二叉搜索树的后序遍历序列（二叉树：递归）](#33-二叉搜索树的后序遍历序列二叉树递归)
+- [34. 二叉树中和为某一值的路径（DFS）](#34-二叉树中和为某一值的路径dfs)
+- [35. 复杂链表的复制（链表）](#35-复杂链表的复制链表)
+- [36. 二叉搜索树与双向链表（DFS）](#36-二叉搜索树与双向链表dfs)
+- [37. 序列化二叉树](#37-序列化二叉树)
+- [38. 字符串的排列（DFS）](#38-字符串的排列dfs)
+- [39.1 数组中出现次数超过一半的数字（多数投票问题）](#391-数组中出现次数超过一半的数字多数投票问题)
+- [40. 找出数组中第 k 大的数字](#40-找出数组中第-k-大的数字)
+- [41.1 数据流中的中位数](#411-数据流中的中位数)
 - [](#)
 - [](#-1)
 - [](#-2)
 - [](#-3)
 - [](#-4)
 - [](#-5)
+- [](#-6)
 
 <!-- /TOC -->
 
@@ -1874,25 +1884,28 @@ public:
         if (pRoot == nullptr) 
             return vector<vector<int>>();
         
-        vector<vector<int>> ret;
         q.push(pRoot);
         int curL = 1;    // 当前层的节点数，初始化为 1，根节点
         int nxtL = 0;    // 下一层的节点数
+
+        vector<vector<int>> ret;
         vector<int> tmp;
         while (!q.empty()) {
-            auto cur = q.front();
-            tmp.push_back(cur->val);
-            if (cur->left != nullptr) {
-                q.push(cur->left);
-                nxtL++;
-            }
-            if (cur->right != nullptr) {
-                q.push(cur->right);
-                nxtL++;
-            }
-            
+            auto node = q.front();
             q.pop();
             curL--;
+
+            tmp.push_back(node->val);
+
+            if (node->left != nullptr) {
+                q.push(node->left);
+                nxtL++;
+            }
+            if (node->right != nullptr) {
+                q.push(node->right);
+                nxtL++;
+            }
+
             if (curL == 0) {
                 ret.push_back(tmp);
                 tmp.clear();
@@ -1917,18 +1930,10 @@ public:
 ```
 
 **思路**
-1. 利用一个队列+一个栈，分奇偶讨论；
-  
-   也可以使用两个栈或两个队列，此时需要根据奇偶，改变左右子树的入栈/入队顺序
-
-   从代码量来看，使用两个栈/队列要少一点
-2. 利用双端队列，分奇偶改变入队/出队方向（C++ 不推荐，编码量大）
-3. 反转队列（Java 推荐方法，因为有快速反转的方法）
-
-**Code - 栈+队列**
-```C++
-
-```
+1. ~~利用一个队列+一个栈，分奇偶讨论；~~
+1. 使用两个栈，根据奇偶，改变左右子树的入栈/入队顺序
+2. ~~利用双端队列，分奇偶改变入队/出队方向（C++ 不推荐，编码量大）~~（有坑，不好写）
+3. 反转层结果：根据奇偶，判断是否反转中间结果（最直观的方法）
 
 **Code - 两个栈**
 ```C++
@@ -1978,6 +1983,645 @@ public:
 };
 ```
 
+**Code - 层反转**
+```C++
+class Solution {
+    queue<TreeNode*> q;
+public:
+    vector<vector<int>> Print(TreeNode* pRoot) {
+        if (pRoot == nullptr) 
+            return vector<vector<int>>();
+
+        q.push(pRoot);
+        int cur = 0;     // 当前层
+        int curL = 1;    // 当前层的节点数，初始化为 1，根节点
+        int nxtL = 0;    // 下一层的节点数
+
+        vector<vector<int>> ret;
+        vector<int> tmp;
+        while (!q.empty()) {
+            auto node = q.front();
+            q.pop();
+            curL--;
+            
+            tmp.push_back(node->val);
+            
+            if (node->left != nullptr) {
+                q.push(node->left);
+                nxtL++;
+            }
+            if (node->right != nullptr) {
+                q.push(node->right);
+                nxtL++;
+            }
+            
+            if (curL == 0) {
+                if (cur & 1)  // 如果是奇数层，就反转中间结果
+                    reverse(tmp.begin(), tmp.end());
+                cur++;
+                ret.push_back(tmp);
+                tmp.clear();
+                curL = nxtL;
+                nxtL = 0;
+            }
+        }
+        return ret;
+    }
+};
+```
+
+
+## 33. 二叉搜索树的后序遍历序列（二叉树：递归）
+> [二叉搜索树的后序遍历序列](https://www.nowcoder.com/practice/a861533d45854474ac791d90e447bafd?tpId=13&tqId=11176&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+
+**题目描述**
+```
+输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。
+如果是则输出Yes，否则输出No。假设输入的数组的任意两个数字都互不相同。
+```
+
+**思路**
+- 二叉搜索树：左子树都小于根节点，右子树都大于根节点，递归定义
+- 后序遍历：会先输出整个左子树，再输出右子树，最后根节点；也就是说，数组可以被划分为三个部分
+  - 示例：`1,2,3 | 5,6,7 | 4` 第一部分都小于最后的元素，第二部分都大于最后的元素——虽然这不是一颗二叉搜索树，但是它满足第一次判断的结果，后序再递归判断左右子树
+
+**Code**
+```C++
+class Solution {
+public:
+    bool VerifySquenceOfBST(vector<int> s) {
+        if (s.empty()) return false;
+        
+        return dfs(s, 0, s.size()-1);
+    }
+    
+    bool dfs(vector<int> &s, int l, int r) {
+        if (l >= r) return true;
+
+        int base = s[r];         // 根节点
+        
+        int mid = 0;             // 寻找第一个大于根节点的元素
+        for (; mid < r; mid++)
+            if (s[mid] > base)
+                break;
+        
+        bool flag = true;        // 如果第一个大于根节点的元素到根节点之间的元素都大于根节点
+        for (int i = mid; i<r; i++)
+            if (s[i] < base) {
+                flag = false;
+                break;
+            }
+        return flag && dfs(s, l, mid-1) && dfs(s, mid, r-1);  // 递归判断
+    }
+};
+```
+
+
+## 34. 二叉树中和为某一值的路径（DFS）
+> [二叉树中和为某一值的路径](https://www.nowcoder.com/practice/b736e784e3e34731af99065031301bca?tpId=13&tqId=11177&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+
+**题目描述**
+```
+输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。
+路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。
+(注意: 在返回值的list中，数组长度大的数组靠前)
+```
+
+**思路**
+- 注意，必须要从根节点到叶子节点，才叫一条路径，中间结果都不算路径
+
+**Code**
+```C++
+class Solution {
+public:
+    vector<vector<int>> ret;
+    vector<int> trace;
+
+    vector<vector<int> > FindPath(TreeNode* root, int expectNumber) {
+        if (root != nullptr)
+            dfs(root, expectNumber);
+        return ret;
+    }
+
+    void dfs(TreeNode* cur, int n) {
+        trace.push_back(cur->val);
+        // 结束条件
+        if (cur->left == nullptr && cur->right == nullptr) {
+            if (cur->val == n)
+                ret.push_back(trace);      // C++ 默认深拷贝
+        }
+        if (cur->left)
+            dfs(cur->left, n - cur->val);  // 这里没有求和，而是用递减的方式
+        if (cur->right)
+            dfs(cur->right, n - cur->val);
+        trace.pop_back();
+    }
+};
+```
+
+
+## 35. 复杂链表的复制（链表）
+> [复杂链表的复制](https://www.nowcoder.com/practice/f836b2c43afc4b35ad6adc41ec941dba?tpId=13&tqId=11178&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+
+**题目描述**
+```
+输入一个复杂链表——
+每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点，
+返回结果为复制后链表的头节点。
+（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）
+```
+- 要求：时间复杂度 `O(N)`
+
+**思路**
+- 基本思路 `O(N^2)`
+  - 第一步，依次复制每个节点
+  - 第二步，对每个节点，寻找特殊指针指向的节点；因为特殊指针的位置不定，必须从头开始找
+    - 假设经过 m 步找到了某个节点的特殊节点，那么在新链表中也走 m 步
+- 问题的难点在于不知道特殊指针所指的节点在新链表中位置
+- 一个**经典的方法**：
+  - 第一步，复制每个节点，如：原来是 `A->B->C` 变成 `A->A'->B->B'->C->C'`；
+    <div align="center"><img src="../assets/TIM截图20180801113329.png" height=""/></div>
+  - 第二步，遍历链表，使：`A'->random = A->random->next`；
+    <div align="center"><img src="../assets/TIM截图20180801114036.png" height=""/></div>
+  - 第三步，拆分链表
+    <div align="center"><img src="../assets/TIM截图20180801114059.png" height=""/></div>
+
+**Code**
+```C++
+class Solution {
+public:
+    RandomListNode * Clone(RandomListNode* pHead) {
+        if (!pHead) return NULL;
+
+        RandomListNode *cur = pHead;
+        // 1. 复制每个节点，如：原来是A->B->C 变成A->A'->B->B'->C->C'
+        while (cur) {
+            RandomListNode* node = new RandomListNode(cur->label);
+            node->next = cur->next;  // 注意顺序
+            cur->next = node;
+            cur = node->next;
+        }
+
+        // 2. 遍历链表，使：A'->random = A->random->next;
+        cur = pHead;
+        RandomListNode* tmp;
+        while (cur) {
+            tmp = cur->next;
+            if (cur->random != nullptr) {
+                tmp->random = cur->random->next;
+            }
+            cur = cur->next->next;  // 跳过复制的节点
+        }
+
+        // 3. 拆分链表
+        cur = pHead;
+        RandomListNode* ret = cur->next;
+        while (cur->next) {
+            tmp = cur->next;
+            cur->next = tmp->next;
+            cur = tmp;
+        }
+        return ret;
+    }
+};
+```
+
+
+## 36. 二叉搜索树与双向链表（DFS）
+> [二叉搜索树与双向链表](https://www.nowcoder.com/practice/947f6eb80d944a84850b0538bf0ec3a5?tpId=13&tqId=11179&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+
+**题目描述**
+```
+输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。
+要求不能创建任何新的结点，只能调整树中结点指针的指向。
+```
+  <div align="center"><img src="../assets/TIM截图20180801150958.png" height=""/></div>
+
+**思路**
+- 因为要求是有序链表，因此考虑**中序遍历**
+- 利用两个额外的指针保存前一个节点和头结点，具体见代码中注释
+
+**Code**
+```C++
+class Solution {
+public:
+    TreeNode * pre;  // 记录上一个节点
+    TreeNode * ret;  // 双向链表的头结点
+
+    TreeNode * Convert(TreeNode* pRootOfTree) {
+        // C++ 小坑，不能在类类初始化，默认初始化不为 NULL
+        pre = nullptr;
+        ret = nullptr;
+        dfs(pRootOfTree);
+        return ret;
+    }
+    
+    // 中序遍历
+    void dfs(TreeNode* node) {
+        if (node == nullptr) return;
+
+        dfs(node->left);
+        if (ret == nullptr) // 到达最左叶子，即链表头；只会执行一次
+            ret = node;
+        // 第一次执行该语句时，pre == nullptr；这并不矛盾。
+        // 因为头节点的前一个指针就是指向 nullptr 的
+        node->left = pre;
+        if (pre != nullptr)
+            pre->right = node;
+        pre = node;
+        dfs(node->right);
+    }
+};
+```
+
+
+## 37. 序列化二叉树
+> [序列化二叉树](https://www.nowcoder.com/practice/cf7e25aa97c04cc1a68c8f040e71fb84?tpId=13&tqId=11214&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+
+**题目描述**
+```
+请实现两个函数，分别用来序列化和反序列化二叉树。
+接口如下：
+  char* Serialize(TreeNode *root);
+  TreeNode* Deserialize(char *str);
+```
+- 比如中序遍历就是一个二叉树序列化
+- 反序列化要求能够通过序列化的结果还原二叉树
+- 空节点用 '#' 表示，节点之间用空格分开
+
+**思路**
+- 一般在做树的遍历时，会以非空叶子节点作为最底层，此时还原二叉树必须要前序遍历+中序遍历或后序遍历
+- 如果以空节点作为树的最底层，那么只需要前序遍历就能还原二叉树，而且能与反序列化同步进行（这是最关键的一点）
+
+**Code**
+```C++
+class Solution {
+    // 因为接口限制，所以需要使用了两个 ss
+    stringstream ss;
+    stringstream sd;
+    char ret[1024];
+    //char* ret;
+
+    void dfs_s(TreeNode *node) {
+        if (node == nullptr) {
+            ss << "#";
+            return;
+        }
+        ss << node->val;
+        ss << " ";
+        dfs_s(node->left);
+        ss << " ";
+        dfs_s(node->right);
+    }
+
+    TreeNode* dfs_d() {
+        if (sd.eof())
+            return nullptr;
+        string val;            // 只能用 string 接收，用 int 或 char 都会有问题
+        sd >> val;
+        if (val == "#")
+            return nullptr;
+        TreeNode* node = new TreeNode{ stoi(val) }; // 
+        node->left = dfs_d();
+        node->right = dfs_d();
+        return node;
+    }
+
+public:
+    char* Serialize(TreeNode *root) {
+        dfs_s(root);
+        // 这里耗了很久
+        // return (char*)ss.str().c_str();  // 会出问题，原因未知
+        return strcpy(ret, ss.str().c_str());
+    }
+
+    TreeNode* Deserialize(char *str) {
+        if (strlen(str) < 1) return nullptr;
+        sd << str;
+        return dfs_d();
+    }
+};
+```
+
+
+## 38. 字符串的排列（DFS）
+> [字符串的排列](https://www.nowcoder.com/practice/fe6b651b66ae47d7acce78ffdd9a96c7?tpId=13&tqId=11180&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+
+**题目描述**
+```
+输入一个字符串,按字典序打印出该字符串中字符的所有排列。
+例如输入字符串 abc, 则打印出由字符 a,b,c 所能排列出来的所有字符串 abc, acb, bac, bca, cab 和 cba。
+```
+
+**思路**
+- 深度优先搜索
+- 排列组合专题 TODO
+
+**Code**
+```C++
+class Solution {
+    string s;
+    string tmp;
+    int strlen;
+    vector<string> ret;
+    vector<int> used;
+
+    void dfs(int step) {
+        if (step == strlen) {
+            ret.push_back(tmp);
+            return;
+        }
+        for (int i = 0; i<strlen; i++) {
+            if (used[i]) 
+                continue;
+            if (i > 0 && s[i] == s[i-1] && !used[i-1])
+                continue;
+            tmp[step] = s[i];
+            used[i] = 1;
+            dfs(step + 1);
+            used[i] = 0;
+        }
+    }
+
+public:
+    vector<string> Permutation(string str) {
+        if (str.empty()) return vector<string>();
+        
+        // 当做全局变量
+        s = str;
+        strlen = s.length();
+        
+        sort(s.begin(), s.end());  // 因为可能存在重复，所以需要先排序，将重复的字符集合在一起
+        // 初始化
+        tmp.resize(strlen, '\0');
+        used.resize(strlen, 0);
+        
+        dfs(0);
+        return ret;
+    }
+};
+```
+
+
+## 39.1 数组中出现次数超过一半的数字（多数投票问题）
+> [数组中出现次数超过一半的数字](https://www.nowcoder.com/practice/e8a1b01a2df14cb2b228b30ee6a92163?tpId=13&tqId=11181&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+
+**题目描述**
+```
+数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。
+例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。
+由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。
+如果不存在则输出0。
+```
+- 要求：时间复杂度 `O(N)`，空间复杂度 `O(1)`
+
+**思路**
+1. 多数投票问题（Majority Vote Algorithm）
+    - 设置一个计数器 cnt 和保存最多元素的变量 majority
+    - 如果 `cnt==0`，则将 majority 设为当前元素
+    - 如果 majority 和当前元素值相同，则 `cnt++`，反之 `cnt--`
+    - 重复以上两步，直到扫描完数组
+    - cnt 赋值为 0，再次扫描数组，如果数组元素与 majority 相同，`cnt++`
+    - 如果扫描结束后，`cnt > nums.size() / 2`，则返回 majority，否则返回 0。
+2. [找出数组中第 k 大的数字](#392-找出数组中第-k-大的数字) 
+
+**Code**
+```C++
+class Solution {
+    int cnt;
+    int majority;
+public:
+    int MoreThanHalfNum_Solution(vector<int> nums) {
+        if (nums.empty()) return 0;
+        
+        cnt = 0;
+        for (int i=0; i<nums.size(); i++) {
+            if (cnt == 0)
+                majority = nums[i];
+            if (nums[i] == majority)
+                cnt++;
+            else
+                cnt--;
+        }
+        
+        cnt = 0;
+        for (auto i : nums) {
+            if (i == majority)
+                cnt++;
+        }
+        return cnt > nums.size()/2 ? majority : 0;
+    }
+};
+```
+
+
+## 40. 找出数组中第 k 大的数字
+> [数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/description/) - LeetCode
+>
+> [最小的K个数](https://www.nowcoder.com/practice/6a296eb82cf844ca8539b57c23e6e9bf?tpId=13&tqId=11182&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+>
+> 海量数据 Top K 专题 TODO
+
+**题目描述**
+```
+找出数组中第 k 大的数/前 k 大的数/第 k 个最大的数
+```
+- 正序找第 k 大的元素和逆序找第 k 大的元素方法是一致的；牛客是前者，LeetCode 是后者
+- 可以改变原数组 
+  - 要求：时间复杂度 `O(N)`，空间复杂度 `O(1)`
+- 不可以改变原数组 
+  - 要求：时间复杂度 `O(NlogK)`，空间复杂度 `O(K)`
+- 实际上，[找出数组中出现次数超过一半的数字](#391-数组中出现次数超过一半的数字多数投票问题)可以看做是**找出数组中第 n/2 大的数字**
+
+**思路**
+- 可以改变原数组时：
+  - 参考快速排序中的 `partition`(`[pɑ:ˈtɪʃn]`) 过程
+  - 经过一次 partition 后，数组被 pivot 分成左右两部分：`l` 和 `r`。
+    - 当 `|l| = k-1` 时，pivot 即是所找的第 k 大的数；
+    - 当 `|l| < k-1`，所找的数位于 `r` 中；
+    - 当 `|l| > k-1`，所找的数位于 `l` 中.
+- 不可以改变原数组
+  - 使用额外空间 - 优先队列（堆）或 multiset
+
+**Code - 优先队列（无优化 `O(NlogN)`）（牛客）**
+```C++
+class Solution {
+    vector<int> ret;
+public:
+    vector<int> GetLeastNumbers_Solution(vector<int>& nums, int k) {
+        // 注意越界条件
+        if (nums.empty() || k <= 0 || k > nums.size()) 
+            return vector<int>();
+        if (k == nums.size())
+            return vector<int>(nums);
+
+        // 构造最小堆，注意：priority_queue 默认是最小堆 
+        priority_queue<int, vector<int>, greater<int>> p;
+        for (auto i : nums)    // 缺点，需要完全放入数组，如果是从 100000 个中找前 2 个
+            p.push(i);
+        
+        while (k--) {
+            ret.push_back(p.top());
+            p.pop();
+        }
+
+        return ret;
+    }
+};
+```
+
+**Code - 优先队列（优化 `O(NlogK)`）（牛客）**
+```C++
+class Solution {
+    vector<int> ret;
+public:
+    vector<int> GetLeastNumbers_Solution(vector<int> &nums, int k) {
+        // 注意越界条件
+        if (nums.empty() || k <= 0 || k > nums.size()) 
+            return vector<int>();
+        if (k == nums.size())
+            return vector<int>(nums);
+
+        // 注意使用堆与无优化的方法不同，这里要使用最大堆
+        priority_queue<int> p;
+
+        // 先把前 K 个数压入
+        int i = 0;
+        for (; i < k; i++)
+            p.push(nums[i]);
+        // 判断后面的数
+        for (; i < nums.size(); i++) {
+            if (nums[i] < p.top()) {
+                p.pop();
+                p.push(nums[i]);
+            }
+        }
+        
+        // 导出结果
+        while (!p.empty()) {
+            ret.push_back(p.top());
+            p.pop();
+        }
+
+        return ret;
+    }
+};
+```
+
+**Code - 可以改变数组（牛客）**
+```C++
+class Solution {
+    int partition(vector<int> &nums, int lo, int hi) {
+        // 随机选择切分元素
+        // srand(time(0));
+        int base = rand() % (hi - lo + 1) + lo;  // 随机选择 pivot
+        swap(nums[base], nums[hi]);              // 把 pivot 交换到末尾
+        auto& pivot = nums[hi];     // 注意是引用
+
+        int i = lo, j = hi;  // j = hi-1; // err
+        while (i < j) {
+            while (nums[i] <= pivot && i < j)   // 这里是求正序
+                i++;
+            while (nums[j] >= pivot && i < j) 
+                j--;
+            if (i < j)
+                swap(nums[i], nums[j]);
+        }
+        swap(nums[i], pivot);
+
+        return i;
+    }
+public:
+    vector<int> GetLeastNumbers_Solution(vector<int> &nums, int k) {
+        // 注意越界条件
+        if (nums.empty() || k <= 0 || k > nums.size()) 
+            return vector<int>();
+        if (k == nums.size())
+            return vector<int>(nums);
+        
+        int lo = 0, hi = nums.size() - 1;
+        int index = partition(nums, lo, hi);
+        while(index != k-1) {
+            if (index > k-1) {
+                hi = index - 1;
+                index = partition(nums, lo, hi);
+            } else {
+                lo = index + 1;
+                index = partition(nums, lo, hi);
+            }
+        }
+        
+        return vector<int>(nums.begin(), nums.begin() + k);
+    }
+};
+```
+
+**Code - 第 k 个最大的数（LeetCode）**
+```C++
+class Solution {
+    int partition(vector<int>& nums, int lo, int hi) {
+        int base = rand() % (hi - lo + 1) + lo;     // 随机选择 pivot
+        swap(nums[base], nums[hi]);                 // 把 pivot 交换到末尾
+        auto& pivot = nums[hi];     // 注意是引用
+
+        int i = lo, j = hi;  // j = hi-1; // err
+        while (i < j) {
+            while (nums[i] >= pivot && i < j)     // 这里是求逆序
+                i++;
+            while (nums[j] <= pivot && i < j)
+                j--;
+            if (i < j)
+                swap(nums[i], nums[j]);
+        }
+        swap(nums[i], pivot);
+
+        return i;
+    }
+
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        if (nums.empty() || k < 0) return 0;
+
+        int lo = 0;
+        int hi = nums.size() - 1;
+        int index = partition(nums, lo, hi);
+        while (index != k - 1) {
+            if (index > k - 1) {
+                hi = index - 1;
+                index = partition(nums, lo, hi);
+            }
+            else {
+                lo = index + 1;
+                index = partition(nums, lo, hi);
+            }
+
+        }
+
+        return nums[k - 1];
+    }
+};
+```
+
+
+## 41.1 数据流中的中位数
+> [数据流中的中位数](https://www.nowcoder.com/practice/9be0172896bd43948f8a32fb954e1be1?tpId=13&tqId=11216&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+
+**题目描述**
+```
+如何得到一个数据流中的中位数？
+如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。
+如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。
+我们使用Insert()方法读取数据流，使用GetMedian()方法获取当前读取数据的中位数。
+```
+
+**思路**
+- 使用两个堆：一个最大堆，一个最小堆
+- 保持两个堆的大小平衡
+
+**Code**
+```C++
+```
+
 
 ## 
 > 
@@ -1992,7 +2636,6 @@ public:
 
 **Code**
 ```C++
-
 ```
 
 
@@ -2009,7 +2652,6 @@ public:
 
 **Code**
 ```C++
-
 ```
 
 
@@ -2026,7 +2668,6 @@ public:
 
 **Code**
 ```C++
-
 ```
 
 
@@ -2043,7 +2684,6 @@ public:
 
 **Code**
 ```C++
-
 ```
 
 
@@ -2060,7 +2700,6 @@ public:
 
 **Code**
 ```C++
-
 ```
 
 
@@ -2077,5 +2716,20 @@ public:
 
 **Code**
 ```C++
+```
 
+
+## 
+> 
+
+**题目描述**
+```
+
+```
+
+**思路**
+
+
+**Code**
+```C++
 ```
