@@ -6,6 +6,9 @@ __*/
 .ipynb_checkpoints/
 out/
 
+*.zip
+*.tgz
+
 # root
 /demo.py
 /test.py
