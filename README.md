@@ -56,7 +56,8 @@
 ### Reference
 
 - exacity/[deeplearningbook-chinese](https://github.com/exacity/deeplearningbook-chinese): 深度学习中文版 
-- elviswf/[DeepLearningBookQA_cn](https://github.com/elviswf/DeepLearningBookQA_cn): 深度学习面试问题 回答对应的DeepLearning中文版页码 
+- elviswf/[DeepLearningBookQA_cn](https://github.com/elviswf/DeepLearningBookQA_cn): 深度学习面试问题 回答对应的DeepLearning中文版页码
+- huihut/[interview: C/C++面试知识总结](https://github.com/huihut/interview) 
 - 在线 LaTeX 公式编辑器 http://www.codecogs.com/latex/eqneditor.php
 - GitHub 搜索：[Deep Learning Interview](https://github.com/search?q=deep+learning+interview)
 - GitHub 搜索：[Machine Learning Interview](https://github.com/search?q=machine+learning+interview)
