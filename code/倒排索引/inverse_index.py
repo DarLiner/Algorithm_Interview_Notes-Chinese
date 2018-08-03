@@ -3,14 +3,10 @@
 """
 
 import os
-import sys
-import nltk
-import glob
 
 from itertools import combinations
 
 from nltk.tokenize import RegexpTokenizer
-from nltk.tokenize import word_tokenize
 from nltk import PorterStemmer
 
 tokenizer = RegexpTokenizer(r'\w+')
