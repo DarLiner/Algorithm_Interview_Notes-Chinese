@@ -6,7 +6,7 @@ C++中的左值与右值
 - 这一部分内容只是帮助理解 C++(11) 中左值与右值的概念。
 - 在编程实践中，因为**编译器优化**的存在，特别是其中的**返回值优化**（Return Value Optimization, RVO）使你不需要额外关注左值与右值的区别，像 C++(03) 一样编程即可。
   > [C++11 rvalues and move semantics confusion (return statement)](https://stackoverflow.com/questions/4986673/c11-rvalues-and-move-semantics-confusion-return-statement) - Stack Overflow 
-- 除非你在进行库的开发，特别是涉及模板元编程等内容时，需要你手动编写**移动构造函数**（move constructor）。
+- 除非你在进行库的开发，特别是涉及模板元编程等内容时，需要实现**移动构造函数**（move constructor）；或者[完美转发](#完美转发)
 
 Index
 ---
@@ -24,10 +24,15 @@ Index
   - [利用右值引用避免临时对象的拷贝和析构](#利用右值引用避免临时对象的拷贝和析构)
   - [右值引用类型绑定的一定是右值，但 `T&&` 可能不是右值引用类型](#右值引用类型绑定的一定是右值但-t-可能不是右值引用类型)
   - [当发生自动类型推断时，`T&&` 是未定的引用类型](#当发生自动类型推断时t-是未定的引用类型)
-  - [引用折叠](#引用折叠)
 - [常量（左值）引用](#常量左值引用)
 - [返回值优化 RVO](#返回值优化-rvo)
-- [`move()` 与 `forward()` 的作用](#move-与-forward-的作用)
+- [移动语义](#移动语义)
+  - [深拷贝带来的问题](#深拷贝带来的问题)
+  - [移动构造函数 与 移动语义](#移动构造函数-与-移动语义)
+  - [移动语义 与 `std::move()`](#移动语义-与-stdmove)
+  - [`std::move()` 的本质](#stdmove-的本质)
+- [完美转发](#完美转发)
+  - [`std::forward<T>()` 实现完美转发](#stdforwardt-实现完美转发)
 - [Reference](#reference)
 
 <!-- /TOC -->
@@ -213,8 +218,6 @@ int&& v2 = v1;  // err: v2 是右值引用类型，但 v1 是左值
   bar(x);         // err: 右值引用类型 v 不能绑定一个左值
   ```
 
-### 引用折叠
-
 
 ## 常量（左值）引用
 - 右值引用是 C++11 引入的概念
@@ -279,27 +282,252 @@ int&& v2 = v1;  // err: v2 是右值引用类型，但 v1 是左值
     ```
   - 返回值优化并不是 C++ 的标志，是各编译器优化的结果，但是这项优化并不复杂，所以基本流行的编译器都提供
 
-## `move()` 与 `forward()` 的作用
-- `std::move()` 允许你把任何表达式当做**右值**处理
-  - 把“对象”当做“值”来处理效率更高——比如在复制对象时，实际上在"move"内存中的内容，而不是"copy"它们
-  ```Cpp
-  widget foo() {  // 这里的返回值不是引用
-      widget w;
-      // ...
-      return w;   // w 是一个左值，但会被当做右值处理，这里是隐式完成的（开启返回值优化）
-  }
-  ```
-- `std::forward` 允许你在处理时，保留表达式作为“对象”（左值）或“值”（右值）的特性
-  ```Cpp
-  void wrapper(widget&& x) {
-      some_op(std::forward<widget>(x));
-  }
-  ```
-  - 如果传入的是左值，x 会被推断为 `widget&` 类型
-  - 如果传入的是右值，x 会被推断为 `widget&&` 类型
-  - 如果不使用 `forward()`，这两种情况下，x 都会被当做左值
-  - 如果使用了 `forward()`，x 会被当做它原本的值类型（左值或右值）
 
+## 移动语义
+
+### 深拷贝带来的问题
+- 带有**堆内存**的类，必须提供一个深拷贝构造函数，以避免“指针悬挂”问题
+  > 所谓指针悬挂，指的是两个对象内部的成员指针变量指向了同一块地址，析构时这块内存会因被删除两次而发生错误
+  ```Cpp
+  class A {
+  public:
+      A(): m_ptr(new int(0)) {                  // new 堆内存
+          cout << "construct" << endl;
+      }
+
+      A(const A& a):m_ptr(new int(*a.m_ptr)) {  // 深拷贝构造函数
+          cout << "copy construct" << endl;
+      }
+      
+      ~A(){
+          // cout << "destruct" << endl;
+          delete m_ptr;   // 析构函数，释放堆内存的资源
+      }
+  private:
+      int* m_ptr;         // 成员指针变量
+  };
+
+  A getA() {
+      return A();
+  }
+
+  int main() {
+      A a = getA();
+      return 0;
+  }
+  ```
+- 输出（关闭 RVO）
+  ```Cpp
+  construct
+  copy construct
+  copy construct
+  ```
+  > 如果不关闭 RVO，只会输出 `construct`
+- 提供深拷贝能够保证程序的正确性，但会带来额外的性能损耗——临时对象也会申请一块内存，然后又马上被销毁了；如果堆内存很大的话，这个性能损耗是不可忽略的
+- 对于临时对象而言，深拷贝不是必须的
+- 利用右值引用可以避免无谓的深拷贝——移动拷贝构造函数
+
+### 移动构造函数 与 移动语义
+- 相比上面的代码，这里只多了一个移动构造函数——一般会同时提供拷贝构造与移动构造
+  ```Cpp
+  class A {
+  public:
+      A(): m_ptr(new int(0)) {                    // new 堆内存
+          cout << "construct" << endl;
+      }
+
+      A(const A& a): m_ptr(new int(*a.m_ptr)) {   // 深拷贝构造函数
+          cout << "copy construct" << endl;
+      }
+
+      A(A&& a): m_ptr(a.m_ptr) {                  // 移动构造函数
+          a.m_ptr = nullptr;      // 把参数对象的指针指向 nullptr
+          cout << "move construct" << endl;
+      }
+
+      ~A(){
+          // cout << "destruct" << endl;
+          delete m_ptr;   // 析构函数，释放堆内存的资源
+      }
+  private:
+      int* m_ptr;         // 成员指针变量
+  };
+
+  A getA() {
+      return A();
+  }
+
+  int main() {
+      A a = getA();
+      return 0;
+  }
+  ```
+- 输出（关闭返回值优化）
+  ```Cpp
+  construct
+  move construct        // 没有调用深拷贝，值调用了移动构造函数
+  move construct
+  ```
+  > 如果不关闭 RVO，只会输出 `construct`
+- 这里没有自动类型推断，所以 `A&&` 一定是右值引用类型，因此所有**临时对象**（右值）会匹配到这个构造函数，而不会调用深拷贝
+- 对于临时对象而言，没有必要调用深拷贝
+- 这就是所谓的**移动语义**——右值引用的一个重要目的就是为了支持移动语义
+
+### 移动语义 与 `std::move()`
+- 移动语义是通过右值引用来匹配临时值，从而避免深拷贝
+- 利用 `move()` 方法，可以将普通的左值转化为右值来达到**避免深拷贝**的目的
+  ```Cpp
+  class A {
+  public:
+      A(): m_ptr(new int(0)) {                    // new 堆内存
+          cout << "construct" << endl;
+      }
+
+      A(const A& a): m_ptr(new int(*a.m_ptr)) {   // 深拷贝构造函数
+          cout << "copy construct" << endl;
+      }
+
+      A(A&& a): m_ptr(a.m_ptr) {                  // 移动构造函数
+          //a.m_ptr = nullptr;      // 为了实验，这里没有把参数对象的指针指向 nullptr
+          cout << "move construct" << endl;
+      }
+
+      ~A(){
+          // cout << "destruct" << endl;
+          delete m_ptr;   // 析构函数，释放堆内存的资源
+      }
+
+      int get_data() {
+          return *m_ptr;
+      }
+
+      void set_data(int v) {
+          *m_ptr = v;
+      }
+  private:
+      int* m_ptr;         // 成员指针变量
+  };
+
+  int main() {
+      A a1;                                 // construct
+      a1.set_data(1);
+      cout << a1.get_data() << endl;  // 1
+      
+      A a2 = a1;                            // copy construct
+      cout << a2.get_data() << endl;  // 1
+      a2.set_data(2);
+      cout << a2.get_data() << endl;  // 2
+      cout << a1.get_data() << endl;  // 1
+
+      A a3 = move(a1);                      // move construct
+      a3.set_data(3);
+      cout << a3.get_data() << endl;  // 3
+      cout << a1.get_data() << endl;  // 3: 因为没有深拷贝，指向的是同一块地址
+      return 0;
+  }
+  ```
+  - 运行结果
+    ```Cpp
+    construct
+    1
+    copy construct
+    1
+    2
+    1
+    move construct
+    3
+    3
+    ```
+- STL 容器的移动语义
+  ```Cpp
+  {
+      list<string> tokens;
+      //省略初始化...
+      list<string> t = tokens;    // 这里存在深拷贝 
+  }
+  list<string> tokens;
+  list<string> t = move(tokens);  // 这里没有深拷贝 
+  ```
+  - C++11 中所有的容器都实现了移动语义
+
+### `std::move()` 的本质
+- `move()` 实际上并没有移动任何东西，它唯一的功能是将一个左值**强制转换**为一个右值引用
+- 如果没有对应的移动构造函数，那么使用 `move()` 仍会发生深拷贝，比如基本类型，定长数组等
+- 因此，`move()` 对于含有资源（堆内存或句柄）的对象来说更有意义。
+
+
+## 完美转发
+- C++11 之前调用**模板函数**时，存在一个问题——如何正确的传递参数，即保持参数作为左值或右值的特性
+  ```Cpp
+  void processValue(int& a)  { cout << "lvalue" << endl; }
+  void processValue(int&& a) { cout << "rvalue" << endl; }
+
+  template <typename T>
+  void forwardValue(T&& val) {
+      processValue(val);      // 因为 val 本身是一个左值
+                              // 所以无论 val 是左值引用类型还是右值引用类型的变量
+                              // 都只会调用 processValue(int& a)
+  }
+
+  int main() {
+      int i = 1;
+      forwardValue(i);    // 传入一个左值
+                          // val 会被推断为是一个左值引用类型
+
+      forwardValue(1);    // 传入一个右值
+                          // 虽然 val 会被推断为是一个右值引用类型，但它本身是一个左值
+      return 0;
+  }
+  ```
+  - 输出
+    ```Cpp
+    lvalue
+    lvalue
+    ```
+  - 无论传入的是左值还是右值，val 都是一个左值
+
+### `std::forward<T>()` 实现完美转发
+- 在函数模板中，`T&&` 实际上是未定引用类型，它是可以得知传入的对象是左值还是右值的
+- 这个特性使其可以成为一个参数的路由，利用 `forward()` 实现完美转发
+- `std::forward<T>()` 可以保留表达式作为“对象”（左值）或“值”（右值）的特性
+  ```Cpp
+  int&& a = 1;
+  
+  cout << &a;               // OK: 虽然 a 是一个右值引用类型的变量，但它本身是一个左值
+  cout << &forward<int>(a); // err: taking address of xvalue (rvalue reference)
+  ```
+- 利用 `std::forward<T>()` 实现完美转发
+  - 不可以用变量接收 `forward<T>()` 的返回值，因为所有具名变量都是左值
+  ```Cpp
+  void processValue(int& a)  { cout << "lvalue" << endl; }
+  void processValue(int&& a) { cout << "rvalue" << endl; }
+
+  template <typename T>
+  void forwardValue(T&& val) {
+      processValue(forward<T>(val));   // 利用 forward 保持对象的左右值特性
+
+      // 必须把 forward<T>(val) 打包作为参数，否则都达不到完美转发的目的
+      // auto v = forward<T>(val);
+      // processValue(v);
+
+      // auto&& v = forward<T>(val);
+      // processValue(v);
+  }
+
+  int main() {
+      int i = 1;
+      forwardValue(i);    // 传入一个左值
+
+      forwardValue(1);    // 传入一个右值
+      return 0;
+  }
+  ```
+  - 输出
+    ```Cpp
+    lvalue
+    rvalue
+    ```
+  - 正确实现了转发
 
 
 ## Reference
