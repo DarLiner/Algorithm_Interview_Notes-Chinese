@@ -65,12 +65,12 @@
 - [40. 找出数组中第 k 大的数字（数据结构：堆）***](#40-找出数组中第-k-大的数字数据结构堆)
 - [41.1 数据流中的中位数（数据结构：堆）](#411-数据流中的中位数数据结构堆)
 - [41.2 字符流中第一个不重复的字符（数据结构：队列）](#412-字符流中第一个不重复的字符数据结构队列)
-- [42. 连续子数组的最大和（DP）](#42-连续子数组的最大和dp)
+- [42. 连续子数组的最大和（）](#42-连续子数组的最大和)
+- [43. 从 1 到 n 整数中 1 出现的次数（Trick）](#43-从-1-到-n-整数中-1-出现的次数trick)
+- [44. 数字序列中的某一位数字（Trick）](#44-数字序列中的某一位数字trick)
+- [45. 把数组排成最小的数（排序）](#45-把数组排成最小的数排序)
+- [46. 把数字翻译成字符串（解码方法）（动态规划）](#46-把数字翻译成字符串解码方法动态规划)
 - [](#)
-- [](#-1)
-- [](#-2)
-- [](#-3)
-- [](#-4)
 
 <!-- /TOC -->
 
@@ -2744,80 +2744,273 @@ public:
 ```
 
 
-## 42. 连续子数组的最大和（DP）
+## 42. 连续子数组的最大和（）
 > [连续子数组的最大和](https://www.nowcoder.com/practice/459bd355da1549fa8a49e350bf3df484?tpId=13&tqId=11183&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
 
 **题目描述**
 ```
-
+{6,-3,-2,7,-15,1,2,2}，连续子数组的最大和为 8（从第 0 个开始，到第 3 个为止）
 ```
 
 **思路**
+- 因为不需要输出路径，所以不需要 DP
+- 法1）暴力枚举-两层循环
+- 法2）实际上，只要遍历一次即可，首先用一个变量保存当前的最大值
+  - 如果当前和 sum 为负数，那么直接舍弃，用下一个值作为当前和
+  - 否则，加上下一个值（无论正负）
+  - 与当前最大值比较，保留最大的
 
-
-**Code**
+**Code - 法1**
 ```C++
+class Solution {
+public:
+    int FindGreatestSumOfSubArray(vector<int>& array) {
+
+        int _max = array[0];  // 存在全为负数的情况
+                           // 最安全的作法是赋值为数组的第一个数
+        for (int i = 0; i < array.size(); i++) {
+            int _sum = 0;
+            for (int j = i; j < array.size(); j++) {
+                _sum += array[j];
+                _max = max(_max, _sum);
+            }
+        }
+        return _max;
+    }
+};
+```
+
+**Code - 法2**
+```Cpp
+class Solution {
+public:
+    int FindGreatestSumOfSubArray(vector<int>& array) {
+        if (array.empty()) return int();
+        if (array.size() == 1) return array[0];
+
+        int _max = array[0];  // 存在全为负数的情况
+                           // 最安全的作法是赋值为数组的第一个数
+        int _sum = array[0];
+        for (int i = 1; i < array.size(); i++) {
+            if (_sum < 0) {
+                _sum = array[i];
+            } else {
+                _sum += array[i];
+            }
+
+            _max = max(_sum, _max);
+        }
+        return _max;
+    }
+};
 ```
 
 
-## 
-> 
+## 43. 从 1 到 n 整数中 1 出现的次数（Trick）
+> [整数中1出现的次数（从1到n整数中1出现的次数）](https://www.nowcoder.com/practice/bd7f978302044eee894445e244c7eee6?tpId=13&tqId=11184&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+>
+> [数字 1 的个数](https://leetcode-cn.com/problems/number-of-digit-one/description/) - LeetCode
 
 **题目描述**
 ```
-
+给定一个整数 n，计算所有小于等于 n 的非负整数中数字 1 出现的个数。
 ```
 
 **思路**
+- 暴力枚举，时间复杂度 `O(NlogN)`
+- 找规律 `O(logN)`
 
-
-**Code**
+**Code - 暴力枚举**
 ```C++
+class Solution {
+    int numberOf1(int i) {
+        int cnt = 0;
+        while(i) {
+            if(i % 10 == 1)
+                cnt++;
+            i /= 10;
+        }
+
+        return cnt;
+    }
+public:
+    // int countDigitOne(int n) {  // LeetCode
+    int NumberOf1Between1AndN_Solution(int n) {
+        int cnt = 0;
+        for (int i=1; i<=n; i++)
+            cnt += numberOf1(i);
+
+        return cnt;
+    }
+};
 ```
+- LeetCode 会超时
+
+**Code - 找规律**
+```Cpp
+class Solution {
+public:
+    // int countDigitOne(int n) {  // LeetCode
+    int NumberOf1Between1AndN_Solution(int n) {
+        int cnt = 0;
+        for (long m=1; m<=n; m*=10) {   // 注意这里用 int m 在 LeetCode 会越界
+            int a = n/m;
+            int b = n%m;
+            cnt += (a+8) / 10 * m + (a%10==1)*(b+1);
+        }
+
+        return cnt;
+    }
+};
+```
+> [LeetCode 讨论区](https://leetcode.com/problems/number-of-digit-one/discuss/64381/4+-lines-O(log-n)-C++JavaPython)
 
 
-## 
-> 
+## 44. 数字序列中的某一位数字（Trick）
 
 **题目描述**
 ```
-
+数字以 0123456789101112131415... 的格式序列化到一个字符串中，求这个字符串的第 index 位。
+在这个序列中，第 5 位是 5（从 0 计数），第 13 位是 1，第 19 位是 4.
 ```
 
 **思路**
-
+- 暴力求解
+  - 累加每个数的长度
+- Trick-类似二分的思想
+  - 比如第 1001 位，
+  - 0~9 的长度为 10——10 < 1001
+  - 10~99 的长度为 180——10+180 < 1001
+  - 100~999 的长度 为 2700——10+180+2700 > 1001
+  - (1001 - 10 - 180) = 811 = 270*3 + 1
+  - 100 + 270 = 370 的第 1 位（从 0 计数），即 7
 
 **Code**
 ```C++
+int countOfIntegers(int digits);
+int digitAtIndex(int index, int digits);
+int beginNumber(int digits);
+
+int digitAtIndex(int index) {
+    if(index < 0)
+        return -1;
+
+    int digits = 1;
+    while(true) {
+        int numbers = countOfIntegers(digits);
+        if(index < numbers * digits)
+            return digitAtIndex(index, digits);
+
+        index -= digits * numbers;
+        digits++;
+    }
+
+    return -1;
+}
+
+int countOfIntegers(int digits) {
+    if(digits == 1)
+        return 10;
+
+    int count = (int) std::pow(10, digits - 1);
+    return 9 * count;
+}
+
+int digitAtIndex(int index, int digits) {
+    int number = beginNumber(digits) + index / digits;
+    int indexFromRight = digits - index % digits;
+
+    for(int i = 1; i < indexFromRight; ++i)
+        number /= 10;
+    return number % 10;
+}
+
+int beginNumber(int digits) {
+    if(digits == 1)
+        return 0;
+
+    return (int) std::pow(10, digits - 1);
+}
 ```
 
 
-## 
-> 
+## 45. 把数组排成最小的数（排序）
+> [把数组排成最小的数](https://www.nowcoder.com/practice/8fecd3f8ba334add803bf2a06af1b993?tpId=13&tqId=11185&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
 
 **题目描述**
 ```
-
+输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。
+例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。
 ```
 
 **思路**
+- 自定义排序
+  - 在比较两个字符串 S1 和 S2 的大小时，应该比较的是 S1+S2 和 S2+S1 的大小，
+  - 如果 S1+S2 < S2+S1，那么应该把 S1 排在前面，否则应该把 S2 排在前面。
+- 利用 stringstream 拼接数字
+- C++ 中 int 转 string 的函数
+  - `to_string()`
 
-
-**Code**
+**Code - 使用比较函数**
 ```C++
+class Solution {
+    static bool cmp(const int &l, const int &r) {
+        string ll = to_string(l) + to_string(r);
+        string rr = to_string(r) + to_string(l);
+        return ll < rr;
+    }
+public:
+    string PrintMinNumber(vector<int> numbers) {
+        sort(numbers.begin(), numbers.end(), cmp);
+        stringstream ss;
+
+        for (auto i : numbers) 
+            ss << to_string(i);
+
+        return ss.str();
+    }
+};
+```
+
+**Code - 使用Lambda表达式**
+```Cpp
+class Solution {
+public:
+    string PrintMinNumber(vector<int> numbers) {
+        sort(numbers.begin(), numbers.end(), [](const int &l, const int &r){
+            return to_string(l) + to_string(r) < to_string(r) + to_string(l)
+        });
+        
+        stringstream ss;
+        for (auto i : numbers) 
+            ss << to_string(i);
+
+        return ss.str();
+    }
+};
 ```
 
 
-## 
-> 
+## 46. 把数字翻译成字符串（解码方法）（动态规划）
+> [解码方法](https://leetcode-cn.com/problems/decode-ways/description/) - LeetCode
 
 **题目描述**
 ```
-
+给定一个数字，按照如下规则翻译成字符串：1 翻译成“a”，2 翻译成“b”... 26 翻译成“z”。
+给定一个只包含数字的非空字符串，请计算解码方法的总数。
 ```
+- 剑指Offer 上是数字范围为 0~25，其他一致
 
 **思路**
-
+- 动态规划
+- 递推公式
+  ```
+  dp[0] = 1
+  dp[1] = 0   int(s[0]) == 0
+        = 1   其他
+  dp[i] += dp[i-1]            int(s[i-1: i]) != 0 && int(s[i-2: i]) >  26
+        += dp[i-1] + dp[i-2]  int(s[i-1: i]) != 0 && int(s[i-2: i]) <= 26
+  ```
 
 **Code**
 ```C++
