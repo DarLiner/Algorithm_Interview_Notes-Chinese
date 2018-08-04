@@ -103,8 +103,40 @@ auto&& t = x;   // OK
 ### 引用折叠规则
 1. 所有的右值引用叠加到右值引用上仍然还是一个右值引用。（T&& && 变成 T&&） 
 2. 所有的其他引用类型之间的叠加都将变成左值引用。 （T& &, T& &&, T&& & 都变成 T&）
-- 示例 TODO
+3. 对常量引用规则一致
+- 示例
   ```Cpp
+  typedef int &  lRef;
+  typedef int && rRef;
+  
+  typedef const int &  lcRef;
+  typedef const int && rcRef;
+  
+  int main() {
+      int a = 10;
+      
+      // 左值引用
+      lRef    b = a;    // T&
+      lRef &  c = a;    // T& &
+      lRef && d = a;    // T& &&
+      rRef &  e = a;    // T&& &
+    
+      // 右值引用
+      rRef    f = 10;   // T&&   
+      rRef && g = 10;   // T&& &&
+
+      // 左值引用
+      lcRef     b2 = a;    // const T& 
+      lcRef &   c2 = a;    // const T& &
+      lcRef &&  d2 = a;    // const T& &&
+      rcRef &   e2 = a;    // const T&& & 
+    
+      // 右值引用
+      rcRef     f2 = 10;   // const T&&
+      rcRef &&  g2 = 10;   // const T&& &&
+
+      return 0;
+  }
   ```
 
 
