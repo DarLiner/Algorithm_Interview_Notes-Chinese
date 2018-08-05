@@ -65,12 +65,23 @@
 - [40. 找出数组中第 k 大的数字（数据结构：堆）***](#40-找出数组中第-k-大的数字数据结构堆)
 - [41.1 数据流中的中位数（数据结构：堆）](#411-数据流中的中位数数据结构堆)
 - [41.2 字符流中第一个不重复的字符（数据结构：队列）](#412-字符流中第一个不重复的字符数据结构队列)
-- [42. 连续子数组的最大和（）](#42-连续子数组的最大和)
+- [42. 连续子数组的最大和](#42-连续子数组的最大和)
 - [43. 从 1 到 n 整数中 1 出现的次数（Trick）](#43-从-1-到-n-整数中-1-出现的次数trick)
 - [44. 数字序列中的某一位数字（Trick）](#44-数字序列中的某一位数字trick)
 - [45. 把数组排成最小的数（排序）](#45-把数组排成最小的数排序)
 - [46. 把数字翻译成字符串（解码方法）（动态规划）](#46-把数字翻译成字符串解码方法动态规划)
+- [47. 礼物的最大价值（年终奖）（动态规划）](#47-礼物的最大价值年终奖动态规划)
+- [48. 最长不含重复字符的子字符串（动态规划）](#48-最长不含重复字符的子字符串动态规划)
+- [49. 丑数（动态规划）](#49-丑数动态规划)
+- [50. 第一个只出现一次的字符位置](#50-第一个只出现一次的字符位置)
 - [](#)
+- [](#-1)
+- [](#-2)
+- [](#-3)
+- [](#-4)
+- [](#-5)
+- [](#-6)
+- [](#-7)
 
 <!-- /TOC -->
 
@@ -2744,7 +2755,7 @@ public:
 ```
 
 
-## 42. 连续子数组的最大和（）
+## 42. 连续子数组的最大和
 > [连续子数组的最大和](https://www.nowcoder.com/practice/459bd355da1549fa8a49e350bf3df484?tpId=13&tqId=11183&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
 
 **题目描述**
@@ -3012,8 +3023,283 @@ public:
         += dp[i-1] + dp[i-2]  int(s[i-1: i]) != 0 && int(s[i-2: i]) <= 26
   ```
 
-**Code**
+**Code(Python)**
+```Python
+class Solution:
+    def numDecodings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if len(s) < 1: 
+            return 0
+        
+        n = len(s)
+        dp = [0] * (n + 1)
+        dp[0] = 1  # 注意初始化 dp[0] = 1
+        dp[1] = 1 if s[0] != '0' else 0
+        
+        for i in range(2, n+1):
+            if int(s[i-1]) != 0:
+                dp[i] += dp[i-1]
+            if int(s[i-2]) == 0:
+                continue
+            if int(s[i-2: i]) <= 26:
+                dp[i] += dp[i-2]
+                
+        return dp[n]
+```
+
+
+## 47. 礼物的最大价值（年终奖）（动态规划）
+> [年终奖](https://www.nowcoder.com/questionTerminal/72a99e28381a407991f2c96d8cb238ab)_牛客网 
+
+**题目描述**
+```
+在一个 m*n 的棋盘的每一个格都放有一个礼物，每个礼物都有一定价值（大于 0）。
+从左上角开始拿礼物，每次向右或向下移动一格，直到右下角结束。
+给定一个棋盘，求拿到礼物的最大价值。例如，对于如下棋盘
+    1    10   3    8
+    12   2    9    6
+    5    7    4    11
+    3    7    16   5
+礼物的最大价值为 1+12+5+7+7+16+5=53。
+```
+
+**思路**
+- 深度优先搜索-复杂度大
+- 动态规划
+- 二维递推公式
+  ```
+  初始化
+  dp[0][0] = board[0][0]
+  dp[i][0] = dp[i-1][0] + board[i][0]
+  dp[0][j] = dp[0][j-1] + board[0][j]
+  
+  dp[i][j] = max(dp[i-1][j], dp[i][j-1]) + board[i][j]
+  ```
+  - 注意边界条件
+- 一维递推公式（优化版）
+  ```
+  TODO
+  ```
+
+**Code - 二维DP**
 ```C++
+class Bonus {
+public:
+    int getMost(vector<vector<int>>& board) {
+        if (board.empty() || board[0].empty())
+            return 0;
+
+        int m = board.size();
+        int n = board[0].size();
+        vector<vector<int>> dp(m, vector<int>(n, 0));
+        
+        dp[0][0] = board[0][0];
+        for (int i=1; i<m; i++)
+            dp[i][0] = dp[i-1][0] + board[i][0];
+        for (int j=1; j<n; j++)
+            dp[0][j] = dp[0][j-1] + board[0][j];
+        
+        for (int i=1; i<m; i++) {
+            for (int j=1; j<n; j++) {
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1]) + board[i][j];
+            }
+        }
+        
+        return dp[m-1][n-1];
+    }
+};
+```
+
+**Code - 一维DP**
+```Cpp
+class Bonus {
+public:
+    int getMost(vector<vector<int>>& board) {
+        if (board.empty() || board[0].empty())
+            return 0;
+        
+        int n = board[0].size();
+        vector<int> dp(n, 0);     // 注意不是 dp(0, n)
+        
+        for (auto& v: board) {
+            dp[0] += v[0];
+            for (int i=1; i<n; i++)
+                dp[i] = max(dp[i], dp[i-1]) + v[i];
+        }
+        
+        return dp[n-1];
+    }
+};
+```
+
+
+## 48. 最长不含重复字符的子字符串（动态规划）
+
+**题目描述**
+```
+输入一个字符串（只包含 a~z 的字符），求其最长不含重复字符的子字符串的长度。
+例如对于 arabcacfr，最长不含重复字符的子字符串为 acfr，长度为 4。
+```
+
+**思路**
+- 暴力枚举，时间复杂度 `O(N^3)`，如果使用 set 的结构，可以降到 `O(N^2)`
+- 动态规划
+- 递推思路
+  ```
+  记：
+    dp[i] := 以 s[i] 结尾的最长不重复子串
+    注意：这并不是全局最长的结果，全局最长用另一个变量保存
+  递推公式：
+    dp[i] = dp[i-1] + 1     s[i] 之前没有出现过
+          = d               s[i] 出现过，d == 两次出现之间的距离，且 d <= dp[i-1]
+          = dp[i-1] + 1     s[i] 出现过，d == 两次出现之间的距离，但 d > dp[i-1]
+  ```
+
+**Code - DP**
+```Cpp
+int longestSubstringWithoutDuplication(const string& s) {
+    if (s.length() < 1) return 0;
+    
+    int n = s.length();
+    
+    int maxLen = 0;
+    vector<int> dp(n, 1);        // 长度至少为 1
+    vector<int> book(26, -1);    // 模拟字典
+
+    // dp[0] = 1;
+    book[s[0] - 'a'] = 0;
+    for (int i=1; i < n; i++) {
+        int pre = book[s[i] - 'a'];
+        if (pre < 0 || i - pre > dp[i-1]) {
+            dp[i] = dp[i-1] + 1;
+            maxLen = max(dp[i], maxLen);
+        }
+        else {
+            maxLen = max(dp[i-1], maxLen);
+            dp[i] = i - pre;
+        }
+        book[s[i] - 'a'] = i;
+    }
+    
+    return maxLen;
+}
+
+int main() {
+    cout << longestSubstringWithoutDuplication("abcacfrar") << endl;  // 4
+    cout << longestSubstringWithoutDuplication("acfrarabc") << endl;  // 4
+    cout << longestSubstringWithoutDuplication("arabcacfr") << endl;  // 4
+    cout << longestSubstringWithoutDuplication("aaaa") << endl;       // 1 
+    cout << longestSubstringWithoutDuplication("abcdefg") << endl;    // 7 
+    cout << longestSubstringWithoutDuplication("") << endl;           // 0
+    cout << longestSubstringWithoutDuplication("aaabbbccc") << endl;  // 2
+    cout << longestSubstringWithoutDuplication("abcdcba") << endl;    // 4
+    cout << longestSubstringWithoutDuplication("abcdaef") << endl;    // 6
+    
+    return 0;
+}
+```
+
+**Code - 优化**
+```C++
+int longestSubstringWithoutDuplication(const std::string& s) {
+    if (s.length() < 1) return 0;
+
+    int n = s.length();
+
+    int curLen = 0;
+    int maxLen = 0;
+    vector<int> book(26, -1);    // 模拟字典
+
+    for (int i=0; i < n; i++) {
+        int pre = book[s[i] - 'a'];
+        if (pre < 0 || i - pre > curLen) {
+            curLen++;
+            maxLen = max(curLen, maxLen);
+        }
+        else {
+            maxLen = max(curLen, maxLen);
+            curLen = i - pre;
+        }
+        book[s[i] - 'a'] = i;
+    }
+    
+    return maxLen;
+}
+ 
+int main() {
+    cout << longestSubstringWithoutDuplication("abcacfrar") << endl;  // 4
+    cout << longestSubstringWithoutDuplication("acfrarabc") << endl;  // 4
+    cout << longestSubstringWithoutDuplication("arabcacfr") << endl;  // 4
+    cout << longestSubstringWithoutDuplication("aaaa") << endl;       // 1 
+    cout << longestSubstringWithoutDuplication("abcdefg") << endl;    // 7 
+    cout << longestSubstringWithoutDuplication("") << endl;           // 0
+    cout << longestSubstringWithoutDuplication("aaabbbccc") << endl;  // 2
+    cout << longestSubstringWithoutDuplication("abcdcba") << endl;    // 4
+    cout << longestSubstringWithoutDuplication("abcdaef") << endl;    // 6
+    
+    return 0;
+}
+```
+
+
+## 49. 丑数（动态规划）
+> [丑数](https://www.nowcoder.com/practice/6aa9e04fc3794f68acf8778237ba065b?tpId=13&tqId=11186&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+
+**题目描述**
+```
+把只包含质因子2、3和5的数称作丑数（Ugly Number）。
+例如6、8都是丑数，但14不是，因为它包含质因子7。 
+习惯上我们把1当做是第一个丑数。求按从小到大的顺序的第N个丑数。
+```
+
+**思路**
+- 动态规划
+
+**Code**
+```Cpp
+class Solution {
+public:
+    int GetUglyNumber_Solution(int n) {
+        // if (n <=6 ) return n;
+        
+        vector<int> dp(n+1, 0);    // dp[0] = 0;
+        int i2=1, i3=1, i5=1;
+        dp[1] = 1;
+        for (int i=2; i<=n; i++) {
+            int nxt2 = dp[i2] * 2;
+            int nxt3 = dp[i3] * 3;
+            int nxt5 = dp[i5] * 5;
+
+            dp[i] = min({nxt2, nxt3, nxt5});
+            
+            // 注意以下不能使用 else 结构，因为可能存在 nxtM == nxtN 的情况
+            if (dp[i] == nxt2) i2++;
+            if (dp[i] == nxt3) i3++;
+            if (dp[i] == nxt5) i5++;
+        }
+        
+        return dp[n];
+    }
+};
+```
+
+## 50. 第一个只出现一次的字符位置
+> [第一个只出现一次的字符](https://www.nowcoder.com/practice/1c82e8cf713b4bbeb2a5b31cf5b0417c?tpId=13&tqId=11187&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
+
+**题目描述**
+```
+在一个字符串 (1 <= 字符串长度 <= 10000，全部由字母组成) 中找到第一个只出现一次的字符，并返回它的位置。
+```
+
+**思路**
+
+
+**Code**
+```Cpp
+
 ```
 
 
@@ -3029,5 +3315,125 @@ public:
 
 
 **Code**
-```C++
+```Cpp
+
+```
+
+
+## 
+> 
+
+**题目描述**
+```
+
+```
+
+**思路**
+
+
+**Code**
+```Cpp
+
+```
+
+
+## 
+> 
+
+**题目描述**
+```
+
+```
+
+**思路**
+
+
+**Code**
+```Cpp
+
+```
+
+
+## 
+> 
+
+**题目描述**
+```
+
+```
+
+**思路**
+
+
+**Code**
+```Cpp
+
+```
+
+
+## 
+> 
+
+**题目描述**
+```
+
+```
+
+**思路**
+
+
+**Code**
+```Cpp
+
+```
+
+
+## 
+> 
+
+**题目描述**
+```
+
+```
+
+**思路**
+
+
+**Code**
+```Cpp
+
+```
+
+
+## 
+> 
+
+**题目描述**
+```
+
+```
+
+**思路**
+
+
+**Code**
+```Cpp
+
+```
+
+
+## 
+> 
+
+**题目描述**
+```
+
+```
+
+**思路**
+
+
+**Code**
+```Cpp
+
 ```
