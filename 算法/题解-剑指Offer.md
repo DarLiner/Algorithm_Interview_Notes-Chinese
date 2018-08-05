@@ -63,8 +63,7 @@
 - [38. 字符串的排列（DFS）](#38-字符串的排列dfs)
 - [39.1 数组中出现次数超过一半的数字（多数投票问题）](#391-数组中出现次数超过一半的数字多数投票问题)
 - [40. 找出数组中第 k 大的数字（数据结构：堆）***](#40-找出数组中第-k-大的数字数据结构堆)
-- [41.1 数据流中的中位数（数据结构：堆）](#411-数据流中的中位数数据结构堆)
-- [41.2 字符流中第一个不重复的字符（数据结构：队列）](#412-字符流中第一个不重复的字符数据结构队列)
+- [41. 数据流中的中位数（数据结构：堆）](#41-数据流中的中位数数据结构堆)
 - [42. 连续子数组的最大和](#42-连续子数组的最大和)
 - [43. 从 1 到 n 整数中 1 出现的次数（Trick）](#43-从-1-到-n-整数中-1-出现的次数trick)
 - [44. 数字序列中的某一位数字（Trick）](#44-数字序列中的某一位数字trick)
@@ -73,15 +72,15 @@
 - [47. 礼物的最大价值（年终奖）（动态规划）](#47-礼物的最大价值年终奖动态规划)
 - [48. 最长不含重复字符的子字符串（动态规划）](#48-最长不含重复字符的子字符串动态规划)
 - [49. 丑数（动态规划）](#49-丑数动态规划)
-- [50. 第一个只出现一次的字符位置](#50-第一个只出现一次的字符位置)
+- [50.1 第一个只出现一次的字符位置（Hash）](#501-第一个只出现一次的字符位置hash)
+- [50.2 字符流中第一个只出现一次的字符（数据结构：队列）](#502-字符流中第一个只出现一次的字符数据结构队列)
+- [51. 数组中的逆序对](#51-数组中的逆序对)
 - [](#)
 - [](#-1)
 - [](#-2)
 - [](#-3)
 - [](#-4)
 - [](#-5)
-- [](#-6)
-- [](#-7)
 
 <!-- /TOC -->
 
@@ -2614,7 +2613,7 @@ public:
 ```
 
 
-## 41.1 数据流中的中位数（数据结构：堆）
+## 41. 数据流中的中位数（数据结构：堆）
 > [数据流中的中位数](https://www.nowcoder.com/practice/9be0172896bd43948f8a32fb954e1be1?tpId=13&tqId=11216&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
 
 **题目描述**
@@ -2713,43 +2712,6 @@ public:
         } else {
             return (double)(left.top() + right.top()) / 2;
         }
-    }
-};
-```
-
-
-## 41.2 字符流中第一个不重复的字符（数据结构：队列）
-> [字符流中第一个不重复的字符](https://www.nowcoder.com/practice/00de97733b8e4f97a3fb5c680ee10720?tpId=13&tqId=11207&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
-
-**题目描述**
-```
-请实现一个函数用来找出字符流中第一个只出现一次的字符。
-例如，当从字符流中只读出前两个字符"go"时，第一个只出现一次的字符是"g"。
-当从该字符流中读出前六个字符“google"时，第一个只出现一次的字符是"l"。
-```
-
-**思路**
-- 计数排序——使用一个数组数组保存出现元素的次数
-- 使用队列保存出现的元素
-
-**Code - 队列**
-```C++
-class Solution {
-    int book[256];
-    queue<char> q;
-public:
-    Solution() {
-        fill(book, book + 256, 0);  // 初始化，实际不需要这步，默认全部初始化为 0
-    }
-    void Insert(char ch) {
-        book[ch] += 1;
-        q.push(ch);
-        while (!q.empty() && book[q.front()] > 1) {
-            q.pop();
-        }
-    }
-    char FirstAppearingOnce() {
-        return q.empty() ? '#' : q.front();
     }
 };
 ```
@@ -3286,7 +3248,7 @@ public:
 };
 ```
 
-## 50. 第一个只出现一次的字符位置
+## 50.1 第一个只出现一次的字符位置（Hash）
 > [第一个只出现一次的字符](https://www.nowcoder.com/practice/1c82e8cf713b4bbeb2a5b31cf5b0417c?tpId=13&tqId=11187&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
 
 **题目描述**
@@ -3295,37 +3257,118 @@ public:
 ```
 
 **思路**
+- Hash 表
+- 因为是字符，可以使用数组模拟哈希表
 
-
-**Code**
+**Code - 数组**
 ```Cpp
+class Solution {
+public:
+    int FirstNotRepeatingChar(const string& s) {
+        vector<int> m(256, 0);
+        
+        for (auto c : s)
+            if (m[c] < 1)
+                m[c] = 1;
+            else
+                m[c] += 1;
+        
+        for (int i=0; i < s.length(); i++)
+            if (m[s[i]] == 1)
+                return i;
+        
+        return -1;
+    }
+};
+```
 
+**Code - Hash(C++ map)**
+```Cpp
+class Solution {
+    map<char, int> m;
+public:
+    int FirstNotRepeatingChar(const string& s) {
+        for (auto c : s)
+            if (m.count(c) < 1)
+                m[c] = 1;
+            else
+                m[c] += 1;
+        
+        for (int i=0; i < s.length(); i++)
+            if (m[s[i]] == 1)
+                return i;
+        
+        return -1;
+    }
+};
+```
+
+**Code - Hash(Python dict)**
+```Python
+class Solution:
+    def FirstNotRepeatingChar(self, s):
+        d = dict()
+        for c in s:
+            if c in d:
+                d[c] += 1
+            else:
+                d[c] = 1
+        
+        for i in range(len(s)):
+            if d[s[i]] == 1:
+                return i
+            
+        return -1
 ```
 
 
-## 
-> 
+## 50.2 字符流中第一个只出现一次的字符（数据结构：队列）
+> [字符流中第一个不重复的字符](https://www.nowcoder.com/practice/00de97733b8e4f97a3fb5c680ee10720?tpId=13&tqId=11207&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
 
 **题目描述**
 ```
-
+请实现一个函数用来找出字符流中第一个只出现一次的字符。
+例如，当从字符流中只读出前两个字符"go"时，第一个只出现一次的字符是"g"。
+当从该字符流中读出前六个字符“google"时，第一个只出现一次的字符是"l"。
 ```
 
 **思路**
+- 计数排序——使用一个数组数组保存出现元素的次数
+- 使用队列保存出现的元素
 
+**Code - 队列**
+```C++
+class Solution {
+    int book[256];
+    queue<char> q;
 
-**Code**
-```Cpp
+public:
+    Solution() {
+        fill(book, book + 256, 0);  // 初始化，实际不需要这步，默认全部初始化为 0
+    }
 
+    void Insert(char ch) {
+        book[ch] += 1;
+        q.push(ch);
+        while (!q.empty() && book[q.front()] > 1) {
+            q.pop();
+        }
+    }
+    
+    char FirstAppearingOnce() {
+        return q.empty() ? '#' : q.front();
+    }
+};
 ```
 
 
-## 
-> 
+## 51. 数组中的逆序对
+> [数组中的逆序对](https://www.nowcoder.com/practice/96bd6684e04a44eb80e6a68efc0ec6c5?tpId=13&tqId=11188&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
 
 **题目描述**
 ```
-
+在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。
+输入一个数组,求出这个数组中的逆序对的总数P。并将P对1000000007取模的结果输出。 即输出P%1000000007
 ```
 
 **思路**
