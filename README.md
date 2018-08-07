@@ -1,4 +1,5 @@
-## 深度学习/机器学习面试笔记
+算法/NLP深度学习/机器学习面试笔记
+===
 
 深度学习/机器学习面试问题整理，想法来源于这个[仓库](https://github.com/elviswf/DeepLearningBookQA_cn).
 - 该仓库整理了“花书”《深度学习》中的一些常见问题，其中部分偏理论的问题没有收录，如有需要可以浏览原仓库。
@@ -6,7 +7,6 @@
 此外，还包括我看到的所有机器学习/深度学习面经中的问题。除了其中 DL/ML 相关的，其他与算法岗相关的计算机知识也会记录。
 
 但是不会包括如前端/测试/JAVA/Android等岗位中有关的问题。
-
 
 ## RoadMap
 - [深度学习](./深度学习)
@@ -58,6 +58,7 @@
 - exacity/[deeplearningbook-chinese](https://github.com/exacity/deeplearningbook-chinese): 深度学习中文版 
 - elviswf/[DeepLearningBookQA_cn](https://github.com/elviswf/DeepLearningBookQA_cn): 深度学习面试问题 回答对应的DeepLearning中文版页码
 - huihut/[interview: C/C++面试知识总结](https://github.com/huihut/interview) 
+- 七月在线：[结构之法 算法之道](https://blog.csdn.net/v_july_v) - CSDN博客
 - 在线 LaTeX 公式编辑器 http://www.codecogs.com/latex/eqneditor.php
 - GitHub 搜索：[Deep Learning Interview](https://github.com/search?q=deep+learning+interview)
 - GitHub 搜索：[Machine Learning Interview](https://github.com/search?q=machine+learning+interview)
