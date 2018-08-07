@@ -95,7 +95,7 @@
   <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=p(w_k|w_{k-1})=\frac{p(w_{k-1},w_k)}{p(w_{k-1})}\approx&space;\frac{\mathrm{count}(w_{k-1},w_k)}{\mathrm{count}(w_{k-1})}"><img src="../assets/公式_20180805212222.png" height="" /></a></div>
 
 - 假设词表的规模 `N=200000`（汉语的词汇量），模型参数与 `n· 的关系表
-  <div align="center"><a href=""><img src="../assets/TIM截图20180805212441.png" height="" /></a></div>
+  <div align="center"><img src="../assets/TIM截图20180805212441.png" height="" /></div>
 
 ### 可靠性与可区别性
 - 假设没有计算和存储限制，`n` 是不是越大越好？
@@ -153,11 +153,11 @@
   - **当训练完成时**，就得到了 N-gram 神经语言模型，以及副产品**词向量**
   - 整个模型可以概括为如下公式：
     <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=y=U\cdot\tanh(Wx&plus;p)&plus;q"><img src="../assets/公式_2018080695721.png" height="" /></a></div><br/>
-    <div align="center"><a href=""><img src="../assets/TIM截图20180805234123.png" height="200" /></a></div>
+    <div align="center"><img src="../assets/TIM截图20180805234123.png" height="200" /></div>
   
   > 原文的模型还考虑了投影层与输出层有有边相连的情形，因而会多一个权重矩阵，但本质上是一致的：
   >> <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=y=U\cdot\tanh(W_1x&plus;p)&plus;W_2x&plus;q"><img src="../assets/公式_2018080695819.png" height="" /></a></div><br/>
-  >> <div align="center"><a href=""><img src="../assets/TIM截图20180805231056.png" height="" /></a></div>
+  >> <div align="center"><img src="../assets/TIM截图20180805231056.png" height="" /></div>
 
 ### 模型参数的规模与运算量
 - 模型的超参数：`m, n, h, N`
