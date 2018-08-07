@@ -1,5 +1,6 @@
 算法/NLP/深度学习/机器学习面试笔记
 ===
+**GitHub** 地址：https://github.com/imhuay/CS_Interview_Notes-Chinese
 
 深度学习/机器学习面试问题整理，想法来源于这个[仓库](https://github.com/elviswf/DeepLearningBookQA_cn).
 - 该仓库整理了“花书”《深度学习》中的一些常见问题，其中部分偏理论的问题没有收录，如有需要可以浏览原仓库。
@@ -14,8 +15,12 @@
   - [深度学习的核心](./数学/深度学习的核心.md)
 - [自然语言处理](./自然语言处理)
   - [词向量](./自然语言处理/专题-词向量.md)
+    - [Word2Vec](./自然语言处理/专题-词向量.md#word2vec)
+    - [GloVe](./自然语言处理/专题-词向量.md#glove)
+    - [FastText](./自然语言处理/专题-词向量.md#fasttext)
+    - WordRank TODO
   - [序列建模](./自然语言处理/专题-序列建模.md) TODO
-  - [工具库](./自然语言处理/专题-工具库.md) TODO
+  - [工具库](./自然语言处理/专题-工具库.md)
 - [机器学习-深度学习](./机器学习-深度学习)
   - 公共基础
     - 背景知识
@@ -34,27 +39,14 @@
   - [Cpp专题-左值与右值](./编程语言/Cpp专题-左值与右值.md)
 - [笔试面经](./笔试面经)
 - [项目经验](./项目经验)
+- [code](./code)
+  - [工具库](./code/工具库)
+    - [gensim.FastText 的使用](./code/工具库/gensim/FastText.py)
+  - [倒排索引](./code/倒排索引)
+  - [Tensorflow 基础](./code/tf-基础) TODO
 - 各公司[招聘要求](./招聘要求.md)
-<!-- 
-- [深度学习](./深度学习)
-  - [深度学习实践](./项目经验/README.md)（项目经验）
-  - [“花书”《深度学习》整理](./深度学习/“花书”《深度学习》整理.md)
-    > 顺序比较乱，很多相关问题也没放在一起，目前正在做进一步整理
-- [机器学习](./机器学习)
-- [OJ 记录](https://github.com/imhuay/Algorithm_for_Interview-Chinese)
-  - [必背算法](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/_必背算法)
-  - [C++ 回顾](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/_cpp回顾)
-    - [传统OJ IO模板](https://github.com/imhuay/Algorithm_for_Interview-Chinese/blob/master/Algorithm_for_Interview/_cpp回顾/IO模板.hpp)
-    - [STL 容器速览](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/_Cpp回顾/STL容器)
-- [算法](./算法)
-- [数学](./数学)
-  - [微积分的本质](./数学/微积分的本质.md)
-  - [深度学习的核心](./数学/深度学习的核心.md)
-- [笔试面经](./笔试面经) 
--->
 
-
-## 必备清单
+## 必备清单 TODO
 - [深度学习](./深度学习/README.md)
   - [反向传播算法](./深度学习/README.md#反向传播算法)
   - [梯度下降法](#梯度下降法)
