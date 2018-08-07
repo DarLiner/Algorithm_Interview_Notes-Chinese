@@ -17,11 +17,11 @@ model = FastText(sentences, size=5, min_count=1, min_n=min_ngrams, max_n=max_ngr
 # 可以通过相同的方式获取每个单词以及任一个 n-gram 的向量
 print(model.wv['hello'])
 print(model.wv['<h'])
-print()
 """
 [-0.03481839  0.00606661  0.02581969  0.00188777  0.0325358 ]
 [ 0.04481247 -0.1784363  -0.03192253  0.07162753  0.16744071]
 """
+print()
 
 # 词向量和 n-gram 向量是分开存储的
 print(len(model.wv.vectors))  # 7
