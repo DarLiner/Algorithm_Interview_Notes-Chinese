@@ -131,13 +131,13 @@
 
 - 类似 LSTM 的过滤机制，实际上是卷积网络与**门限单元**（Gated Linear Unit）的组合
 - 核心公式
-  <div align="center"><a href=""><img src="../assets/公式_20180720110804.png" /></a></div>
+  <div align="center"><img src="../assets/公式_20180720110804.png" /></div>
   <!-- \boldsymbol{Y}=\text{Conv1D}_{(1)}(\boldsymbol{X}) \otimes \sigma\Big(\text{Conv1D}_{(2)}(\boldsymbol{X})\Big)dsymbol{X})\Big) -->
   
   > 中间的运算符表示**逐位相乘**—— Tensorflow 中由 `tf.multiply(a, b)` 实现，其中 a 和 b 的 shape 要相同；后一个卷积使用`sigmoid`激活函数
 
 - 一个门卷积 Block
-  <div align="center"><a href=""><img src="../assets/门卷积.jpg" height="" /></a></div>
+  <div align="center"><img src="../assets/门卷积.jpg" height="" /></div>
 
   > `W` 和 `V` 表明参数不共享
 - 实践中，为了防止梯度消失，还会在每个 Block 中加入残差
@@ -150,11 +150,11 @@
 ## 门卷积是如何防止梯度消失的
 - 因为公式中有一个卷积没有经过激活函数，所以对这部分求导是个常数，所以梯度消失的概率很小。
 - 如果还是担心梯度消失，还可以加入**残差**——要求输入输出的 shape 一致
-  <div align="center"><a href=""><img src="../assets/公式_20180720113735.png" /></a></div>
+  <div align="center"><img src="../assets/公式_20180720113735.png" /></div>
   <!-- \boldsymbol{Y}={\color{Red} \boldsymbol{X} \,+\;} \text{Conv1D}_{(1)}(\boldsymbol{X}) \otimes \sigma\Big(\text{Conv1D}_{(2)}(\boldsymbol{X})\Big) -->
 
   更直观的理解：
-  <div align="center"><a href=""><img src="../assets/公式_20180720120400.png" /></a></div>
+  <div align="center"><img src="../assets/公式_20180720120400.png" /></div>
   <!-- \begin{aligned}\boldsymbol{Y}=&\,\boldsymbol{X} + {\color{Red}\text{Conv1D}_{(1)}(\boldsymbol{X})}\otimes \sigma\Big(\text{Conv1D}_{(2)}(\boldsymbol{X})\Big)\\=&\,\boldsymbol{X} + {\color{Red}\Big(\text{Conv1D}_{(1)}(\boldsymbol{X}) - \boldsymbol{X}\Big)}\otimes \sigma\Big(\text{Conv1D}_{(2)}(\boldsymbol{X})\Big)\\ =&\,\boldsymbol{X}\otimes \Big[1-\sigma\Big(\text{Conv1D}_{(2)}(\boldsymbol{X})\Big)\Big] + \text{Conv1D}_{(1)}(\boldsymbol{X}) \otimes \sigma\Big(\text{Conv1D}_{(2)}(\boldsymbol{X})\Big)\\ =&\,\boldsymbol{X}\otimes \Big(1-\boldsymbol{\sigma}\Big) + \text{Conv1D}_{(1)}(\boldsymbol{X}) \otimes \boldsymbol{\sigma} \end{aligned} -->
 
   即信息以 `1-σ` 的概率直接通过，以 `σ` 的概率经过变换后通过——类似 GRU
