@@ -84,3 +84,9 @@
 - GitHub 搜索：[Machine Learning Interview](https://github.com/search?q=machine+learning+interview)
     - geekcircle/[machine-learning-interview-qa](https://github.com/geekcircle/machine-learning-interview-qa): 人工智能-机器学习笔试面试题解析 
 - [牛客网-讨论区](https://www.nowcoder.com/discuss?type=2&order=0)
+
+### 发布站点
+- [算法/NLP/深度学习/机器学习面试笔记](https://zhuanlan.zhihu.com/p/41515995) - 知乎
+- [算法/NLP/深度学习/机器学习面试笔记](https://www.jianshu.com/p/55b0703aa1ad) - 简书 
+- [算法/NLP/深度学习/机器学习面试笔记](https://blog.csdn.net/imhuay/article/details/81490564) - CSDN博客 
+- [GitHub 上整理的深度学习/机器学习面试笔记](https://www.v2ex.com/t/473047) - V2EX 
