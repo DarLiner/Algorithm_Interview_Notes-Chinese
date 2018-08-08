@@ -14,10 +14,15 @@ Index
 - [RNN 与序列建模](#rnn-与序列建模)
   - [RNN 的设计模式以及相应的递推公式（3） ToCompletion](#rnn-的设计模式以及相应的递推公式3-tocompletion)
   - [完整的 RNN 递推公式](#完整的-rnn-递推公式)
-- [LSTM ToCompletion](#lstm-tocompletion)
-- [GRU](#gru)
+  - [LSTM ToCompletion](#lstm-tocompletion)
+  - [GRU ToCompletion](#gru-tocompletion)
 - [CNN 与序列建模](#cnn-与序列建模)
   - [一维卷积](#一维卷积)
+- [时间卷积网络（TCN）](#时间卷积网络tcn)
+  - [因果卷积](#因果卷积)
+  - [空洞卷积](#空洞卷积)
+  - [Highway 网络](#highway-网络)
+  - [残差模块](#残差模块)
 
 <!-- /TOC -->
 
@@ -60,10 +65,10 @@ Index
   >> [Recurrent neural network](https://en.wikipedia.org/wiki/Recurrent_neural_network#Elman_networks_and_Jordan_networks) - Wikipedia 
   
 
-## LSTM ToCompletion
+### LSTM ToCompletion
 > DL-RNN
 
-## GRU
+### GRU ToCompletion
 > DL-RNN
 
 ## CNN 与序列建模
@@ -81,5 +86,23 @@ Index
 
   - 最下层的 `x_i` 可视为句子的输入序列
   - 最上层的 `g_j` 即输出序列
-  - 流行的网络中一般使用 **embedding** 作为输入，也就说每个 `x_i` 是一个多维向量 `v(x_i)`
+  - 流行的网络中一般使用 **embedding** 作为输入，也就说每个 `x_i` 其实是一个多维向量 `v(x_i)`
     > [NLP-词向量](./NLP-词向量.md)
+
+
+## 时间卷积网络（TCN）
+
+### 因果卷积
+
+**Reference**
+- [WaveNet: A Generative Model for Raw Audio](https://deepmind.com/blog/wavenet-generative-model-raw-audio/) | DeepMind
+- ibab/[tensorflow-wavenet](https://github.com/ibab/tensorflow-wavenet) - GitHub
+
+### 空洞卷积
+
+### Highway 网络
+- 一种门限机制
+
+### 残差模块
+> [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385) (He, et al., 2015)
+
