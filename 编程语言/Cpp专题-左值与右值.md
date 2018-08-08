@@ -33,6 +33,7 @@ Index
   - [`std::move()` 的本质](#stdmove-的本质)
 - [完美转发](#完美转发)
   - [`std::forward<T>()` 实现完美转发](#stdforwardt-实现完美转发)
+  - [完美转发的目的 TODO](#完美转发的目的-todo)
 - [Reference](#reference)
 
 <!-- /TOC -->
@@ -519,15 +520,16 @@ int&& v2 = v1;  // err: v2 是右值引用类型，但 v1 是左值
   - 无论传入的是左值还是右值，val 都是一个左值
 
 ### `std::forward<T>()` 实现完美转发
+> 这里写的不够详细，有时间在整理
 - 在函数模板中，`T&&` 实际上是未定引用类型，它是可以得知传入的对象是左值还是右值的
 - 这个特性使其可以成为一个参数的路由，利用 `forward()` 实现完美转发
 - `std::forward<T>()` 可以保留表达式作为“对象”（左值）或“值”（右值）的特性
-  ```Cpp
+  <!-- ```Cpp
   int&& a = 1;
   
   cout << &a;               // OK: 虽然 a 是一个右值引用类型的变量，但它本身是一个左值
   cout << &forward<int>(a); // err: taking address of xvalue (rvalue reference)
-  ```
+  ``` -->
 - 利用 `std::forward<T>()` 实现完美转发
   - 不可以用变量接收 `forward<T>()` 的返回值，因为所有具名变量都是左值
   ```Cpp
@@ -561,6 +563,7 @@ int&& v2 = v1;  // err: v2 是右值引用类型，但 v1 是左值
     ```
   - 正确实现了转发
 
+### 完美转发的目的 TODO
 
 ## Reference
 - [The lvalue/rvalue metaphor](https://josephmansfield.uk/articles/lvalue-rvalue-metaphor.html) — Joseph Mansfield
