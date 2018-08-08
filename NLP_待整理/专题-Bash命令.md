@@ -1,4 +1,4 @@
-专题-Bash命名
+专题-Bash命令
 ===
 
 Index
