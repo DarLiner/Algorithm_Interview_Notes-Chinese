@@ -6,7 +6,7 @@ C++中的左值与右值
 - 这一部分内容只是帮助理解 C++(11) 中左值与右值的概念。
 - 在编程实践中，因为**编译器优化**的存在，特别是其中的**返回值优化**（Return Value Optimization, RVO）使你不需要额外关注左值与右值的区别，像 C++(03) 一样编程即可。
   > [C++11 rvalues and move semantics confusion (return statement)](https://stackoverflow.com/questions/4986673/c11-rvalues-and-move-semantics-confusion-return-statement) - Stack Overflow 
-- 除非你在进行库的开发，特别是涉及模板元编程等内容时，需要实现**移动构造函数**（move constructor）；或者[完美转发](#完美转发)
+- 除非你在进行库的开发，特别是涉及模板元编程等内容时，需要实现[移动构造函数](#移动构造函数)（move constructor），或者[完美转发](#完美转发)
 
 Index
 ---
@@ -29,7 +29,7 @@ Index
 - [返回值优化 RVO](#返回值优化-rvo)
 - [移动语义](#移动语义)
   - [深拷贝带来的问题](#深拷贝带来的问题)
-  - [移动构造函数 与 移动语义](#移动构造函数-与-移动语义)
+  - [移动构造函数](#移动构造函数)
   - [移动语义 与 `move()`](#移动语义-与-move)
   - [`move()` 的本质](#move-的本质)
   - [`move()` 的原型 TODO](#move-的原型-todo)
@@ -367,7 +367,7 @@ int&& v2 = v1;  // err: v2 是右值引用类型，但 v1 是左值
 - 对于临时对象而言，深拷贝不是必须的
 - 利用右值引用可以避免无谓的深拷贝——移动拷贝构造函数
 
-### 移动构造函数 与 移动语义
+### 移动构造函数
 - 相比上面的代码，这里只多了一个移动构造函数——一般会同时提供拷贝构造与移动构造
   ```Cpp
   class A {
