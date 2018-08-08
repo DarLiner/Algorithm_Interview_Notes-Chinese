@@ -17,6 +17,7 @@ Index
   - [当发生自动类型推断时，`T&&` 也能绑定左值](#当发生自动类型推断时t-也能绑定左值)
   - [如何快速判断左值与右值](#如何快速判断左值与右值)
   - [引用折叠规则](#引用折叠规则)
+  - [`move()` 与 `forward()`](#move-与-forward)
 - [左值与右值的本质](#左值与右值的本质)
   - [左值、消亡值、纯右值](#左值消亡值纯右值)
 - [右值引用的特点](#右值引用的特点)
@@ -29,11 +30,12 @@ Index
 - [移动语义](#移动语义)
   - [深拷贝带来的问题](#深拷贝带来的问题)
   - [移动构造函数 与 移动语义](#移动构造函数-与-移动语义)
-  - [移动语义 与 `std::move()`](#移动语义-与-stdmove)
-  - [`std::move()` 的本质](#stdmove-的本质)
+  - [移动语义 与 `move()`](#移动语义-与-move)
+  - [`move()` 的本质](#move-的本质)
+  - [`move()` 的原型 TODO](#move-的原型-todo)
 - [完美转发](#完美转发)
-  - [`std::forward<T>()` 实现完美转发](#stdforwardt-实现完美转发)
-  - [完美转发的目的 TODO](#完美转发的目的-todo)
+  - [`forward<T>()` 实现完美转发](#forwardt-实现完美转发)
+  - [`forward<T>()`的原型 TODO](#forwardt的原型-todo)
 - [Reference](#reference)
 
 <!-- /TOC -->
@@ -139,6 +141,11 @@ auto&& t = x;   // OK
       return 0;
   }
   ```
+
+### `move()` 与 `forward()`
+- `move()` 的主要作用是将一个左值转为 xvalue（右值）, 其实现本质上是一个 `static_cast<T>`
+- `forward()` 主要用于实现完美转发，其作用是将一个类型为（左值/右值）引用的左值，转化为它的类型所对应的值类型（左值/右值）
+  > 觉得难以理解的话，就继续看下去吧
 
 
 ## 左值与右值的本质
@@ -406,7 +413,7 @@ int&& v2 = v1;  // err: v2 是右值引用类型，但 v1 是左值
 - 对于临时对象而言，没有必要调用深拷贝
 - 这就是所谓的**移动语义**——右值引用的一个重要目的就是为了支持移动语义
 
-### 移动语义 与 `std::move()`
+### 移动语义 与 `move()`
 - 移动语义是通过右值引用来匹配临时值，从而避免深拷贝
 - 利用 `move()` 方法，可以将普通的左值转化为右值来达到**避免深拷贝**的目的
   ```Cpp
@@ -483,14 +490,18 @@ int&& v2 = v1;  // err: v2 是右值引用类型，但 v1 是左值
   ```
   - C++11 中所有的容器都实现了移动语义
 
-### `std::move()` 的本质
+### `move()` 的本质
 - `move()` 实际上并没有移动任何东西，它唯一的功能是将一个左值**强制转换**为一个右值引用
 - 如果没有对应的移动构造函数，那么使用 `move()` 仍会发生深拷贝，比如基本类型，定长数组等
 - 因此，`move()` 对于含有资源（堆内存或句柄）的对象来说更有意义。
 
+### `move()` 的原型 TODO
+> [c++11 中的 move 与 forward - twoon](https://www.cnblogs.com/catch/p/3507883.html) - 博客园 
 
 ## 完美转发
-- C++11 之前调用**模板函数**时，存在一个问题——如何正确的传递参数，即保持参数作为左值或右值的特性
+- 右值引用的引入，使函数可以根据值的类型（左值或右值）进行不同的处理
+- 于是又引入了一个问题——如何正确的传递参数，保持参数作为左值或右值的特性
+- 转发失败的例子：
   ```Cpp
   void processValue(int& a)  { cout << "lvalue" << endl; }
   void processValue(int&& a) { cout << "rvalue" << endl; }
@@ -519,7 +530,7 @@ int&& v2 = v1;  // err: v2 是右值引用类型，但 v1 是左值
     ```
   - 无论传入的是左值还是右值，val 都是一个左值
 
-### `std::forward<T>()` 实现完美转发
+### `forward<T>()` 实现完美转发
 > 这里写的不够详细，有时间在整理
 - 在函数模板中，`T&&` 实际上是未定引用类型，它是可以得知传入的对象是左值还是右值的
 - 这个特性使其可以成为一个参数的路由，利用 `forward()` 实现完美转发
@@ -530,8 +541,8 @@ int&& v2 = v1;  // err: v2 是右值引用类型，但 v1 是左值
   cout << &a;               // OK: 虽然 a 是一个右值引用类型的变量，但它本身是一个左值
   cout << &forward<int>(a); // err: taking address of xvalue (rvalue reference)
   ``` -->
-- 利用 `std::forward<T>()` 实现完美转发
-  - 不可以用变量接收 `forward<T>()` 的返回值，因为所有具名变量都是左值
+- 利用 `std::forward<T>()` 实现完美转发：
+  > 不可以用变量接收 `forward<T>()` 的返回值，因为所有具名变量都是左值
   ```Cpp
   void processValue(int& a)  { cout << "lvalue" << endl; }
   void processValue(int&& a) { cout << "rvalue" << endl; }
@@ -563,9 +574,11 @@ int&& v2 = v1;  // err: v2 是右值引用类型，但 v1 是左值
     ```
   - 正确实现了转发
 
-### 完美转发的目的 TODO
+### `forward<T>()`的原型 TODO
 
 ## Reference
 - [The lvalue/rvalue metaphor](https://josephmansfield.uk/articles/lvalue-rvalue-metaphor.html) — Joseph Mansfield
 - [关于C++左值和右值区别有没有什么简单明了的规则可以一眼辨别？](https://www.zhihu.com/question/39846131/answer/85277628) - 知乎
 - [从4行代码看右值引用 - qicosmos(江南)](https://www.cnblogs.com/qicosmos/p/4283455.html) - 博客园 
+- [c++11 中的 move 与 forward - twoon](https://www.cnblogs.com/catch/p/3507883.html) - 博客园 
+- [左值右值的一点总结 - twoon](http://www.cnblogs.com/catch/p/5019402.html) - 博客园 
