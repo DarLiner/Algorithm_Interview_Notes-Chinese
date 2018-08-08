@@ -4,6 +4,7 @@
 Reference
 ---
 - 自然语言处理之序列模型 - 小象学院
+- [从循环到卷积，探索序列建模的奥秘](https://mp.weixin.qq.com/s/f0sv7c-H5o5L_wy2sUonUQ) - 机器之心
 
 Index
 ---
@@ -14,8 +15,11 @@ Index
   - [NLP 的历史进程](#nlp-的历史进程)
   - [Seq2Seq 模型](#seq2seq-模型)
 - [序列建模](#序列建模)
-  - [RNN TODO](#rnn-todo)
-  - [LSTM TODO](#lstm-todo)
+  - [RNN](#rnn)
+    - [RNN 的设计模式以及相应的递推公式（3） ToCompletion](#rnn-的设计模式以及相应的递推公式3-tocompletion)
+    - [完整的 RNN 递推公式](#完整的-rnn-递推公式)
+  - [LSTM](#lstm)
+  - [RNN](#rnn-1)
 
 <!-- /TOC -->
 
@@ -114,8 +118,45 @@ Index
 
 
 # 序列建模
-- 序列建模的目的在于学习一个模型，从而能对观测序列给出标记序列作为预测，即最大化概率 P（y_1，y_2，...，y_n | x_1，x_2，...，x_n）
+> [从循环到卷积，探索序列建模的奥秘](https://mp.weixin.qq.com/s/f0sv7c-H5o5L_wy2sUonUQ) - 机器之心
+- 序列建模即将一个**输入/观测**序列映射到一个**输出/标记**序列
+  > 《统计学习方法》中称之为标注问题
+- 在**传统机器学习**方法中，常用的模型有：隐马尔可夫模型（HMM），条件随机场（CRF）等
+  > 机器学习专题 TODO
+- 在**深度学习领域**的很长一段时间里，RNN/LSTM 都是序列建模的默认配置。
+  > 《深度学习》中直接使用“序列建模：循环和递归网络”作为章节名
+- 最近，CNN 开始在序列建模领域流行，一个关键想法是——在一维时间序列上使用**一维卷积**运算
+  <div align="center"><img src="../assets/TIM截图20180808105242.png" height="" /></div>
 
-## RNN TODO
+  > [CNN for Sentence Classification](https://arxiv.org/abs/1408.5882) (Kim, 2014)
 
-## LSTM TODO
+## RNN
+- 循环神经网络本质上是一个递推函数
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\dpi{120}&space;s^{(t)}=f(s^{(t-1)};\theta)"><img src="../assets/公式_20180808110452.png" height="" /></a></div>
+
+- 考虑隐藏状态和输入
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\dpi{120}&space;h^{(t)}=f({\color{Red}h^{(t-1)},x^{(t)}};\theta)"><img src="../assets/公式_20180808110741.png" height="" /></a></div>
+
+- RNN 的计算图（无输出单元）
+  <div align="center"><img src="../assets/TIM截图20180808110903.png" height="120" /></div>
+
+### RNN 的设计模式以及相应的递推公式（3） ToCompletion
+> 《深度学习》 10.2 循环神经网络 - RNN 几种不同的设计模型（3）
+- 根据
+
+### 完整的 RNN 递推公式
+- 加入输出单元
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;\begin{aligned}&space;\textbf{\emph{a}}^{(t)}&=\textbf{\emph{b}}&plus;\textbf{\emph{Wh}}^{(t-1)}&plus;\textbf{\emph{Ux}}^{(t)}\\&space;\textbf{\emph{h}}^{(t)}&=\tanh(\textbf{\emph{a}}^{(t)})\\&space;\textbf{\emph{o}}^{(t)}&=\textbf{\emph{c}}&plus;\textbf{\emph{Vh}}^{(t)}\\&space;\hat{\textbf{\emph{y}}}^{(t)}&=\mathrm{softmax}(\textbf{\emph{o}}^{(t)})&space;\end{aligned}"><img src="../assets/公式_20180808114308.png" height="" /></a></div>
+
+- 完整的计算图
+  <div align="center"><img src="../assets/TIM截图20180808111835.png" height="" /></div>
+  
+  > 一般来说，有两种 RNN 的基本结构：Elman network 和 Jordan network；目前深度学习领域通常所说的 RNN 指的是前者
+  > <div align="center"><img src="../assets/TIM截图20180808114753.png" height="" /></div>
+  >
+  >> [Recurrent neural network](https://en.wikipedia.org/wiki/Recurrent_neural_network#Elman_networks_and_Jordan_networks) - Wikipedia 
+  
+
+## LSTM
+
+## RNN
