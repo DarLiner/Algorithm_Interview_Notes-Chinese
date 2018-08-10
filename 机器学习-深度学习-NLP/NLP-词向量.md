@@ -37,9 +37,9 @@ Index
     - [获取单个词的 ngrams 表示](#获取单个词的-ngrams-表示)
     - [计算一个未登录词的词向量](#计算一个未登录词的词向量)
 - [WordRank TODO](#wordrank-todo)
+- [CharCNN 字向量](#charcnn-字向量)
 - [其他实践](#其他实践)
   - [一般 embedding 维度的选择](#一般-embedding-维度的选择)
-- [Reference](#reference)
 
 <!-- /TOC -->
 
@@ -433,6 +433,13 @@ Glove 也利用了**反向传播**来更新词向量，但是结构要更简单�
 
 # WordRank TODO
 
+# CharCNN 字向量
+- CharCNN 的思想是通过字符向量得到词向量
+
+> [1509] [Character-level Convolutional Networks for Text Classification](https://arxiv.org/abs/1509.01626) 
+
+
+
 
 # 其他实践
 ## 一般 embedding 维度的选择
@@ -441,5 +448,3 @@ Glove 也利用了**反向传播**来更新词向量，但是结构要更简单�
 - 在大型语料上训练的词向量维度通常会设置的更大一些，比如 `100~300`
   > 如果根据经验公式，是不需要这么大的，比如 200W 词表的词向量维度只需要 `200W ** 0.25 ≈ 37`
 
-# Reference
-- 
