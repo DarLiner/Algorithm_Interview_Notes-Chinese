@@ -7,8 +7,9 @@
 References:
     https://github.com/mnielsen/neural-networks-and-deep-learning/blob/master/src/network.py
 """
+import numpy as np
 import random
-from utils import *
+from utils import sigmoid, sigmoid_prime
 
 
 class Network(object):
@@ -41,6 +42,7 @@ class Network(object):
         """前向传播"""
         for b, w in zip(self.biases, self.weights):
             a = sigmoid(np.dot(w, a) + b)
+        print(a.shape)
         return a
 
     def _backprop(self, x, y):
@@ -118,8 +120,10 @@ class Network(object):
         """交叉熵损失的导数"""
         return o - y
 
-    def run(self, train_data, dev_data, test_data, n_epoch, batch_size, learning_rate=None):
-        """训练，验证与测试"""
+    def run(self, train_data, dev_data, test_data=None, n_epoch=20, batch_size=20, learning_rate=None):
+        """训练，验证与测试
+        如果没有验证集，则使用测试集作为验证集
+        """
         if learning_rate is not None:
             self.lr = learning_rate
 
@@ -127,12 +131,13 @@ class Network(object):
         dev_data = list(dev_data)
         n_dev = len(dev_data)
         test_data = list(test_data)
-        n_test = len(test_data)
         for e in range(n_epoch):
             self.train(train_data, batch_size, self.lr)
             print("Epoch {} : {} / {}".format(e + 1, self.evaluate(dev_data), n_dev))
 
-        print("Test : {} / {}".format(self.evaluate(test_data), n_test))
+        if test_data is not None:
+            n_test = len(test_data)
+            print("Test : {} / {}".format(self.evaluate(test_data), n_test))
 
     def save(self):
         """"""

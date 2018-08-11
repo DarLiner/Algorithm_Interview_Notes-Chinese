@@ -43,8 +43,8 @@ def cross_entropy(o, y):
         `np.clip()`: 截断函数，防止 log0
 
     Args:
-        o(list): 网络输出
-        y(list):
+        o: 网络输出
+        y:
     """
     o = np.clip(np.array(o), 1e-10, 1.0)  # 截断，防止 log0
     y = np.array(y)
@@ -55,14 +55,26 @@ def binary_cross_entropy(o, y):
     """Binary Cross Entropy loss
 
     Args:
-        o(int):
-        y(int):
+        o(float):
+        y(float):
     """
     o = np.clip(o, 1e-10, 1.0)
     return -o * np.log(y) - (1 - o) * np.log(1 - y)
 
 
-def softmax(y_):
+def softmax(o):
     """SoftMax
     """
-    return np.exp(y_) / np.sum(np.exp(y_), axis=0)
+    return np.exp(o) / np.sum(np.exp(o), axis=0)
+
+
+if __name__ == '__main__':
+    """"""
+    y = np.zeros(10)
+    y[0] = 1.
+
+    o = np.arange(10)
+    o = softmax(o)
+
+    loss = cross_entropy(o, y)
+    print(loss)
