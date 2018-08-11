@@ -90,6 +90,7 @@ while (cin >> n && n != 0) {
 }
 ```
 
+
 ## 指示有 N 个 Input
 
 ### C
