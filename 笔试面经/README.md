@@ -264,7 +264,6 @@ for item in ret[:-1]:
     s += str(item[0])+','+str(item[1])+';'
 s += str(ret[-1][0])+','+str(ret[-1][1])
 print(s)
-
 ```
 
 ### 3. 积分卡牌游戏
