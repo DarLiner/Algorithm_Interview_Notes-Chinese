@@ -19,17 +19,22 @@ Index
   - [二面（广告）](#二面广告)
 - [拼多多 180722 笔试](#拼多多-180722-笔试)
   - [1. 数组中的最长山谷](#1-数组中的最长山谷)
-  - [2.字符串构造](#2字符串构造)
-  - [3.到达指定位置](#3到达指定位置)
-  - [4.靓号](#4靓号)
-- [](#)
+  - [2. 字符串构造](#2-字符串构造)
+  - [3. 到达指定位置](#3-到达指定位置)
+  - [4. 靓号](#4-靓号)
+- [[180812] 字节跳动笔试](#180812-字节跳动笔试)
+  - [1. 世界杯开幕式](#1-世界杯开幕式)
+  - [2. 文章病句标识](#2-文章病句标识)
+  - [3. 积分卡牌游戏](#3-积分卡牌游戏)
+  - [4. 区间最大最小值](#4-区间最大最小值)
+  - [5. 直播爱好者](#5-直播爱好者)
 
 <!-- /TOC -->
 
-# 今日头条-算法工程师-实习
+## 今日头条-算法工程师-实习
 > [6.14今日头条算法工程师实习生](https://www.nowcoder.com/discuss/84462?type=2&order=0&pos=11&page=1)_笔经面经_牛客网 
 
-## 一面
+### 一面
 1. 自我介绍；
 1. 二分查找；
     > Algorithm_for_Interview/常用子函数/[二分查找模板.hpp](https://github.com/imhuay/Algorithm_for_Interview-Chinese/blob/master/Algorithm_for_Interview/_utils工具函数/二分查找模板.hpp)
@@ -44,7 +49,7 @@ Index
     >
     > ../机器学习/[线性支持向量机推导](../机器学习/README.md#线性支持向量机推导)
 
-## 二面
+### 二面
 1. 在一个圆环上随机添加3点，三个点组成一个锐角三角形的概率；
 1. 用积分计算上述概率；
 1. 用程序解决上述问题
@@ -62,7 +67,7 @@ Index
     > ../深度学习/[参数初始化](../深度学习/README.md#参数初始化)
 1. 介绍kaggle项目，titanic，用到了哪些框架，用到了哪些算法；
 
-## 三面
+### 三面
 1. 自我介绍；
 1. 分层遍历二叉树，相邻层的遍历方向相反，如第一层从左到右遍历，下一层从右向左遍历；
 1. 介绍AdaBoost算法；
@@ -72,17 +77,17 @@ Index
 1. C++，虚函数，虚析构函数。
 
 
-# 2019 美团 AI - NLP 提前批
+## 2019 美团 AI - NLP 提前批
 > [2019美团AI算法提前批面试经验](https://www.nowcoder.com/discuss/85852?type=2&order=0&pos=7&page=1)_笔经面经_牛客网
 
-## 一面（NLP平台）
+### 一面（NLP平台）
 **论文/项目相关**
 - 意图识别数据怎么标注
 - 怎么样做实体抽取
 - 怎样进行 aspect-level 情感分析
 - 模型中增强学习的 reward 如何设计的；为什么这样设计
 
-## 一面（广告平台）
+### 一面（广告平台）
 **论文/项目相关**
 - seq2seq 中 scheduled sampling 如何做的
 - RL部分训练过程中数据集如何构造
@@ -91,7 +96,7 @@ Index
 - 【**编程题**】给定整数n，求离根号n最近的整数。
   > [二分查找最优解模板](https://github.com/imhuay/Algorithm_for_Interview-Chinese/blob/master/Algorithm_for_Interview/_必背算法/二分查找最优解模板.hpp)
 
-## 二面（广告）
+### 二面（广告）
 **论文/项目相关**
 - RL + Seq2seq相关问题
   - Seq2seq怎样和RL结合，这里的action与state都是什么
@@ -107,9 +112,9 @@ Index
 - 【**编程题**】类似求一个旋转数组的拐点位置
   > 二分查找；[153. 寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/description/) - LeetCode
 
-# 拼多多 180722 笔试
+## 拼多多 180722 笔试
 共 4 道编程题
-## 1. 数组中的最长山谷
+### 1. 数组中的最长山谷
 > 问题描述：LeetCode 845. [数组中的最长山脉](https://leetcode-cn.com/problems/longest-mountain-in-array/description/)
 - 原题是找山脉，这里改成了山谷
   ```
@@ -128,7 +133,7 @@ Index
 - **思路**：暴力枚举；看代码更直观 
 - C++ 代码 [[code]](https://github.com/imhuay/Algorithm_for_Interview-Chinese/blob/master/Algorithm_for_Interview/_笔试/拼多多180722/1.数组中的最长山谷.hpp)（没做输入处理）
 
-## 2.字符串构造
+### 2. 字符串构造
 - 问题描述
   ```
   一个长串由一个字串循环构成，即 s[i]=t[i%n]，比如 "abcabc" 由 "abc" 构成
@@ -140,13 +145,13 @@ Index
 - **思路**：暴力枚举前缀
 - Python 代码 [[code]](https://github.com/imhuay/Algorithm_for_Interview-Chinese/blob/master/Algorithm_for_Interview/_笔试/拼多多180722/2.字符串构造.py)
 
-## 3.到达指定位置
+### 3. 到达指定位置
 - 题目描述：Leetcode 754. [到达终点数字](https://leetcode-cn.com/problems/reach-a-number/description/)
 - 数学题
 - 思路：[一道乐视网的面试题，求解答？](https://www.zhihu.com/question/50790221/answer/125213696) - 知乎 
 - C++ 代码 [[code]](https://github.com/imhuay/Algorithm_for_Interview-Chinese/blob/master/Algorithm_for_Interview/_笔试/拼多多180722/3.到达指定位置.hpp)
 
-## 4.靓号
+### 4. 靓号
 - 问题描述
   ```
   A 国的手机号码由且仅由 N 位十进制数(0-9)组成，可以有前导 0，比如 000123456。一个手机号码中至少有 K 位数相同则被定义为靓号（不要求连续）。
@@ -175,4 +180,102 @@ Index
 - TODO 目前还没看到完全 AC 的代码
 
 
-# 
+## [180812] 字节跳动笔试
+5 道编程题
+
+### 1. 世界杯开幕式
+<div align="center"><img src="../assets/TIM截图20180812100103.png" height="" /></div>
+<div align="center"><img src="../assets/TIM截图20180812100122.png" height="" /></div>
+
+**思路**
+- dfs
+
+**Code(Python)**
+```Python
+m, n = list(map(int, input().strip().split(',')))
+
+book = []
+for i in range(m):
+    line = input().strip().split(',')
+    line = [int(x) for x in line]
+    book.append(line)
+
+class Solution:
+    def __init__(self, pos):
+        self.pos = pos
+        self.cnt = 0
+        self.dp = []
+
+    def dfs(self, i, j):
+        if 0 <= i < m and 0 <= j < n:
+            if self.pos[i][j] == 1:
+                self.cnt += 1
+                self.pos[i][j] = 0
+                self.dfs(i - 1, j)
+                self.dfs(i + 1, j)
+                self.dfs(i, j - 1)
+                self.dfs(i, j + 1)
+                self.dfs(i - 1, j - 1)
+                self.dfs(i + 1, j + 1)
+                self.dfs(i + 1, j - 1)
+                self.dfs(i - 1, j + 1)
+        return
+
+    def solve(self):
+        for i in range(m):
+            for j in range(n):
+                if self.pos[i][j] == 1:
+                    self.cnt = 0
+                    self.dfs(i, j)
+                    if self.cnt > 0:
+                        self.dp.append(self.cnt)
+        return len(self.dp), max(self.dp)
+
+so = Solution(book)
+ret = so.solve()
+print(str(ret[0]) + ',' + str(ret[1]))
+```
+
+### 2. 文章病句标识
+<div align="center"><img src="../assets/TIM截图20180812100344.png" height="" /></div> 
+<div align="center"><img src="../assets/TIM截图20180812100356.png" height="" /></div>
+
+**Code(Python)**
+```Python
+m = int(input())
+
+tmp = []
+for _ in range(m):
+    _line = input().strip().split(';')
+    line = [list(map(int, be.split(','))) for be in _line]
+    tmp.extend(line)
+
+tmp = sorted(tmp, key=lambda x: x[0])
+
+ret = [tmp[0]]
+for item in tmp[1:]:
+    if ret[-1][1] >= item[0]:
+        ret[-1][1] = max(ret[-1][1], item[1])
+    else:
+        ret.append(item)
+
+s = ''
+for item in ret[:-1]:
+    s += str(item[0])+','+str(item[1])+';'
+s += str(ret[-1][0])+','+str(ret[-1][1])
+print(s)
+
+```
+
+### 3. 积分卡牌游戏
+<div align="center"><img src="../assets/TIM截图20180812100416.png" height="" /></div> 
+<div align="center"><img src="../assets/TIM截图20180812100436.png" height="" /></div> 
+
+### 4. 区间最大最小值
+<div align="center"><img src="../assets/TIM截图20180812100503.png" height="" /></div> 
+<div align="center"><img src="../assets/TIM截图20180812100524.png" height="" /></div> 
+
+### 5. 直播爱好者
+<div align="center"><img src="../assets/TIM截图20180812100550.png" height="" /></div> 
+<div align="center"><img src="../assets/TIM截图20180812100606.png" height="" /></div> 
+<div align="center"><img src="../assets/TIM截图20180812100617.png" height="" /></div> 
