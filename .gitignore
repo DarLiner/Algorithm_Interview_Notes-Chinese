@@ -10,7 +10,7 @@ out/
 # file
 *.zip
 *.tgz
-_*
+Untitled.ipynb
 
 # root
 /demo.py
