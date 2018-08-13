@@ -41,30 +41,28 @@
   - [Cpp专题-基础知识](./编程语言/Cpp专题-基础知识.md)
   - [Cpp专题-左值与右值](./编程语言/Cpp专题-左值与右值.md)
 - [笔试面经](./笔试面经)
-- [项目经验](./项目经验)
+- [project](./project)
 - [code](./code)
   - [工具库](./code/工具库)
     - [gensim.FastText 的使用](./code/工具库/gensim/FastText.py)
   - [倒排索引](./code/倒排索引)
   - [Tensorflow 基础](./code/tf-基础) TODO
-- 各公司[招聘要求](./招聘要求.md)
+- [招聘要求](./招聘要求.md)
 
 ## 必备清单 TODO
-- [深度学习](./深度学习/README.md)
-  - [反向传播算法](./深度学习/README.md#反向传播算法)
-  - [梯度下降法](#梯度下降法)
-  - [深度学习实践](./项目经验/README.md)（项目经验）
+- [深度学习](./机器学习-深度学习-NLP/DL-深度学习基础.md)
+  - [反向传播算法](./机器学习-深度学习-NLP/DL-深度学习基础.md#反向传播算法)
+  - [梯度下降法](./机器学习-深度学习-NLP/DL-深度学习基础.md#梯度下降法)
   - 相关代码 TODO
-- [机器学习算法](./机器学习/README.md)
-  - [逻辑斯蒂回归](./机器学习/README.md#逻辑斯蒂回归)
-  - [支持向量机](./机器学习/README.md#支持向量机)
-  - [AdaBoost 算法](./机器学习/README.md#adaboost-算法)
-  - [GBDT 梯度提升决策树](./机器学习/README.md#梯度提升决策树-gbdt)
+- [机器学习算法](./机器学习-深度学习-NLP/ML-机器学习算法.md)
+  - [逻辑斯蒂回归](./机器学习-深度学习-NLP/ML-机器学习算法.md#逻辑斯蒂回归)
+  - [支持向量机](./机器学习-深度学习-NLP/ML-机器学习算法.md#支持向量机)
+  - [AdaBoost 算法](./机器学习-深度学习-NLP/ML-机器学习算法.md#adaboost-算法)
+  - [GBDT 梯度提升决策树](./机器学习-深度学习-NLP/ML-机器学习算法.md#梯度提升决策树-gbdt)
   - 相关代码 TODO
 - 计算机基础
-  - [必背算法](https://github.com/imhuay/Algorithm_for_Interview-Chinese/tree/master/Algorithm_for_Interview/_必背算法)
-  - Python 常识 TODO
-  - C++ 常识 TODO
+  - [必背算法](./算法/备忘-必备算法.md)
+  - [编程语言](./编程语言)
 
 
 **欢迎分享你在深度学习/机器学习面试过程中遇见的问题！**
