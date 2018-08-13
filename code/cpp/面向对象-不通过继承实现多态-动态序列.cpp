@@ -25,9 +25,11 @@ public:
             cerr << "invalid sequence type\n";
         }
     }
+
     void print(int n) {
         (this->*_pmf)(n); // 通过指针选择需要调用的函数
     }
+
     // _pmf 可以指向以下任何一个函数
     void fibonacci(int n) {
         int f = 1;
@@ -36,6 +38,7 @@ public:
             g = g + f, f = g - f;
         cout << f << endl;
     }
+    
     void square(int n) {
         cout << n * n << endl;
     }

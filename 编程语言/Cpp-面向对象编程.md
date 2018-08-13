@@ -50,9 +50,11 @@ Index
               cerr << "invalid sequence type\n";
           }
       }
+
       void print(int n) {
           (this->*_pmf)(n); // 通过指针选择需要调用的函数
       }
+
       // _pmf 可以指向以下任何一个函数
       void fibonacci(int n) {
           int f = 1;
@@ -61,6 +63,7 @@ Index
               g = g + f, f = g - f;
           cout << f << endl;
       }
+
       void square(int n) {
           cout << n * n << endl;
       }
@@ -68,7 +71,7 @@ Index
   private:
       PtrType _pmf;
       static PtrType func_tbl[cnt_seq];  // 保存所有序列函数的指针
-                                        // 为了兼容性，不推荐写成 `static vector<vector<int>（没有空格）> _seq;`
+                                         // 为了兼容性，不推荐写成 `static vector<vector<int>没有空格> _seq;`
   };
 
   // static 成员变量初始化
