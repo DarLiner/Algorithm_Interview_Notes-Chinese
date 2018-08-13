@@ -45,7 +45,7 @@
 - [project](./project)
 - [code](./code)
   - [工具库](./code/工具库)
-    - [gensim.FastText 的使用](./code/工具库/gensim/FastText.py)
+    - [gensim.FastText 的使用](./机器学习-深度学习-NLP/NLP-词向量.md#gensimmodelsfasttext-使用示例)
   - [倒排索引](./code/倒排索引)
   - [Tensorflow 基础](./code/tf-基础) TODO
 - [招聘要求](./招聘要求.md)
