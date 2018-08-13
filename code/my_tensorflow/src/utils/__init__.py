@@ -23,10 +23,9 @@ def get_wb(shape,
            w_regularizer=l2_regularizer,
            b_regularizer=l2_regularizer):
     """"""
-    n_in, n_unit = shape
-    W = tf.get_variable('W', shape=[n_in, n_unit],
+    W = tf.get_variable('W', shape=shape,
                         dtype=tf_dtype, initializer=w_initializer, regularizer=w_regularizer)
-    b = tf.get_variable('b', shape=[n_unit],
+    b = tf.get_variable('b', shape=shape[-1:],
                         dtype=tf_dtype, initializer=b_initializer, regularizer=b_regularizer)
     return W, b
 
@@ -48,7 +47,7 @@ def get_params_dict():
     return param_dict
 
 
-def print_get_params_dict():
+def print_params_dict():
     """"""
     param_dict = get_params_dict()
     # pprint(param_dict, indent=2)
