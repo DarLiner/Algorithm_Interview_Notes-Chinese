@@ -11,6 +11,7 @@ out/
 *.zip
 *.tgz
 Untitled.ipynb
+MyCV.pdf
 
 # root
 /demo.py

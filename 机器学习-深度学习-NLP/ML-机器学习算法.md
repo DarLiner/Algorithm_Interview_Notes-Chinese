@@ -659,8 +659,8 @@ TODO
 # 机器学习实践
 
 ## Box–Muller 变换
-- Box–Muller 变换是一个从**均匀分布**中得到**正态分布**采样的算法
 > [Box-Muller变换原理详解](http://shishuai.org/index.php/2018/06/28/1-2/) – 史帅个人网站 
+- Box–Muller 变换是一个从**均匀分布**中得到**正态分布**采样的算法
 
 - Box–Muller 变换定理：
 
