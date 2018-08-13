@@ -10,6 +10,11 @@ def linear(x):
     return x
 
 
+def identity(x):
+    """"""
+    return tf.identity(x)
+
+
 def sigmoid(x):
     """"""
     return tf.nn.sigmoid(x)
