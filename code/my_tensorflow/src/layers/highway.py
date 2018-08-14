@@ -46,10 +46,10 @@ def multi_highway_dense(x, n_layer, act_fn=relu, carry_bias=-1.0, name=None):
 
 
 def highway_conv2d(x, kernel_size,
-                   carry_bias=-1.0,
                    act_fn=relu,
                    strides=1,
                    padding="SAME",
+                   carry_bias=-1.0,
                    name=None):
     """用于 conv2d 的 highway
     Input shape:  [batch_size, in_w, in_h, in_channels]
@@ -63,8 +63,8 @@ def highway_conv2d(x, kernel_size,
     if isinstance(strides, int):
         strides = [strides] * 4
 
-    assert len(kernel_size) == 2
-    assert len(strides) == 4
+    assert len(kernel_size) == 2, "len(kernel_size) == 2"
+    assert len(strides) == 4, "len(strides) == 4"
 
     in_channels = int(x.get_shape()[-1])
     kernel_shape = list(kernel_size) + [in_channels, in_channels]
@@ -81,5 +81,20 @@ def highway_conv2d(x, kernel_size,
     return o
 
 
-# TODO(huay): 因为卷积的参数比较复杂，如果需要多层 highway_conv2d，不如单独设置参数
-# def multi_highway_conv2d():
+def multi_highway_conv2d(x, kernel_size, n_layer,
+                         act_fn=relu,
+                         strides=1,
+                         padding="SAME",
+                         carry_bias=-1.0,
+                         name=None):
+    """多层 highway_conv2d"""
+    if isinstance(kernel_size, int):
+        kernel_size = [kernel_size] * n_layer
+
+    assert len(kernel_size) == n_layer, "len(kernel_size) == n_layer"
+
+    name = name or "highway_conv2d"
+    for i, kz in enumerate(kernel_size):
+        x = highway_conv2d(x, kz, act_fn, strides, padding, carry_bias, name="{}-{}".format(name, i))
+
+    return x
