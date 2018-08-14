@@ -14,13 +14,21 @@ import numpy as np
 
 from src.layers import multi_dense, Dense
 
-from tensorlayer.layers import DenseLayer, Conv2dLayer
+from tensorlayer.layers import DenseLayer, Conv2dLayer, RNNLayer, InputLayer, FlattenLayer
 
-from keras.layers import Dense, Conv2D
+from keras.layers import Dense, Conv2D, Merge, Flatten
 
 import keras.initializers
 
 import keras.utils.layer_utils
+
+tf.nn.rnn_cell.LSTMCell
+
+import keras.backend as K
+
+K.softmax()
+K.permute_dimensions()
+
 
 x = tf.constant(np.arange(16).reshape([8, 2]), dtype=tf.float32)
 

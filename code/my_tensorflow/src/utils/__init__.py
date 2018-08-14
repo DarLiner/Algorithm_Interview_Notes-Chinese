@@ -5,8 +5,12 @@ from pprint import pprint
 from functools import reduce
 from operator import mul
 
+from .array_op import *
+from .math_op import *
+
 import tensorflow as tf
 from ..regularizers import l2_regularizer
+
 
 tf_dtype = tf.float32
 zeros = tf.initializers.zeros
@@ -14,7 +18,7 @@ truncated_normal = tf.initializers.truncated_normal
 
 
 def foo():
-    print(1)
+    print("foo")
 
 
 def get_wb(shape,

@@ -12,7 +12,7 @@ from ..activations import relu
 from ..activations import linear
 
 
-def dense(x, n_unit, act_fn=relu, name=None, reuse=False):
+def dense(x, n_unit, act_fn=relu, name=None, reuse=None):
     """全连接层
     Input shape:  [batch_size, n_input]
     Output shape: [batch_size, n_unit]
@@ -53,7 +53,7 @@ def multi_dense(x, n_unit_ls, act_fn=relu, name=None):
     return x
 
 
-def linear_dense(x, n_unit, name=None, reuse=False):
+def linear_dense(x, n_unit, name=None, reuse=None):
     """线性全连接层
     Input shape:  [batch_size, n_input]
     Output shape: [batch_size, n_unit]
@@ -68,7 +68,7 @@ def linear_dense(x, n_unit, name=None, reuse=False):
 
 
 class Dense(object):
-    """全连接层的类实现，便于 reuse"""
+    """全连接层的类实现，方便 reuse"""
 
     def __init__(self, n_unit, act_fn=relu, name=None):
         """"""

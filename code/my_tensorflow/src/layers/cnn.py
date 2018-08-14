@@ -14,7 +14,7 @@ def conv2d(x, kernel_size, out_channels,
            strides=1,
            padding="SAME",
            name=None,
-           reuse=False):
+           reuse=None):
     """2-D 卷积层
     Input shape:  [batch_size, in_w, in_h, in_channels]
     Output shape: [batch_size, out_w, out_h, out_channels]
@@ -50,4 +50,3 @@ def conv2d(x, kernel_size, out_channels,
         o = act_fn(o)
 
     return o
-

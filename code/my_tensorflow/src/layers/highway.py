@@ -4,6 +4,7 @@
 
 References:
     https://github.com/fomorians/highway-fcn
+    https://github.com/fomorians/highway-cnn
 """
 import tensorflow as tf
 
@@ -18,6 +19,8 @@ def highway_dense(x, act_fn=relu, carry_bias=-1.0, name=None):
 
     公式
         `o = H(x, W)T(x, W) + x(1 - T(x, W))`
+    其中
+        H, T = dense
     """
     n_input = int(x.get_shape()[-1])
     with tf.variable_scope(name or "highway_dense"):
@@ -57,6 +60,8 @@ def highway_conv2d(x, kernel_size,
 
     公式
         `o = H(x, W)T(x, W) + x(1 - T(x, W))`
+    其中
+        H, T = conv2d
     """
     if isinstance(kernel_size, int):
         kernel_size = [kernel_size] * 2

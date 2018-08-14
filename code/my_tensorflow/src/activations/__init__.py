@@ -46,5 +46,6 @@ def softsign(x):
     return tf.nn.softsign(x)
 
 
-def softmax(x):
+def softmax(x, axis=-1):
     """"""
+    return tf.nn.softmax(x, axis=axis)
