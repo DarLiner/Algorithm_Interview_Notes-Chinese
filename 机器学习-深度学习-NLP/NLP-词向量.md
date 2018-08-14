@@ -289,7 +289,7 @@ Glove 也利用了**反向传播**来更新词向量，但是结构要更简单�
   - 输出都是一个特定的 target
   - 从网络的角度看，两者基本一致
 - 不同点：
-  - CBOW 的输入是中心词的上下文词，FastText 是句子中的单词及其 N-gram 特征（字符级）——这些特征用于共同表示该句子/文档
+  - CBOW 的输入是中心词两侧`skip_window`内的上下文词；FastText 除了上下文词外，还包括这些词的字符级 **N-gram 特征**
   - CBOW 的输出是中心词的类标，fastText 的输出是句子对应的类标
 - **注意**，字符级 N-gram 只限制在单个词内，以英文为例
   ```Cpp
@@ -374,7 +374,7 @@ Glove 也利用了**反向传播**来更新词向量，但是结构要更简单�
 ### 计算一个未登录词的词向量
 - 未登录词实际上是已知 n-grams 向量的叠加平均
   ```Python
-  # 因为 "a", "aa", "aaa" 中都只含有 "<a" ，所以它们直积上都只是 "<a"
+  # 因为 "a", "aa", "aaa" 中都只含有 "<a" ，所以它们实际上都是 "<a"
   print(model.wv["a"])
   print(model.wv["aa"])
   print(model.wv["aaa"])
@@ -387,7 +387,7 @@ Glove 也利用了**反向传播**来更新词向量，但是结构要更简单�
   """
   print()
   ```
-- 计算一个未登录词的词向量，只要未登录词能被已知的 n-grams 组合
+- 只要未登录词能被已知的 n-grams 组合，就能得到该词的词向量
   > `gensim.models.keyedvectors.FastTextKeyedVectors.word_vec(token)` 的内部实现
   ```Python
   word_unk = "aam"
