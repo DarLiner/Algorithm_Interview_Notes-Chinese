@@ -1,8 +1,6 @@
 """激活函数"""
 
 from .relu import *
-from .selu import *
-from .softmax import *
 
 
 def linear(x):
@@ -32,10 +30,12 @@ def hard_sigmoid(x):
 
 
 def tanh(x):
+    """"""
     return tf.nn.tanh(x)
 
 
 def softplus(x):
+    """"""
     return tf.nn.softplus(x)
 
 
@@ -47,5 +47,29 @@ def softsign(x):
 
 
 def softmax(x, axis=-1):
-    """"""
+    """
+    Examples:
+        n_dim = x.get_shape().ndims
+        assert n_dim >= 2
+
+        if n_dim == 2:
+            return tf.nn.softmax(x)
+        else:
+            e = tf.exp(x - tf.reduce_max(x, axis=axis, keepdims=True))
+            s = tf.reduce_sum(e, axis=axis, keepdims=True)
+            return e / s
+    """
     return tf.nn.softmax(x, axis=axis)
+
+
+def elu(x):
+    """指数线性单元"""
+    return tf.nn.elu(x)
+
+
+def selu(x):
+    """缩放型指数线性单元"""
+    alpha = 1.6732632423543772848170429916717
+    scale = 1.0507009873554804934193349852946
+    o = tf.nn.elu(x)
+    return scale * tf.where(x > 0, o, alpha * o)

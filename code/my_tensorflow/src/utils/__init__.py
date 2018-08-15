@@ -7,17 +7,33 @@ from operator import mul
 
 from .array_op import *
 from .math_op import *
-
-import tensorflow as tf
 from ..regularizers import l2_regularizer
 
-tf_dtype = tf.float32
+import numpy as np
+import tensorflow as tf
+
+tf_float = tf.float32
 zeros = tf.initializers.zeros
 truncated_normal = tf.initializers.truncated_normal
+
+SPLIT_LINE = "-----------"
 
 
 def foo():
     print("foo")
+
+
+def get_shape(x):
+    """
+    References:
+        tflearn.utils.get_incoming_shape
+    """
+    if isinstance(x, (tf.Tensor, tf.SparseTensor)):
+        return x.get_shape().as_list()
+    elif type(x) in [np.array, np.ndarray, list, tuple]:
+        return list(np.shape(x))
+    else:
+        raise Exception("Invalid `x`.")
 
 
 def get_wb(shape,
@@ -29,9 +45,9 @@ def get_wb(shape,
     """"""
     name = "" if name is None else name + '_'
     W = tf.get_variable(name + 'W', shape=shape,
-                        dtype=tf_dtype, initializer=w_initializer, regularizer=w_regularizer)
+                        dtype=tf_float, initializer=w_initializer, regularizer=w_regularizer)
     b = tf.get_variable(name + 'b', shape=shape[-1:],
-                        dtype=tf_dtype, initializer=b_initializer, regularizer=b_regularizer)
+                        dtype=tf_float, initializer=b_initializer, regularizer=b_regularizer)
     return W, b
 
 
@@ -40,7 +56,7 @@ def get_w(shape,
           w_regularizer=l2_regularizer,
           name=None):
     name = "" if name is None else name + '_'
-    W = tf.get_variable(name + 'W', shape, dtype=tf_dtype, initializer=w_initializer,
+    W = tf.get_variable(name + 'W', shape, dtype=tf_float, initializer=w_initializer,
                         regularizer=w_regularizer)
     return W
 
@@ -56,10 +72,12 @@ def get_params_dict():
 
 def print_params_dict():
     """"""
+    print(SPLIT_LINE)
+    print("params_dict")
     param_dict = get_params_dict()
     # pprint(param_dict, indent=2)
     for k, v in param_dict.items():
-        print(k, '\t', end='')
+        print('   ', k, '\t', end='')
         pprint(v, indent=2)
         # for vk, vv in v.items():
         #     print(vk, '-', vv, '\t', end='')
@@ -74,4 +92,5 @@ def get_params_number():
 
 def print_params_number():
     """"""
-    print(get_params_number())
+    print(SPLIT_LINE)
+    print("params_number:", get_params_number())

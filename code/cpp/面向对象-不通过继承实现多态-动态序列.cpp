@@ -46,7 +46,6 @@ public:
 private:
     PtrType _pmf;
     static PtrType func_tbl[cnt_seq];  // 保存所有序列函数的指针
-                                       // 为了兼容性，不推荐写成 `static vector<vector<int>（没有空格）> _seq;`
 };
 
 // static 成员变量初始化
