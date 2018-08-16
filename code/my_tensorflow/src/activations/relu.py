@@ -53,7 +53,8 @@ def parametric_relu(x, channel_shared=False, alpha_init=constant(0.), name="para
         alpha_shape = [1]
 
     with tf.variable_scope(name, reuse=reuse):
-        alphas = get_w(alpha_shape, w_initializer=alpha_init, name="alpha")
-        o = relu(x) + 0.5 * tf.multiply(alphas, x - tf.abs(x))
+        alpha = get_w(alpha_shape, w_initializer=alpha_init, name="alpha")
+        # o = relu(x) + 0.5 * tf.multiply(alpha, x - tf.abs(x))  # TFLearn
+        o = leaky_relu(x, alpha)  # TensorLayer / <Deep Learning>
 
     return o

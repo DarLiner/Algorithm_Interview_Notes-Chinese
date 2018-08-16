@@ -31,6 +31,7 @@ import keras.utils.layer_utils
 import keras.activations
 
 tl.activation.lrelu
+tl.layers.PReluLayer
 
 tf.nn.leaky_relu
 
