@@ -16,13 +16,14 @@ Index
 
 ## 图片居中
 - 不带链接
-```
-<div align="center"><img src="../assets/公式_20180717114628.png" /></div>
-```
+  ```
+  <div align="center"><img src="../assets/公式_20180717114628.png" height="" /></div>
+  ```
 - 带链接
-```
-<div align="center"><a href=""><img src="../assets/公式_20180717114628.png" /></a></div>
-```
+  ```
+  <div align="center"><a href=""><img src="../assets/公式_20180717114628.png" height="" /></a></div>
+  ```
+- `height=""`用于控制图片的大小
 
 ## 隐藏代码块
 ```
