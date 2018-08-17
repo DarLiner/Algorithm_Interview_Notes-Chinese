@@ -76,3 +76,7 @@ Index
     pip3 install --no-deps torchvision
     ```
     > 相比官方，只添加了 `--no-deps` 参数
+  - 推荐先下载在安装
+    ```
+    pip3 install torch-0.4.1-cp36-cp36m-win_amd64.whl
+    ```
