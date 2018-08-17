@@ -8,6 +8,7 @@ Index
 - [自动更新目录](#自动更新目录)
 - [图片居中](#图片居中)
 - [隐藏代码块](#隐藏代码块)
+- [Latex 公式](#latex-公式)
 
 <!-- /TOC -->
 
@@ -33,3 +34,14 @@ Index
 
 </details>
 ```
+
+## Latex 公式
+> 在线 LaTeX 公式编辑器 http://www.codecogs.com/latex/eqneditor.php
+- 斜体加粗
+  ```
+  \boldsymbol{x}
+  ```
+- 期望
+  ```
+  \mathbb{E}
+  ```
