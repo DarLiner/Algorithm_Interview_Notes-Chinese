@@ -9,6 +9,10 @@ Index
   - [自动重新加载模块](#自动重新加载模块)
 - [Anaconda](#anaconda)
   - [虚拟环境相关](#虚拟环境相关)
+- [PyCharm](#pycharm)
+  - [Python Console](#python-console)
+- [常用库安装](#常用库安装)
+  - [PyTorch 安装](#pytorch-安装)
 
 <!-- /TOC -->
 
@@ -38,3 +42,37 @@ Index
   ```
   conda remove --name nev_name --all
   ```
+
+
+## PyCharm
+
+### Python Console
+- 默认
+  ```
+  import sys; print('Python %s on %s' % (sys.version, sys.platform))
+  sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])
+  ```
+- 修改为，避免每次重新导入
+  ```
+  %load_ext autoreload
+  %autoreload 2
+
+  import sys; print('Python %s on %s' % (sys.version, sys.platform))
+  sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])
+
+  import numpy as np
+  import tensorflow as tf
+  ```
+
+## 常用库安装
+
+### PyTorch 安装
+- Windows Python3.6 CPU
+  - conda 提供的源很慢，不建议
+  - 官网提供的 pip 安装方法，在安装 `torchvision` 时会报错
+  - 正确安装方法（2018年8月17日15:09:40）
+    ```
+    pip3 install http://download.pytorch.org/whl/cpu/torch-0.4.1-cp36-cp36m-win_amd64.whl 
+    pip3 install --no-deps torchvision
+    ```
+    > 相比官方，只添加了 `--no-deps` 参数
