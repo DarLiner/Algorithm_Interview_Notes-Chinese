@@ -1,6 +1,10 @@
 专题-机器学习实践
 ===
 
+Reference
+---
+- [CS229 课程讲义（中文）](https://github.com/Kivy-CN/Stanford-CS-229-CN) - Kivy-CN - GitHub
+
 Index
 ---
 <!-- TOC -->
@@ -8,6 +12,8 @@ Index
   - [超参数选择](#超参数选择)
     - [Grid Search](#grid-search)
     - [Random Search](#random-search)
+    - [相关库（未使用）](#相关库未使用)
+  - [偏差与方差](#偏差与方差)
   - [几种参数估计的区别于联系: MLE、MAP、贝叶斯 TODO](#几种参数估计的区别于联系-mlemap贝叶斯-todo)
   - [余弦相似度（Cos距离）与欧氏距离的区别和联系](#余弦相似度cos距离与欧氏距离的区别和联系)
   - [监督学习和无监督学习](#监督学习和无监督学习)
@@ -28,6 +34,16 @@ Index
 
 ### Random Search
 - 在高维空间中随机选择若干超参数
+
+### 相关库（未使用）
+- [Hyperopt](http://hyperopt.github.io/hyperopt/)
+  - 用于超参数优化的 Python 库，其内部使用 Parzen 估计器的树来预测哪组超参数可能会得到好的结果。
+  - GitHub - https://github.com/hyperopt/hyperopt
+- [Hyperas](http://maxpumperla.com/hyperas/)
+  - 将 Hyperopt 与 Keras 模型集成在一起的库
+  - GitHub - https://github.com/maxpumperla/hyperas
+
+
 
 ## 几种参数估计的区别于联系: MLE、MAP、贝叶斯 TODO
 
