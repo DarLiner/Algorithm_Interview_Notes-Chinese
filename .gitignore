@@ -10,8 +10,11 @@ out/
 # file
 *.zip
 *.tgz
+_test*.py
+_ToDo.md
 Untitled.ipynb
 MyCV.pdf
+GSD_*.pdf
 
 # root
 /demo.py
