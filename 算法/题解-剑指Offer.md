@@ -702,9 +702,9 @@ public:
         int lo = 0;
         int hi = rotateArray.size() - 1;
 
-        // 完全旋转，或者说没有旋转（不需要）
-        //if (rotateArray[lo] < rotateArray[hi])
-        //   return rotateArray[lo];
+        // 完全旋转，或者说没有旋转（需要, e.g {1, 2}）
+        if (rotateArray[lo] < rotateArray[hi])
+           return rotateArray[lo];
 
         while (lo + 1 < hi) {
             int mid = lo + (hi - lo) / 2;
