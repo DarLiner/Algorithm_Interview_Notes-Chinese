@@ -722,6 +722,39 @@ public:
 };
 ```
 
+**Code（改进）**
+```C++
+class Solution {
+public:
+    int minNumberInRotateArray(vector<int> rotateArray) {
+        if (rotateArray.empty())
+            return 0;
+
+        int n = rotateArray.size();
+
+        // 没有旋转的情况
+        //if (rotateArray[0] < rotateArray[n-1])
+        //    return rotateArray[lo];
+
+        int lo = -1;    // 如果初始化为 0 将无法处理 n == 2 的情况，初始化为 -1 就可以了
+        int hi = n - 1;
+
+        while (lo + 1 < hi) {
+            int mid = lo + (hi - lo) / 2;
+
+            if (rotateArray[mid] > rotateArray[hi])
+                lo = mid;
+            else if (rotateArray[mid] < rotateArray[hi])
+                hi = mid;
+            else
+                hi--;         // 防止这种情况 {3,4,5,1,2,3}
+        }
+        
+        return rotateArray[hi];
+    }
+};
+```
+
 ## 12. 矩阵中的路径（DFS）
 > [矩阵中的路径](https://www.nowcoder.com/practice/c61c6999eecb4b8f88a98f66b273a3cc?tpId=13&tqId=11218&tPage=4&rp=3&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - NowCoder
 
