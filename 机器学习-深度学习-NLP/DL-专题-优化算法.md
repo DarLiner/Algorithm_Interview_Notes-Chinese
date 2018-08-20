@@ -122,8 +122,10 @@ Index
 ### RMSProp
 > Hinton, 2012
 - RMSProp 主要是为了解决 AdaGrad 方法中**学习率过度衰减**的问题—— AdaGrad 根据平方梯度的**整个历史**来收缩学习率，可能使得学习率在达到局部最小值之前就变得太小而难以继续训练；
-- RMSProp 使用**指数衰减平均**（递归定义）以丢弃遥远的历史，使其能够在找到某个“盆地”结构后快速收敛；
-- 此外，RMSProp 还加入了一个超参数 `ρ` 用于控制衰减速率。
+- RMSProp 使用**指数衰减平均**（递归定义）以丢弃遥远的历史，使其能够在找到某个“凸”结构后快速收敛；此外，RMSProp 还加入了一个超参数 `ρ` 用于控制衰减速率。
+  > 所谓**指数衰减平均**，可以参考以下公式（仅做参考，具体实现未知）：
+  > <div align="center"><img src="../assets/公式_20180820104712.png" height="" /></div>
+  > 可以看到越久之前的历史，影响会越小
 - 具体来说（对比 AdaGrad 的算法描述），即修改 `r` 为
   <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\begin{aligned}&space;&r\leftarrow&space;\mathbb{E}[g^2]_t=\rho\cdot\mathbb{E}[g^2]_{t-1}&plus;(1-\rho)\cdot&space;g^2&space;\end{aligned}"><img src="../assets/公式_20180819204219.png" height="" /></a></div>
   记
@@ -131,7 +133,7 @@ Index
   则
   <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\Delta\theta_t=-\frac{\epsilon}{RMS[g]_t}\odot&space;g_t"><img src="../assets/公式_20180819204612.png" height="" /></a></div>
 
-  > `δ` 为平滑项，具体为一个小常数，一般取 `1e-8`
+  > 其中 `E` 表示期望，即平均；`δ` 为平滑项，具体为一个小常数，一般取 `1e-8`
 - **RMSProp** 建议的**初始值**：全局学习率 `ϵ=1e-3`，衰减速率 `ρ=0.9`
 - **RMSProp 算法描述**
   <div align="center"><img src="../assets/TIM截图20180611215422.png" height="" /></div>
