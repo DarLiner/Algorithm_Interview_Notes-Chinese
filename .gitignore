@@ -14,7 +14,9 @@ _test*.py
 _ToDo.md
 Untitled.ipynb
 MyCV.pdf
+MyCV.md
 GSD_*.pdf
+_README.md
 
 # root
 /demo.py
