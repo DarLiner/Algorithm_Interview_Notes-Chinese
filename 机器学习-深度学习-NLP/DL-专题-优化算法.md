@@ -133,7 +133,7 @@ Index
   则
   <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\Delta\theta_t=-\frac{\epsilon}{RMS[g]_t}\odot&space;g_t"><img src="../assets/公式_20180819204612.png" height="" /></a></div>
 
-  > 其中 `E` 表示期望，即平均；`δ` 为平滑项，具体为一个小常数，一般取 `1e-8`
+  > 其中 `E` 表示期望，即平均；`δ` 为平滑项，具体为一个小常数，一般取 `1e-8 ~ 1e-10`（Tensorflow 中的默认值为 `1e-10`）
 - **RMSProp** 建议的**初始值**：全局学习率 `ϵ=1e-3`，衰减速率 `ρ=0.9`
 - **RMSProp 算法描述**
   <div align="center"><img src="../assets/TIM截图20180611215422.png" height="" /></div>
