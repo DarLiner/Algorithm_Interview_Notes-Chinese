@@ -55,8 +55,8 @@ def get_w(shape,
           w_initializer=truncated_normal,
           w_regularizer=l2_regularizer,
           name=None):
-    name = "" if name is None else name + '_'
-    W = tf.get_variable(name + 'W', shape, dtype=tf_float, initializer=w_initializer,
+    name = name or 'W'
+    W = tf.get_variable(name, shape, dtype=tf_float, initializer=w_initializer,
                         regularizer=w_regularizer)
     return W
 

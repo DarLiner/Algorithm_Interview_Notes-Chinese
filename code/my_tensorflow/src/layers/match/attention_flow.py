@@ -40,7 +40,7 @@ def attention_flow_self(h, u, T=None, J=None, d=None, name=None, reuse=None):
     """
     T = T or int(h.get_shape()[-2])
 
-    with tf.variable_scope(name or "attention_flow", reuse=reuse):
+    with tf.variable_scope(name or "attention_flow_self", reuse=reuse):
         # similarity matrix
         S = tf.matmul(h, u, transpose_b=True)  # [N, T, J]
 
@@ -84,8 +84,8 @@ def attention_flow(h, u, T=None, J=None, d=None, name=None, reuse=None):
     J = J or int(u.get_shape()[-2])
 
     with tf.variable_scope(name or "attention_flow", reuse=reuse):
-        h_expand = tf.tile(tf.expand_dims(h, axis=2), [1, 1, J, 1])
-        u_expand = tf.tile(tf.expand_dims(u, axis=1), [1, T, 1, 1])
+        h_expand = tf.tile(tf.expand_dims(h, axis=2), [1, 1, J, 1])  # [N, T, J, d]
+        u_expand = tf.tile(tf.expand_dims(u, axis=1), [1, T, 1, 1])  # [N, T, J, d]
         hu = tf.multiply(h_expand, u_expand)  # [N, T, J, d]
         h_u_hu = tf.concat([h_expand, u_expand, hu], axis=-1)  # [N, T, J, 3d]
         W_s = get_w([3 * d, 1])  # [3d, 1]

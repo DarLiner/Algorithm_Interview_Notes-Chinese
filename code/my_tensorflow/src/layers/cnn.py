@@ -9,6 +9,11 @@ from ..activations import relu
 from ..utils import get_wb
 
 
+# TODO(huay)
+def conv1d():
+    """"""
+
+
 def conv2d(x, kernel_size, out_channels,
            act_fn=relu,
            strides=1,
