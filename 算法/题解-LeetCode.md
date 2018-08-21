@@ -6,14 +6,15 @@ Index
 <!-- TOC -->
 
 - [数组](#数组)
-  - [三数之和（双指针）](#三数之和双指针)
-  - [最接近的三数之和（双指针）](#最接近的三数之和双指针)
+  - [15. 三数之和（双指针）](#15-三数之和双指针)
+  - [16. 最接近的三数之和（双指针）](#16-最接近的三数之和双指针)
+  - [26. 删除排序数组中的重复项](#26-删除排序数组中的重复项)
 
 <!-- /TOC -->
 
 ## 数组
 
-### 三数之和（双指针）
+### 15. 三数之和（双指针）
 > https://leetcode-cn.com/problems/3sum/description/
 
 **问题描述**
@@ -64,7 +65,7 @@ public:
 };
 ```
 
-### 最接近的三数之和（双指针）
+### 16. 最接近的三数之和（双指针）
 > https://leetcode-cn.com/problems/3sum-closest/description/
 
 **题目描述**
@@ -105,6 +106,37 @@ public:
             }
         }
         return ret;
+    }
+};
+```
+
+### 26. 删除排序数组中的重复项
+> https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/description/
+
+**题目描述**
+```
+给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
+
+不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。
+```
+
+**C++**
+```C++
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if (nums.size() <= 1) return nums.size();
+            
+        int lo = 0;
+        int hi = lo + 1;
+        
+        int n = nums.size();
+        while (hi < n) {
+            while (hi < n && nums[hi] == nums[lo]) hi++;
+            nums[++lo] = nums[hi];
+        }
+        
+        return lo;
     }
 };
 ```
