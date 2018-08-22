@@ -8,6 +8,7 @@ __*/
 out/
 
 # file
+-*
 *.zip
 *.tgz
 _test*.py
