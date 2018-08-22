@@ -1,11 +1,11 @@
-阅读理解-完形填空
+NLP-完形填空评测
 ===
 
 Index
 ---
 <!-- TOC -->
 
-- [任务说明](#任务说明)
+- [任务描述](#任务描述)
   - [数据格式](#数据格式)
   - [评价指标](#评价指标)
 - [思路](#思路)
@@ -24,7 +24,7 @@ Index
 
 <!-- /TOC -->
 
-## 任务说明
+## 任务描述
 - 以**单个词**为答案的填空类问题；**答案会在上下文中出现**。
 
 ### 数据格式
@@ -56,7 +56,7 @@ Index
 - 具体数据包括两个领域：“**新闻**”和“**童话**”，其中“新闻”数据来源于人民日报语料
 
 - **数据下载**
-  - 新闻数据：ymcui/[Chinese-RC-Dataset](https://github.com/ymcui/Chinese-RC-Dataset) 
+  - 新闻数据：ymcui/[Chinese-RC-Dataset](https://github.com/ymcui/Chinese-RC-Dataset)
   - 童话数据：ymcui/[cmrc2017](https://github.com/ymcui/cmrc2017)
   > 注意两份数据的格式略有不同，但都是按 `(D, Q, A)` 的要求构建的
 
