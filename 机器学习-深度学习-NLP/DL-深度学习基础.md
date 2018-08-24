@@ -319,4 +319,4 @@
 
 ## CNN 与 LSTM 的区别
 - CNN更像视觉，天然具有二维整体性；而LSTM更像听觉和语音，总是通过串行的方式来理解整体。
-  > [首次超越LSTM : Facebook 门卷积网络新模型能否取代递归模型？](http://www.dataguru.cn/article-10314-1.html) - 深度学习-炼数成金-Dataguru专业数据分析社区 
+  > 

@@ -1,11 +1,6 @@
 专题-序列建模
 ===
 
-Reference
----
-- 自然语言处理之序列模型 - 小象学院
-- [从循环到卷积，探索序列建模的奥秘](https://mp.weixin.qq.com/s/f0sv7c-H5o5L_wy2sUonUQ) - 机器之心
-
 Index
 ---
 <!-- TOC -->
@@ -19,10 +14,12 @@ Index
 - [CNN 与序列建模](#cnn-与序列建模)
   - [一维卷积](#一维卷积)
 - [时间卷积网络（TCN）](#时间卷积网络tcn)
+  - [WaveNet](#wavenet)
   - [因果卷积](#因果卷积)
   - [空洞卷积](#空洞卷积)
   - [Highway 网络](#highway-网络)
   - [残差模块](#残差模块)
+- [Reference](#reference)
 
 <!-- /TOC -->
 
@@ -32,9 +29,9 @@ Index
   > 《统计学习方法》中称之为标注问题
 - 在**传统机器学习**方法中，常用的模型有：隐马尔可夫模型（HMM），条件随机场（CRF）等
   > 机器学习专题 TODO
-- 在**深度学习领域**的很长一段时间里，RNN/LSTM 都是序列建模的默认配置。
-  > 《深度学习》中直接使用“序列建模：循环和递归网络”作为章节名
-- 最近，CNN 开始在序列建模领域流行，一个关键想法是——在一维时间序列上使用**一维卷积**运算
+- 在**深度学习领域**的很长一段时间里，RNN/LSTM 都是序列建模的首选。
+  > 《深度学习》 10 序列建模：循环和递归网络
+- 最近，CNN 开始在序列建模领域流行，一个**关键想法**是——在一维时间序列上使用**一维卷积运算**
   <div align="center"><img src="../assets/TIM截图20180808105242.png" height="" /></div>
 
   > [CNN for Sentence Classification](https://arxiv.org/abs/1408.5882) (Kim, 2014)
@@ -92,6 +89,8 @@ Index
 
 ## 时间卷积网络（TCN）
 
+### WaveNet
+
 ### 因果卷积
 
 **Reference**
@@ -106,3 +105,7 @@ Index
 ### 残差模块
 > [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385) (He, et al., 2015)
 
+
+## Reference
+- 自然语言处理之序列模型 - 小象学院
+- [从循环到卷积，探索序列建模的奥秘](https://mp.weixin.qq.com/s/f0sv7c-H5o5L_wy2sUonUQ) - 机器之心
