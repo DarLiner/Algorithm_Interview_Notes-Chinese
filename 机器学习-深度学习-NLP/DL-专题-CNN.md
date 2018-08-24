@@ -8,7 +8,7 @@ Index
 - [为什么使用 CNN 代替 RNN？](#为什么使用-cnn-代替-rnn)
 - [卷积的内部实现](#卷积的内部实现)
   - [Theano 中的实现 TODO](#theano-中的实现-todo)
-  - [Caffe 中的实现（2006）](#caffe-中的实现2006)
+  - [Caffe 中的实现](#caffe-中的实现)
 - [卷积的反向传播](#卷积的反向传播)
 - [卷积的结构](#卷积的结构)
   - [卷积核的结构及其数量](#卷积核的结构及其数量)
@@ -50,16 +50,25 @@ Index
 ### Theano 中的实现 TODO
 > [Convolution as a matrix operation](http://deeplearning.net/software/theano/tutorial/conv_arithmetic.html#convolution-as-a-matrix-operation)
 
-- 先把二维 `input` 展开成一维向量（`[in_h, in_w] -> [in_h * in_w]`）；如果是一批 `inputs`，则依次堆叠为一个矩阵 `[N, in_h * in_w]`
-- 然后将 `kernel` 按 stride 循环展开成一个稀疏矩阵
+- 先把二维 `input` 展开成一维向量（`[in_h, in_w] -> [in_h * in_w]`）；如果是一批 `inputs`，则依次堆叠为一个矩阵 `[N, in_h * in_w]`；
+- 然后将 `kernel` 按 stride **循环**展开成一个**稀疏矩阵**；
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_cm&space;C=\begin{pmatrix}&space;w_{0,0}&space;&&space;w_{0,1}&space;&&space;w_{0,2}&space;&&space;0&space;&&space;w_{1,0}&space;&&space;w_{1,1}&space;&&space;w_{1,2}&space;&&space;0&space;&&space;w_{2,0}&space;&&space;w_{2,1}&space;&&space;w_{2,2}&space;&&space;0&space;&&space;0&space;&&space;0&space;&&space;0&space;&&space;0\\&space;0&space;&&space;w_{0,0}&space;&&space;w_{0,1}&space;&&space;w_{0,2}&space;&&space;0&space;&&space;w_{1,0}&space;&&space;w_{1,1}&space;&&space;w_{1,2}&space;&&space;0&space;&&space;w_{2,0}&space;&&space;w_{2,1}&space;&&space;w_{2,2}&space;&&space;0&space;&&space;0&space;&&space;0&space;&&space;0\\&space;0&space;&&space;0&space;&&space;0&space;&&space;0&space;&&space;w_{0,0}&space;&&space;w_{0,1}&space;&&space;w_{0,2}&space;&&space;0&space;&&space;w_{1,0}&space;&&space;w_{1,1}&space;&&space;w_{1,2}&space;&&space;0&space;&&space;w_{2,0}&space;&&space;w_{2,1}&space;&&space;w_{2,2}&space;&&space;0\\&space;0&space;&&space;0&space;&&space;0&space;&&space;0&space;&&space;0&space;&&space;w_{0,0}&space;&&space;w_{0,1}&space;&&space;w_{0,2}&space;&&space;0&space;&&space;w_{1,0}&space;&&space;w_{1,1}&space;&&space;w_{1,2}&space;&&space;0&space;&&space;w_{2,0}&space;&&space;w_{2,1}&space;&&space;w_{2,2}&space;\end{pmatrix}"><img src="../assets/公式_20180824140303.png" height="" /></a></div>
 
-### Caffe 中的实现（2006）
-> [High Performance Convolutional Neural Networks for Document Processing](https://hal.inria.fr/inria-00112631/document) 
+- 然后将卷积的计算转化为**矩阵相乘**。
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_cm&space;\large&space;y=C\cdot&space;x^\mathsf{T}"><img src="../assets/公式_20180824141327.png" height="" /></a></div>
+
+### Caffe 中的实现
+> [High Performance Convolutional Neural Networks for Document Processing](https://hal.inria.fr/inria-00112631/document) (2006)
 
 - 先对 `inputs` 做 **im2col** 操作得到**输入矩阵**，再将 `kernel` 转化为**权值矩阵**，然后将两个矩阵相乘得到输出矩阵：
   <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\large&space;y=x\cdot&space;W"><img src="../assets/公式_2018082492318.png" height="" /></a></div>
 
-  其中 （各矩阵的维度 TODO）
+  其中
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\begin{aligned}&space;y\&space;\&space;\text{shape:}\&space;&&space;[{\color{Red}o_{height}*o_{width}},\&space;{\color{Blue}o_{channels}}]\\&space;x\&space;\&space;\text{shape:}\&space;&&space;[{\color{Red}o_{height}*o_{width}},\&space;i_{channels}*k_{height}*k_{width}]\\&space;W\&space;\&space;\text{shape:}\&space;&&space;[i_{channels}*k_{height}*k_{width},\&space;{\color{Blue}o_{channels}}]\\&space;\end{aligned}"><img src="../assets/公式_20180824130328.png" height="" /></a></div>
+
+  - 其中 `o` 表示 out；`i` 表示 in；`k` 表示 kernel；
+  - 不包括 `batch_size` 的维度；
+  - `[o_height, o_width]` 的大小由 `[i_height, i_width]` 及 stride、padding 等参数共同决定。
 
 - **im2col** 操作
   > 先将一个输入矩阵（图像），重叠地划分为多个**子矩阵**（子区域），对每个子矩阵序列化成向量，然后将所有子向量**纵向**拼接成另一个矩阵；如果存在多个输入矩阵，则进一步将新生成矩阵横向拼接，最终构成一个大矩阵
