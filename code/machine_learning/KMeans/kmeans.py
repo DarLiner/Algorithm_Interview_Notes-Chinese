@@ -28,7 +28,7 @@ def score_euclidean(a, b):
 
 
 def rand_center(data, k):
-    """随机采样 k 个质心"""
+    """随机采样 k 个样本作为聚类中心"""
     centers = np.array(random.sample(list(data), k))
     return centers
 
@@ -40,6 +40,7 @@ def k_means(data, k, max_iter=100, score=score_euclidean, e=1e-6):
     一般 K-Mean 算法的终止条件有如下几个：
         1. 所有样本的类别不再改变
         2. 达到最大迭代次数
+        3. 精度达到要求（？）
 
     返回聚类中心及聚类结果
     """
@@ -47,33 +48,33 @@ def k_means(data, k, max_iter=100, score=score_euclidean, e=1e-6):
     n = len(data)
 
     # 保存结果
-    # 每个结果为一个二元组 [index, score] 分别保存每个样本所在的簇及距离质心的距离
+    # 每个结果为一个二元组 [label, score] 分别保存每个样本所在的簇及距离质心的距离
     ret = np.array([[-1, np.inf]] * n)
 
     # 选取聚类中心
     centers = rand_center(data, k)
 
-    changed = True  # 标记聚类中心是否改变
+    changed = True  # 标记样本类别是否改变
     n_iter = 0  # 记录迭代次数
     while changed and n_iter < max_iter:
         changed = False
         n_iter += 1
 
         for i in range(n):  # 对每个数据
-            min_score = np.inf
-            min_index = -1
+            i_score = np.inf
+            i_label = -1
             for j in range(k):  # 与每个质心比较
-                s_ij = score(centers[j], data[i])
-                if s_ij < min_score:
-                    min_score = s_ij
-                    min_index = j
+                s_ij = score(data[i], centers[j])
+                if s_ij < i_score:
+                    i_score = s_ij
+                    i_label = j
 
-            if ret[i, 0] != min_index:  # 样本的类别发生了改变
+            if ret[i, 0] != i_label:  # 样本的类别发生了改变
                 changed = True
 
-            ret[i, :] = min_index, min_score
+            ret[i, :] = i_label, i_score
 
-        # 更新质心
+        # 更新聚类中心
         log.info(centers)
         for i in range(k):
             data_i = data[ret[:, 0] == i]  # 标签为 i 的样本
