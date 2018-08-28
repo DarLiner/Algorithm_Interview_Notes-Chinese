@@ -7,7 +7,7 @@ Index
 
 - [为什么使用 CNN 代替 RNN？](#为什么使用-cnn-代替-rnn)
 - [卷积的内部实现](#卷积的内部实现)
-  - [Theano 中的实现 TODO](#theano-中的实现-todo)
+  - [Theano 中的实现](#theano-中的实现)
   - [Caffe 中的实现](#caffe-中的实现)
 - [卷积的反向传播](#卷积的反向传播)
 - [卷积的结构](#卷积的结构)
@@ -47,7 +47,7 @@ Index
 
 ## 卷积的内部实现
 
-### Theano 中的实现 TODO
+### Theano 中的实现
 > [Convolution as a matrix operation](http://deeplearning.net/software/theano/tutorial/conv_arithmetic.html#convolution-as-a-matrix-operation)
 
 - 先把二维 `input` 展开成一维向量（`[in_h, in_w] -> [in_h * in_w]`）；如果是一批 `inputs`，则依次堆叠为一个矩阵 `[N, in_h * in_w]`；
@@ -74,9 +74,7 @@ Index
   > 先将一个输入矩阵（图像），重叠地划分为多个**子矩阵**（子区域），对每个子矩阵序列化成向量，然后将所有子向量**纵向**拼接成另一个矩阵；如果存在多个输入矩阵，则进一步将新生成矩阵横向拼接，最终构成一个大矩阵
   <div align="center"><img src="../assets/TIM截图20180823220850.png" height="" /></div>
 
-  > 可以看作是三张**单通道**图像，也可以看作是一张**三通道**的图像
-  >> 需要说明的是，这里因为
-  >>
+  > 这里可以看作是三张**单通道**图像，也可以看作是一张**三通道**的图像
   >> 更直观的图示 > [caffe im2col 详解](https://blog.csdn.net/mrhiuser/article/details/52672824) - CSDN博客
   >>
   >> 具体的代码实现更复杂一些，因为这个图示中的操作并不能直接循环，具体请参考这篇 > [caffe源码深入学习6：超级详细的im2col绘图解析，分析caffe卷积操作的底层实现](https://blog.csdn.net/jiongnima/article/details/69736844) - CSDN博客 
@@ -84,10 +82,10 @@ Index
   <div align="center"><img src="../assets/TIM截图20180823213211.png" height="" /></div>
 
   - 上半部分是卷积的直观操作，下半部分转换为矩阵乘法的操作
-  - 原文：“**输入为 `N=3` 个 `3*3` 的特征矩阵；输出为 `M=2` 个 `2*2` 的特征矩阵；kernel 的形状为 `2*2`，数量为 `N*M = 6`**”；
-    > **个人认为原文的表述不正确**：如果把 `N` 看作 batch_size 的话，输出也应该是 3 才对。
+  - 原文：“**输入为 `N=3` 个 `3*3` 的特征矩阵；输出为 `M=2` 个 `2*2` 的特征矩阵；kernel 的形状为 `2*2`，数量为 `N*M = 6` 个**”；
+    > **个人认为原文的表述不正确**：如果把 `N` 看作 batch_size 的话，输出 `M` 也应该是 3 才对。
     >
-    > 更正确的说法应该是“**输入为 1 个 `3*3*3` 的三通道特征矩阵；输出为 1 个 `2*2*2` 的双通道特征矩阵；kernel 的形状为 `2*2*3`，数量为 `2`**”
+    > 更正确的说法应该是“**输入为 1 个 `3*3*3` 的三通道特征矩阵；输出为 1 个 `2*2*2` 的双通道特征矩阵；kernel 的形状为 `2*2*3`，数量为 `2` 个**”
     >> [卷积核的结构及其数量](#卷积核的结构及其数量)
   - **注意**：因为是按照 stride 来切“子矩阵”，所以可能存在重复。
 
@@ -181,7 +179,7 @@ Index
   <div align="center"><img src="../assets/conv_dilation.gif" height="200" /><br/>No padding, no strides.</div>
 
 **空洞卷积的作用**
-- 空洞卷积使 CNN 能够**捕捉更远的信息，获得更大的感受野**；同时不增加参数的数量，也不影响训练的速度。
+- 空洞卷积使 CNN 能够**捕捉更远的信息，获得更大的感受野**（NLP 中可理解为获取更长的上下文）；同时不增加参数的数量，也不影响训练的速度。
 - 示例：Conv1D + 空洞卷积
   <div align="center"><img src="../assets/普通卷积与膨胀卷积.png" height="200" /></div>
 
