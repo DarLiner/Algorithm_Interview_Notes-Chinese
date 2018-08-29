@@ -61,6 +61,11 @@ Index
   - 在一些“**Seq2One**”中简单任务中，这种网络用的比较多；因为这些任务只需要关注序列的全局特征。
   <div align="center"><img src="../assets/TIM截图20180829134659.png" height="" /></div>
 
+> 其中前两种 RNN 分别被称为 Elman network 和 Jordan network；通常所说的 RNN 指的是前者
+> <div align="center"><img src="../assets/TIM截图20180808114753.png" height="" /></div>
+>
+>> [Recurrent neural network](https://en.wikipedia.org/wiki/Recurrent_neural_network#Elman_networks_and_Jordan_networks) - Wikipedia 
+
 ## RNN 的反向传播（BPTT） TODO
 
 
