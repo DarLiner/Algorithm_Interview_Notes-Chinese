@@ -5,7 +5,8 @@ Index
 ---
 <!-- TOC -->
 
-- [RNN 的计算图（RNN 几种不同的设计模式）](#rnn-的计算图rnn-几种不同的设计模式)
+- [RNN 的基本结构](#rnn-的基本结构)
+- [RNN 常见的几种设计模式（3）](#rnn-常见的几种设计模式3)
 - [RNN 的反向传播（BPTT） TODO](#rnn-的反向传播bptt-todo)
 - [RNN 相关问题](#rnn-相关问题)
   - [RNN 相比前馈网络/CNN 有什么特点？](#rnn-相比前馈网络cnn-有什么特点)
@@ -25,9 +26,24 @@ Index
 
 <!-- /TOC -->
 
-## RNN 的计算图（RNN 几种不同的设计模式）
+## RNN 的基本结构
+- RNN 本质上是一个**递推函数**
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\dpi{120}&space;\fn_cs&space;h^{(t)}=f({\color{Red}h^{(t-1)}};\theta)"><img src="../assets/公式_20180829145525.png" height="" /></a></div>
 
-**RNN 一般包括以下 3 种设计模式**
+- 考虑当前输入 `x(t)`
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\dpi{120}&space;\fn_cs&space;h^{(t)}=f({\color{Red}h^{(t-1)},x^{(t)}};\theta)"><img src="../assets/公式_20180829145336.png" height="" /></a></div>
+
+- 以上计算公式可展开为如下**计算图**（无输出单元）
+  <div align="center"><img src="../assets/TIM截图20180829145622.png" height="" /></div>
+
+- RNN 的**前向传播**公式
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\dpi{120}&space;\fn_cs&space;\begin{aligned}&space;a^{(t)}&=W\cdot[h^{(t-1)};x^{(t)}]&plus;b\\&space;h^{(t)}&=f(a^{(t)})&space;\end{aligned}"><img src="../assets/公式_20180829150659.png" height="" /></a></div>
+
+  > 一般 `h(0)` 会初始化为 0 向量；并使用 `tanh` 作为激活函数 `f`  
+
+## RNN 常见的几种设计模式（3）
+
+**RNN 一般包括以下几种设计模式**
 - **每个时间步都有输出，且隐藏单元之间有循环连接**
   - 即通常所说 RNN
   - 这种结构会在每个时间步产生一个输出，所以通常用于“**Seq2Seq**”任务中，比如序列标注、机器翻译等。这些任务通常都比较复杂。
