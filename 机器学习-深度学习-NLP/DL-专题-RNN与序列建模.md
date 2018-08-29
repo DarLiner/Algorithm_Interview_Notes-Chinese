@@ -5,7 +5,8 @@ Index
 ---
 <!-- TOC -->
 
-- [RNN 的计算图（RNN 几种不同的设计模式） TODO](#rnn-的计算图rnn-几种不同的设计模式-todo)
+- [RNN 的计算图（RNN 几种不同的设计模式）](#rnn-的计算图rnn-几种不同的设计模式)
+  - [](#)
 - [RNN 的反向传播（BPTT）](#rnn-的反向传播bptt)
 - [RNN 相关问题](#rnn-相关问题)
   - [RNN 相比前馈网络/CNN 有什么特点？](#rnn-相比前馈网络cnn-有什么特点)
@@ -18,14 +19,17 @@ Index
   - [LSTM 的内部结构](#lstm-的内部结构)
     - [完整的 LSTM 前向传播公式](#完整的-lstm-前向传播公式)
   - [LSTM 是如何实现长短期记忆的？（遗忘门和输入门的作用）](#lstm-是如何实现长短期记忆的遗忘门和输入门的作用)
-  - [LSTM 里各部分使用了不同的激活函数，为什么？](#lstm-里各部分使用了不同的激活函数为什么)
-    - [可以使用其他激活函数吗？](#可以使用其他激活函数吗)
+  - [LSTM 里各部分使用了不同的激活函数，为什么？可以使用其他激活函数吗？](#lstm-里各部分使用了不同的激活函数为什么可以使用其他激活函数吗)
+  - [窥孔机制](#窥孔机制)
   - [GRU 与 LSTM 的关系](#gru-与-lstm-的关系)
     - [完整的 GRU 前向传播公式](#完整的-gru-前向传播公式)
 
 <!-- /TOC -->
 
-## RNN 的计算图（RNN 几种不同的设计模式） TODO
+## RNN 的计算图（RNN 几种不同的设计模式）
+- RNN 一般包括以下几种
+
+### 
 
 ## RNN 的反向传播（BPTT）
 TODO
@@ -120,17 +124,17 @@ TODO
   <div align="center"><img src="../assets/LSTM3-chain.png" height="200" /></div>
   <div align="center"><img src="../assets/LSTM3-SimpleRNN.png" height="200" /></div>
 
-- 具体来说，LSTM 中加入了三个“门”：**遗忘门** `f`、**输入门** `i`、**输出门** `o`，以及一个内部记忆细胞 `C`
-  - “**遗忘门 `f`**”控制前一步记忆细胞中的信息有多大程度被遗忘；
+- 具体来说，LSTM 中加入了三个“门”：**遗忘门** `f`、**输入门** `i`、**输出门** `o`，以及一个内部记忆状态 `C`
+  - “**遗忘门 `f`**”控制前一步记忆状态中的信息有多大程度被遗忘；
   <div align="center"><img src="../assets/LSTM3-focus-f.png" height="200" /></div>
 
-  - “**输入门 `i`**”控制当前计算的新状态以多大的程度更新到**记忆细胞**中；
+  - “**输入门 `i`**”控制当前计算的新状态以多大的程度更新到**记忆状态**中；
   <div align="center"><img src="../assets/LSTM3-focus-i.png" height="200" /></div>
 
-  - “**记忆细胞 `C`**”间的**状态转移**由输入门和遗忘门共同决定
+  - “**记忆状态 `C`**”间的**状态转移**由输入门和遗忘门共同决定
   <div align="center"><img src="../assets/LSTM3-focus-C.png" height="200" /></div>
 
-  - “**输出门 `o`**”控制当前的输出有多大程度取决于当前的记忆细胞
+  - “**输出门 `o`**”控制当前的输出有多大程度取决于当前的记忆状态
   <div align="center"><img src="../assets/LSTM3-focus-o.png" height="200" /></div>
 
 #### 完整的 LSTM 前向传播公式
@@ -145,24 +149,51 @@ TODO
   - 如果当前时间点的状态中出现了重要信息，但旧的记忆也很重要，则 `f -> 1`，`i -> 1`。
 
 
-### LSTM 里各部分使用了不同的激活函数，为什么？
+### LSTM 里各部分使用了不同的激活函数，为什么？可以使用其他激活函数吗？
+- 在 LSTM 中，所有**控制门**都使用 sigmoid 作为激活函数（遗忘门、输入门、输出门）；
+- 在计算**候选记忆**或**隐藏状态**时，使用双曲正切函数 tanh 作为激活函数
 
+**sigmoid 的“饱和”性**
+- 所谓饱和性，即输入超过一定范围后，输出几乎不再发生明显变化了
+- sigmoid 的值域为 `(0, 1)`，符合**门控**的定义：
+  - 当输入较大或较小时，其输出会接近 1 或 0，从而保证门的开或关；
+  - 如果使用非饱和的激活函数，将难以实现**门控/开关**的效果。
+- sigmoid 是现代**门控单元**中的共同选择。
 
-#### 可以使用其他激活函数吗？
+**为什么使用 tanh？**
+- 使用 tanh 作为计算状态时的激活函数，主要是因为其**值域**为 `(-1, 1)`：
+  - 一方面，这与多数场景下特征分布以 0 为中心相吻合；
+  - 另一方面，可以避免在前向传播的时候发生**数值问题**（主要是上溢）
+- 此外，tanh 比 sigmoid 在 0 附近有更大的梯度，通常会使模型收敛更快。
+  > 早期，使用 `h(x) = 2*sigmoid(x) - 1` 作为激活函数，该激活函数的值域也是 `(-1, 1)`
 
+**Hard gate**
+- 在一些对计算能力有限制的设备中，可能会使用 hard gate
+- 因为 sigmoid 求指数时需要一定的计算量，此时会使用 0/1 门（hard gate）让门控输出 0 或 1 的离散值。
+
+### 窥孔机制
+> Gers F A, Schmidhuber J. Recurrent nets that time and count[C]. 2000.
+- LSTM 通常使用输入 `x_t` 和上一步的隐状态 `h_{t-1}` 参与门控计算；
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_cs&space;\large&space;g=\sigmoid(W\cdot[x_t;h_{t-1}]&plus;b)"><img src="../assets/公式_20180829114415.png" height="" /></a></div>
+
+- **窥孔机制**指让记忆状态也参与门控的计算中
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_cs&space;\large&space;g=\sigmoid(W\cdot[x_t;h_{t-1};c_{t-1}]&plus;b)"><img src="../assets/公式_20180829114459.png" height="" /></a></div>
 
 ### GRU 与 LSTM 的关系
-- LSTM 中的**遗忘门**和**输入门**的功能有一定的重合；
+- GRU 认为 LSTM 中的**遗忘门**和**输入门**的功能有一定的重合，于是将其合并为一个**更新门**。
+  > 其实，早期的 LSTM 中本来就是没有**遗忘门**的 [1]，因为研究发现加入遗忘门能提升性能 [2]，从而演变为如今的 LSTM.
+  >> [1] Hochreiter S, Schmidhuber J. Long short-term memory[J]. 1997.<br/>
+  >> [2] Gers F A, Schmidhuber J, Cummins F. Learning to forget: Continual prediction with LSTM[J]. 1999.
 - GRU 相比 LSTM 的**改动**：
-  - GRU 把遗忘门和输入门合并为**更新门** `r`，并使用**重置门** `z` 代替输出门；
-  - **合并**了记忆细胞 `C` 和隐藏状态 `h`
+  - GRU 把遗忘门和输入门合并为**更新门（update）** `z`，并使用**重置门（reset）** `r` 代替输出门；
+  - **合并**了记忆状态 `C` 和隐藏状态 `h`
   <div align="center"><img src="../assets/LSTM3-var-GRU.png" height="200" /></div>
 
   其中
-  - **更新门**用于控制前一时刻的状态信息被带入到当前状态中的程度
-  - **重置门**用于控制忽略前一时刻的状态信息的程度
+  - **更新门** `z`用于控制前一时刻的状态信息被**融合**到当前状态中的程度
+  - **重置门** `r`用于控制忽略前一时刻的状态信息的程度
 
 #### 完整的 GRU 前向传播公式
-  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_cm&space;\large&space;\begin{aligned}&space;z_t&=\sigma(W_z\cdot[h_{t-1};x_t])\\&space;r_t&=\sigma(W_r\cdot[h_{t-1};x_t])\\&space;\tilde{h}_t&=\tanh(W_h\cdot[r_t\circ&space;h_{t-1};x_t])\\&space;h_t&=(1-z_t)\circ&space;h_{t-1}&plus;z_t\circ\tilde{h}_t&space;\end{aligned}"><img src="../assets/公式_20180828225607.png" height="" /></a></div>
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_cm&space;\large&space;\begin{aligned}&space;z_t&=\sigma(W_z\cdot[h_{t-1};x_t])\\&space;r_t&=\sigma(W_r\cdot[h_{t-1};x_t])\\&space;\tilde{h}_t&=\tanh(W_h\cdot[r_t\odot&space;h_{t-1};x_t])\\&space;h_t&=(1-z_t)\odot&space;h_{t-1}&plus;z_t\odot\tilde{h}_t&space;\end{aligned}"><img src="../assets/公式_20180829104207.png" height="" /></a></div>
   
   > 遵从原文表示，没有加入偏置
