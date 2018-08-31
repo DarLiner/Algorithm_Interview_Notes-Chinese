@@ -4,8 +4,8 @@
 DP 问题的一般思路
 ---
 - **DP 定义** ——有时 DP 的更新很难严格遵循定义，需要额外变量保存全局最优结果
-- **DP 初始化** ——初始值可以通过一个简单的特例来确定
-- **DP 更新** （递推公式 + 边界条件）
+- **初始化** ——初始值可以通过一个简单的特例来确定
+- **递推公式** + **边界条件**
 - **DP 优化** （可选）
 
 <!-- 
@@ -35,13 +35,14 @@ Index
     - [完全背包（一维 DP，AC）](#完全背包一维-dpac)
     - [01 背包（滚动数组，AC）](#01-背包滚动数组ac)
     - [完全背包（滚动数组，RE）](#完全背包滚动数组re)
-- [编辑距离](#编辑距离)
 - [最长公共子序列（LCS）](#最长公共子序列lcs)
   - [最长公共子串](#最长公共子串)
 - [最长递增子序列（LIS）](#最长递增子序列lis)
 - [最长回文子序列](#最长回文子序列)
   - [最长回文子串](#最长回文子串)
 - [最大连续子序列和](#最大连续子序列和)
+- [编辑距离](#编辑距离)
+- [矩阵中的最大正方形](#矩阵中的最大正方形)
 - [鹰蛋问题](#鹰蛋问题)
 - [矩阵链乘法 TODO](#矩阵链乘法-todo)
 - [有代价的最短路径 TODO](#有代价的最短路径-todo)
@@ -422,122 +423,6 @@ int main() {
     return 0;
 }
 ```
-
-
-## 编辑距离
-> [编辑距离](https://leetcode-cn.com/problems/edit-distance/description/) - LeetCode
-
-**问题描述**
-```
-给定两个单词 word1 和 word2，计算出将 word1 转换成 word2 所使用的最少操作数。
-
-你可以对一个单词进行如下三种操作：
-  插入一个字符
-  删除一个字符
-  替换一个字符
-
-示例:
-  输入: word1 = "horse", word2 = "ros"
-  输出: 3
-  解释: 
-  horse -> rorse (将 'h' 替换为 'r')
-  rorse -> rose (删除 'r')
-  rose -> ros (删除 'e')
-```
-- **注意**：编辑距离指的是将 **word1 转换成 word2**
-
-**思路**
-- 用一个 dp 数组维护两个字符串的**前缀**编辑距离
-- **DP 定义**
-  - **记** `word[0:i] := word 长度为 i 的**前缀子串**`
-  - **定义** `dp[i][j] := 将 word1[0:i] 转换为 word2[0:j] 的操作数`
-- **DP 初始化**
-  ```
-  dp[i][0] = i  // 每次从 word1 删除一个字符
-  dp[0][j] = j  // 每次向 word1 插入一个字符
-  ```
-- **DP 更新**
-  - `word1[i] == word1[j]` 时
-    ```
-    dp[i][j] = dp[i-1][j-1]
-    ```
-  - `word1[i] != word1[j]` 时，有三种更新方式，**取最小**
-    ```
-    // word[1:i] 表示 word 长度为 i 的前缀子串
-    dp[i][j] = min({ dp[i-1][j]   + 1 ,     // 将 word1[1:i-1] 转换为 word2[1:j] 的操作数 + 删除 word1[i] 的操作数(1)
-                     dp[i][j-1]   + 1 ,     // 将 word1[0:i] 转换为 word2[0:j-1] 的操作数 + 将 word2[j] 插入到 word1[0:i] 之后的操作数(1)
-                     dp[i-1][j-1] + 1 })    // 将 word1[0:i-1] 转换为 word2[0:j-1] 的操作数 + 将 word1[i] 替换为 word2[j] 的操作数(1)
-    ```
-  - **注意到** `dp[i][j]` 是单调的，因此可以将整个过程归纳为
-    ```
-    dp[i][j] = min({ dp[i-1][j]   + 1 ,
-                     dp[i][j-1]   + 1 ,
-                     dp[i-1][j-1] + (int)(word1[i] == word1[j]) })
-    ```
-- **Code - C++**
-  ```C++
-  class Solution {
-  public:
-      int minDistance(string word1, string word2) {
-          int m = word1.length();
-          int n = word2.length();
-          vector<vector<int> > dp(m + 1, vector<int>(n + 1, 0));
-
-          // 初始化 dp
-          for (int i = 1; i <= m; i++)
-              dp[i][0] = i;
-          for (int j = 1; j <= n; j++)
-              dp[0][j] = j;
-
-          // 更新 dp
-          for (int i = 1; i <=m; i++)
-              for (int j = 1; j <= n; j++)
-                  if (word1[i - 1] == word2[j - 1])
-                      dp[i][j] = dp[i - 1][j - 1];
-                  else
-                      dp[i][j] = min({ dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + 1 });
-              
-          return dp[m][n];
-      }
-  };
-  ```
-
-- **DP 优化**
-  - 注意到每次更新 `dp[i][j]` 只需要用到 `dp[i - 1][j - 1], dp[i][j - 1], dp[i - 1][j]`。因此实际上不需要用到二维 DP
-  - 具体见下方代码
-
-  <details><summary><b>Code - 优化为一维 DP（点击展开）</b></summary> 
-
-  ```C++
-  class Solution { 
-  public:
-      int minDistance(string word1, string word2) {
-          int m = word1.length(), n = word2.length();
-          
-          vector<int> cur(m + 1, 0);
-          for (int i = 1; i <= m; i++)
-              cur[i] = i;
-          
-          for (int j = 1; j <= n; j++) {
-              int pre = cur[0];
-              cur[0] = j;
-              
-              for (int i = 1; i <= m; i++) {
-                  int temp = cur[i];
-                  if (word1[i - 1] == word2[j - 1])
-                      cur[i] = pre;
-                  else 
-                      cur[i] = min(pre + 1, min(cur[i] + 1, cur[i - 1] + 1));
-                  pre = temp;
-              }
-          }
-          return cur[m]; 
-      }
-  };
-  ```
-
-  </details>
-
 
 ## 最长公共子序列（LCS）
 > [最长公共子序列](https://www.nowcoder.com/questionTerminal/c996bbb77dd447d681ec6907ccfb488a)_牛客网 
@@ -1249,6 +1134,197 @@ int main() {
       return 0;
   }
   ```
+
+
+## 编辑距离
+> LeetCode-[编辑距离](https://leetcode-cn.com/problems/edit-distance/description/)
+
+**问题描述**
+```
+给定两个单词 word1 和 word2，计算出将 word1 转换成 word2 所使用的最少操作数。
+
+你可以对一个单词进行如下三种操作：
+  插入一个字符
+  删除一个字符
+  替换一个字符
+
+示例:
+  输入: word1 = "horse", word2 = "ros"
+  输出: 3
+  解释: 
+  horse -> rorse (将 'h' 替换为 'r')
+  rorse -> rose (删除 'r')
+  rose -> ros (删除 'e')
+```
+- **注意**：编辑距离指的是将 **word1 转换成 word2**
+
+**思路**
+- 用一个 dp 数组维护两个字符串的**前缀**编辑距离
+- **DP 定义**
+  - **记** `word[0:i] := word 长度为 i 的**前缀子串**`
+  - **定义** `dp[i][j] := 将 word1[0:i] 转换为 word2[0:j] 的操作数`
+- **初始化**
+  ```
+  dp[i][0] = i  // 每次从 word1 删除一个字符
+  dp[0][j] = j  // 每次向 word1 插入一个字符
+  ```
+- **递推公式**
+  - `word1[i] == word1[j]` 时
+    ```
+    dp[i][j] = dp[i-1][j-1]
+    ```
+  - `word1[i] != word1[j]` 时，有三种更新方式，**取最小**
+    ```
+    // word[1:i] 表示 word 长度为 i 的前缀子串
+    dp[i][j] = min({ dp[i-1][j]   + 1 ,     // 将 word1[1:i-1] 转换为 word2[1:j] 的操作数 + 删除 word1[i] 的操作数(1)
+                     dp[i][j-1]   + 1 ,     // 将 word1[0:i] 转换为 word2[0:j-1] 的操作数 + 将 word2[j] 插入到 word1[0:i] 之后的操作数(1)
+                     dp[i-1][j-1] + 1 })    // 将 word1[0:i-1] 转换为 word2[0:j-1] 的操作数 + 将 word1[i] 替换为 word2[j] 的操作数(1)
+    ```
+  <!-- - **注意到** `dp[i][j]` 是单调的，因此可以将整个过程归纳为
+    ```
+    dp[i][j] = min({ dp[i-1][j]   + 1 ,
+                     dp[i][j-1]   + 1 ,
+                     dp[i-1][j-1] + (int)(word1[i] == word1[j]) })
+    ``` -->
+- **C++**
+  ```C++
+  class Solution {
+  public:
+      int minDistance(string word1, string word2) {
+          int m = word1.length();
+          int n = word2.length();
+          vector<vector<int> > dp(m + 1, vector<int>(n + 1, 0));
+
+          // 初始化 dp
+          for (int i = 1; i <= m; i++)
+              dp[i][0] = i;
+          for (int j = 1; j <= n; j++)
+              dp[0][j] = j;
+
+          // 更新 dp
+          for (int i = 1; i <=m; i++)
+              for (int j = 1; j <= n; j++)
+                  if (word1[i - 1] == word2[j - 1])
+                      dp[i][j] = dp[i - 1][j - 1];
+                  else
+                      dp[i][j] = min({ dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1] })  + 1;
+              
+          return dp[m][n];
+      }
+  };
+  ```
+
+- **DP 优化**
+  - 注意到每次更新 `dp[i][j]` 只需要用到 `dp[i - 1][j - 1], dp[i][j - 1], dp[i - 1][j]`。因此实际上不需要用到二维 DP
+  - 具体见下方代码
+
+  <details><summary><b>Code - 优化为一维 DP（点击展开）</b></summary> 
+
+  ```C++
+  class Solution { 
+  public:
+      int minDistance(string word1, string word2) {
+          int m = word1.length(), n = word2.length();
+          
+          vector<int> cur(m + 1, 0);
+          for (int i = 1; i <= m; i++)
+              cur[i] = i;
+          
+          for (int j = 1; j <= n; j++) {
+              int pre = cur[0];
+              cur[0] = j;
+              
+              for (int i = 1; i <= m; i++) {
+                  int temp = cur[i];
+                  if (word1[i - 1] == word2[j - 1])
+                      cur[i] = pre;
+                  else 
+                      cur[i] = min(pre + 1, min(cur[i] + 1, cur[i - 1] + 1));
+                  pre = temp;
+              }
+          }
+          return cur[m]; 
+      }
+  };
+  ```
+
+  </details>
+
+
+## 矩阵中的最大正方形
+> LeetCode-[221. 最大正方形](https://leetcode-cn.com/problems/maximal-square/description/)
+
+**问题描述**
+```
+在一个由 0 和 1 组成的二维矩阵 M 内，找到只包含 1 的最大正方形，并返回其面积。
+
+示例:
+
+输入: 
+1 0 1 0 0
+1 0 1 1 1
+1 1 1 1 1
+1 0 0 1 0
+
+输出: 
+4
+```
+
+**思路**
+- **DP 定义**：`dp[i][j] := 以 M[i][j] 为正方形**右下角**所能找到的最大正方形的边长`
+  - 注意保存的是边长
+  - 因为 `dp` 保存的不是全局最大值，所以需要用一个额外变量更新结果
+- **初始化**
+  ```
+  dp[i][0] = M[i][0]
+  dp[0][j] = M[0][j]
+  ```
+- **递推公式**
+  ```
+  dp[i][j] = min{dp[i-1][j], 
+                 dp[i][j-1], 
+                 dp[i-1][j-1]} + 1  若 M[i][j] == 1
+           = 0                      否则
+  ```
+  > 注意到，本题的递推公式与 [编辑距离](#编辑距离) 完全一致
+
+**C++**
+```C++
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& M) {
+        if (M.empty() || M[0].empty())
+            return 0;
+
+        auto row = M.size();
+        auto col = M[0].size();
+        vector<vector<int> > dp(row, vector<int>(col, 0));
+
+        int mx = 0;
+        for (int i = 0; i < row; i++) {
+            dp[i][0] = M[i][0] - '0';
+            mx = max(mx, dp[i][0]);         // 别忘了这里也要更新 mx
+        }
+            
+        for (int j = 0; j < col; j++) {
+            dp[0][j] = M[0][j] - '0';
+            mx = max(mx, dp[0][j]);         // 别忘了这里也要更新 mx
+        }
+
+        for (int i=1; i<row; i++)
+            for (int j = 1; j < col; j++) {
+                if (M[i][j] == '0')
+                    dp[i][j] = 0;
+                else {
+                    dp[i][j] = min({ dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1] }) + 1;
+                    mx = max(mx, dp[i][j]); // 更新 mx
+                }
+            }
+
+        return mx * mx;
+    }
+};
+```
 
 ## 鹰蛋问题
 > Power Eggs http://acm.zcmu.edu.cn/JudgeOnline/problem.php?id=1894
