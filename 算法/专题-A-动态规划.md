@@ -38,7 +38,7 @@ Index
 - [编辑距离](#编辑距离)
 - [最长公共子序列（LCS）](#最长公共子序列lcs)
   - [最长公共子串](#最长公共子串)
-- [最长递增/上升子序列（LIS）](#最长递增上升子序列lis)
+- [最长递增子序列（LIS）](#最长递增子序列lis)
 - [最长回文子序列](#最长回文子序列)
   - [最长回文子串](#最长回文子串)
 - [最大连续子序列和](#最大连续子序列和)
@@ -775,7 +775,7 @@ int main() {
   ```
 
 
-## 最长递增/上升子序列（LIS）
+## 最长递增子序列（LIS）
 > [最长递增子序列](https://www.nowcoder.com/questionTerminal/585d46a1447b4064b749f08c2ab9ce66)_牛客网
 >
 > [最长上升子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/description/) - LeetCode
@@ -892,8 +892,8 @@ int main() {
           vector<int> dp;
 
           for (int j = 0; j < n; j++) {
-              // 这里用 lower_bound 也可以
-              auto it = upper_bound(dp.begin(), dp.end(), nums[j]);
+              // 这里用 upper_bound 也可以
+              auto it = lower_bound(dp.begin(), dp.end(), nums[j]);
               if (it == dp.end())
                   dp.push_back(nums[j]);
               else
