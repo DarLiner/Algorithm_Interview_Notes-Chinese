@@ -42,7 +42,75 @@ Updates Log
 - 机器学习实战-部分代码（K-Means等）
 - 判断相似二叉树及优化
 - `max(x, y)` 的期望
+- n个[0,n)的数，求每个数的出现次数（不能开辟额外空间）
+- 加速网络收敛的方法
+- 回归树、基尼指数
+- 长短地址转换
+- 直方图蓄水问题
+  ```
+  int foo(vector<int> ns) {
+      
+      vector<vector<int> > dp(ns.size(), vector<int>(2, 0));
+      
+      for (int i = 1; i<ns.size()-1; i++) {
+          int lo = ns[i], hi = ns[i];
+          for (int j=0; j < i; j++) {
+              if (ns[j] > lo)
+                  lo = max(lo, ns[j]);
+          }
+          dp[i][0] = lo;
+          
+          for (int k = i+1; k < ns.size(); k++) {
+              if (ns[k] > hi)
+                  hi = max(hi, ns[k]);
+          }
+          dp[i][1] = hi;
+      }
+      
+      int ret = 0;
+      for (int i=1; i < ns.size()-1; i++) {
+          int mx = min(dp[i][0], dp[i][1]);
+          if (mx > ns[i])
+              ret += mx - ns[i];
+      }
+      
+      return ret;
+  }
 
+  int bar(vector<int> ns) {
+      
+      int n = ns.size();
+      vector<int> dp_fw(ns);
+      vector<int> dp_bw(ns);
+      
+      int lo = ns[0];
+      for (int i=1; i<n; i++) {
+          dp_fw[i] = max(dp[i-1], dp[i])
+      }
+      
+      for (int i=n-2; i>=0; i--) {
+          dp[i] = max(dp[i+1], dp[i]);
+      }
+      
+      int ret = 0;
+      for (int i=1; i < n-1; i++) {
+          int mx = min(dp_fw[i], dp_bw[i]);
+          ret += mx - ns[i];
+      }
+  }
+  ```
+- 判断两个链表是否相交（CSDN）
+
+## 2018-9-3
+- 深度学习基础 - 正则化 - Batch Normalization（修订）
+
+## 2018-9-2
+- 集成学习专题整理
+
+## 2018-9-1
+- 笔试面经 - 头条 4 面小结
+- 算法 - 字符串 - 进制转换/长短地址转换
+- 算法 - LeetCode - 连续子数组和
 
 ## 2018-8-31
 - 数据结构 - 字符串 - 中缀表达式转后缀表达式（逆波兰式）
@@ -126,7 +194,7 @@ Updates Log
 
 ## 2018-8-20
 - DP-鹰蛋问题
-- DL-专题-优化算法
+- 基础-术语表
   - 指数衰减平均的说明
 - LeetCode
   - 数据-双指针

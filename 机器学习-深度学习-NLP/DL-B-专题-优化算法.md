@@ -156,9 +156,7 @@ Index
 > Hinton, 2012
 - RMSProp 主要是为了解决 AdaGrad 方法中**学习率过度衰减**的问题—— AdaGrad 根据平方梯度的**整个历史**来收缩学习率，可能使得学习率在达到局部最小值之前就变得太小而难以继续训练；
 - RMSProp 使用**指数衰减平均**（递归定义）以丢弃遥远的历史，使其能够在找到某个“凸”结构后快速收敛；此外，RMSProp 还加入了一个超参数 `ρ` 用于控制衰减速率。
-  > 所谓**指数衰减平均**，可以参考以下公式（**仅做参考**）：
-  > <div align="center"><img src="../assets/公式_20180820104712.png" height="" /></div>
-  > 可以看到越久之前的历史，影响会越小
+  > ./术语表/[指数衰减平均](./Base-A-术语表.md#指数加权平均指数衰减平均)
 - 具体来说（对比 AdaGrad 的算法描述），即修改 `r` 为
   <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\begin{aligned}&space;&r\leftarrow&space;\mathbb{E}[g^2]_t=\rho\cdot\mathbb{E}[g^2]_{t-1}&plus;(1-\rho)\cdot&space;g^2&space;\end{aligned}"><img src="../assets/公式_20180819204219.png" height="" /></a></div>
   记
@@ -193,6 +191,7 @@ Index
   - 除了加入**历史梯度平方的指数衰减平均**（`r`）外，
   - 还保留了**历史梯度的指数衰减平均**（`s`），相当于**动量**。
   - Adam 行为就像一个带有摩擦力的小球，在误差面上倾向于平坦的极小值。
+  > ./术语表/[指数衰减平均](./Base-A-术语表.md#指数加权平均指数衰减平均)
 - **Adam 算法描述**
   <div align="center"><img src="../assets/TIM截图20180611220109.png" height="" /></div>
 

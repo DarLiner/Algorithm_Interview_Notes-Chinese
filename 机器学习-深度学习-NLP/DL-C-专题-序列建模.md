@@ -16,6 +16,8 @@ Index
     - [维特比（Viterbi）算法 TODO](#维特比viterbi算法-todo)
     - [其他最短路径算法](#其他最短路径算法)
   - [构建 Seq2Seq 一般做法](#构建-seq2seq-一般做法)
+- [序列的表示学习](#序列的表示学习)
+  - [学习任务无关的 Sentence Embedding](#学习任务无关的-sentence-embedding)
 - [CNN 与序列建模](#cnn-与序列建模)
   - [一维卷积](#一维卷积)
 - [时间卷积网络（TCN）](#时间卷积网络tcn)
@@ -103,6 +105,20 @@ Index
 - **残差**连接
 - **Attention 机制**
   > [Attention 专题](./DL-C-专题-Attention.md)
+
+
+## 序列的表示学习
+- 序列的表示学习指学习单个序列的特征表示，通常作为另一个任务的子过程，或者用于迁移学习等。
+- 整个学习的过程相当于 Seq2Seq 中的 Encoder 部分
+
+### 学习任务无关的 Sentence Embedding
+> [1703.03130] [A Structured Self-attentive Sentence Embedding](https://arxiv.org/abs/1703.03130)
+
+**模型基本结构**，更多细节参考原文
+- 待学习的句子
+  
+
+
 
 ## CNN 与序列建模
 - 一般认为 CNN 擅长处理**网格结构的数据**，比如图像（二维像素网络）

@@ -305,7 +305,7 @@ public:
 
 **思路**
 - 栈
-- 头插法
+- 头插法（双端队列或数组）
 
 **Code**
 ```C++
@@ -338,6 +338,28 @@ public:
 **思路**
 - 涉及二叉树的问题，应该条件反射般的使用**递归**（无优化要求时）
 - 前序遍历的第一个值为根节点的值，使用这个值将中序遍历结果分成两部分，左部分为左子树的中序遍历结果，右部分为右子树的中序遍历的结果。
+- **示例**
+  ```
+  前序
+    1,2,4,7,3,5,6,8
+  中序
+    4,7,2,1,5,3,8,6
+  
+  第一层
+    根节点 1
+    根据根节点的值（不重复），划分中序：
+      {4,7,2} 和 {5,3,8,6}
+    根据左右子树的长度，划分前序：
+      {2,4,7} 和 {3,5,6,8}
+    从而得到左右子树的前序和中序
+      左子树的前序和中序：{2,4,7}、{4,7,2}
+      右子树的前序和中序：{3,5,6,8}、{5,3,8,6}
+
+  第二层
+    左子树的根节点 2
+    右子树的根节点 3
+    ...
+  ```
 
 **Code - 无优化**
 ```C++
@@ -458,8 +480,9 @@ public:
 
 **Code**
 ```C++
-class Solution
-{
+class Solution {
+    stack<int> stack_in;
+    stack<int> stack_out;
 public:
     void push(int node) {
         stack_in.push(node);
@@ -478,10 +501,6 @@ public:
         stack_out.pop();
         return ret;
     }
-
-private:
-    stack<int> stack_in;
-    stack<int> stack_out;
 };
 ```
 
@@ -1521,25 +1540,25 @@ public:
 - 要求：不使用额外空间
 
 **思路**
-- 可以辅助图示思考
+- 辅助图示思考
 
 **Code - 迭代**
 ```C++
 class Solution {
 public:
-    ListNode * ReverseList(ListNode* pHead) {
-        if (pHead == NULL)
-            return NULL;
+    ListNode * ReverseList(ListNode* head) {
+        if (head == nullptr)
+            return nullptr;
 
-        ListNode* cur = pHead;
-        ListNode* pre = NULL;
-        ListNode* nxt = cur->next;
-        cur->next = NULL;         // 断开当前节点及下一个节点
-        while (nxt) {
-            pre = cur;
-            cur = nxt;
-            nxt = nxt->next;
-            cur->next = pre;
+        ListNode* cur = head;        // 当前节点
+        ListNode* pre = nullptr;     // 前一个节点
+        ListNode* nxt = cur->next;   // 下一个节点
+        cur->next = nullptr;         // 断开当前节点及下一个节点（容易忽略的一步）
+        while (nxt != nullptr) {
+            pre = cur;        // 把前一个节点指向当前节点
+            cur = nxt;        // 当前节点向后移动
+            nxt = nxt->next;  // 下一个节点向后移动
+            cur->next = pre;  // 当前节点的下一个节点指向前一个节点
         }
         return cur;
     }
@@ -1550,15 +1569,15 @@ public:
 ```C++
 class Solution {
 public:
-    ListNode * ReverseList(ListNode* pHead) {
-        if (pHead == nullptr || pHead->next == nullptr)
-            return pHead;
+    ListNode * ReverseList(ListNode* head) {
+        if (head == nullptr || head->next == nullptr)
+            return head;
         
-        auto nxt = pHead->next;
-        pHead->next = nullptr;      // 断开当前节点及下一个节点
-        auto newHead = ReverseList(nxt);
-        nxt->next = pHead;
-        return newHead;
+        auto nxt = head->next;
+        head->next = nullptr;      // 断开当前节点及下一个节点
+        auto new_head = ReverseList(nxt);
+        nxt->next = head;
+        return new_head;
     }
 };
 ```
@@ -1572,44 +1591,63 @@ public:
 输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
 ```
 
-**Code - 迭代**
+**思路**
+- 迭代
+- 递归
+
+**Code**（**迭代**）
 ```C++
 class Solution {
 public:
-    ListNode * Merge(ListNode* pHead1, ListNode* pHead2) {
-        ListNode head{-1};
-        ListNode *cur = &head;
-        while (pHead1 && pHead2) {
-            if (pHead1->val <= pHead2->val) {
-                cur->next = pHead1;
-                pHead1 = pHead1->next;
+    ListNode* Merge(ListNode* p1, ListNode* p2) {
+        if (p1 == nullptr) return p2;
+        if (p2 == nullptr) return p1;
+        
+        // 选择头节点
+        ListNode* head = nullptr;
+        if (p1->val <= p2->val) {
+            head = p1;
+            p1 = p1->next;
+        } else {
+            head = p2;
+            p2 = p2->next;
+        }
+        
+        auto cur = head;
+        while (p1 && p2) {
+            if (p1->val <= p2->val) {
+                cur->next = p1;
+                p1 = p1->next;
             } else {
-                cur->next = pHead2;
-                pHead2 = pHead2->next;
+                cur->next = p2;
+                p2 = p2->next;
             }
             cur = cur->next;
         }
-        if (pHead1) cur->next = pHead1;
-        if (pHead2) cur->next = pHead2;
         
-        return head.next;
+        // 别忘了拼接剩余部分
+        if (p1) cur->next = p1;
+        if (p2) cur->next = p2;
+        
+        return head;
     }
 };
 ```
 
-**Code - 递归**
+**Code**（**递归**）
 ```C++
 class Solution {
 public:
-    ListNode* Merge(ListNode* pHead1, ListNode* pHead2) {
-        if (!pHead1) return pHead2;
-        if (!pHead2) return pHead1;
-        if(pHead1->val <= pHead2->val){
-            pHead1->next = Merge(pHead1->next, pHead2);
-            return pHead1;
+    ListNode* Merge(ListNode* p1, ListNode* p2){
+        if (!p1) return p2;
+        if (!p2) return p1;
+        
+        if (p1->val <= p2->val) {
+            p1->next = Merge(p1->next, p2);
+            return p1;
         } else {
-            pHead2->next = Merge(pHead1, pHead2->next);
-            return pHead2;
+            p2->next = Merge(p1, p2->next);
+            return p2;
         }
     }
 };
@@ -2130,7 +2168,7 @@ public:
 ```
 
 **思路**
-- 注意，必须要从根节点到叶子节点，才叫一条路径，中间结果都不算路径
+- 注意：必须要从根节点到叶子节点，才叫一条路径，中间结果都不算路径，这样的话问题的难度一下子降低了很多
 
 **Code**
 ```C++

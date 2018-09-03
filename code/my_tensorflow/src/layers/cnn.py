@@ -6,7 +6,7 @@ References:
 import tensorflow as tf
 
 from ..activations import relu
-from ..utils import get_wb
+from ..utils import get_wb, get_shape
 
 
 # TODO(huay)
@@ -21,8 +21,8 @@ def conv2d(x, kernel_size, out_channels,
            name=None,
            reuse=None):
     """2-D 卷积层
-    Input shape:  [batch_size, in_w, in_h, in_channels]
-    Output shape: [batch_size, out_w, out_h, out_channels]
+    Input shape:  [batch_size, in_h, in_w, in_channels]
+    Output shape: [batch_size, out_h, out_w, out_channels]
 
     Args:
         x(tf.Tensor):
@@ -45,8 +45,8 @@ def conv2d(x, kernel_size, out_channels,
     assert len(kernel_size) == 2
     assert len(strides) == 4
 
-    in_channels = int(x.get_shape()[-1])
-    kernel_shape = list(kernel_size) + [in_channels, out_channels]
+    in_channels = get_shape(x)[-1]
+    kernel_shape = list(kernel_size) + [in_channels, out_channels]  # [kernel_h, kernel_w, in_channels, out_channels]
 
     with tf.variable_scope(name or "conv2d", reuse=reuse):
         W, b = get_wb(kernel_shape)

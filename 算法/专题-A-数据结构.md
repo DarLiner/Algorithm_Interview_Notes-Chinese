@@ -1,13 +1,17 @@
 专题-数据结构
 ===
 
-数据结构相关基本是**现场面试**中出现频率最高的问题。因为现场面试的时间限制，更难的问题需要大量的思考时间，所以一般只要求需要阐述思路；而数据结构相关的问题，因为有很强的先验知识，通常要求**手写代码**。
+- 数据结构相关基本是**现场面试**中出现频率最高的问题。因为现场面试的时间限制，更难的问题需要大量的思考时间，所以一般只要求需要阐述思路；而数据结构相关的问题，因为有很强的先验知识，通常要求**手写代码**。
+- 本专题只收录**纯数据结构问题**，不包括数据结构的应用。
 
 Index
 ---
 <!-- TOC -->
 
 - [二叉树](#二叉树)
+  - [二叉树的深度](#二叉树的深度)
+  - [二叉树中的最长路径](#二叉树中的最长路径)
+  - [判断平衡二叉树](#判断平衡二叉树)
   - [判断树 B 是否为树 A 的子结构 TODO](#判断树-b-是否为树-a-的子结构-todo)
   - [利用前序和中序重建二叉树](#利用前序和中序重建二叉树)
   - [二叉树的序列化与反序列化](#二叉树的序列化与反序列化)
@@ -23,8 +27,8 @@ Index
   - [链表排序](#链表排序)
     - [插入排序 TODO](#插入排序-todo)
     - [链表快排](#链表快排)
-- [数组](#数组)
-  - [打印二维数组 TODO](#打印二维数组-todo)
+- [二维数组](#二维数组)
+  - [打印二维数组](#打印二维数组)
     - [回形打印](#回形打印)
     - [蛇形打印](#蛇形打印)
 - [堆](#堆)
@@ -34,9 +38,36 @@ Index
 
 <!-- /TOC -->
 
-# 二叉树
+## 二叉树
 
-## 判断树 B 是否为树 A 的子结构 TODO
+### 二叉树的深度
+> [二叉树的深度](https://www.nowcoder.com/practice/435fb86331474282a3499955f0a41e8b?tpId=13&tqId=11191&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - 牛客
+
+**C++**
+```C++
+class Solution {
+public:
+    int TreeDepth(TreeNode* root) {
+        if (root == NULL) return 0;
+
+        return max(TreeDepth(root->left), TreeDepth(root->right)) + 1;
+    }
+};
+```
+
+### 二叉树中的最长路径
+
+**思路**
+- 基于[二叉树的深度](#二叉树的深度)
+- 对任一子树而言，则经过该节点的一条最长路径为其`左子树的深度 + 右子树的深度 + 1`
+- 遍历树中每个节点的最长路径，其中最大的即为整个树的最长路径
+  > 为什么最长路径不一定是经过根节点的那条路径？
+  > 
+
+### 判断平衡二叉树
+
+
+### 判断树 B 是否为树 A 的子结构 TODO
 > [树的子结构](https://www.nowcoder.com/practice/6e196c44c7004d15b1610b9afca8bd88?tpId=13&tqId=11170&tPage=1&rp=3&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - 牛客
 
 **题目描述**
@@ -78,7 +109,7 @@ public:
 ```
 
 
-## 利用前序和中序重建二叉树
+### 利用前序和中序重建二叉树
 > [重建二叉树](https://www.nowcoder.com/practice/8a19cbe657394eeaac2f6ea9b0f6fcf6?tpId=13&tqId=11157&tPage=1&rp=1&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - 牛客
 
 **题目描述**
@@ -139,7 +170,7 @@ class Solution:
 ```
 
 
-## 二叉树的序列化与反序列化
+### 二叉树的序列化与反序列化
 > [序列化二叉树](https://www.nowcoder.com/practice/cf7e25aa97c04cc1a68c8f040e71fb84?tpId=13&tqId=11214&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - NowCoder
 
 **题目描述**
@@ -212,7 +243,7 @@ public:
 };
 ```
 
-## 最近公共祖先
+### 最近公共祖先
 > 《剑指 Offer》 7.2 案例二
 
 **问题描述**
@@ -220,15 +251,15 @@ public:
 给定一棵树的根节点 root，和其中的两个节点 p1 和 p2，求它们的最小公共父节点。
 ```
 
-### 如果树是二叉搜索树
+#### 如果树是二叉搜索树
 - 找到第一个满足 `p1 < root < p2` 的根节点，即为它们的最小公共父节点；
 - 如果寻找的过程中，没有这样的 `root`，那么 `p1` 和 `p2` 的最小公共父节点必是它们之一，此时遍历到 `p1` 或 `p2` 就返回。
 
-### 如果树的节点中保存有指向父节点的指针
+#### 如果树的节点中保存有指向父节点的指针
 - 问题等价于求两个链表的**第一个公共节点**
   > [两个链表的第一个公共节点](#两个链表的第一个公共节点)
 
-### 如果只是普通的二叉树
+#### 如果只是普通的二叉树
 > [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/description/) - LeetCode
 
 - 利用两个辅助链表/数组，保存分别到 `p1` 和 `p2` 的路径；
@@ -286,7 +317,7 @@ public:
   ```
 
 
-## 获取节点的路径
+### 获取节点的路径
 **二叉树**
 ```C++
 // 未测试
@@ -345,9 +376,9 @@ bool getPath(const TreeNode* root, const TreeNode* p, deque<const TreeNode*>& pa
 ```
 
 
-# 链表
+## 链表
 
-## 反转链表
+### 反转链表
 > [反转链表](https://www.nowcoder.com/practice/75e878df47f24fdc9dc3e400ec6058ca?tpId=13&tqId=11168&tPage=1&rp=3&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - 牛客
 
 **题目描述**
@@ -399,7 +430,7 @@ public:
 };
 ```
 
-## 合并排序链表
+### 合并排序链表
 > [合并两个排序的链表](https://www.nowcoder.com/practice/d8b6b4358f774294a89de2a6ac4d9337?tpId=13&tqId=11169&tPage=1&rp=3&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking) - 牛客 
 
 **问题描述**
@@ -465,7 +496,7 @@ public:
 };
 ```
 
-## 两个链表的第一个公共节点
+### 两个链表的第一个公共节点
 
 **思路 1**
 - 先求出两个链表的长度 `l1` 和 `l2`，然后让长的链表先走 `|l1-l2|` 步，此时两个指针距离第一个公共节点的距离相同，再走相同的步数即可在第一个公共节点相遇
@@ -529,13 +560,13 @@ public:
       return p1;
   ```
 
-## 链表排序
+### 链表排序
 > [链表排序（冒泡、选择、插入、快排、归并、希尔、堆排序）](https://www.cnblogs.com/TenosDoIt/p/3666585.html) - tenos - 博客园
 
-### 插入排序 TODO
+#### 插入排序 TODO
 > [147. 对链表进行插入排序](https://leetcode-cn.com/problems/insertion-sort-list/description/) - LeetCode
 
-### 链表快排
+#### 链表快排
 > [148. 排序链表](https://leetcode-cn.com/problems/sort-list/description/) - LeetCode
 
 **思路**
@@ -591,23 +622,25 @@ public:
 **要求交换节点** TODO
 
 
-# 数组
+## 二维数组
+> 绝大多数问题都是用数组模拟，所以这里不再记录
+>> ./LeetCode/[数组](./题解-LeetCode.md#数组)
 
-## 打印二维数组 TODO
+### 打印二维数组
 
-### 回形打印
+#### 回形打印
 
-### 蛇形打印
-
-
-# 堆
-
-## 堆的调整（自上而下）
+#### 蛇形打印
 
 
-# 栈
+## 堆
 
-## 用两个栈模拟队列
+### 堆的调整（自上而下）
+
+
+## 栈
+
+### 用两个栈模拟队列
 > [用两个栈实现队列](https://www.nowcoder.com/practice/54275ddae22f475981afa2244dd448c6?tpId=13&tqId=11158&tPage=1&rp=1&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking) - 牛客
 
 **题目描述**

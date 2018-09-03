@@ -40,7 +40,7 @@ def get_wb(shape,
            w_initializer=truncated_normal,
            b_initializer=zeros,
            w_regularizer=l2_regularizer,
-           b_regularizer=l2_regularizer,
+           b_regularizer=None,  # 一般不对偏置做权重惩罚，可能会导致欠拟合
            name=None):
     """"""
     name = "" if name is None else name + '_'

@@ -91,7 +91,7 @@ def attention_flow(h, u, T=None, J=None, d=None, name=None, reuse=None):
         W_s = get_w([3 * d, 1])  # [3d, 1]
 
         # similarity matrix
-        S = tf.reshape(tf.einsum("ntjd,do->ntjo", h_u_hu, W_s), [-1, T, J])
+        S = tf.reshape(tf.einsum("ntjd,do->ntjo", h_u_hu, W_s), [-1, T, J])  # [N, T, J]
         # 以上操作等价于
         # S = tf.reshape(tf.matmul(tf.reshape(h_u_hu, [-1, 3*d]), W_s), [-1, T, J])
 

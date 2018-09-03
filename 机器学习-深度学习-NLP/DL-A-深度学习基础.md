@@ -34,6 +34,9 @@ Index
   - [Batch Normalization（批标准化）](#batch-normalization批标准化)
     - [动机](#动机)
     - [基本原理](#基本原理)
+    - [BN 在训练和测试时分别是怎么做的？](#bn-在训练和测试时分别是怎么做的)
+      - [为什么训练时不采用移动平均？](#为什么训练时不采用移动平均)
+    - [相关阅读](#相关阅读)
   - [L1/L2 范数正则化](#l1l2-范数正则化)
     - [L1/L2 范数的作用、异同](#l1l2-范数的作用异同)
     - [为什么 L1 和 L2 正则化可以防止过拟合？](#为什么-l1-和-l2-正则化可以防止过拟合)
@@ -57,6 +60,7 @@ Index
   - 反映在**评价指标**上，就是模型在训练集上表现良好，但是在测试集和新数据上表现一般（**泛化能力差**）；
 
 ## 降低过拟合风险的方法
+> 所有为了**减少测试误差**的策略统称为**正则化方法**，这些方法可能会以增大训练误差为代价。
 
 - **数据增强**
   - 图像：平移、旋转、缩放
@@ -250,7 +254,10 @@ Index
 # 正则化
 
 ## Batch Normalization（批标准化）
-- BN 是一种正则化方法，目的是**加速**网络的训练，并**防止过拟合**。
+- BN 是一种**正则化**方法（减少泛化误差），主要作用有：
+  - **加速网络的训练**（缓解梯度消失，支持更大的学习率）
+  - **防止过拟合**
+  - 降低了**参数初始化**的要求。
 
 ### 动机
 - **训练的本质是学习数据分布**。如果训练数据与测试数据的分布不同会**降低**模型的**泛化能力**。因此，应该在开始训练前对所有输入数据做归一化处理。
@@ -267,7 +274,45 @@ Index
   <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\large&space;y_k\leftarrow&space;\gamma&space;\hat{x}_k&plus;\beta"><img src="../assets/公式_20180831165516.png" height="" /></a></div>
 
   其中 `γ` 和 `β` 为可训练参数。
-   
+
+**小结**
+- 以上过程可归纳为一个 **`BN(x)` 函数**：
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;\boldsymbol{y_i}=\mathrm{BN}(\boldsymbol{x_i})"><img src="../assets/公式_20180903223427.png" height="" /></a></div>
+
+  其中
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;\begin{aligned}&space;\mathrm{BN}(\boldsymbol{x_i})&=\gamma\boldsymbol{\hat{x}_i}&plus;\beta\\&space;&=\gamma\frac{\boldsymbol{x_i}-\boldsymbol{\mathrm{E}[x_i]}}{\sqrt{\boldsymbol{\mathrm{Var}[x_i]}&plus;\epsilon}}&plus;\beta&space;\end{aligned}"><img src="../assets/公式_20180903224323.png" height="" /></a></div>
+
+- **完整算法**：
+  <div align="center"><img src="../assets/TIM截图20180903222433.png" height="" /></div>
+
+### BN 在训练和测试时分别是怎么做的？
+- **训练时**每次会传入一批数据，做法如前述；
+- 当**测试**或**预测时**，每次可能只会传入**单个数据**，此时模型会使用**全局统计量**代替批统计量；
+  - 训练每个 batch 时，都会得到一组`（均值，方差）`；
+  - 所谓全局统计量，就是对这些均值和方差求其对应的数学期望；
+  - 具体计算公式为：
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\large&space;y_k\leftarrow&space;\gamma&space;\hat{x}_k&plus;\beta"><img src="../assets/公式_20180903220828.png" height="" /></a></div>
+  
+  > 其中 `μ_i` 和 `σ_i` 分别表示第 i 轮 batch 保存的均值和标准差；`m` 为 batch_size，系数 `m/(m-1)` 用于计算**无偏方差估计**
+  >> 原文称该方法为**移动平均**（moving averages）
+
+- 此时，`BN(x)` 调整为：
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;\begin{aligned}&space;\mathrm{BN}(\boldsymbol{x_i})&=\gamma\frac{\boldsymbol{x_i}-\boldsymbol{\mathrm{E}[x_i]}}{\sqrt{\boldsymbol{\mathrm{Var}[x_i]}&plus;\epsilon}}&plus;\beta\\&space;&=\frac{\gamma}{\sqrt{\boldsymbol{\mathrm{Var}[x_i]}&plus;\epsilon}}\boldsymbol{x_i}&plus;\left&space;(&space;\beta-\frac{\gamma\boldsymbol{\mathrm{E}[x_i]}}{\sqrt{\boldsymbol{\mathrm{Var}[x_i]}&plus;\epsilon}}&space;\right&space;)&space;\end{aligned}"><img src="../assets/公式_20180903224557.png" height="" /></a></div>
+
+- **完整算法**：
+  <div align="center"><img src="../assets/TIM截图20180903224842.png" height="" /></div>
+
+#### 为什么训练时不采用移动平均？
+> 群里一位同学的面试题
+- 使用 BN 的目的就是为了保证每批数据的分布稳定，使用全局统计量反而违背了这个初衷；
+- BN 的作者认为在训练时采用移动平均可能会与梯度优化存在冲突；
+  > 【**原文**】"It is natural to ask whether we could simply **use the moving averages** µ, σ to perform the normalization **during training**, since this would remove the dependence of the normalized activations on the other example in the minibatch. This, however, has been observed to lead to the model blowing up. As argued in [6], such use of moving averages would cause the gradient optimization and the normalization to counteract each other. For example, the gradient step may increase a bias or scale the convolutional weights, in spite of the fact that the normalization would cancel the effect of these changes on the loss. This would result in unbounded growth of model parameters without actually improving the loss. It is thus crucial to use the minibatch moments, and to backpropagate through them."
+  >> [1702.03275] [Batch Renormalization](https://arxiv.org/abs/1702.03275)
+
+### 相关阅读
+- [深入理解Batch Normalization批标准化 - 郭耀华](https://www.cnblogs.com/guoyaohua/p/8724433.html) - 博客园 
+- [深度学习中批归一化的陷阱](http://ai.51cto.com/art/201705/540230.htm) - 51CTO
+
 
 ## L1/L2 范数正则化
 > 《深度学习》 7.1.1 L2 参数正则化 & 7.1.2 - L1 参数正则化

@@ -5,55 +5,77 @@ Index
 ---
 <!-- TOC -->
 
-- [过拟合与欠拟合](#过拟合与欠拟合)
 - [偏差与方差](#偏差与方差)
-  - [偏差与方差的权衡](#偏差与方差的权衡)
+  - [导致偏差和方差的原因](#导致偏差和方差的原因)
+  - [深度学习中的偏差与方差](#深度学习中的偏差与方差)
+  - [偏差/方差 与 Boosting/Bagging](#偏差方差-与-boostingbagging)
+  - [偏差与方差的计算公式](#偏差与方差的计算公式)
+  - [偏差与方差的权衡（过拟合与模型复杂度的权衡）](#偏差与方差的权衡过拟合与模型复杂度的权衡)
 - [生成模型与判别模型](#生成模型与判别模型)
 - [先验概率与后验概率](#先验概率与后验概率)
 
 <!-- /TOC -->
 
-## 过拟合与欠拟合
-> ./深度学习基础/[过拟合与欠拟合](./DL-A-深度学习基础.md#过拟合与欠拟合)
 
 ## 偏差与方差
 > 《机器学习》 2.5 偏差与方差 - 周志华
-- **偏差**与**方差**都是用于衡量一个模型**泛化能力**的指标
-  - 偏差用于描述模型的**拟合能力**；方差用于描述模型的**稳定性**
-    <div align="center"><img src="../assets/TIM截图20180817192259.png" height="" /></div>
-    
-- 模型的**泛化误差**（Error）可分解为偏差、方差与噪声之和。
+- **偏差**与**方差**分别是用于衡量一个模型**泛化误差**的两个方面；
+  - 模型的**偏差**，指的是模型预测的**期望值**与**真实值**之间的差；
+  - 模型的**方差**，指的是模型预测的**期望值**与**预测值**之间的差平方和；
+- 在**监督学习**中，模型的**泛化误差**可**分解**为偏差、方差与噪声之和。
   <div align="center"><img src="../assets/TIM截图20180817204652.png" height="" /></div>
 
-  - 记在**训练集 D** 上学得的模型为
-    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f(\boldsymbol{x};D)"><img src="../assets/公式_20180817211749.png" height="" /></a></div>
+- **偏差**用于描述模型的**拟合能力**；<br/>
+  **方差**用于描述模型的**稳定性**。
+  <div align="center"><img src="../assets/TIM截图20180817192259.png" height="" /></div>
 
-    模型的**期望预测**为
-    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;\hat{f}(\boldsymbol{x})=\mathbb{E}_D[f(\boldsymbol{x};D)]"><img src="../assets/公式_20180817210758.png" height="" /></a></div>
-    
-  - **偏差**（Bias）
-    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;bias^2(\boldsymbol{x})=(\hat{f}(\boldsymbol{x})-y)^2"><img src="../assets/公式_20180817210106.png" height="" /></a></div>
+### 导致偏差和方差的原因
+- **偏差**通常是由于我们对学习算法做了**错误的假设**，或者模型的复杂度不够；
+  - 比如真实模型是一个二次函数，而我们假设模型为一次函数，这就会导致偏差的增大（欠拟合）；
+  - **由偏差引起的误差**通常在**训练误差**上就能体现，或者说训练误差主要是由偏差造成的
+- **方差**通常是由于**模型的复杂度相对于训练集过高**导致的；
+  - 比如真实模型是一个简单的二次函数，而我们假设模型是一个高次函数，这就会导致方差的增大（过拟合）；
+  - **由方差引起的误差**通常体现在测试误差相对训练误差的**增量**上。
 
-    > **偏差**度量了学习算法的期望预测与真实结果的偏离程度，即刻画了学习算法本身的拟合能力；
-  - **方差**（Variance）
-    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;var(\boldsymbol{x})=\mathbb{E}_D\left&space;[&space;\left&space;(&space;f(\boldsymbol{x};D)-\hat{f}(\boldsymbol{x})&space;\right&space;)^2&space;\right&space;]"><img src="../assets/公式_20180817211903.png" height="" /></a></div>
+### 深度学习中的偏差与方差
+- 神经网络的拟合能力非常强，因此它的**训练误差**（偏差）通常较小；
+- 但是过强的拟合能力会导致较大的方差，使模型的测试误差（**泛化误差**）增大；
+- 因此深度学习的核心工作之一就是研究如何降低模型的泛化误差，这类方法统称为**正则化方法**。
+  > ./深度学习基础/[正则化](./DL-A-深度学习基础.md#正则化)
 
-    > **方差**度量了同样大小的**训练集的变动**所导致的学习性能的变化，即刻画了数据扰动所造成的影响（模型的稳定性）；
-  - **噪声**
-    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;var(\boldsymbol{x})=\mathbb{E}_D\left&space;[&space;\left&space;(&space;f(\boldsymbol{x};D)-\hat{f}(\boldsymbol{x})&space;\right&space;)^2&space;\right&space;]"><img src="../assets/公式_20180817212111.png" height="" /></a></div>
+### 偏差/方差 与 Boosting/Bagging
+> ./集成学习专题/[Boosting/Bagging 与 偏差/方差 的关系](./ML-B-专题-集成学习.md#boostingbagging-与-偏差方差-的关系)
 
-    > **噪声**则表达了在当前任务上任何学习算法所能达到的期望泛化误差的下界，即刻画了学习问题本身的难度。
+### 偏差与方差的计算公式
+- 记在**训练集 D** 上学得的模型为
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=f(\boldsymbol{x};D)"><img src="../assets/公式_20180817211749.png" height="" /></a></div>
+
+  模型的**期望预测**为
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;\hat{f}(\boldsymbol{x})=\mathbb{E}_D[f(\boldsymbol{x};D)]"><img src="../assets/公式_20180817210758.png" height="" /></a></div>
+  
+- **偏差**（Bias）
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;bias^2(\boldsymbol{x})=(\hat{f}(\boldsymbol{x})-y)^2"><img src="../assets/公式_20180817210106.png" height="" /></a></div>
+
+  > **偏差**度量了学习算法的期望预测与真实结果的偏离程度，即刻画了学习算法本身的拟合能力；
+- **方差**（Variance）
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;var(\boldsymbol{x})=\mathbb{E}_D\left&space;[&space;\left&space;(&space;f(\boldsymbol{x};D)-\hat{f}(\boldsymbol{x})&space;\right&space;)^2&space;\right&space;]"><img src="../assets/公式_20180817211903.png" height="" /></a></div>
+
+  > **方差**度量了同样大小的**训练集的变动**所导致的学习性能的变化，即刻画了数据扰动所造成的影响（模型的稳定性）；
+<!-- - **噪声**
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;var(\boldsymbol{x})=\mathbb{E}_D\left&space;[&space;\left&space;(&space;f(\boldsymbol{x};D)-\hat{f}(\boldsymbol{x})&space;\right&space;)^2&space;\right&space;]"><img src="../assets/公式_20180817212111.png" height="" /></a></div> -->
+
+- **噪声**则表达了在当前任务上任何学习算法所能达到的期望泛化误差的下界，即刻画了学习问题本身的难度。
 
 - “**偏差-方差分解**”表明模型的泛化能力是由算法的能力、数据的充分性、任务本身的难度共同决定的。
 
-### 偏差与方差的权衡
-- 偏差与方差是有冲突的，需要折衷（trade-off）
+### 偏差与方差的权衡（过拟合与模型复杂度的权衡）
+> ./深度学习基础/[过拟合与欠拟合](./DL-A-深度学习基础.md#过拟合与欠拟合)
 - 给定学习任务，
   - 当训练不足时，模型的**拟合能力不够**（数据的扰动不足以使模型产生显著的变化），此时**偏差**主导模型的泛化误差；
   - 随着训练的进行，模型的**拟合能力增强**（模型能够学习数据发生的扰动），此时**方差**逐渐主导模型的泛化误差；
   - 当训练充足后，模型的**拟合能力过强**（数据的轻微扰动都会导致模型产生显著的变化），此时即发生**过拟合**（训练数据自身的、非全局的特征也被模型学习了）
 
-- 偏差和方差的关系和**模型容量**、**欠拟合**和**过拟合**的概念紧密相联
+- 偏差和方差的关系和**模型容量**（模型复杂度）、**欠拟合**和**过拟合**的概念紧密相联
   <div align="center"><img src="../assets/TIM截图20180817214034.png" height="" /></div>
 
   - 当模型的容量增大（x 轴）时， 偏差（用点表示）随之减小，而方差（虚线）随之增大
