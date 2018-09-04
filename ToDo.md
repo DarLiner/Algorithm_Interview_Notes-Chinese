@@ -46,63 +46,16 @@ Updates Log
 - 加速网络收敛的方法
 - 回归树、基尼指数
 - 长短地址转换
-- 直方图蓄水问题
-  ```
-  int foo(vector<int> ns) {
-      
-      vector<vector<int> > dp(ns.size(), vector<int>(2, 0));
-      
-      for (int i = 1; i<ns.size()-1; i++) {
-          int lo = ns[i], hi = ns[i];
-          for (int j=0; j < i; j++) {
-              if (ns[j] > lo)
-                  lo = max(lo, ns[j]);
-          }
-          dp[i][0] = lo;
-          
-          for (int k = i+1; k < ns.size(); k++) {
-              if (ns[k] > hi)
-                  hi = max(hi, ns[k]);
-          }
-          dp[i][1] = hi;
-      }
-      
-      int ret = 0;
-      for (int i=1; i < ns.size()-1; i++) {
-          int mx = min(dp[i][0], dp[i][1]);
-          if (mx > ns[i])
-              ret += mx - ns[i];
-      }
-      
-      return ret;
-  }
-
-  int bar(vector<int> ns) {
-      
-      int n = ns.size();
-      vector<int> dp_fw(ns);
-      vector<int> dp_bw(ns);
-      
-      int lo = ns[0];
-      for (int i=1; i<n; i++) {
-          dp_fw[i] = max(dp[i-1], dp[i])
-      }
-      
-      for (int i=n-2; i>=0; i--) {
-          dp[i] = max(dp[i+1], dp[i]);
-      }
-      
-      int ret = 0;
-      for (int i=1; i < n-1; i++) {
-          int mx = min(dp_fw[i], dp_bw[i]);
-          ret += mx - ns[i];
-      }
-  }
-  ```
 - 判断两个链表是否相交（CSDN）
 
 ## 2018-9-4
 - 算法 - 数据结构 - 设计
+  - LRU 缓存淘汰算法
+- 算法 - 排列组合
+  - 下一个排列
+  - 上一个排列
+  - 全排列（无重复）
+  - 全排列（有重复）
 
 ## 2018-9-3
 - 深度学习基础 - 正则化 - Batch Normalization（修订）
