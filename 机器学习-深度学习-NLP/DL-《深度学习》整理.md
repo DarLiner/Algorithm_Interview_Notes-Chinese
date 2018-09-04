@@ -271,7 +271,7 @@ L2: 向量中所有元素平方和的开放
 
 其中 L1 和 L2 范数分别是 Lp (p>=1) 范数的特例：
 
-[![](../assets/公式_20180610213257.png)](http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;x&space;\right&space;\|_p=(\sum_i{\left&space;|&space;x_i&space;\right&space;|^2})^{\frac{1}{p}})
+[![](../assets/公式_20180904113355.png)](http://www.codecogs.com/eqnedit.php?latex=\left&space;\|&space;x&space;\right&space;\|_p=(\sum_i{\left&space;|&space;x_i&space;\right&space;|^2})^{\frac{1}{p}})
 
 L∞: 向量中最大元素的绝对值，也称最大范数
 
