@@ -6,21 +6,36 @@ Index
 <!-- TOC -->
 
 - [排列](#排列)
-  - [字典序说明](#字典序说明)
+  - [【注】字典序](#注字典序)
   - [下一个排列](#下一个排列)
   - [上一个排列](#上一个排列)
-  - [STL 提供的实现（下一个排列、上一个排列）](#stl-提供的实现下一个排列上一个排列)
-  - [全排列（无重复）](#全排列无重复)
-    - [全排序的时间复杂度](#全排序的时间复杂度)
-  - [全排列（有重复）](#全排列有重复)
+  - [STL 提供的实现（下一个排列、上一个排列） TODO](#stl-提供的实现下一个排列上一个排列-todo)
   - [第 k 个排列](#第-k-个排列)
+  - [全排列（无重复）](#全排列无重复)
+    - [基于插入的写法](#基于插入的写法)
+    - [基于交换的写法](#基于交换的写法)
+  - [全排列（有重复）](#全排列有重复)
+    - [基于插入的写法](#基于插入的写法-1)
+    - [基于交换的写法](#基于交换的写法-1)
+  - [【注】全排序的时间复杂度](#注全排序的时间复杂度)
+- [组合](#组合)
+  - [组合（n 选 k，无重复）](#组合n-选-k无重复)
+  - [组合（n 选 k，有重复）](#组合n-选-k有重复)
+  - [组合总和（数字不重复但可重复使用）](#组合总和数字不重复但可重复使用)
+  - [组合总和 2（存在重复数字但每个数字只能使用一次）](#组合总和-2存在重复数字但每个数字只能使用一次)
+  - [组合总和 3（数字不重复且指定数量）](#组合总和-3数字不重复且指定数量)
+  - [组合总和 4（动态规划）](#组合总和-4动态规划)
+- [【注】关于 `for(i=0;..)` 与 `for(i=step;..)` 的说明](#注关于-fori0-与-foristep-的说明)
+- [【注】关于 `dfs(step+1)`、`dfs(i+1)`、`dfs(i)` 的说明](#注关于-dfsstep1dfsi1dfsi-的说明)
+  - [`dfs(step+1)` 和 `dfs(i+1)`](#dfsstep1-和-dfsi1)
+  - [`dfs(i+1)` 和 `dfs(i)`](#dfsi1-和-dfsi)
 
 <!-- /TOC -->
 
 
 ## 排列
 
-### 字典序说明
+### 【注】字典序
 - 在处理排列问题时，通常时根据**字典序**来生成下一个排列
 - 在字典序中，记序列的**升序**为第一个排列，**降序**为最后一个排列
 
@@ -169,7 +184,7 @@ public:
 };
 ```
 
-### STL 提供的实现（下一个排列、上一个排列）
+### STL 提供的实现（下一个排列、上一个排列） TODO
 - STL 提供了两个函数用于生成排列
   ```C++
   bool next_permutation (BidirectionalIterator first,
@@ -185,127 +200,6 @@ public:
 ```C++
 
 ```
-
-### 全排列（无重复）
-> LeetCode [46. 全排列](https://leetcode-cn.com/problems/permutations/description/)
-
-**题目描述**
-```
-给定一个没有重复数字的序列，返回其所有可能的全排列。
-
-示例:
-
-输入: [1,2,3]
-输出:
-[
-  [1,2,3],
-  [1,3,2],
-  [2,1,3],
-  [2,3,1],
-  [3,1,2],
-  [3,2,1]
-]
-```
-
-**思路 1**
-- 利用下一个排列，先对数组排序，然后不断生成下一个排列
-
-**思路 2**
-- **深度优先搜索**
-- 易知，当序列中的元素不重复时，存在 `n!` 种不同的排列；
-- 考虑第一个位置，有 n 种可能
-- 当选定了第一个位置，第二个位置有 n-1 种可能
-- 因为**每次搜索的状态数**是不同的，所以这里的 dfs 是一个**循环递归**的过程；这与常见的 dfs 不同
-
-**C++**
-```C++
-class Solution {
-    vector<vector<int> > ret;
-
-    //void dfs(vector<int> nums, int step) {
-    void dfs(vector<int>& nums, int step) {
-        if (step >= nums.size()) {
-            ret.push_back(nums);
-            return;
-        }
-
-        for (int i = step; i < nums.size(); i++) {
-            swap(nums[step], nums[i]);
-            dfs(nums, step + 1);
-            swap(nums[step], nums[i]);  // 如果 nums 是值传入，则不需要这步；否则不能省略
-        }
-    }
-
-public:
-    vector<vector<int> > permute(vector<int>& nums) {
-        dfs(nums, 0);
-        return ret;
-    }
-};
-```
-
-#### 全排序的时间复杂度
-- 不重复情况下，n 个元素的不同全排列为 `n!` 个，所以算法的时间复杂度至少为 `O(N!)`
-- 因此，全排列算法对大型的数据是无法处理的
-
-
-### 全排列（有重复）
-> LeetCode - [47. 全排列 II](https://leetcode-cn.com/problems/permutations-ii/description/)
-
-**题目描述**
-```
-给定一个可包含重复数字的序列，返回所有不重复的全排列。
-
-示例:
-
-输入: [1,1,2]
-输出:
-[
-  [1,1,2],
-  [1,2,1],
-  [2,1,1]
-]
-```
-
-**思路 1**
-- 使用无重复时的方法，用 set 剔除重复（不推荐）
-
-**思路 2**
-- 先对原序列**排序**，使相同的元素相邻；此时**只处理第一个相同元素**，其余跳过；
-
-**C++**
-```C++
-class Solution {
-    vector<vector<int> > ret;
-
-    //void dfs(vector<int>& nums, int step) { // 传引用无法得出正确结果
-    void dfs(vector<int> nums, int step) {    // 注意这里使用了**值传递**
-        int n = nums.size();
-        if (step >= n - 1) {
-            ret.push_back(nums);
-            return;
-        }
-
-        for (int i = step; i < n; i++) {
-            if (i != step && nums[i] == nums[step])
-                continue;
-
-            swap(nums[i], nums[step]);
-            dfs(nums, step + 1);
-            //swap(nums[i], nums[step]); // 传引用配合回溯无法得出正确结果，
-                                         // 原因在于此时会破坏剩余数组的有序性
-        }
-    }
-public:
-    vector<vector<int> > permuteUnique(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        dfs(nums, 0);
-
-        return ret;
-    }
-};
-```
-
 
 ### 第 k 个排列
 > LeetCode - [60. 第k个排列](https://leetcode-cn.com/problems/permutation-sequence/description/)
@@ -413,3 +307,548 @@ public:
     }
 };
 ```
+
+### 全排列（无重复）
+> LeetCode [46. 全排列](https://leetcode-cn.com/problems/permutations/description/)
+
+**题目描述**
+```
+给定一个没有重复数字的序列，返回其所有可能的全排列。
+
+示例:
+
+输入: [1,2,3]
+输出:
+[
+  [1,2,3],
+  [1,3,2],
+  [2,1,3],
+  [2,3,1],
+  [3,1,2],
+  [3,2,1]
+]
+```
+
+**思路 1**
+- 利用下一个排列，先对数组排序，然后不断生成下一个排列
+
+**思路 2**
+- **深度优先搜索**
+- 易知，当序列中的元素不重复时，存在 `n!` 种不同的排列；
+- 考虑第一个位置，有 n 种可能
+- 当选定了第一个位置，第二个位置有 n-1 种可能
+- 因为**每次搜索的状态数**是递减的，所以这里的 dfs 是一个**循环递归**的过程
+
+#### 基于插入的写法
+- 代码量多一点，但比较好理解
+```C++
+class Solution {
+    vector<vector<int> > ret;
+    vector<int> tmp;
+    vector<bool> used;
+    int n = 0;
+
+    void dfs(vector<int>& nums, int step) {
+        if (tmp.size() == n) {
+            ret.push_back(tmp);
+            return;
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (used[i]) continue;  // 如果使用了，跳过
+
+            used[i] = 1;            // 标记使用
+            tmp.push_back(nums[i]);
+            dfs(nums, step + 1);
+            tmp.pop_back();         // 回溯
+            used[i] = 0;
+        }
+    }
+
+public:
+    vector<vector<int> > permute(vector<int>& nums) {
+        n = nums.size();
+        used.resize(n, 0);
+
+        dfs(nums, 0);
+        return ret;
+    }
+};
+```
+
+#### 基于交换的写法
+- 基于交换的写法，代码比较简洁，但个人认为有一点不好理解
+```C++
+class Solution {
+    vector<vector<int> > ret;
+
+    //void dfs(vector<int> nums, int step) {
+    void dfs(vector<int>& nums, int step) {
+        if (step >= nums.size()) {
+            ret.push_back(nums);
+            return;
+        }
+
+        for (int i = step; i < nums.size(); i++) {
+            swap(nums[step], nums[i]);
+            dfs(nums, step + 1);
+            swap(nums[step], nums[i]);  // 如果 nums 是值传入，则不需要这步；否则不能省略
+        }
+    }
+
+public:
+    vector<vector<int> > permute(vector<int>& nums) {
+        dfs(nums, 0);
+        return ret;
+    }
+};
+```
+
+### 全排列（有重复）
+> LeetCode - [47. 全排列 II](https://leetcode-cn.com/problems/permutations-ii/description/)
+
+**题目描述**
+```
+给定一个可包含重复数字的序列，返回所有不重复的全排列。
+
+示例:
+
+输入: [1,1,2]
+输出:
+[
+  [1,1,2],
+  [1,2,1],
+  [2,1,1]
+]
+```
+
+**思路 1**
+- 使用无重复时的方法，用 set 剔除重复（不推荐）
+
+**思路 2**
+- 先对原序列**排序**，使相同的元素相邻；此时**只处理第一个相同元素**，其余跳过；
+
+#### 基于插入的写法
+```C++
+class Solution {
+    vector<vector<int> > ret;
+    vector<int> tmp;
+    vector<bool> used;
+    int n = 0;
+
+    void dfs(vector<int>& nums, int step) {
+        if (tmp.size() == n) {
+            ret.push_back(tmp);
+            return;
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (used[i] || (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]))
+                continue;  // 这里的 !used[i - 1] 稍难理解，可以配合 IDE 或者手推一下整个过程
+
+            used[i] = 1;
+            tmp.push_back(nums[i]);
+            dfs(nums, step + 1);
+            tmp.pop_back();
+            used[i] = 0;
+        }
+    }
+
+public:
+    vector<vector<int> > permuteUnique(vector<int>& nums) {
+        n = nums.size();
+        used.resize(n, 0);
+        sort(nums.begin(), nums.end());
+
+        dfs(nums, 0);
+        return ret;
+    }
+};
+```
+
+#### 基于交换的写法
+```C++
+class Solution {
+    vector<vector<int> > ret;
+
+    //void dfs(vector<int>& nums, int step) { // 传引用无法得出正确结果
+    void dfs(vector<int> nums, int step) {    // 注意这里使用了**值传递**
+        int n = nums.size();
+        if (step >= n - 1) {
+            ret.push_back(nums);
+            return;
+        }
+
+        for (int i = step; i < n; i++) {
+            if (i != step && nums[i] == nums[step])
+                continue;
+
+            swap(nums[i], nums[step]);
+            dfs(nums, step + 1);
+            //swap(nums[i], nums[step]); // 传引用配合回溯无法得出正确结果，
+                                         // 原因在于此时会破坏剩余数组的有序性
+        }
+    }
+public:
+    vector<vector<int> > permuteUnique(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        dfs(nums, 0);
+
+        return ret;
+    }
+};
+```
+
+### 【注】全排序的时间复杂度
+- 不重复情况下，n 个元素的不同全排列为 `n!` 个，所以算法的时间复杂度至少为 `O(N!)`
+- 因此，全排列算法对大型的数据是无法处理的
+
+
+## 组合
+
+### 组合（n 选 k，无重复）
+> LeetCode - [77. 组合](https://leetcode-cn.com/problems/combinations/description/)
+
+**问题描述**
+```C
+给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合。
+
+示例:
+
+输入: n = 4, k = 2
+输出:
+  [
+    [2,4],
+    [3,4],
+    [2,3],
+    [1,2],
+    [1,3],
+    [1,4],
+  ]
+```
+
+**思路**
+- 带**回溯**的深度优先搜索，类似[全排列（无重复）](#全排列无重复)
+
+**C++**
+```C++
+class Solution {
+    vector<vector<int> > ret;
+    vector<int> tmp;   // 保存中间结果
+    int K;
+
+    void dfs(vector<int>& nums, int step) {
+        if (tmp.size() >= K) {
+            ret.push_back(tmp);
+            return;
+        }
+
+        for (int i = step; i < nums.size(); i++) {
+            tmp.push_back(nums[i]);  // nums[i] == i，所以这里直接 push(i) 也可以
+            dfs(nums, i + 1);
+            tmp.pop_back();
+        }
+    }
+
+public:
+    vector<vector<int> > combine(int n, int k) {
+
+        K = k;
+        vector<int> nums;
+        for (int i = 0; i < n; i++)
+            nums.push_back(i + 1);
+
+        dfs(nums, 0);
+        return ret;
+    }
+};
+```
+
+### 组合（n 选 k，有重复）
+（未验证）
+- 如果要求每个组合中不重复，则可以先去重，再按照无重复的做法
+- 如果不要求去重，则直接按照无重复的做法即可
+
+### 组合总和（数字不重复但可重复使用）
+> LeetCode - [39. 组合总和](https://leetcode-cn.com/problems/combination-sum/description/)
+
+**思路**
+- 深度优先搜索
+- 关键在于每个数字可以重复使用
+
+**C++**
+```C++
+class Solution {
+    vector<vector<int> > ret;
+    vector<int> tmp;
+    int cur = 0;
+    int target = 0;
+
+    void dfs(vector<int>& nums, int step) {
+        if (cur >= target) {
+            if (cur == target)
+                ret.push_back(tmp);
+            return;
+        }
+
+        for (int i = step; i < nums.size(); i++) {
+            cur += nums[i];
+            tmp.push_back(nums[i]);
+            dfs(nums, i);  // 因为每个数组可以重复使用，所以是 dfs(i) 而不是 dfs(i+1)
+            cur -= nums[i];
+            tmp.pop_back();
+        }
+    }
+
+public:
+    vector<vector<int> > combinationSum(vector<int>& candidates, int target) {
+        this->target = target;
+
+        //sort(candidates.begin(), candidates.end()); // 不需要
+        dfs(candidates, 0);
+
+        return ret;
+    }
+};
+```
+
+### 组合总和 2（存在重复数字但每个数字只能使用一次）
+> LeetCode - [40. 组合总和 II](https://leetcode-cn.com/problems/combination-sum-ii/description/)
+
+**思路**
+- DFS，关键是如何去除重复情况
+
+**C++**
+```C++
+class Solution {
+    vector<vector<int> > ret;
+    vector<int> tmp;
+    int cur = 0;
+    int target;
+
+    void dfs(vector<int>& nums, int step) {
+        if (cur >= target) {
+            if (cur == target)
+                ret.push_back(tmp);
+            return;
+        }
+
+        for (int i = step; i < nums.size(); i++) {
+            if (i > step && nums[i] == nums[i - 1]) // > 代码说明 1
+                continue;
+
+            cur += nums[i];
+            tmp.push_back(nums[i]);
+            dfs(nums, i + 1);       // i+1 而不是 i，因为不能重复使用
+            tmp.pop_back();
+            cur -= nums[i];
+        }
+    }
+public:
+    vector<vector<int> > combinationSum2(vector<int>& candidates, int target) {
+        this->target = target;
+
+        sort(candidates.begin(), candidates.end());  // 因为存在重复，需要先排序
+        dfs(candidates, 0);
+
+        return ret;
+    }
+};
+```
+
+**代码说明 1**
+```
+if (i > step && nums[i] == nums[i - 1])
+```
+- 以 ![](../assets/公式_20180905213339.png) 为例
+- 这段代码实际上并不会过滤 ![](../assets/公式_20180905213323.png) ——`i == step` 的情况
+- 真正重复的情况是 ![](../assets/公式_20180905213258.png) 和 ![](../assets/公式_20180905213158.png)，而这段代码的目的是过滤 ![](../assets/公式_20180905213158.png) ——`i > step` 的情况
+
+### 组合总和 3（数字不重复且指定数量）
+> LeetCode - [216. 组合总和 III](https://leetcode-cn.com/problems/combination-sum-iii/description/)
+
+**问题描述**
+```C
+找出所有相加之和为 n 的 k 个数的组合。组合中只允许含有 1 - 9 的正整数，并且每种组合中不存在重复的数字。
+
+说明：
+
+所有数字都是正整数。
+解集不能包含重复的组合。 
+
+示例 1:
+输入: k = 3, n = 7
+输出: [[1,2,4]]
+
+示例 2:
+输入: k = 3, n = 9
+输出: [[1,2,6], [1,3,5], [2,3,4]]
+```
+
+**思路**
+- 在[组合总和（数字不重复但可重复使用）](#组合总和数字不重复但可重复使用)上稍作修改即可
+
+**C++**
+```C++
+class Solution {
+    vector<vector<int> > ret;
+    vector<int> tmp;
+    int cur = 0;
+    int K;
+
+    void dfs(int n, int step) {
+        if (cur >= n) {
+            if (cur == n && tmp.size() == K)
+                ret.push_back(tmp);
+            return;
+        }
+
+        for (int i = step; i <= 9; i++) {
+
+            cur += i;
+            tmp.push_back(i);
+            dfs(n, i + 1);
+            tmp.pop_back();
+            cur -= i;
+        }
+    }
+
+public:
+    vector<vector<int> > combinationSum3(int k, int n) {
+        K = k;
+
+        dfs(n, 1);
+        return ret;
+    }
+};
+```
+
+### 组合总和 4（动态规划）
+> LeetCode - [377. 组合总和 Ⅳ](https://leetcode-cn.com/problems/combination-sum-iv/description/)
+
+**问题描述**
+```C
+给定一个由正整数组成且不存在重复数字的数组，找出和为给定目标正整数的组合的个数。
+
+示例:
+nums = [1, 2, 3]
+target = 4
+
+所有可能的组合为：
+(1, 1, 1, 1)
+(1, 1, 2)
+(1, 2, 1)
+(1, 3)
+(2, 1, 1)
+(2, 2)
+(3, 1)
+
+请注意，顺序不同的序列被视作不同的组合。
+
+因此输出为 7。
+
+进阶：
+  如果给定的数组中含有负数会怎么样？
+  问题会产生什么变化？
+  我们需要在题目中添加什么限制来允许负数的出现？
+```
+
+**思路**
+- 这其实是一道**动态规划**问题
+
+**C++**
+- 简单贴一下来自讨论区的代码，没有深入研究
+```C++
+class Solution {
+public:
+    int combinationSum4(vector<int>& nums, int target) {
+        vector<int> result(target + 1);
+        result[0] = 1;
+        for (int i = 1; i <= target; ++i) {
+            for (int x : nums) {
+                if (i >= x) {
+                    result[i] += result[i - x];
+                }
+            }
+        }
+        
+        return result[target];
+    }
+};
+```
+
+
+## 【注】关于 `for(i=0;..)` 与 `for(i=step;..)` 的说明
+- `for(i=0;..)` 需配合 `used` 标记使用
+  - [全排列（无重复，基于插入的写法）](#基于插入的写法)
+  - [全排列（有重复，基于插入的写法）](#基于插入的写法-1)
+- `for(i=step;..)`
+  - 所有组合问题
+- 简单来说，以 `{1 2 3 4}` 为例
+  - `for(i=0;..)` 用于以下情况
+    ```
+    1 + {2 3 4}
+    2 + {1 3 4}
+    ...
+    ```
+    - used 用于标记开头的 `1`、`2`等
+  - `for(i=step;..)` 用于以下情况
+    ```
+    1 + {2 3 4}
+    2 + {3 4}
+    ...
+    ```
+    - 一般不需要 `used` 标记
+
+## 【注】关于 `dfs(step+1)`、`dfs(i+1)`、`dfs(i)` 的说明
+（以下均为个人小结，并没有严格验证）
+
+### `dfs(step+1)` 和 `dfs(i+1)`
+- 简单来说，`dfs(step+1)` 指的是生成 `tmp` 序列中的第 `step+1` 个位置；`dfs(i+1)` 指的是使用 `nums` 中的第 `i+1` 个元素
+  - 在[排列（无重复）](#全排列无重复)问题中，使用的是 `dfs(step+1)`
+  - 在[组合（无重复）](#组合n-选-k无重复)问题中，使用的是 `dfs(i+1)`
+  - 相关代码段
+    ```C++
+    // 排列
+    for (int i = step; i < nums.size(); i++) {
+        // ...
+        dfs(nums, step + 1);
+        // ...
+    }
+
+    // 组合
+    for (int i = step; i < nums.size(); i++) {
+        // ...
+        dfs(nums, i + 1);
+        // ...
+    }
+    ```
+- 以不重复集合 `{1 2 3 4}` 为例说明：
+  - 排列问题中用过的元素还可能被再次使用；
+    ```
+    step = 0 时，即第一个位置是 1
+      所有的排列为 1 + {2 3 4} 
+    step = 1 时，即第一个位置是 2
+      所有的排列为 2 + {1 3 4}    # 1 又出现在了后序元素中
+    ...
+    ```
+  - 而组合问题中使用过的元素，之后不再使用
+    ```
+    step = 0 时，即第一个位置是 1
+      所有的组合为 1 + {2 3 4}
+    step = 1 时，即第一个位置是 2
+      所有的组合为 2 + {3 4}      # 1 不再使用了
+    ```
+  - 正是由于这个区别导致**排列**中应该使用 `dfs(step+1)`，而**组合**中应该使用 `dfs(i+1)`
+
+### `dfs(i+1)` 和 `dfs(i)`
+- 在[组合总和](#组合总和)问题中，还用到了 `dfs(i)`
+  ```
+  for (int i = step; i < nums.size(); i++) {
+      // ...
+      dfs(nums, i);
+      // ...
+  }
+  ```
+  - 一方面，它跟组合问题类似，用过的数字不再使用；因此使用的是 `i` 而不是 `step`
+  - 另一方面，每个数字可以重复使用，因此使用的是 `dfs(i)` 而不是 `dfs(i+1)`
