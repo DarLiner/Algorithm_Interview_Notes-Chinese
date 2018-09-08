@@ -55,8 +55,8 @@ def highway_conv2d(x, kernel_size,
                    carry_bias=-1.0,
                    name=None):
     """用于 conv2d 的 highway
-    Input shape:  [batch_size, in_w, in_h, in_channels]
-    Output shape: [batch_size, in_w, in_w, in_channels]
+    Input shape:  [batch_size, in_h, in_w, in_channels]
+    Output shape: [batch_size, in_h, in_w, in_channels]
 
     公式
         `o = H(x, W)T(x, W) + x(1 - T(x, W))`
