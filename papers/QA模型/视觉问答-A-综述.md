@@ -34,6 +34,12 @@ Index
       - [[49] Stacked Attention Networks for Image Question Answering（SAN）](#49-stacked-attention-networks-for-image-question-answeringsan)
       - [[48] Ask, Attend and Answer: Exploring Question-Guided Spatial Attention for Visual Question Answering](#48-ask-attend-and-answer-exploring-question-guided-spatial-attention-for-visual-question-answering)
       - [[52] Dynamic memory networks for visual and textual question answering](#52-dynamic-memory-networks-for-visual-and-textual-question-answering)
+      - [[54] Hierarchical Question-Image Co-Attention for Visual Question Answering](#54-hierarchical-question-image-co-attention-for-visual-question-answering)
+      - [[56] Dual attention networks for multimodal reasoning and matching](#56-dual-attention-networks-for-multimodal-reasoning-and-matching)
+  - [基于双线性池化的模型](#基于双线性池化的模型)
+    - [[46] Multimodal compact bilinear pooling for visual question answering and visual grounding](#46-multimodal-compact-bilinear-pooling-for-visual-question-answering-and-visual-grounding)
+    - [[57] Hadamard Product for Low-rank Bilinear Pooling](#57-hadamard-product-for-low-rank-bilinear-pooling)
+  - [组合模型](#组合模型)
 - [参考文献](#参考文献)
 
 <!-- /TOC -->
@@ -379,7 +385,7 @@ Index
   - 在最后一个时间步，模型还输入了图像的全局特征，用于访问全局以及局部特征。
 
 ### 基于 Uniform Grid 的方法
-> [49, 48, 52]
+> [49, 48, 52, 54, 56]
 
 #### [49] Stacked Attention Networks for Image Question Answering（SAN）
 - 模型提取 VGG19 最后一个 Pooling 层的 feature map 作为区域特征，其大小为 `14*14*512`。
@@ -438,16 +444,62 @@ Index
   - Two-Hop Model 中将整合后的问题和加权视觉特征循环回注意力机制中，从而细化注意力分布。（做法与 [49] 类似）
 
 #### [52] Dynamic memory networks for visual and textual question answering
-- 本文使用了改进的 Dynamic Memory Network (DMN)
-- DMN 由三个模块构成：输入模块、**情景记忆模块**（episodic memory module）、回答模块
-- DMN 最早用于**文本 QA**：与 VQA 的区别主要在于**输入模块**；
+- DMN 已经被一些论文用于文本问答，本文尝试将 Dynamic Memory Network (DMN) 应用于 VQA；
+- DMN 主要由三个模块构成：输入模块、**情景记忆模块**（episodic memory module）、回答模块
   > 问答论文摘要/[Dynamic Memory Networks](./问答-A-摘要.md#2016-icmldynamic-memory-networks)
-  - 前者的输入为一系列**可能**与问题相关的**情景句子**；
-  - 后者为被网格划分后的**图像**，每一块网格作为**可能**与问题相关的**情景**
-- **情景记忆模块**
+- **输入模块**
+  - **文本问答**的输入为一系列**可能**与问题相关的**情景句子**（上下文）；
+  - **视觉问答**的输入为**网格划分**后的图像，每一块网格作为**可能**与问题相关的**情景**
+    <!-- <div align="center"><img src="../../assets/TIM截图20180912202657.png" height="" /></div> -->
+- **情景记忆模块**用于提取输入中的相关事实；每次迭代时更新内部记忆单元；
+- **回答模块**通过整合最终的记忆单元与问题的表示来生成答案（RNN）。
   
+#### [54] Hierarchical Question-Image Co-Attention for Visual Question Answering
+- 本文引入**层次协同注意模型**（Hierarchical Co-Attention model）来共同推理这两种不同的信息流。
+  > Co-Attention 类似于 [48] 中的做法
+- 本文进一步细化了问题，基于词、短语、句子三个层级分别构建 Attention 权重
+- 本文提出了两种 Attenion 机制：parallel co-attention 和 alternative co-attention
+  - **parallel co-attention** 同时关注问题和图像；
+  - **alternative co-attention** 同时在关注问题或图像间交替进行；
+- 最终的答案通过由低到高依次融合三个层级的特征来预测。
+    <div align="center"><img src="../../assets/TIM截图20180912210803.png" height="" /></div>
 
-    
+#### [56] Dual attention networks for multimodal reasoning and matching
+- 本文的主要思想是允许问题于图像互相 Attention，从而直接关注关键词或关键区域。
+  > 思想跟 co-attention 类似，但是做法不同。
+- 为了实现这一点，本文先将图像特征和问题特征整合为**记忆向量**（按位乘），然后利用该记忆向量**分别**对问题和图像构建 Attention 向量。
+- 该过程可以递归的进行，下一轮的输入为上一轮得到两个 Attention 向量；
+  <div align="center"><img src="../../assets/TIM截图20180912212748.png" height="" /></div>
+
+  > 但是作者建议迭代 2 次即可。
+
+
+## 基于双线性池化的模型
+> [46, 57]
+
+- VQA 需要对图像和问题的联合分析；
+- 除了一些简单的基线方法外，还可以利用**外积**（outer-product）对两者进行更复杂的交互。该方法被称为双线性池化。
+- **双线性池化**已经在图像识别领域取得了一定效果 [71].
+
+### [46] Multimodal compact bilinear pooling for visual question answering and visual grounding
+- 本文使用了 Multimodal Compact Bilinear pooling（MCB）作为整个图像与问题特征的新方法；
+- 如果直接对图像和问题进行外积会导致特征维度不可控，因此 MCB 在一个**低维的空间**下进行外积运算；
+- 文本计算 Attention 的做法类似 [[49]](#49-stacked-attention-networks-for-image-question-answeringsan)，区别在于使用 **MCB 操作**代替**双线性 Attention**
+  > 双线性 Attention，即 `T·W·V`——使用一个权重矩阵 `W` 作为两个向量 `T` 和 `V` 的交互中介。
+  <div align="center"><img src="../../assets/TIM截图20180912230713.png" height="" /></div>
+
+- 本文模型是 2016 VQA 比赛的获胜模型
+
+### [57] Hadamard Product for Low-rank Bilinear Pooling
+- 本文认为 MCB 尽管只是使用了近似的外积，但计算代价依然比较高。
+- 本文建议使用 Multi-modal Low-rank Bilinear pooling (MLB) 来近似 MCB；
+- 具体来说，即使用 **Hadamard Product** 和**线性映射**来近似外积。
+  > Hadamard Product 即按位相乘
+- MLB 可以达到媲美 MCB 的效果，同时降低了计算复杂度和更少的参数。
+
+
+## 组合模型
+
 
 # 参考文献
 - [1] Very deep convolutional networks for large-scale image recognition, ICLR 2015
@@ -479,8 +531,12 @@ Index
 - [51] A focused dynamic attention model for visual question answering, arXiv 2016.
 - [52] Dynamic memory networks for visual and textual question answering, ICML 2016.
 - [53] Multimodal residual learning for visual qa, NIPS 2016.
+- [54] Hierarchical Question-Image Co-Attention for Visual Question Answering, NIPS 2016.
+- [56] Dual attention networks for multimodal reasoning and matching, CVPR 2017.
+- [57] Hadamard Product for Low-rank Bilinear Pooling, ICLR 2017.
 - [58] Going deeper with convolutions, CVPR 2015.
 - [61] Skip-thought vectors, NIPS 2015.
 - [62] Dualnet: Domain-invariant network for visual question answering, IEEE 2017.
 - [63] Where to look: Focus regions for visual question answering, CVPR 2016.
 - [68] Edge boxes: Locating object proposals from edges, ECCV 2014.
+- [71] Bilinear cnn models for fine-grained visual recognition, ICCV 2015.
