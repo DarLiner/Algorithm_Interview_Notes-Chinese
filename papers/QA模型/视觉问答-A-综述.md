@@ -2,8 +2,8 @@
 ===
 
 **相关论文**
-- [2016].Visual Question Answering（综述）
-- 本文从**数据集**、**评价方法**、**算法**等方面讨论了 VQA 的现状及存在的问题，以及 VQA 的未来发展方向；特别讨论了现有**数据集**在训练和评价方面的**局限性**。
+- [2016].Visual Question Answering
+  - 本文从**数据集**、**评价方法**、**算法**等方面讨论了 VQA 的现状及存在的问题，以及 VQA 的未来发展方向；特别讨论了现有**数据集**在训练和评价方面的**局限性**。
 
 Index
 ---
@@ -438,7 +438,15 @@ Index
   - Two-Hop Model 中将整合后的问题和加权视觉特征循环回注意力机制中，从而细化注意力分布。（做法与 [49] 类似）
 
 #### [52] Dynamic memory networks for visual and textual question answering
-- 本文使用
+- 本文使用了改进的 Dynamic Memory Network (DMN)
+- DMN 由三个模块构成：输入模块、**情景记忆模块**（episodic memory module）、回答模块
+- DMN 最早用于**文本 QA**：与 VQA 的区别主要在于**输入模块**；
+  > 问答论文摘要/[Dynamic Memory Networks](./问答-A-摘要.md#2016-icmldynamic-memory-networks)
+  - 前者的输入为一系列**可能**与问题相关的**情景句子**；
+  - 后者为被网格划分后的**图像**，每一块网格作为**可能**与问题相关的**情景**
+- **情景记忆模块**
+  
+
     
 
 # 参考文献
