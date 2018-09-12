@@ -1,22 +1,13 @@
-视觉问答（VisualQA）
+VQA论文笔记
 ===
 
-整理
----
-- [VQA 综述](./)
-
-
-摘要
+Index
 ---
 <!-- TOC -->
 
-- [[2016].Visual Question Answering（综述）](#2016visual-question-answering综述)
 - [[2016].Making the V in VQA Matter（CVPR2017）](#2016making-the-v-in-vqa-mattercvpr2017)
 
 <!-- /TOC -->
-
-### [2016].Visual Question Answering（综述）
-> ./
 
 
 ### [2016].Making the V in VQA Matter（CVPR2017）
