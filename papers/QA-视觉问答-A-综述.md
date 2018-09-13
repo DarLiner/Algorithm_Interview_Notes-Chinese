@@ -40,6 +40,9 @@ Index
     - [[46] Multimodal compact bilinear pooling for visual question answering and visual grounding](#46-multimodal-compact-bilinear-pooling-for-visual-question-answering-and-visual-grounding)
     - [[57] Hadamard Product for Low-rank Bilinear Pooling](#57-hadamard-product-for-low-rank-bilinear-pooling)
   - [组合模型](#组合模型)
+    - [[44] Deep Compositional Question Answering with Neural Module Networks](#44-deep-compositional-question-answering-with-neural-module-networks)
+    - [[55] Training recurrent answering units with joint loss minimization for VQA](#55-training-recurrent-answering-units-with-joint-loss-minimization-for-vqa)
+  - [其他模型 TODO](#其他模型-todo)
 - [参考文献](#参考文献)
 
 <!-- /TOC -->
@@ -499,6 +502,28 @@ Index
 
 
 ## 组合模型
+> [44, 50, 55]
+
+- 一些复杂的问题可能需要多个**推理**步骤；
+- Neural Module Network（神经模块网络）使用外部解析器来寻找问题中的子问题
+
+### [44] Deep Compositional Question Answering with Neural Module Networks
+- 本文提出使用神经模块网络（Neural Module Network, NMN）来解决 VQA 问题
+- NMN 框架将 VQA 视为由**独立的子网络**执行的一系列子任务。
+- 每个子网络执行一个定义良好的任务。
+  - 比如 find [X], describe [X], measure [X], transform[X] 等模块。
+- 这些模块必须组装成一个有意义的**布局**；
+- 本文使用一个**自然语言解析器**来发现问题中的子问题，同时用于推断子任务需要的布局；
+  - 比如 "What color is the tie?" 可能会执行 find[tie] 模块和 describe[color] 模块。
+
+### [55] Training recurrent answering units with joint loss minimization for VQA
+- 本文提出的 Recurrent Answering Units（RAU）模型可以在不依赖外部语言分析器的情况下隐式地执行组合推理。
+- 本文将所有用于回答子问题的模块以 RNN 的方式顺序排列，利用类似门机制的方式来自动选择由哪些模块回答问题。
+  <div align="center"><img src="../assets/TIM截图20180913212155.png" height="" /></div>
+
+
+## 其他模型 TODO
+
 
 
 # 参考文献
@@ -525,13 +550,16 @@ Index
 - [36] Answer-type prediction for visual question answering, CVPR 2016.
 - [38] Simple baseline for visual question answering, arXiv 2015.
 - [40] Ask your neurons: A neural-based approach to answering questions about images, ICCV 2015.
+- [44] Deep compositional question answering with neural module networks, CVPR 2016.
 - [46] Multimodal compact bilinear pooling for visual question answering and visual grounding, EMNLP 2016.
 - [48] Ask, attend and answer: Exploring question-guided spatial attention for visual question answering, ECCV 2016.
 - [49] Stacked attention networks for image question answering, CVPR 2016.
+- [50] Learning to Compose Neural Networks for Question Answering, NAACL 2016.
 - [51] A focused dynamic attention model for visual question answering, arXiv 2016.
 - [52] Dynamic memory networks for visual and textual question answering, ICML 2016.
 - [53] Multimodal residual learning for visual qa, NIPS 2016.
 - [54] Hierarchical Question-Image Co-Attention for Visual Question Answering, NIPS 2016.
+- [55] Training recurrent answering units with joint loss minimization for VQA, arXiv 2016.
 - [56] Dual attention networks for multimodal reasoning and matching, CVPR 2017.
 - [57] Hadamard Product for Low-rank Bilinear Pooling, ICLR 2017.
 - [58] Going deeper with convolutions, CVPR 2015.
