@@ -1,0 +1,41 @@
+术语表
+===
+
+Index
+---
+<!-- TOC -->
+
+- [指数加权平均（指数衰减平均）](#指数加权平均指数衰减平均)
+  - [偏差修正](#偏差修正)
+
+<!-- /TOC -->
+
+## 指数加权平均（指数衰减平均）
+> [什么是指数加权平均、偏差修正？ - 郭耀华](http://www.cnblogs.com/guoyaohua/p/8544835.html) - 博客园 
+- **加权平均**
+  - 假设 `θi` 的权重分别为 `ρi`，则 `θi` 的加权平均为：
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;v=\sum_{i=1}^t\rho_i\theta_i,\quad&space;where\&space;\sum_{i=1}^t\rho_i=1"><img src="../_assets/公式_20180903213109.png" height="" /></a></div>
+
+- **指数加权平均**
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\large&space;v_t=\rho&space;v_{t-1}&plus;(1-\rho)\theta_t"><img src="../_assets/公式_20180903203229.png" height="" /></a></div>
+
+  > 注意到越久前的记录其权重呈**指数衰减**，因此指数加权平均也称**指数衰减平均**
+- **示例**：设 `ρ=0.9, v0=0`
+
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\begin{aligned}&space;v_t&=0.1\theta_t&plus;0.9{\color{Red}v_{t-1}}\\&space;&=0.1\theta_t&plus;0.1*0.9\theta_{t-1}&plus;0.9^2{\color{Red}v_{t-2}}\\&space;&=0.1\theta_t&plus;0.1*0.9\theta_{t-1}&plus;0.1*0.9^2\theta_{t-2}&plus;\cdots&plus;0.1*0.9^{t-1}\theta_1&space;\end{aligned}"><img src="../_assets/公式_20180903210625.png" height="" /></a></div>
+  
+  > 其中 `v_t` 可以**近似**认为是最近 `1/1-ρ` 个值的滑动平均（`ρ=0.9`时，`0.1 * 0.9^9 ≈ 0.038`），更久前的记录其权重已近似为 0。
+
+### 偏差修正
+- 指数加权平均在前期会存在较大的**误差**
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\sum_{i=1}^t0.1*0.9^{i-1}=0.1\cdot\frac{1-0.9^t}{1-0.9}=1-0.9^t"><img src="../_assets/公式_20180903212935.png" height="" /></a></div>
+  
+  - 注意到只有当 `t -> ∞` 时，所有权重的和才接近 1，当 `t` 比较小时，并不是标准的加权平均
+- **示例**：设 `ρ=0.9, v0=0`
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\begin{aligned}&space;v_t&=0.1\theta_t&plus;0.9{\color{Red}v_{t-1}}\\&space;&=0.1\theta_t&plus;0.1*0.9\theta_{t-1}&plus;0.9^2{\color{Red}v_{t-2}}\\&space;&=0.1\theta_t&plus;0.1*0.9\theta_{t-1}&plus;0.1*0.9^2\theta_{t-2}&plus;\cdots&plus;0.1*0.9^{t-1}\theta_1&space;\end{aligned}"><img src="../_assets/公式_20180903210625.png" height="" /></a></div>
+
+  - 当 `t` 较小时，与希望的加权平均结果差距较大
+- **引入偏差修正**
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\large&space;\frac{v_t}{1-\rho^t}"><img src="../_assets/公式_20180903213410.png" height="" /></a></div>
+
+  - 偏差修正只对**前期**的有修正效果，**后期**当 `t` 逐渐增大时 `1-ρ^t -> 1`，将不再影响 `v_t`，与期望相符
