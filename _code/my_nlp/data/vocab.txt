@@ -1,0 +1,8 @@
+this 2
+is 3
+an 1
+example 1
+sentence 2
+another 1
+that 1
+longer 1
