@@ -15,7 +15,10 @@ Index
   - [基于 RNN](#基于-rnn)
   - [基于 CNN](#基于-cnn)
 - [无监督模型](#无监督模型)
-  - [Skip-Thought Vector](#skip-thought-vector)
+  - [[2018] Concatenated Power Mean 模型](#2018-concatenated-power-mean-模型)
+  - [[2017] SIF 加权模型](#2017-sif-加权模型)
+  - [[2015] Skip-Thought Vector](#2015-skip-thought-vector)
+- [有监督模型](#有监督模型)
   - [Self-Attention](#self-attention)
 - [参考文献](#参考文献)
 
@@ -30,34 +33,17 @@ Index
 - 基于 TF-IDF 的词袋模型
 
 ### 基于词向量的词袋模型
-- **平均模型**
+- **均值模型**
   <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;s=\frac{1}{N}\sum_{i=1}^N&space;v_i"><img src="../_assets/公式_2018091402442.png" height="" /></a></div>
+
+  > 其中 `v_i` 表示维度为 `d` 的词向量，均值指的是对所有词向量**按位求和**后计算每一维的均值，最后 `s` 的维度与 `v` 相同。
 
 - **加权模型**
   <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;s=\sum_{i=1}^N&space;\alpha_i\cdot&space;v_i"><img src="../_assets/公式_2018091402658.png" height="" /></a></div>
 
-  > 其中 `α` 可以有不同的选择，但一般应该遵循这样一个准则：越常见的词权重越小
-  - **文献 [1]** 提出了一个简单但有效的**加权词袋模型** **SIF** (**Smooth Inverse Frequency**)，其性能超过了简单的 RNN/CNN 模型
+  > 其中 `α` 可以有不同的选择，但一般应该遵循这样一个准则：**越常见的词权重越小**
+  >> [[2017] SIF 加权模型](#2017-sif-加权模型)
 
-    - **SIF** 的计算分为两步：<br/>
-      **1）** 对句子中的每个词向量，乘以一个权重 `a/(a+p_w)`，其中 `a` 是一个常数（原文取 `0.0001`），`p_w` 为该词的词频；对于出现频率越高的词，其权重越小；<br/>
-      **2）** 计算**句向量矩阵**的第一个主成分 `u`，让每个句向量减去它在 `u` 上的投影（类似 PCA）；
-      
-    - **完整算法描述**
-      <div align="center"><img src="../_assets/TIM截图20180914010334.png" height="" /></div>
-
-<!--  
-
-    <details><summary><b>Numpy 示例（点击展开）</b></summary>
-
-    ```python
-    
-    ```
-    
-    </details>
-
--->
-    
 ### 基于 RNN
 - 以最后一个隐状态作为整个句子的 Embedding
   <div align="center"><img src="../_assets/TIM截图20180914013219.png" height="" /></div>
@@ -75,7 +61,44 @@ Index
 
 ## 无监督模型
 
-### Skip-Thought Vector
+### [2018] Concatenated Power Mean 模型
+> [4]
+- 本文是均值模型的一种推广；通过引入“幂均值”（Power Mean）来捕捉序列中的其他信息；
+- 记句子 `s=(w_1, w_2, ..., w_n)`
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_cm&space;\large&space;s_p=\left&space;(&space;\frac{x_1^p&plus;\cdots&plus;x_n^p}{n}&space;\right&space;)^{\frac{1}{p}},\quad&space;p\in\mathbb{R}\cup\{\pm\infty\}"><img src="../_assets/公式_20180914232209.png" height="" /></a></div>
+
+  > 普通的均值模型即 `p=1` 时的特例；特别的，本文使用 `±∞` 表示 `max` 和 `min`
+
+- 本文通过**拼接**的方式来保留不同 `p` 的信息
+  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\large&space;s=[s_{p_1};s_{p_2};...;s_{p_k}]"><img src="../_assets/公式_20180914232558.png" height="" /></a></div>
+
+- 特别的，本文在实验时，加入了 `max`、`min` 等
+
+
+### [2017] SIF 加权模型
+- **文献 [1]** 提出了一个简单但有效的**加权词袋模型 SIF** (**Smooth Inverse Frequency**)，其性能超过了简单的 RNN/CNN 模型
+
+- **SIF** 的计算分为两步：<br/>
+  **1）** 对句子中的每个词向量，乘以一个权重 `a/(a+p_w)`，其中 `a` 是一个常数（原文取 `0.0001`），`p_w` 为该词的词频；对于出现频率越高的词，其权重越小；<br/>
+  **2）** 计算**句向量矩阵**的第一个主成分 `u`，让每个句向量减去它在 `u` 上的投影（类似 PCA）；
+    
+- **完整算法描述**
+  <div align="center"><img src="../_assets/TIM截图20180914010334.png" height="" /></div>
+
+<!--  
+
+  <details><summary><b>Numpy 示例（点击展开）</b></summary>
+
+  ```python
+  
+  ```
+  
+  </details>
+
+-->
+
+
+### [2015] Skip-Thought Vector
 > [2]
 - 给定一个三元组 `s_{i-1}, s_i, s_{i+1}` 表示 3 个连续的句子。
 - 模型使用 Encoder-Decoder 框架；
@@ -98,6 +121,12 @@ Index
     <div align="center"><img src="../_assets/TIM截图20180914152110.png" height="" /></div>
     
 
+
+
+
+
+## 有监督模型
+
 ### Self-Attention
 > [3]
 
@@ -110,3 +139,4 @@ Index
 - [1] A Simple but Tough-to-Beat Baseline for Sentence Embeddings, ICLR 2016.
 - [2] Skip-Thought Vectors, NIPS 2015.
 - [3] A Structured Self-attentive Sentence Embedding, ICLR 2017.
+- [4] 
