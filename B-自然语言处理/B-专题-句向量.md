@@ -25,6 +25,7 @@ Index
 - [有监督模型](#有监督模型)
   - [[2017] InferSent](#2017-infersent)
   - [[2017] Self-Attention](#2017-self-attention)
+  - [[2015] DAN & RecNN](#2015-dan--recnn)
 - [多任务学习](#多任务学习)
   - [[2018] 基于多任务的 Sentence Embedding（微软）](#2018-基于多任务的-sentence-embedding微软)
   - [[2018] Universal Sentence Encoder（谷歌）](#2018-universal-sentence-encoder谷歌)
@@ -185,7 +186,6 @@ Index
   
   - 注意：在 NLI 数据集中，句子 `u` 和 `v` 的地位不是等价的
 
-  
 
 ### [2017] Self-Attention
 > [3]
@@ -195,10 +195,24 @@ Index
   <div align="center"><img src="../_assets/TIM截图20180914153455.png" height="" /></div>
 
 
+### [2015] DAN & RecNN
+> [9]
+
+- 原文模型仅用于分类，但也可用于有监督的学习 Sentence Embedding
+  > [Universal Sentence Encoder（谷歌）](#2018-universal-sentence-encoder谷歌)
+
+- 基本模型，其中比较常用的是 DAN
+  - DAN（Deep Averaging Network）
+    <div align="center"><img src="../_assets/TIM截图20180915211556.png" height="" /></div>
+
+  - RecNN
+    <div align="center"><img src="../_assets/TIM截图20180915211635.png" height="" /></div>
+
+    
+
 ## 多任务学习
 - InferSent 模型的成功，使大家开始探索不同的有监督任务中得到的 Sentence Embedding 在下游任务中的效果。
 - 多任务学习试图在一次训练中组合不同的训练目标。
-
 
 ### [2018] 基于多任务的 Sentence Embedding（微软）
 > [6]
@@ -222,8 +236,8 @@ Index
 - 本文使用**类似的多任务框架**，区别在于使用的 Encoder 不同。
   > [[2018] 基于多任务的 Sentence Embedding（微软）](#2018-基于多任务的-sentence-embedding微软)
 - 本文以两种模型作为 Encoder
-  - **Transformer** [8]
-  - **DAN** (Deep Averaging Network) [9]
+  - **Transformer** [8]——更高的精度
+  - **DAN** (Deep Averaging Network) [9]——更快的速度
   
 - 一个可用的预训练版本
   ```python
