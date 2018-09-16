@@ -19,7 +19,7 @@
 - [用 C 实现 C++ 中的封装、继承和多态](#用-c-实现-c-中的封装继承和多态)
 - [友元函数与友元类](#友元函数与友元类)
 - [枚举类型 enum](#枚举类型-enum)
-- [其他知识点](#其他知识点)
+- [其他](#其他)
   - [#pragma pack(n)](#pragma-packn)
   - [位域 Bit mode](#位域-bit-mode)
   - [关键字 volatile](#关键字-volatile)
@@ -462,7 +462,7 @@ int main(void) {
 
 
 
-## 其他知识点
+## 其他
 
 ### #pragma pack(n)
 > https://github.com/huihut/interview#pragma-packn
