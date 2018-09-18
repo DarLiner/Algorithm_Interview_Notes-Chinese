@@ -27,19 +27,24 @@ Index
 <!-- TOC -->
 
 - [背包问题](#背包问题)
-  - [关于“恰好装满”](#关于恰好装满)
-  - [01 背包](#01-背包)
-  - [完全背包](#完全背包)
-  - [一维 DP 与滚动数组](#一维-dp-与滚动数组)
-    - [01 背包（一维 DP，AC）](#01-背包一维-dpac)
-    - [完全背包（一维 DP，AC）](#完全背包一维-dpac)
-    - [01 背包（滚动数组，AC）](#01-背包滚动数组ac)
-    - [完全背包（滚动数组，RE）](#完全背包滚动数组re)
+    - [【注】关于“恰好装满”](#注关于恰好装满)
+    - [01 背包](#01-背包)
+        - [二维 DP（无优化）](#二维-dp无优化)
+        - [二维 DP（滚动数组）](#二维-dp滚动数组)
+        - [一维 DP](#一维-dp)
+    - [完全背包](#完全背包)
+        - [二维 DP（无优化）](#二维-dp无优化-1)
+        - [二维 DP（滚动数组）](#二维-dp滚动数组-1)
+        - [一维 DP](#一维-dp-1)
+    - [多重背包 TODO](#多重背包-todo)
+- [硬币问题](#硬币问题)
+    - [硬币找零](#硬币找零)
+    - [硬币组合](#硬币组合)
 - [最长公共子序列（LCS）](#最长公共子序列lcs)
-  - [最长公共子串](#最长公共子串)
+    - [最长公共子串](#最长公共子串)
 - [最长递增子序列（LIS）](#最长递增子序列lis)
 - [最长回文子序列](#最长回文子序列)
-  - [最长回文子串](#最长回文子串)
+    - [最长回文子串](#最长回文子串)
 - [最大连续子序列和](#最大连续子序列和)
 - [编辑距离](#编辑距离)
 - [矩阵中的最大正方形](#矩阵中的最大正方形)
@@ -54,18 +59,15 @@ Index
 
 ## 背包问题
 
-### 关于“恰好装满”
-- **如果要求恰好装满背包**，可以在初始化时除 `dp[0] 或 dp[i][0]` 初始化 `0`，其他初始化为 `-INF`。这样即可保证最终得到的 `dp[N] 或 dp[N][M]` 是一种恰好装满背包的解；
+### 【注】关于“恰好装满”
+- **如果要求恰好装满背包**，可以在初始化时将 `dp[0] / dp[i][0]` 初始化 `0`，其他初始化为 `-INF`。这样即可保证最终得到的 `dp[N] / dp[N][M]` 是一种恰好装满背包的解；
 - **如果不要求恰好装满**，则全部初始化为 `0` 即可。
 - 可以这样理解：初始化的 dp 数组实际上就是在没有任何物品可以放入背包时的合法状态。
   - 如果要求背包恰好装满，那么此时只有**容量为 0** 的背包可能被**价值为 0** 的物品“**恰好装满**”，其它容量的背包均**没有合法的解**，属于未定义的状态，它们的值就都应该是 `-INF` 。
   - 如果背包并非必须被装满，那么任何容量的背包都有一个合法解，即“什么都不装”，这个解的价值为0，所以初始时状态的值也全部为 0 。
 
 ### 01 背包
-> [Problem - 2602](http://acm.hdu.edu.cn/showproblem.php?pid=2602) - HDU OJ 
->
-> [106-背包问题](http://nyoj.top/problem/106) - NYOJ
->> 注意：两者的输入方式不同
+> [HDOJ - 2602](http://acm.hdu.edu.cn/showproblem.php?pid=2602)
 
 **问题描述**
 ```
@@ -81,62 +83,118 @@ Index
 14
 ```
 
-**思路**
-- **DP 定义**：`dp[i][j] := 从前 i 个物品中选取总重量不超过 j 的物品时总价值的最大值`
-  > `i` 从 1 开始计，包括第 `i` 个物品
-- **DP 初始化**
-  ```
-  dp[0][j] = 0
-  ```
-- **DP 更新**
-  ```
-  dp[i][j] = dp[i-1][j]         if j < w[i] （当前剩余容量不够放下第 i 个物品）
-             = max{             else （取以下两种情况的最大值）
+#### 二维 DP（无优化） 
+
+- **定义**：`dp[i][j] := 从前 i 个物品中选取总重量不超过 j 的物品时总价值的最大值`
+    > `i` 从 1 开始计，包括第 `i` 个物品
+- **初始化**
+    ```
+    dp[0][j] = 0
+    ```
+- **状态转移**
+    ```
+    dp[i][j] = dp[i-1][j]            if j < w[i] （当前剩余容量不够放下第 i 个物品）
+             = max{                  else （取以下两种情况的最大值）
                     dp[i-1][j],             // 不拿第 i 个物品
                     dp[i-1][j-w[i]] + w[j]  // 拿第 i 个物品
                   }
-  ```
-- **C++**
-  ```C++
-  // OJ 地址：http://acm.hdu.edu.cn/showproblem.php?pid=2602
-  #include <cstdio>
-  #include <vector>
-  #include <algorithm>
-  using namespace std;
+    ```
+```C++
+// HDOJ 地址：http://acm.hdu.edu.cn/showproblem.php?pid=2602
+int solve(int N, int V, vector<int>& v, vector<int>& w) {
 
-  void solve() {
-      int T;
-      scanf("%d", &T);
-      while (T--) {
-          int N, V;
-          scanf("%d%d", &N, &V);
-          vector<int> v(N+1, 0), w(N+1, 0);
-          for (int i = 1; i <= N; i++)
-              scanf("%d", &v[i]);
-          for (int i = 1; i <= N; i++)
-              scanf("%d", &w[i]);
+    vector<vector<int> > dp(N + 1, vector<int>(V + 1, 0));  // 不要求装满，初始化为 0 即可
 
-          vector<vector<int> > dp(N + 1, vector<int>(V + 1, 0));
-          for (int i = 1; i <= N; i++) {
-              for (int j = 0; j <= V; j++) {  // 可能存在重量为 0 的物品
-                  if (w[i] > j)
-                      dp[i][j] = dp[i - 1][j];
-                  else
-                      dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w[i]] + v[i]);
-              }
-          }
-          printf("%d\n", dp[N][V]);
-      }
-  }
+    // 核心代码
+    for (int i = 1; i <= N; i++) {
+        for (int j = 0; j <= V; j++) {  // 可能存在重量为 0，但有价值的物品
+            if (w[i] > j)               // 如果当前物品的重量大于剩余容量
+                dp[i][j] = dp[i - 1][j];
+            else
+                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w[i]] + v[i]);
+        }
+    }
+    return dp[N][V];
+}
 
-  int main() {
-      solve();
-      return 0;
-  }
-  ```
+int main() {
+    int T;      // 用例数
+    scanf("%d", &T);
+    while (T--) {
+        int N, V;                   // N: 物品数量；V: 背包容量
+        scanf("%d%d", &N, &V);
+        vector<int> v(N + 1, 0);    // 保存每个物品的价值
+        vector<int> w(N + 1, 0);    // 保存每个物品的重量
+        for (int i = 1; i <= N; i++)
+            scanf("%d", &v[i]);
+        for (int i = 1; i <= N; i++)
+            scanf("%d", &w[i]);
+
+        int ans = solve(N, V, v, w);
+
+        printf("%d\n", ans);
+    }
+    return 0;
+}
+```
+
+#### 二维 DP（滚动数组）
+
+- 在上述递推式中，`dp[i+1]` 的计算实际只用到了 `dp[i+1]` 和 `dp[i]`；
+- 因此可以结合**奇偶**，通过两个数组滚动使用来实现重复利用。
+
+```C++
+// HDOJ 地址：http://acm.hdu.edu.cn/showproblem.php?pid=2602
+int solve(int N, int V, vector<int>& v, vector<int>& w) {
+
+    //vector<vector<int> > dp(N + 1, vector<int>(V + 1, 0));  // 不要求装满，初始化为 0 即可
+    vector<vector<int> > dp(2, vector<int>(V + 1, 0));  // N+1 -> 2
+
+    // 核心代码
+    for (int i = 1; i <= N; i++) {
+        for (int j = 0; j <= V; j++) {  // 可能存在重量为 0，但有价值的物品
+            if (w[i] > j)               // 如果当前物品的重量大于剩余容量
+                dp[i & 1][j] = dp[(i - 1) & 1][j];
+            else
+                dp[i & 1][j] = max(dp[(i - 1) & 1][j], dp[(i - 1) & 1][j - w[i]] + v[i]);
+        }
+    }
+    return dp[N & 1][V];  // 这里别忘了 N & 1
+}
+
+// main 函数略
+```
+
+#### 一维 DP
+- **定义**：`dp[j] := 重量不超过 j 公斤的最大价值`
+- **递推公式**
+    ```
+    dp[j] = max{dp[j], dp[j-w[i]] + v[i]}     若 j > w[i]
+    ```
+  
+```C++
+// HDOJ 地址：http://acm.hdu.edu.cn/showproblem.php?pid=2602
+// 一维 DP（滚动数组）
+int solve(int N, int V, vector<int>& v, vector<int>& w) {
+
+    vector<int> dp(V + 1, 0);
+
+    // 核心代码
+    for (int i = 1; i <= N; i++) {
+        for (int j = V; j >= w[i]; j--) {           // 递推方向发生了改变
+            dp[j] = max(dp[j], dp[j - w[i]] + v[i]);
+        }
+    }
+
+    return dp[V];
+}
+
+// main 函数略
+```
 
 ### 完全背包
-> [311-完全背包](http://nyoj.top/problem/311) - NYOJ 
+> [NYOJ - 311](http://nyoj.top/problem/311)
+
 **问题描述**
 ```
 01 背包中每个物品只有一个，所以只存在选或不选；
@@ -145,15 +203,15 @@ Index
 注意：本题要求是背包恰好装满背包时，求出最大价值总和是多少。如果不能恰好装满背包，输出 NO
 ```
 
-**直观思路**
-- 在 01 背包的基础上在加一层循环
+#### 二维 DP（无优化）
+
+- **直观思路**：在 01 背包的基础上在加一层循环
 - **递推关系**：
-  ```
-  dp[0][j] = 0
-  dp[i][j] = max{dp[i - 1][j - k*w[i]] + k*v[i] | 0 <= k}
-  ```
-  - 实现
-    ```C++
+    ```
+    dp[0][j] = 0
+    dp[i][j] = max{dp[i - 1][j - k * w[i]] + k * v[i] | 0 <= k}
+    ```
+    ```
     for (int i = 1; i <= N; i++) {
         for (int j = 0; j <= V; j++) {  // 可能存在重量为 0 的物品
             for (int k = 0; k * w[i] <= j; k++)
@@ -162,27 +220,27 @@ Index
     }
     ```
   - 关于 `k` 的循环最坏可能从 0 到 `V`，因此时间复杂度为 `O(N*V^2)` 
-- **注意到**
-  ```
-  dp[i][j] = max{dp[i - 1][j - k*w[i]] + k*v[i] | 0 <= k}
-                                                  ------
-           = max{dp[i - 1][j], max{dp[i - 1][j - k*w[i]] + k*v[i]} | 1 <= k}
-                                                                     ------
-           = max{dp[i - 1][j], max{dp[i - 1][(j-w[i]) - k*w[i]] + k*v[i] | 0 <= k} + v[i]}
-                                             --------                      ------  ------
-                               ---------------------------------------------------
-           = max{dp[i - 1][j], dp[i][j - w[i]] + v[i]}
-                               ---------------
-  ```
-  - 实现
+- **注意到**：
+    ```
+    dp[i][j] = max{dp[i - 1][j - k*w[i]] + k*v[i] | 0 <= k}
+                                                    ------
+             = max{dp[i - 1][j], max{dp[i - 1][j - k*w[i]] + k*v[i]} | 1 <= k}
+                                                                       ------
+             = max{dp[i - 1][j], max{dp[i - 1][(j-w[i]) - k*w[i]] + k*v[i] | 0 <= k} + v[i]}
+                                               --------                      ------  ------
+                                 ---------------------------------------------------
+             = max{dp[i - 1][j], dp[i][j - w[i]] + v[i]}
+                                 ---------------
+    ```
     ```
     for (int i = 1; i <= N; i++) {
-        for (int j = 0; j <= V; j++) {  // 可能存在重量为 0 的物品
+        for (int j = 0; j <= V; j++) {
             if (w[i] > j)
                 dp[i][j] = dp[i - 1][j];
             else
                 dp[i][j] = max(dp[i - 1][j], dp[i][j - w[i]] + v[i]);
             //  dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w[i]] + v[i]); // 对比 01 背包
+            //                               ---------（唯一区别）
         }
     }
     ```
@@ -191,188 +249,52 @@ Index
     > 以下代码因**超内存**无法通过 NYOJ 311；
     >
     > 可以 AC 的代码，请参考 [完全背包（一维 DP）](#完全背包一维-dp) 和 [完全背包（滚动数组）](#完全背包滚动数组)
-  ```C++
-  // NYOJ 311 会报超内存，所以无法测试
-  #include <cstdio>
-  #include <vector>
-  #include <algorithm>
-  using namespace std;
+    ```C++
+    // NYOJ 311 会报超内存，所以无法测试
+    #include <cstdio>
+    #include <vector>
+    #include <algorithm>
+    using namespace std;
 
-  const int inf = 0x3f3f3f3f;
+    const int inf = 0x80000000;
 
-  void solve() {
-      int T;
-      scanf("%d", &T);
-      while (T--) {
-          int N, V;       // M 表示物品种类的数目，V 表示背包的总容量
-          scanf("%d%d", &N, &V);
-          vector<int> w(N + 1), v(N + 1);  // w 表示重量，v 表示价值
-          for (int i = 1; i <= N; i++)
-              scanf("%d%d", &w[i], &v[i]);
+    void solve() {
+        int T;
+        scanf("%d", &T);
+        while (T--) {
+            int N, V;       // N 表示物品种类的数目，V 表示背包的总容量
+            scanf("%d%d", &N, &V);
+            vector<int> w(N + 1), v(N + 1);  // w 表示重量，v 表示价值
+            for (int i = 1; i <= N; i++)
+                scanf("%d%d", &w[i], &v[i]);
 
-          vector<vector<int> > dp(N + 1, vector<int>(V + 1, -inf));
-          for (int i = 0; i <= N; i++)
-              dp[i][0] = 0;
+            vector<vector<int> > dp(N + 1, vector<int>(V + 1, inf));
+            for (int i = 0; i <= N; i++)
+                dp[i][0] = 0;
 
-          for (int i = 1; i <= N; i++) {
-              for (int j = 0; j <= V; j++) {
-                  if (j < w[i])
-                      dp[i][j] = dp[i - 1][j];
-                  else
-                      dp[i][j] = max(dp[i - 1][j], dp[i][j - w[i]] + v[i]);
-                  //for (int k = 0; k*w[i] < j; k++)
-                  //    dp[i][j] = max(dp[i][j], dp[i - 1][j - k * w[i]] + k * v[i]);
-              }
-          }
-
-          if (dp[N][V] > 0)
-              printf("%d\n", dp[N][V]);
-          else
-              puts("NO");
-      }
-  }
-
-  int main() {
-      solve();
-      return 0;
-  }
-  ```
-
-### 一维 DP 与滚动数组
-- 01 背包与完全背包都可以使用优化为**一维 DP**，或者使用**滚动数组**优化
-- 所谓**滚动数组**，指的是利用**奇偶**或**取余**循环利用一定的数组
-  - 比如 01 背包中，计算 `dp[i] 实际上只需要 dp[i-1] 和 dp[i]`，因此可以使用滚动数组进行优化
-
-#### 01 背包（一维 DP，AC）
-**思路**
-- **DP 定义**：`dp[j] := 重量不超过 j 公斤的最大价值`
-- **DP 更新**（递推公式）
-  ```
-  dp[j] = max{dp[j], dp[j-w[i]] + v[i]}     若 j > w[i]
-  ```
-- **完整代码**
-  ```C++
-  // Problem - 2602 http://acm.hdu.edu.cn/showproblem.php?pid=2602
-  #include <cstdio>
-  #include <vector>
-  #include <algorithm>
-
-  using namespace std;
-
-  void solve2() {
-      int T;
-      scanf("%d", &T);
-      while (T--) {
-          int N, V;
-          scanf("%d%d", &N, &V);
-          vector<int> v(N + 1, 0), w(N + 1, 0);
-          for (int i = 1; i <= N; i++)
-              scanf("%d", &v[i]);
-          for (int i = 1; i <= N; i++)
-              scanf("%d", &w[i]);
-
-          vector<int> dp(V + 1, 0);
-          for (int i = 1; i <= N; i++) {
-              for (int j = V; j >= w[i]; j--) {  // 注意要从后往前递推
-                  dp[j] = max(dp[j], dp[j - w[i]] + v[i]);
-              }
-          }
-          printf("%d\n", dp[V]);
-      }
-  }
-  ```
-
-#### 完全背包（一维 DP，AC）
-- 核心代码与 01 背包一致，只有第二层循环的**递推方向不同**
-- **完整代码**
-  ```C++
-  // NYOJ 311-完全背包: http://nyoj.top/problem/311
-  #include <cstdio>
-  #include <cstring>
-  #include <vector>
-  #include <algorithm>
-  using namespace std;
-
-  const int MAX_V = 50000 + 10;
-  const int inf = 0x80000000;
-
-  void solve2() {
-      int T;
-      scanf("%d", &T);
-      while (T--) {
-          int N, V;       // M 表示物品种类的数目，V 表示背包的总容量
-          scanf("%d%d", &N, &V);
-          //vector<int> w(N + 1), v(N + 1);  // w 表示重量，v 表示价值
-          //for (int i = 1; i <= N; i++)
-          //    scanf("%d%d", &w[i], &v[i]);
-
-          //vector<int> dp(V + 1, inf);   // 注意 NYOJ 的系统开辟稍大的 vector 就会导致超时
-          int dp[MAX_V];
-          fill(dp, dp + MAX_V, inf);
-          dp[0] = 0;
-
-          for (int i = 1; i <= N; i++) {
-              int w, v;
-              scanf("%d%d", &w, &v);      // 避免开辟新的内存 
-              for (int j = w; j <= V; j++) {
-                  dp[j] = max(dp[j], dp[j - w] + v);
-              }
-          }
-
-          if (dp[V] > 0)
-              printf("%d\n", dp[V]);
-          else
-              puts("NO");
-      }
-  }
-
-  int main() {
-      solve2();
-      return 0;
-  }
-  ```
-
-#### 01 背包（滚动数组，AC）
-```C++
-// Problem - 2602 http://acm.hdu.edu.cn/showproblem.php?pid=2602
-#include <cstdio>
-#include <vector>
-#include <algorithm>
-
-using namespace std;
-
-void solve3() {
-    int T;
-    scanf("%d", &T);
-    while (T--) {
-        int N, V;
-        scanf("%d%d", &N, &V);
-        vector<int> v(N + 1, 0), w(N + 1, 0);
-        for (int i = 1; i <= N; i++)
-            scanf("%d", &v[i]);
-        for (int i = 1; i <= N; i++)
-            scanf("%d", &w[i]);
-
-        vector<vector<int> > dp(2, vector<int>(V + 1, 0));     // 用两个数组滚动保存结果
-        for (int i = 1; i <= N; i++) {
-            for (int j = 0; j <= V; j++) {  // 可能存在重量为 0 的物品
-                if (w[i] > j)
-                    dp[i & 1][j] = dp[(i - 1) & 1][j];  // 结合奇偶性
-                else
-                    dp[i & 1][j] = max(dp[(i - 1) & 1][j], dp[(i - 1) & 1][j - w[i]] + v[i]);
+            for (int i = 1; i <= N; i++) {
+                for (int j = 0; j <= V; j++) {
+                    if (j < w[i])
+                        dp[i][j] = dp[i - 1][j];
+                    else
+                        dp[i][j] = max(dp[i - 1][j], dp[i][j - w[i]] + v[i]);
+                }
             }
+
+            if (dp[N][V] > 0)
+                printf("%d\n", dp[N][V]);
+            else
+                puts("NO");
         }
-        printf("%d\n", dp[N & 1][V]);
     }
-}
 
-int main() {
-    solve3();
-    return 0;
-}
-```
+    int main() {
+        solve();
+        return 0;
+    }
+    ```
 
-#### 完全背包（滚动数组，RE）
+#### 二维 DP（滚动数组）
 ```C++
 // NYOJ 311-完全背包: http://nyoj.top/problem/311 （未通过测试，报运行时错误）
 #include <cstdio>
@@ -422,6 +344,144 @@ int main() {
     solve3();
     return 0;
 }
+```
+
+#### 一维 DP
+- 核心代码与 01 背包一致，只有第二层循环的**递推方向不同**
+- **完整代码**
+  ```C++
+  // NYOJ 311-完全背包: http://nyoj.top/problem/311
+  #include <cstdio>
+  #include <cstring>
+  #include <vector>
+  #include <algorithm>
+  using namespace std;
+
+  const int MAX_V = 50000 + 10;
+  const int inf = 0x80000000;
+
+  void solve2() {
+      int T;
+      scanf("%d", &T);
+      while (T--) {
+          int N, V;       // M 表示物品种类的数目，V 表示背包的总容量
+          scanf("%d%d", &N, &V);
+          //vector<int> w(N + 1), v(N + 1);  // w 表示重量，v 表示价值
+          //for (int i = 1; i <= N; i++)
+          //    scanf("%d%d", &w[i], &v[i]);
+
+          //vector<int> dp(V + 1, inf);   // 注意 NYOJ 的系统开辟稍大的 vector 就会导致超时
+          int dp[MAX_V];
+          fill(dp, dp + MAX_V, inf);
+          dp[0] = 0;
+
+          for (int i = 1; i <= N; i++) {
+              int w, v;
+              scanf("%d%d", &w, &v);      // 避免开辟新的内存 
+              for (int j = w; j <= V; j++) {
+                  dp[j] = max(dp[j], dp[j - w] + v);
+              }
+          }
+
+          if (dp[V] > 0)
+              printf("%d\n", dp[V]);
+          else
+              puts("NO");
+      }
+  }
+
+  int main() {
+      solve2();
+      return 0;
+  }
+  ```
+
+### 多重背包 TODO
+
+## 硬币问题
+
+### 硬币找零
+> LeetCode - [322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/description/)
+
+**问题描述**
+```
+给定不同面额的硬币 coins 和一个总金额 amount。
+编写一个函数来计算可以凑成总金额所需的最少的硬币个数。
+如果没有任何一种硬币组合能组成总金额，返回 -1。
+
+示例 1:
+
+    输入: coins = [1, 2, 5], amount = 11
+    输出: 3 
+    解释: 11 = 5 + 5 + 1
+
+示例 2:
+
+    输入: coins = [2], amount = 3
+    输出: -1
+    
+说明:
+    你可以认为每种硬币的数量是无限的。
+```
+
+**思路**
+- **定义**：`dp[i] := 组成总金额 i 时的最少硬币数`
+- **初始化**：
+    ```
+    dp[i] = 0       若 i=0
+          = INF     其他
+    ```
+- **状态转移**
+    ```
+    dp[j] = min{ dp[j-coins[i]] + 1 | i=0,..,n-1 }
+        
+    其中 coins[i] 表示硬币的币值，共 n 种硬币
+    ```
+
+**C++**
+```C++
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int n) {
+        int INF = n + 1;
+        
+        vector<int> dp(n+1, INF);
+        dp[0] = 0;
+        
+        for (auto c: coins) {
+            for (int i=c; i<=n; i++) {            //  i >= c
+                dp[i] = min(dp[i], dp[i-c] + 1);
+            }
+        }
+        
+        return dp[n] < INF ? dp[n] : -1;
+    }
+};
+```
+
+### 硬币组合
+> LeetCode - [518. 零钱兑换 II](https://leetcode-cn.com/problems/coin-change-2/description/)
+
+
+**C++**
+```C++
+class Solution {
+public:
+    int change(int n, vector<int>& coins) {
+        int m = coins.size();
+        
+        vector<int> dp(n+1, 0);
+        dp[0] = 1;
+        
+        for (auto c: coins) {
+            for (int i = c; i <= n; i++) {
+                dp[i] += dp[i - c];
+            }
+        }
+        
+        return dp[n];
+    }
+};
 ```
 
 ## 最长公共子序列（LCS）
