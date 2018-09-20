@@ -17,12 +17,17 @@ Index
 <!-- TOC -->
 
 - [Inception-v1/v2/v3](#inception-v1v2v3)
+    - [相关阅读](#相关阅读)
 - [Reference](#reference)
 
 <!-- /TOC -->
 
 
 ## Inception-v1/v2/v3
+
+
+### 相关阅读
+- [经典网络GoogLeNet(Inception V3)网络的搭建与实现](https://blog.csdn.net/loveliuzz/article/details/79135583) - CSDN博客 
 
 
 ## Reference
