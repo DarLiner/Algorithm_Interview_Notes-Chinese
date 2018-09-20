@@ -10,6 +10,8 @@ Index
 
 - [二叉树](#二叉树)
     - [二叉树的深度](#二叉树的深度)
+    - [二叉树的宽度](#二叉树的宽度)
+        - [二叉树最大宽度（LeetCode）](#二叉树最大宽度leetcode)
     - [二叉树中的最长路径](#二叉树中的最长路径)
     - [判断平衡二叉树 TODO](#判断平衡二叉树-todo)
     - [判断树 B 是否为树 A 的子结构 TODO](#判断树-b-是否为树-a-的子结构-todo)
@@ -57,6 +59,116 @@ public:
     }
 };
 ```
+
+### 二叉树的宽度
+
+**思路**
+- 层序遍历（队列）
+
+**C++**
+```C++
+class Solution {
+public:
+    int widthOfBinaryTree(TreeNode* root) {
+        if (root == nullptr)
+            return 0;
+        
+        queue<TreeNode*> Q;
+        Q.push(root);
+        
+        int ans = 1;
+        while(!Q.empty()) {
+            int cur_w = Q.size();  // 当前层的宽度
+            ans = max(ans, cur_w);
+            
+            for (int i=0; i<cur_w; i++) {
+                auto p = Q.front();
+                Q.pop();
+                if (p->left)
+                    Q.push(p->left);
+                if (p->right)
+                    Q.push(p->right);
+            }
+        }
+        
+        return ans;
+    }
+};
+```
+
+#### 二叉树最大宽度（LeetCode）
+> LeetCode - [662. 二叉树最大宽度](https://leetcode-cn.com/problems/maximum-width-of-binary-tree/description/)
+
+**问题描述**
+```
+给定一个二叉树，编写一个函数来获取这个树的最大宽度。
+树的宽度是所有层中的最大宽度。
+这个二叉树与满二叉树（full binary tree）结构相同，但一些节点为空。
+
+每一层的宽度被定义为两个端点（该层最左和最右的非空节点，两端点间的null节点也计入长度）之间的长度。
+
+示例 1:
+    输入: 
+
+           1
+         /   \
+        3     2
+       / \     \  
+      5   3     9 
+
+    输出: 4
+    解释: 最大值出现在树的第 3 层，宽度为 4 (5,3,null,9)。
+
+示例 2:
+    输入: 
+
+          1
+         /  
+        3    
+       / \       
+      5   3     
+
+    输出: 2
+    解释: 最大值出现在树的第 3 层，宽度为 2 (5,3)。
+```
+
+**思路**
+- 本题在二叉树宽度的基础上加入了满二叉树的性质，即每层都有 2 ^ (n-1)个节点。某节点的左孩子的标号是2n, 右节点的标号是2n + 1。
+- **注**：如果在循环中会增删容器中的元素，则不应该在 `for` 循环中使用 `size()` 方法，该方法的返回值会根据容器的内容**动态改变**。
+
+**C++**
+```
+class Solution {
+public:
+    int widthOfBinaryTree(TreeNode* root) {
+        if (root == nullptr)
+            return 0;
+
+        deque<pair<TreeNode*, int>> Q;  // 记录节点及其在满二叉树中的位置
+        Q.push_back({ root, 1 });
+
+        int ans = 0;
+        while (!Q.empty()) {
+            int cur_n = Q.size();
+            int cur_w = Q.back().second - Q.front().second + 1;  // 当前层的宽度
+            ans = max(ans, cur_w);
+
+            //for (int i = 0; i<Q.size(); i++) {  // err: Q.size() 会动态改变
+            for (int i = 0; i<cur_n; i++) {
+                auto p = Q.front();
+                Q.pop_front();
+                if (p.first->left != nullptr)
+                    Q.push_back({ p.first->left, p.second * 2 });
+                if (p.first->right != nullptr)
+                    Q.push_back({ p.first->right, p.second * 2 + 1 });
+            }
+        }
+
+        return ans;
+    }
+};
+```
+
 
 ### 二叉树中的最长路径
 
