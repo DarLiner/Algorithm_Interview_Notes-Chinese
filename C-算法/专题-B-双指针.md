@@ -19,7 +19,7 @@ Index
 - [两数之和 - 小于等于目标值的个数](#两数之和---小于等于目标值的个数)
 - [三数之和 - 小于等于目标值的个数](#三数之和---小于等于目标值的个数)
 - [三角形计数](#三角形计数)
-- [接雨水](#接雨水)
+- [接雨水（一维）](#接雨水一维)
 
 <!-- /TOC -->
 
@@ -42,61 +42,61 @@ Index
     解释: 2 与 7 之和等于目标数 9 。因此 index1 = 1, index2 = 2 。
 ```
 
-**思路**
-- 因为是有序的，可以尝试使用双指针解决该问题，时间复杂度为 `O(N)`
-- 本题还可以利用 Hash 表解决，时间复杂度 `O(N)`，空间复杂度 `O(N)`
-    > 使用 Hash 表不要求数组有序
-    >> LeetCode/[1. 两数之和](https://leetcode-cn.com/problems/two-sum/description/)
-
 **拓展**
 - 如果存在多个答案，并要求输出所有不重复的可能
     > [三数之和](#三数之和)
 
-**Python**（双指针）
-```python
-class Solution:
-    def twoSum(self, A, t):
-        """
-        :type A: List[int]
-        :type t: int
-        :rtype: List[int]
-        """
-        n = len(A)
-        lo, hi = 0, n - 1
-        
-        ret = []
-        while lo < hi:
-            s = A[lo] + A[hi]
-            if s > t:
-                hi -= 1
-            elif s < t:
-                lo += 1
-            else:
-                ret.append(lo + 1)
-                ret.append(hi + 1)
-                break
-        
-        return ret
-```
+**思路 1**
+- 因为是有序的，可以尝试使用双指针解决该问题，时间复杂度为 `O(N)`
+- **Python**（双指针）
+    ```python
+    class Solution:
+        def twoSum(self, A, t):
+            """
+            :type A: List[int]
+            :type t: int
+            :rtype: List[int]
+            """
+            n = len(A)
+            lo, hi = 0, n - 1
+            
+            ret = []
+            while lo < hi:
+                s = A[lo] + A[hi]
+                if s > t:
+                    hi -= 1
+                elif s < t:
+                    lo += 1
+                else:
+                    ret.append(lo + 1)
+                    ret.append(hi + 1)
+                    break
+            
+            return ret
+    ```
 
-**Python**（Hash）
-```python
-class Solution:
-    def twoSum(self, A, t):
-        """
-        :type A: List[int]
-        :type t: int
-        :rtype: List[int]
-        """
-        
-        d = dict()
-        
-        for i in range(len(A)):
-            if A[i] not in d:
-                d[t - A[i]] = i
-            else:
-                return [i, d[A[i]]]
-```
+**思路 2**
+- 本题还可以利用 Hash 表解决，时间复杂度 `O(N)`，空间复杂度 `O(N)`
+- 使用 Hash 表不要求数组有序
+    > LeetCode/[1. 两数之和](https://leetcode-cn.com/problems/two-sum/description/)
+- **Python**（Hash）
+    ```python
+    class Solution:
+        def twoSum(self, A, t):
+            """
+            :type A: List[int]
+            :type t: int
+            :rtype: List[int]
+            """
+            
+            d = dict()
+            
+            for i in range(len(A)):
+                if A[i] not in d:
+                    d[t - A[i]] = i
+                else:
+                    return [i, d[A[i]]]
+    ```
 
 
 ## 三数之和
@@ -460,7 +460,7 @@ class Solution:
 ```
 
 
-## 接雨水
+## 接雨水（一维）
 > LeetCode/[42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/description/)
 
 **问题描述**
@@ -502,36 +502,35 @@ class Solution:
 
 **思路 2**
 - 双指针，遍历一次数组
-
-**Python**
-```python
-class Solution:
-    def trap(self, A):
-        """
-        :type A: List[int]
-        :rtype: int
-        """
-        n = len(A)
-        l, r = 0, n - 1
-        
-        ans = 0
-        max_l = max_r = 0
-        
-        while l <= r:
-            if A[l] <= A[r]:
-                if A[l] > max_l:
-                    max_l = A[l]
+- **Python**
+    ```python
+    class Solution:
+        def trap(self, A):
+            """
+            :type A: List[int]
+            :rtype: int
+            """
+            n = len(A)
+            l, r = 0, n - 1
+            
+            ans = 0
+            max_l = max_r = 0
+            
+            while l <= r:
+                if A[l] <= A[r]:
+                    if A[l] > max_l:
+                        max_l = A[l]
+                    else:
+                        ans += max_l - A[l]
+                    
+                    l += 1
                 else:
-                    ans += max_l - A[l]
-                
-                l += 1
-            else:
-                if A[r] > max_r:
-                    max_r = A[r]
-                else:
-                    ans += max_r - A[r]
-                
-                r -= 1
-                
-        return ans
-```
+                    if A[r] > max_r:
+                        max_r = A[r]
+                    else:
+                        ans += max_r - A[r]
+                    
+                    r -= 1
+                    
+            return ans
+    ```
