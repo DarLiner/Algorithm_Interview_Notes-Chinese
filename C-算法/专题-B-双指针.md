@@ -5,23 +5,38 @@
 
 小结
 ---
-- 双指针一般用于压缩区间，为了不遗漏可能的情况，一般要求**有序**；
-- 然后使用首尾双指针遍历——大于目标时向低位移动 hi 指针，小于目标时向高位移动 lo 指针。 
+- 首尾双指针模板
+    - 一般用于寻找数组中满足条件的**两个数**；如果是寻找多个数，则先固定前 n-2 个数
+    - 为了不遗漏所有可能情况，一般要求数组**有序**；
+    - 遍历时，大于目标时 `hi--`，小于目标时 `lo++`。 
+- 同向双指针模板
+    - 一般用于寻找满足某个条件的**连续区间**
+<!-- - 分离双指针
+    - 输入是两个数组/链表，两个指针分别在两个容器中移动 -->
 
 Index
 ---
 <!-- TOC -->
 
-- [两数之和](#两数之和)
-- [三数之和](#三数之和)
-- [N 数之和](#n-数之和)
-- [最接近的三数之和](#最接近的三数之和)
-- [两数之和 - 小于等于目标值的个数](#两数之和---小于等于目标值的个数)
-- [三数之和 - 小于等于目标值的个数](#三数之和---小于等于目标值的个数)
-- [三角形计数](#三角形计数)
-- [接雨水（一维）](#接雨水一维)
+- [首尾双指针](#首尾双指针)
+    - [两数之和](#两数之和)
+    - [三数之和](#三数之和)
+    - [N 数之和](#n-数之和)
+    - [最接近的三数之和](#最接近的三数之和)
+    - [两数之和 - 小于等于目标值的个数](#两数之和---小于等于目标值的个数)
+    - [三数之和 - 小于等于目标值的个数](#三数之和---小于等于目标值的个数)
+    - [三角形计数](#三角形计数)
+- [同向双指针](#同向双指针)
+    - [最小覆盖子串（Minimum Window Substring）](#最小覆盖子串minimum-window-substring)
+    - [长度最小的子数组（Minimum Size Subarray Sum）](#长度最小的子数组minimum-size-subarray-sum)
+- [其他](#其他)
+    - [合并两个有序数组](#合并两个有序数组)
+    - [接雨水（Trapping Rain Water）（一维）](#接雨水trapping-rain-water一维)
+    - [颜色分类（Sort Colors）](#颜色分类sort-colors)
 
 <!-- /TOC -->
+
+# 首尾双指针
 
 ## 两数之和
 > LeetCode/[167. 两数之和 II - 输入有序数组](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/description/)
@@ -47,7 +62,8 @@ Index
     > [三数之和](#三数之和)
 
 **思路 1**
-- 因为是有序的，可以尝试使用双指针解决该问题，时间复杂度为 `O(N)`
+- 首尾双指针
+- 因为是有序的，可以尝试使用首尾双指针解决该问题，时间复杂度为 `O(N)`
 - **Python**（双指针）
     ```python
     class Solution:
@@ -429,7 +445,7 @@ class Solution:
 ```
 
 **思路**
-- 排序 + 双指针
+- 排序 + 首尾双指针
 - 相当于两数之和大于目标值的个数
 
 **Python**
@@ -460,7 +476,172 @@ class Solution:
 ```
 
 
-## 接雨水（一维）
+# 同向双指针
+
+## 最小覆盖子串（Minimum Window Substring）
+> LeetCode/76. 最小覆盖子串
+
+**问题描述**
+```
+给定一个字符串 S 和一个字符串 T，请在 S 中找出包含 T 所有字母的最小子串。
+
+示例：
+    输入: S = "ADOBECODEBANC", T = "ABC"
+    输出: "BANC"
+说明：
+    如果 S 中不存这样的子串，则返回空字符串 ""。
+    如果 S 中存在这样的子串，我们保证它是唯一的答案。
+```
+
+**思路**
+- 同向双指针 + HaspMap
+
+**Python**
+```python
+from collections import Counter
+
+class Solution:
+    def minWindow(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: str
+        """
+        map_t = Counter(t)  # 记录每个字符出现的次数
+        
+        found = dict()  # 保存滑动窗口 [i,j] 中出现的符号及其次数
+        cnt_found = 0  # 记录已经匹配的数量
+        min_len = len(s) + 1  # 记录最短结果
+        
+        res = ""
+        l = 0
+        for r in range(len(s)):
+            if s[r] in map_t:
+                found[s[r]] = found.get(s[r], 0) + 1
+                if found[s[r]] <= map_t[s[r]]:
+                    cnt_found += 1
+            
+            if cnt_found >= len(t):  # 如果存在这样的字串
+                while (s[l] not in map_t) or (s[l] in found and found[s[l]] > map_t[s[l]]):
+                    if s[l] in found and found[s[l]] > map_t[s[l]]:
+                        found[s[l]] -= 1
+                    l += 1
+                    
+                if r - l + 1 < min_len:  # 更新最小结果
+                    min_len = r - l + 1
+                    res = s[l: l + min_len]  # 等价于 s[l: r+1]
+                    
+        return res
+```
+
+
+## 长度最小的子数组（Minimum Size Subarray Sum）
+> LeetCode/[209. 长度最小的子数组](https://leetcode-cn.com/problems/minimum-size-subarray-sum/description/)
+
+**问题描述**
+```
+给定一个含有 n 个正整数的数组和一个正整数 s ，找出该数组中满足其和 ≥ s 的长度最小的连续子数组。如果不存在符合条件的连续子数组，返回 0。
+
+示例: 
+    输入: s = 7, nums = [2,3,1,2,4,3]
+    输出: 2
+
+解释: 子数组 [4,3] 是该条件下的长度最小的连续子数组。
+
+进阶: 如果你已经完成了O(n) 时间复杂度的解法, 请尝试 O(n log n) 时间复杂度的解法。
+```
+
+**思路**
+- 同向双指针
+
+**Python**
+```python
+class Solution:
+    def minSubArrayLen(self, s, A):
+        """
+        :type s: int
+        :type A: List[int]
+        :rtype: int
+        """
+        n = len(A)
+        
+        res = n + 1
+        l = -1
+        cur_sum = 0
+        for r in range(n):
+            if A[r] > s:
+                return 1
+            
+            cur_sum += A[r]
+            
+            if cur_sum >= s:
+                while cur_sum >= s:  # 注意要使用 >=
+                    l += 1  # 因为 l 初始化为 -1，所以要先 ++
+                    cur_sum -= A[l]
+                
+                res = min(res, r - l + 1)
+                    
+        return res if res != n + 1 else 0  # 结果不存在时返回 0
+```
+
+
+# 其他
+
+## 合并两个有序数组
+> LeetCode/[88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/description/)
+
+**问题描述**
+```
+给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
+
+说明:
+    初始化 nums1 和 nums2 的元素数量分别为 m 和 n。
+    你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+
+示例:
+    输入:
+        nums1 = [1,2,3,0,0,0], m = 3
+        nums2 = [2,5,6],       n = 3
+    输出: [1,2,2,3,5,6]
+```
+
+**思路**
+- 从后往前遍历
+
+**Python**
+```python
+class Solution:
+    def merge(self, A, m, B, n):
+        """
+        :type A: List[int]
+        :type m: int
+        :type B: List[int]
+        :type n: int
+        :rtype: void Do not return anything, modify A in-place instead.
+        """
+        
+        i = m - 1  # 指向 A 的末尾
+        j = n - 1  # 指向 B 的末尾
+        p = m + n - 1  # 指向总的末尾
+        
+        while i >= 0 and j >= 0:  # 注意结束条件
+            if A[i] > B[j]:
+                A[p] = A[i]
+                p -= 1
+                i -= 1
+            else:
+                A[p] = B[j]
+                p -= 1
+                j -= 1
+                
+        while j >= 0:  # 如果原 A 数组先排完，需要继续把 B 中的元素放进 A；如果 B 先排完，则不需要
+            A[p] = B[j]
+            p -= 1
+            j -= 1
+```
+
+
+## 接雨水（Trapping Rain Water）（一维）
 > LeetCode/[42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/description/)
 
 **问题描述**
@@ -534,3 +715,58 @@ class Solution:
                     
             return ans
     ```
+
+## 颜色分类（Sort Colors）
+> LeetCode/[75. 颜色分类](https://leetcode-cn.com/problems/sort-colors/description/)
+
+**问题描述**
+```
+给定一个包含红色、白色和蓝色，一共 n 个元素的数组，原地对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。
+
+此题中，我们使用整数 0、 1 和 2 分别表示红色、白色和蓝色。
+
+注意:
+    不能使用代码库中的排序函数来解决这道题。
+
+示例:
+    输入: [2,0,2,1,1,0]
+    输出: [0,0,1,1,2,2]
+
+进阶：
+    一个直观的解决方案是使用计数排序的两趟扫描算法。
+    首先，迭代计算出0、1 和 2 元素的个数，然后按照0、1、2的排序，重写当前数组。
+    你能想出一个仅使用常数空间的一趟扫描算法吗？
+```
+
+**思路**
+- 首尾双指针
+    - `l` 记录最后一个 0 的位置
+    - `r` 记录第一个 2 的位置
+    - `i` 表示当前遍历的元素
+
+**Python**
+```python
+class Solution:
+    def sortColors(self, A):
+        """
+        :type A: List[int]
+        :rtype: void Do not return anything, modify A in-place instead.
+        """
+        n = len(A)
+        
+        l = 0  # l 指示最后一个 0
+        r = n - 1  # r 指示第一个 2
+        
+        i = 0
+        while i <= r:
+            if A[i] == 0:
+                A[i] = A[l]
+                A[l] = 0  # 确定最后一个 0
+                l += 1
+            if A[i] == 2:
+                A[i] = A[r]
+                A[r] = 2  # 确定第一个 2
+                r -= 1
+                i -= 1  # 注意回退，因为不确定原 A[r] 处是什么
+            i += 1
+```
