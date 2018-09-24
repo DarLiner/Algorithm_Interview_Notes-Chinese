@@ -7,9 +7,9 @@ RoadMap
 
 <!-- | A | B | C | D | E | F | G | H | 
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | 
-| 机器学习<br/>[:soccer:](./A-机器学习) | 深度学习<br/>[:basketball:](./B-深度学习) | 自然语言处理<br/>[:hamburger:](./C-自然语言处理) | 计算机视觉<br/>[:fries:](./D-计算机视觉) | 算法<br/>[:apple:](./E-算法) | 数学<br/>[:tangerine:](./F-数学) | 编程语言<br/>[:melon:](./G-编程语言) | 笔试面经<br/>[:cookie:](./H-笔试面经) |  -->
+| 机器学习<br/>[:soccer:](./A-机器学习) | 深度学习<br/>[:basketball:](./A-深度学习) | 自然语言处理<br/>[:hamburger:](./C-自然语言处理) | 计算机视觉<br/>[:fries:](./D-计算机视觉) | 算法<br/>[:apple:](./E-算法) | 数学<br/>[:tangerine:](./F-数学) | 编程语言<br/>[:melon:](./G-编程语言) | 笔试面经<br/>[:cookie:](./H-笔试面经) |  -->
 
-<table style="width:100%; table-layout:fixed;">
+<!-- <table style="width:100%; table-layout:fixed;">
   <tr>
     <td>A</td>
     <td>B</td>
@@ -30,16 +30,16 @@ RoadMap
     <td>编程语言<br/>[:melon:](./G-编程语言)</td>
     <td>笔试面经<br/>[:cookie:](./H-笔试面经)</td>
   </tr>
-</table>
+</table> -->
 
-- :soccer: [<font size=+1>A-机器学习</font>](./A-机器学习)
-- :basketball: [<font size=+1>B-深度学习</font>](./B-深度学习)
-- :hamburger: [<font size=+1>C-自然语言处理</font>](./C-自然语言处理)
-- :fries: [<font size=+1>D-计算机视觉</font>](./D-计算机视觉)
-- :apple: [<font size=+1>E-算法</font>](./E-算法)
-- :tangerine: [<font size=+1>F-数学</font>](./F-数学)
-- :melon: [<font size=+1>G-编程语言</font>](./G-编程语言)
-- :cookie: [<font size=+1>H-笔试面经</font>](./H-笔试面经)
+- :soccer: [<font size=+1>机器学习</font>](./A-机器学习)
+- :basketball: [<font size=+1>深度学习</font>](./A-深度学习)
+- :hamburger: [<font size=+1>自然语言处理</font>](./B-自然语言处理)
+- :fries: [<font size=+1>计算机视觉</font>](./B-计算机视觉)
+- :apple: [<font size=+1>算法</font>](./C-算法)
+- :tangerine: [<font size=+1>数学</font>](./C-数学)
+- :melon: [<font size=+1>编程语言</font>](./C-编程语言)
+- :cookie: [<font size=+1>笔试面经</font>](./D-笔试面经)
 
 <!--
 算法/深度学习/机器学习面试问题整理，想法最初来源于这个[仓库](https://github.com/elviswf/DeepLearningBookQA_cn).
