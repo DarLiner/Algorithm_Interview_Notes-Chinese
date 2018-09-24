@@ -92,16 +92,12 @@ RoadMap
 
 -->
 
-欢迎分享你在深度学习/机器学习面试过程中遇见的问题！
+欢迎分享你在面试中遇见的问题！
 ---
-你可以直接以你遇到的问题作为 issue 标题，然后分享你的回答或者其他参考资料。
+- 你可以直接以你遇到的问题作为 issue 标题，然后分享你的回答或者其他参考资料。
+- 我会经常修改文档的结构。如果文中有链接失效，请告诉我！
 
-当然，你也可以直接创建 PR，分享问题的同时改正我的错误！
-
-> 我会经常修改文档的结构（特别是代码的链接）。如果文中有链接失效，请告诉我！
-> 文档中大部分链接都是指向仓库内的文件或标记；涉及编程代码的链接会指向我的另一个仓库（[Algorithm_for_Interview](https://github.com/imhuay/Algorithm_for_Interview-Chinese)）
-
-Reference
+推荐阅读
 ---
 - exacity/[deeplearningbook-chinese](https://github.com/exacity/deeplearningbook-chinese): 深度学习中文版 
 - elviswf/[DeepLearningBookQA_cn](https://github.com/elviswf/DeepLearningBookQA_cn): 深度学习面试问题 回答对应的DeepLearning中文版页码
@@ -113,8 +109,8 @@ Reference
     - geekcircle/[machine-learning-interview-qa](https://github.com/geekcircle/machine-learning-interview-qa): 人工智能-机器学习笔试面试题解析 
 - [牛客网-讨论区](https://www.nowcoder.com/discuss?type=2&order=0)
 
-### 发布站点
+<!-- ### 发布站点
 - [算法/NLP/深度学习/机器学习面试笔记](https://zhuanlan.zhihu.com/p/41515995) - 知乎
 - [算法/NLP/深度学习/机器学习面试笔记](https://www.jianshu.com/p/55b0703aa1ad) - 简书 
 - [算法/NLP/深度学习/机器学习面试笔记](https://blog.csdn.net/imhuay/article/details/81490564) - CSDN博客 
-- [GitHub 上整理的深度学习/机器学习面试笔记](https://www.v2ex.com/t/473047) - V2EX 
+- [GitHub 上整理的深度学习/机器学习面试笔记](https://www.v2ex.com/t/473047) - V2EX  -->
