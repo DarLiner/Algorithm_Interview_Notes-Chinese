@@ -4,18 +4,18 @@
 
 RoadMap
 ---
-- :pencil2: [<font size=+1>机器学习</font>](./A-机器学习)
-- :pencil2: [<font size=+1>深度学习</font>](./B-深度学习)
-- :pencil2: [<font size=+1>自然语言处理</font>](./C-自然语言处理)
-- :pencil2: [<font size=+1>计算机视觉</font>](./D-计算机视觉)
-- :pencil2: [<font size=+1>算法</font>](./E-算法)
-- :pencil2: [<font size=+1>数学</font>](./F-数学)
-- :pencil2: [<font size=+1>编程语言</font>](./G-编程语言)
-- :pencil2: [<font size=+1>笔试面经</font>](./H-笔试面经)
+- :soccer: [<font size=+1>机器学习</font>](./A-机器学习)
+- :basketball: [<font size=+1>深度学习</font>](./B-深度学习)
+- :hamburger: [<font size=+1>自然语言处理</font>](./C-自然语言处理)
+- :fries: [<font size=+1>计算机视觉</font>](./D-计算机视觉)
+- :apple: [<font size=+1>算法</font>](./E-算法)
+- :tangerine: [<font size=+1>数学</font>](./F-数学)
+- :melon: [<font size=+1>编程语言</font>](./G-编程语言)
+- :cookie: [<font size=+1>笔试面经</font>](./H-笔试面经)
 
 | A | B | C | D | E | F | G | H | 
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | 
-| 机器学习[:pencil2:](./A-机器学习) | 深度学习[:computer:](./B-深度学习) | NLP[:cloud:](./C-自然语言处理) | CV[:couple:](./D-计算机视觉) | 算法[:floppy_disk:](./E-算法)| 数学[:coffee:](./F-数学)| 编程语言[:bulb:](./G-编程语言)| 笔试面经[:hammer:](./H-笔试面经) | 
+| 机器学习[:soccer:](./A-机器学习) | 深度学习[:basketball:](./B-深度学习) | 自然语言处理[:hamburger:](./C-自然语言处理) | 计算机视觉[:fries:](./D-计算机视觉) | 算法[:floppy_disk:](./E-算法)| 数学[:tangerine:](./F-数学)| 编程语言[:melon:](./G-编程语言)| 笔试面经[:cookie:](./H-笔试面经) | 
 
 <!--
 算法/深度学习/机器学习面试问题整理，想法最初来源于这个[仓库](https://github.com/elviswf/DeepLearningBookQA_cn).
@@ -26,6 +26,7 @@ RoadMap
 但是不会包括如前端/测试/JAVA/Android等岗位中有关的问题。
 -->
 
+<!--
 ## RoadMap
 - [数学](./数学)
   - [微积分的本质](./数学/微积分的本质.md)
@@ -58,13 +59,14 @@ RoadMap
     - [专题-面向对象编程](./编程语言/Cpp-面向对象编程.md)
   - Python TODO
 - [笔试面经](./笔试面经)
-<!-- - [project](./project) -->
+- [project](./project)
 - [code](./code)
   - [工具库](./code/工具库)
     - [gensim.FastText 的使用](./机器学习-深度学习-NLP/NLP-词向量.md#gensimmodelsfasttext-使用示例)
   - [倒排索引](./code/model/倒排索引)
-<!-- - [招聘要求](./招聘要求.md) -->
+- [招聘要求](./招聘要求.md)
 
+-->
 
 欢迎分享你在深度学习/机器学习面试过程中遇见的问题！
 ---
