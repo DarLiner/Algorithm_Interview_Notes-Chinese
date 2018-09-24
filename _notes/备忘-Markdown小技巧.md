@@ -8,6 +8,7 @@ Index
 - [自动更新目录](#自动更新目录)
 - [图片居中](#图片居中)
 - [隐藏代码块](#隐藏代码块)
+- [HTML 表格](#html-表格)
 - [Latex 公式](#latex-公式)
 
 <!-- /TOC -->
@@ -33,6 +34,34 @@ Index
 // 代码块，注意上下都要保留空行
 
 </details>
+```
+
+## HTML 表格
+```
+<table style="width:100%; table-layout:fixed;">
+  <tr>
+    <td>No padding, no strides</td>
+    <td>Arbitrary padding, no strides</td>
+    <td>Half padding, no strides</td>
+    <td>Full padding, no strides</td>
+  </tr>
+  <tr>
+    <td><img width="150px" src="../_assets/no_padding_no_strides.gif"></td>
+    <td><img width="150px" src="../_assets/arbitrary_padding_no_strides.gif"></td>
+    <td><img width="150px" src="../_assets/same_padding_no_strides.gif"></td>
+    <td><img width="150px" src="../_assets/full_padding_no_strides.gif"></td>
+  </tr>
+  <tr>
+    <td>No padding, strides</td>
+    <td>Padding, strides</td>
+    <td>Padding, strides (odd)</td>
+  </tr>
+  <tr>
+    <td><img width="150px" src="../_assets/no_padding_strides.gif"></td>
+    <td><img width="150px" src="../_assets/padding_strides.gif"></td>
+    <td><img width="150px" src="../_assets/padding_strides_odd.gif"></td>
+  </tr>
+</table>
 ```
 
 ## Latex 公式
