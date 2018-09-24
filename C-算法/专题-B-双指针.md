@@ -30,9 +30,10 @@ Index
     - [最小覆盖子串（Minimum Window Substring）](#最小覆盖子串minimum-window-substring)
     - [长度最小的子数组（Minimum Size Subarray Sum）](#长度最小的子数组minimum-size-subarray-sum)
 - [其他](#其他)
-    - [合并两个有序数组](#合并两个有序数组)
+    - [合并两个有序数组（Merge Sorted Array）](#合并两个有序数组merge-sorted-array)
     - [接雨水（Trapping Rain Water）（一维）](#接雨水trapping-rain-water一维)
     - [颜色分类（Sort Colors）](#颜色分类sort-colors)
+    - [两个数组的交集（Intersection of Two Arrays）](#两个数组的交集intersection-of-two-arrays)
 
 <!-- /TOC -->
 
@@ -587,7 +588,7 @@ class Solution:
 
 # 其他
 
-## 合并两个有序数组
+## 合并两个有序数组（Merge Sorted Array）
 > LeetCode/[88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/description/)
 
 **问题描述**
@@ -769,4 +770,71 @@ class Solution:
                 r -= 1
                 i -= 1  # 注意回退，因为不确定原 A[r] 处是什么
             i += 1
+```
+
+
+## 两个数组的交集（Intersection of Two Arrays）
+> LeetCode/[349. 两个数组的交集](https://leetcode-cn.com/problems/intersection-of-two-arrays/description/)
+
+**问题描述**
+```
+给定两个数组，编写一个函数来计算它们的交集。
+
+示例 1:
+    输入: nums1 = [1,2,2,1], nums2 = [2,2]
+    输出: [2]
+
+示例 2:
+    输入: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+    输出: [9,4]
+
+说明:
+    输出结果中的每个元素一定是唯一的。
+    我们可以不考虑输出结果的顺序。
+```
+
+**思路**
+- 1）排序 + 二分
+- 2）Hash
+- 3）排序 + 双指针
+
+**Python**（双指针）
+```python
+class Solution:
+    def intersection(self, A, B):
+        """
+        :type A: List[int]
+        :type B: List[int]
+        :rtype: List[int]
+        """
+        A.sort()
+        B.sort()
+        
+        m = len(A)
+        n = len(B)
+        
+        res = []
+        i, j = 0, 0
+        while i < m and j < n:
+            if A[i] < B[j]:
+                i += 1
+            elif A[i] > B[j]:
+                j += 1
+            else:
+                if (i > 0 and A[i - 1] == A[i]) or (j > 0 and B[j - 1] == B[j]):  # 去重
+                    pass
+                else:
+                    res.append(A[i])
+                    
+                i += 1
+                j += 1
+                
+                # i += 1
+                # while i < m and A[i - 1] == A[i]:
+                #     i += 1
+                # j += 1
+                # while j < n and B[j - 1] == B[j]:
+                #     j += 1
+        
+        return res
 ```
