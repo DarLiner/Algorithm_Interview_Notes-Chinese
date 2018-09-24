@@ -1,16 +1,31 @@
-算法/NLP/深度学习/机器学习面试笔记
+算法/深度学习/NLP面试笔记
 ===
 **GitHub** 地址：https://github.com/imhuay/CS_Interview_Notes-Chinese
 
+RoadMap
+---
+- :pencil2: [<font size=+1>机器学习</font>](./A-机器学习)
+- :pencil2: [<font size=+1>深度学习</font>](./B-深度学习)
+- :pencil2: [<font size=+1>自然语言处理</font>](./C-自然语言处理)
+- :pencil2: [<font size=+1>计算机视觉</font>](./D-计算机视觉)
+- :pencil2: [<font size=+1>算法</font>](./E-算法)
+- :pencil2: [<font size=+1>数学</font>](./F-数学)
+- :pencil2: [<font size=+1>编程语言</font>](./G-编程语言)
+- :pencil2: [<font size=+1>笔试面经</font>](./H-笔试面经)
+
+| A | B | C | D | E | F | G | H | 
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | 
+| 机器学习[:pencil2:](./A-机器学习) | 深度学习[:computer:](./B-深度学习) | NLP[:cloud:](./C-自然语言处理) | CV[:couple:](./D-计算机视觉) | 算法[:floppy_disk:](./E-算法)| 数学[:coffee:](./F-数学)| 编程语言[:bulb:](./G-编程语言)| 笔试面经[:hammer:](./H-笔试面经) | 
+
+<!--
 算法/深度学习/机器学习面试问题整理，想法最初来源于这个[仓库](https://github.com/elviswf/DeepLearningBookQA_cn).
-<!-- - 该仓库整理了“花书”《深度学习》中的一些常见问题，其中部分偏理论的问题没有收录，如有需要可以浏览原仓库。 -->
+ - 该仓库整理了“花书”《深度学习》中的一些常见问题，其中部分偏理论的问题没有收录，如有需要可以浏览原仓库。 
 
 此外，还包括我看到的所有机器学习/深度学习面经中的问题。
 除了其中 DL/ML 相关的，其他与算法岗相关的计算机知识也会记录。
 但是不会包括如前端/测试/JAVA/Android等岗位中有关的问题。
+-->
 
-<!-- 替换地址 -->
-<!-- https://github.com/imhuay/CS_Interview_Notes-Chinese/blob/master/ -->
 ## RoadMap
 - [数学](./数学)
   - [微积分的本质](./数学/微积分的本质.md)
