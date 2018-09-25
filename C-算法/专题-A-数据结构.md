@@ -261,7 +261,7 @@ public:
     ```
 
 **Code**（Python）
-> C++ 版本 > 题解-剑指Offer/[重建二叉树](./题解-剑指Offer.md#7-重建二叉树)
+> C++ 版本 > 题解-剑指Offer/[重建二叉树](./题解-剑指Offer#7-重建二叉树)
 ```Python
 # class TreeNode:
 #     def __init__(self, x):

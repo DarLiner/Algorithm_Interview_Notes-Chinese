@@ -20,7 +20,7 @@ Index
 <!-- /TOC -->
 
 ### 会议室
-> LintCode - [920. 会议室](920. 会议室 - LintCode https://www.lintcode.com/problem/meeting-rooms/description)
+> LintCode - [920. 会议室](https://www.lintcode.com/problem/meeting-rooms/description)
 
 **问题描述**
 ```
