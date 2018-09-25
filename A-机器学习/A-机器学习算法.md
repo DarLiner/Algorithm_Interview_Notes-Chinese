@@ -13,59 +13,55 @@
 <!-- TOC -->
 
 - [符号说明](#符号说明)
-- [数学基础](#数学基础)
-  - [微积分](#微积分)
-  - [线性代数 TODO](#线性代数-todo)
-  - [概率论 TODO](#概率论-todo)
-  - [信息论](#信息论)
+- [信息论](#信息论)
 - [逻辑斯蒂回归](#逻辑斯蒂回归)
-  - [逻辑斯蒂回归模型定义](#逻辑斯蒂回归模型定义)
-  - [逻辑斯蒂回归推导](#逻辑斯蒂回归推导)
-  - [多分类逻辑斯蒂回归模型 TODO](#多分类逻辑斯蒂回归模型-todo)
+    - [逻辑斯蒂回归模型定义](#逻辑斯蒂回归模型定义)
+    - [逻辑斯蒂回归推导](#逻辑斯蒂回归推导)
+    - [多分类逻辑斯蒂回归模型 TODO](#多分类逻辑斯蒂回归模型-todo)
 - [支持向量机](#支持向量机)
-  - [支持向量机简述](#支持向量机简述)
-    - [什么是支持向量](#什么是支持向量)
-    - [支持向量机的分类](#支持向量机的分类)
-    - [核函数与核技巧](#核函数与核技巧)
-    - [最大间隔超平面背后的原理](#最大间隔超平面背后的原理)
-  - [支持向量机推导](#支持向量机推导)
-    - [线性可分支持向量机推导](#线性可分支持向量机推导)
+    - [支持向量机简述](#支持向量机简述)
+        - [什么是支持向量](#什么是支持向量)
+        - [支持向量机的分类](#支持向量机的分类)
+        - [核函数与核技巧](#核函数与核技巧)
+        - [最大间隔超平面背后的原理](#最大间隔超平面背后的原理)
+    - [支持向量机推导](#支持向量机推导)
+        - [线性可分支持向量机推导](#线性可分支持向量机推导)
 - [决策树](#决策树)
-  - [信息增益与信息增益比 TODO](#信息增益与信息增益比-todo)
-  - [分类树 - ID3 决策树与 C4.5 决策树 TODO](#分类树---id3-决策树与-c45-决策树-todo)
-  - [决策树如何避免过拟合 TODO](#决策树如何避免过拟合-todo)
-  - [回归树 - CART 决策树](#回归树---cart-决策树)
-    - [CART 回归树算法推导](#cart-回归树算法推导)
-    - [示例: 选择切分变量与切分点](#示例-选择切分变量与切分点)
+    - [信息增益与信息增益比 TODO](#信息增益与信息增益比-todo)
+    - [分类树 - ID3 决策树与 C4.5 决策树 TODO](#分类树---id3-决策树与-c45-决策树-todo)
+    - [决策树如何避免过拟合 TODO](#决策树如何避免过拟合-todo)
+    - [回归树 - CART 决策树](#回归树---cart-决策树)
+        - [CART 回归树算法推导](#cart-回归树算法推导)
+        - [示例: 选择切分变量与切分点](#示例-选择切分变量与切分点)
 - [集成学习](#集成学习)
-  - [集成学习的基本策略(3)](#集成学习的基本策略3)
-    - [1. Boosting](#1-boosting)
-      - [Boosting 策略要解决的两个基本问题](#boosting-策略要解决的两个基本问题)
-    - [2. Bagging](#2-bagging)
-    - [3. Stacking](#3-stacking)
-  - [AdaBoost 算法](#adaboost-算法)
-    - [AdaBoost 算法描述](#adaboost-算法描述)
-    - [AdaBoost 算法要点说明](#adaboost-算法要点说明)
-  - [前向分步算法](#前向分步算法)
-    - [加法模型](#加法模型)
-    - [前向分步算法描述](#前向分步算法描述)
-    - [前向分步算法与 AdaBoost](#前向分步算法与-adaboost)
+    - [集成学习的基本策略(3)](#集成学习的基本策略3)
+        - [1. Boosting](#1-boosting)
+            - [Boosting 策略要解决的两个基本问题](#boosting-策略要解决的两个基本问题)
+        - [2. Bagging](#2-bagging)
+        - [3. Stacking](#3-stacking)
+    - [AdaBoost 算法](#adaboost-算法)
+        - [AdaBoost 算法描述](#adaboost-算法描述)
+        - [AdaBoost 算法要点说明](#adaboost-算法要点说明)
+    - [前向分步算法](#前向分步算法)
+        - [加法模型](#加法模型)
+        - [前向分步算法描述](#前向分步算法描述)
+        - [前向分步算法与 AdaBoost](#前向分步算法与-adaboost)
 - [梯度提升决策树 GBDT](#梯度提升决策树-gbdt)
-  - [提升树 Boosting Tree](#提升树-boosting-tree)
-    - [提升树算法描述](#提升树算法描述)
-  - [梯度提升(GB)算法](#梯度提升gb算法)
-  - [GBDT 算法描述](#gbdt-算法描述)
-  - [XGBoost 算法](#xgboost-算法)
-    - [XGBoost 与 GB 的主要区别](#xgboost-与-gb-的主要区别)
-    - [XGBoost 的一些内部优化](#xgboost-的一些内部优化)
+    - [提升树 Boosting Tree](#提升树-boosting-tree)
+        - [提升树算法描述](#提升树算法描述)
+    - [梯度提升(GB)算法](#梯度提升gb算法)
+    - [GBDT 算法描述](#gbdt-算法描述)
+    - [XGBoost 算法](#xgboost-算法)
+        - [XGBoost 与 GB 的主要区别](#xgboost-与-gb-的主要区别)
+        - [XGBoost 的一些内部优化](#xgboost-的一些内部优化)
 - [随机森林](#随机森林)
 - [机器学习实践](#机器学习实践)
-  - [Box–Muller 变换](#boxmuller-变换)
+    - [Box–Muller 变换](#boxmuller-变换)
 - [降维](#降维)
-  - [SVD](#svd)
-  - [PCA](#pca)
-  - [t-SNE](#t-sne)
-  - [Reference](#reference)
+    - [SVD](#svd)
+    - [PCA](#pca)
+    - [t-SNE](#t-sne)
+    - [Reference](#reference)
 
 <!-- /TOC -->
 
@@ -75,54 +71,51 @@
 - 基本遵从《统计学习方法》一书中的符号表示。
 - 除特别说明，默认`w`为行向量，`x`为列向量，以避免在`wx`中使用转置符号；但有些公式为了更清晰区分向量与标量，依然会使用`^T`的上标，注意区分。
 
-  输入实例`x`的特征向量记为：
+    输入实例`x`的特征向量记为：
 
-  [![](../_assets/公式_20180713114026.png)](http://www.codecogs.com/eqnedit.php?latex=x=(x^{(1)},x^{(2)},\cdots,x^{(n)})^T)
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=x=(x^{(1)},x^{(2)},\cdots,x^{(n)})^T"><img src="../_assets/公式_20180713114026.png" height="" /></a></div>
 
-  注意：`x_i` 和 `x^(i)` 含义不同，前者表示训练集中第 i 个实例，后者表示特征向量中的第 i 个分量；因此，通常记训练集为：
+    注意：`x_i` 和 `x^(i)` 含义不同，前者表示训练集中第 i 个实例，后者表示特征向量中的第 i 个分量；因此，通常记训练集为：
 
-  [![](../_assets/公式_20180713132400.png)](http://www.codecogs.com/eqnedit.php?latex=T=\left&space;\{&space;(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)&space;\right&space;\})
-  > 特征向量用小`n`表示维数，训练集用大`N`表示个数
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=T=\left&space;\{&space;(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)&space;\right&space;\}"><img src="../_assets/公式_20180713132400.png" height="" /></a></div>
+
+    > 特征向量用小`n`表示维数，训练集用大`N`表示个数
 
 - **公式说明**
 
-  所有公式都可以**点击**跳转至编辑页面，但是部分公式符号会与超链接中的转义冲突；如果编辑页面的公式与本页面中的不同，可以打开源文件，通过原链接打开。
+    所有公式都可以**点击**跳转至编辑页面，但是部分公式符号会与超链接中的转义冲突；如果编辑页面的公式与本页面中的不同，可以打开源文件，通过原链接打开。
 
 
-# 数学基础
-## 微积分
-> ../数学/[微积分的本质](./数学/微积分的本质.md)
-## 线性代数 TODO
-
-## 概率论 TODO
-
-## 信息论
+# 信息论
 > 《深度学习》 3.13 信息论
 - 信息论的基本想法是：一件不太可能的事发生，要比一件非常可能的事发生，提供更多的信息。
 - 该想法可描述为以下性质：
-  1. 非常可能发生的事件信息量要比较少，并且极端情况下，一定能够发生的事件应该没有信息量。
-  2. 比较不可能发生的事件具有更大的信息量。
-  3. 独立事件应具有增量的信息。例如，投掷的硬币两次正面朝上传递的信息量，应该是投掷一次硬币正面朝上的信息量的两倍。
+    1. 非常可能发生的事件信息量要比较少，并且极端情况下，一定能够发生的事件应该没有信息量。
+    2. 比较不可能发生的事件具有更大的信息量。
+    3. 独立事件应具有增量的信息。例如，投掷的硬币两次正面朝上传递的信息量，应该是投掷一次硬币正面朝上的信息量的两倍。
 
 <h3>信息熵 与 自信息</h3>
+
 - **自信息**（self-information）是一种量化以上性质的函数，定义一个事件`x`的自信息为：
 
-  [![](../_assets/公式_20180610215339.png)](http://www.codecogs.com/eqnedit.php?latex=I(x)=-\log&space;P(x))
-  > 当该对数的底数为自然对数 e 时，单位为奈特（nats）；当以 2 为底数时，单位为比特（bit）或香农（shannons）
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=I(x)=-\log&space;P(x)"><img src="../_assets/公式_20180610215339.png" height="" /></a></div>
+
+    > 当该对数的底数为自然对数 e 时，单位为奈特（nats）；当以 2 为底数时，单位为比特（bit）或香农（shannons）
 
 - 自信息只处理单个的输出。
 - **信息熵**（Information-entropy）用于对整个概率分布中的**不确定性总量**进行量化：
 
-  [![](../_assets/公式_20180610215417.png)](http://www.codecogs.com/eqnedit.php?latex=H(\mathrm{X})=\mathbb{E}_{\mathrm{X}&space;\sim&space;P}[I(x)]=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;P(x))
-  > 信息论中，记 `0log0 = 0`
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=H(\mathrm{X})=\mathbb{E}_{\mathrm{X}&space;\sim&space;P}[I(x)]=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;P(x)"><img src="../_assets/公式_20180610215417.png" height="" /></a></div>
+
+    > 信息论中，记 `0log0 = 0`
 
 <h3>交叉熵 与 相对熵/KL散度</h3>
 
 - 定义 **P 对 Q** 的 **KL 散度**（Kullback-Leibler divergence）：
 
-  [![](../_assets/公式_20180610215445.png)](http://www.codecogs.com/eqnedit.php?latex=D_P(Q)=\mathbb{E}_{\mathrm{X}\sim&space;P}\left&space;[&space;\log&space;\frac{P(x)}{Q(x)}&space;\right&space;]=\sum_{x&space;\in&space;\mathrm{X}}P(x)\left&space;[&space;\log&space;P(x)-\log&space;Q(x)&space;\right&space;])
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=D_P(Q)=\mathbb{E}_{\mathrm{X}\sim&space;P}\left&space;[&space;\log&space;\frac{P(x)}{Q(x)}&space;\right&space;]=\sum_{x&space;\in&space;\mathrm{X}}P(x)\left&space;[&space;\log&space;P(x)-\log&space;Q(x)&space;\right&space;]"><img src="../_assets/公式_20180610215445.png" height="" /></a></div>
 
-**KL 散度在信息论中度量的是哪个直观量**
+**KL 散度在信息论中度量的是哪个直观量？**
 - 在离散型变量的情况下， KL 散度衡量的是：当我们使用一种被设计成能够使得概率分布 Q 产生的消息的长度最小的编码，发送包含由概率分布 P 产生的符号的消息时，所需要的额外信息量。
 
 **KL散度的性质**：
@@ -131,15 +124,17 @@
 
 **交叉熵**（cross-entropy）：
 
-[![](../_assets/公式_20180610215522.png)](http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=-\mathbb{E}_{\mathrm{X}\sim&space;P}\log&space;Q(x)=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;Q(x))
+<div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=-\mathbb{E}_{\mathrm{X}\sim&space;P}\log&space;Q(x)=-\sum_{x&space;\in&space;\mathrm{X}}P(x)\log&space;Q(x)"><img src="../_assets/公式_20180610215522.png" height="" /></a></div>
 
 > [信息量，信息熵，交叉熵，KL散度和互信息（信息增益）](https://blog.csdn.net/haolexiao/article/details/70142571) - CSDN博客
 
 **交叉熵 与 KL 散度的关系**
 - **针对 Q 最小化交叉熵等价于最小化 P 对 Q 的 KL 散度**，因为 Q 并不参与被省略的那一项。
-  [![](../_assets/公式_20180610215554.png)](http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=H(P)&plus;D_P(Q))
+
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=H_P(Q)=H(P)&plus;D_P(Q)"><img src="../_assets/公式_20180610215554.png" height="" /></a></div>
+
 - 最大似然估计中，最小化 KL 散度其实就是在最小化分布之间的交叉熵。
-  > 《深度学习》 ch5.5 - 最大似然估计
+    > 《深度学习》 ch5.5 - 最大似然估计
 
 
 # 逻辑斯蒂回归

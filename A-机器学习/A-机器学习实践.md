@@ -9,20 +9,19 @@ Index
 ---
 <!-- TOC -->
 
-  - [超参数选择](#超参数选择)
+- [超参数选择](#超参数选择)
     - [Grid Search](#grid-search)
     - [Random Search](#random-search)
     - [相关库（未使用）](#相关库未使用)
-  - [偏差与方差](#偏差与方差)
-  - [几种参数估计的区别于联系: MLE、MAP、贝叶斯 TODO](#几种参数估计的区别于联系-mlemap贝叶斯-todo)
-  - [余弦相似度（Cos距离）与欧氏距离的区别和联系](#余弦相似度cos距离与欧氏距离的区别和联系)
-  - [监督学习和无监督学习](#监督学习和无监督学习)
-  - [熵，求投掷均匀正六面体骰子的熵](#熵求投掷均匀正六面体骰子的熵)
-  - [混淆矩阵、模型度量指标：准确率、精确率、召回率、F1 值等](#混淆矩阵模型度量指标准确率精确率召回率f1-值等)
-  - [如何处理数据中的缺失值](#如何处理数据中的缺失值)
-  - [介绍一个完整的机器学习项目流程](#介绍一个完整的机器学习项目流程)
+- [几种参数估计的区别于联系: MLE、MAP、贝叶斯 TODO](#几种参数估计的区别于联系-mlemap贝叶斯-todo)
+- [余弦相似度（Cos距离）与欧氏距离的区别和联系](#余弦相似度cos距离与欧氏距离的区别和联系)
+- [监督学习和无监督学习](#监督学习和无监督学习)
+- [熵，求投掷均匀正六面体骰子的熵](#熵求投掷均匀正六面体骰子的熵)
+- [混淆矩阵、模型度量指标：准确率、精确率、召回率、F1 值等](#混淆矩阵模型度量指标准确率精确率召回率f1-值等)
+- [如何处理数据中的缺失值](#如何处理数据中的缺失值)
+- [介绍一个完整的机器学习项目流程](#介绍一个完整的机器学习项目流程)
 - [数据清洗与特征处理](#数据清洗与特征处理)
-  - [关联规则挖掘的 3 个度量指标：支持度、置信度、提升度](#关联规则挖掘的-3-个度量指标支持度置信度提升度)
+- [关联规则挖掘的 3 个度量指标：支持度、置信度、提升度](#关联规则挖掘的-3-个度量指标支持度置信度提升度)
 
 <!-- /TOC -->
 
@@ -66,7 +65,7 @@ Index
 > geekcircle/machine-learning-interview-qa/[7.md](https://github.com/geekcircle/machine-learning-interview-qa/blob/master/questions/7.md)
 
 什么是熵？
-> 深度学习/理论知识/[16. 信息熵、KL 散度（相对熵）与交叉熵**](../深度学习/README.md#16-信息熵kl-散度相对熵与交叉熵)
+> 深度学习/理论知识/[信息熵、KL 散度（相对熵）与交叉熵**](../A-深度学习/《深度学习》整理#信息熵kl-散度相对熵与交叉熵)
 
 **求投掷均匀正六面体骰子的熵**
 
@@ -74,10 +73,11 @@ Index
 
 - 答：
 
-    硬币：[![](../_assets/公式_20180620160408.png)](http://www.codecogs.com/eqnedit.php?latex=-\sum^{n}_{i=1}P(X_i)\log&space;P(X_i)&space;=&space;-2*\frac{1}{2}*\log&space;P(\frac{1}{2})\approx&space;1&space;\text{bit})
+    硬币：<div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=-\sum^{n}_{i=1}P(X_i)\log&space;P(X_i)&space;=&space;-2*\frac{1}{2}*\log&space;P(\frac{1}{2})\approx&space;1&space;\text{bit}"><img src="../_assets/公式_20180620160408.png" height="" /></a></div>
+    
 
-    六面体：[![](../_assets/公式_20180620160538.png)](http://www.codecogs.com/eqnedit.php?latex=-\sum^{n}_{i=1}P(X_i)\log&space;P(X_i)&space;=&space;-6*\frac{1}{6}*\log&space;P(\frac{1}{6})\approx&space;2.6&space;\text{bit})
-
+    六面体：<div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=-\sum^{n}_{i=1}P(X_i)\log&space;P(X_i)&space;=&space;-6*\frac{1}{6}*\log&space;P(\frac{1}{6})\approx&space;2.6&space;\text{bit}"><img src="../_assets/公式_20180620160538.png" height="" /></a></div>
+    
 
 ## 混淆矩阵、模型度量指标：准确率、精确率、召回率、F1 值等
 
@@ -88,26 +88,22 @@ Index
 - False Positive(FP)：将负类预测为正类数 → 误报 (Type I error).
 - False Negative(FN)：将正类预测为负类数 → 漏报 (Type II error).
 
-    ![](../_assets/confusion_matrix.png)
+    <div align="center"><img src="../_assets/confusion_matrix.png" height="" /></div>
 
 **准确率**（accuracy）
-
-![](../_assets/TIM截图20180620171915.png)
+    <div align="center"><img src="../_assets/TIM截图20180620171915.png" height="" /></div>
 
 **精确率**（precision）
-
-![](../_assets/TIM截图20180620171300.png)
+    <div align="center"><img src="../_assets/TIM截图20180620171300.png" height="" /></div>
 
 > 准确率与精确率的区别：
 >> 在正负样本不平衡的情况下，**准确率**这个评价指标有很大的缺陷。比如在互联网广告里面，点击的数量是很少的，一般只有千分之几，如果用acc，即使全部预测成负类（不点击）acc 也有 99% 以上，没有意义。
     
 **召回率**（recall, sensitivity, true positive rate）
-
-![](../_assets/TIM截图20180620190555.png)
+    <div align="center"><img src="../_assets/TIM截图20180620190555.png" height="" /></div>
 
 **F1值**——精确率和召回率的调和均值
-
-![](../_assets/TIM截图20180620191137.png)
+    <div align="center"><img src="../_assets/TIM截图20180620191137.png" height="" /></div>
 
 > 只有当精确率和召回率都很高时，F1值才会高
 
@@ -205,38 +201,31 @@ Index
     这些工作流程主要是工程实践上总结出的一些经验。并不是每个项目都包含完整的一个流程。这里的部分只是一个指导性的说明，只有多实践，多积累项目经验，才会有自己更深刻的认识。
 
 
-# 数据清洗与特征处理
+## 数据清洗与特征处理
 > geekcircle/machine-learning-interview-qa/[8.md](https://github.com/geekcircle/machine-learning-interview-qa/blob/master/questions/8.md)
 
-**数据清洗**
-
-**特征处理**
-
-![](../_assets/数据清洗与特征处理.jpg)
+<!-- <div align="center"><img src="../_assets/数据清洗与特征处理.jpg" height="" /></div> -->
 
 > [机器学习中的数据清洗与特征处理综述](https://tech.meituan.com/machinelearning-data-feature-process.html) - 美团点评技术
 
 ## 关联规则挖掘的 3 个度量指标：支持度、置信度、提升度
 
 **支持度**（Support）
----
-X → Y 的支持度表示项集 {X,Y} 在总项集中出现的概率
+- X → Y 的支持度表示项集 {X,Y} 在总项集中出现的概率
 
-[![](../_assets/公式_20180620204006.png)](http://www.codecogs.com/eqnedit.php?latex=Support(X\rightarrow&space;Y)=\frac{P(X\cup&space;Y)}{P(I)}=\frac{\text{num}(X\cup&space;Y)}{\text{num}(I)})
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=Support(X\rightarrow&space;Y)=\frac{P(X\cup&space;Y)}{P(I)}=\frac{\text{num}(X\cup&space;Y)}{\text{num}(I)}"><img src="../_assets/公式_20180620204006.png" height="" /></a></div>
 
-其中，I 表示总事务集，`num()`表示事务集中特定项集出现的次数，`P(X)=num(X)/num(I)`
+- 其中，I 表示总事务集，`num()`表示事务集中特定项集出现的次数，`P(X)=num(X)/num(I)`
 
 **置信度**（Confidence）
----
-X → Y 的置信度表示在先决条件 X 发生的情况下，由规则 X → Y 推出 Y 的概率。
+- X → Y 的置信度表示在先决条件 X 发生的情况下，由规则 X → Y 推出 Y 的概率。
 
-[![](../_assets/公式_20180620205055.png)](http://www.codecogs.com/eqnedit.php?latex=Confidence(X\rightarrow&space;Y)=P(Y|X)=\frac{P(X\cup&space;Y)}{P(X)}=\frac{\text{num}(X\cup&space;Y)}{\text{num}(X)})
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=Confidence(X\rightarrow&space;Y)=P(Y|X)=\frac{P(X\cup&space;Y)}{P(X)}=\frac{\text{num}(X\cup&space;Y)}{\text{num}(X)}"><img src="../_assets/公式_20180620205055.png" height="" /></a></div>
 
 **提升度**（Lift）
----
-X → Y 的提升度表示含有X的条件下，同时含有Y的概率，与Y总体发生的概率之比。
+- X → Y 的提升度表示含有X的条件下，同时含有Y的概率，与Y总体发生的概率之比。
 
-[![](../_assets/公式_20180620213601.png)](http://www.codecogs.com/eqnedit.php?latex={\displaystyle&space;{\begin{aligned}&space;Lift(X\rightarrow&space;Y)&=\frac{P(Y|X)}{P(Y)}=\frac{Confidence(X\rightarrow&space;Y)}{\text{num}(Y)/\text{num}(I)}\\&space;&=\frac{P(X\cup&space;Y)}{P(X)P(Y)}=\frac{\text{num}(X\cup&space;Y)\text{num}(I)}{\text{num}(X)\text{num}(Y)}&space;\end{aligned}}})
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex={\displaystyle&space;{\begin{aligned}&space;Lift(X\rightarrow&space;Y)&=\frac{P(Y|X)}{P(Y)}=\frac{Confidence(X\rightarrow&space;Y)}{\text{num}(Y)/\text{num}(I)}\\&space;&=\frac{P(X\cup&space;Y)}{P(X)P(Y)}=\frac{\text{num}(X\cup&space;Y)\text{num}(I)}{\text{num}(X)\text{num}(Y)}&space;\end{aligned}}}"><img src="../_assets/公式_20180620213601.png" height="" /></a></div>
 
 规则的有效性：
 ---
