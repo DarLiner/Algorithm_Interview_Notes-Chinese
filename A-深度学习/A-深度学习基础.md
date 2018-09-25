@@ -47,8 +47,6 @@ Index
             - [Dropout 与 Bagging 的不同](#dropout-与-bagging-的不同)
 - [深度学习实践](#深度学习实践)
     - [参数初始化](#参数初始化)
-- [CNN 卷积神经网络](#cnn-卷积神经网络)
-    - [CNN 与 LSTM 的区别](#cnn-与-lstm-的区别)
 
 <!-- /TOC -->
 
@@ -100,45 +98,45 @@ Index
   而**反向传播算法**就是用于计算该梯度的具体方法，其本质是利用**链式法则**对每个参数求偏导。
 
 ## 反向传播的公式推导
-> 数学/深度学习的核心/[反向传播的 4 个基本公式](../数学/深度学习的核心.md#323-反向传播的-4-个基本公式)
+> 数学/深度学习的核心/[反向传播的 4 个基本公式](../C-数学/B-深度学习的核心#反向传播的-4-个基本公式)
 - 可以用 4 个公式总结反向传播的过程
 
-  **标量形式**：
+    **标量形式**：
 
-  [![](../_assets/公式_20180705190236.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{\partial&space;{\color{Red}&space;a_j^{(L)}}}=\frac{\partial&space;C({\color{Red}&space;a_j^{(L)}},y_j)}{\partial&space;{\color{Red}&space;a_j^{(L)}}}&space;\end{aligned})
+    [![](../_assets/公式_20180705190236.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{\partial&space;{\color{Red}&space;a_j^{(L)}}}=\frac{\partial&space;C({\color{Red}&space;a_j^{(L)}},y_j)}{\partial&space;{\color{Red}&space;a_j^{(L)}}}&space;\end{aligned})
 
-  [![](../_assets/公式_20180705134851.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{{\color{Red}&space;\partial&space;a_j^{(l)}}}={\color{Teal}\sum_{k=0}^{n_l-1}}&space;\frac{\partial&space;z_k^{(l&plus;1)}}{{\color{Red}&space;\partial&space;a_j^{(l)}}}&space;\frac{{\color{Blue}&space;\partial&space;a_k^{(l&plus;1)}}}{\partial&space;z_k^{(l&plus;1)}}&space;\frac{\partial&space;C}{{\color{Blue}&space;\partial&space;a_k^{(l&plus;1)}}}&space;\end{aligned})
+    [![](../_assets/公式_20180705134851.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{{\color{Red}&space;\partial&space;a_j^{(l)}}}={\color{Teal}\sum_{k=0}^{n_l-1}}&space;\frac{\partial&space;z_k^{(l&plus;1)}}{{\color{Red}&space;\partial&space;a_j^{(l)}}}&space;\frac{{\color{Blue}&space;\partial&space;a_k^{(l&plus;1)}}}{\partial&space;z_k^{(l&plus;1)}}&space;\frac{\partial&space;C}{{\color{Blue}&space;\partial&space;a_k^{(l&plus;1)}}}&space;\end{aligned})
 
-  [![](../_assets/公式_20180705154543.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{{\color{Magenta}&space;\partial&space;w_{j,k}^{(l)}}}=\frac{\partial&space;z_j^{(l)}}{{\color{Magenta}&space;\partial&space;w_{j,k}^{(l)}}}\frac{{\color{Red}\partial&space;a_j^{(l)}}}{\partial&space;z_j^{(l)}}\frac{\partial&space;C}{{\color{Red}\partial&space;a_j^{(l)}}}&space;\end{aligned})
+    [![](../_assets/公式_20180705154543.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{{\color{Magenta}&space;\partial&space;w_{j,k}^{(l)}}}=\frac{\partial&space;z_j^{(l)}}{{\color{Magenta}&space;\partial&space;w_{j,k}^{(l)}}}\frac{{\color{Red}\partial&space;a_j^{(l)}}}{\partial&space;z_j^{(l)}}\frac{\partial&space;C}{{\color{Red}\partial&space;a_j^{(l)}}}&space;\end{aligned})
 
-  [![](../_assets/公式_20180705154650.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{{\color{Magenta}&space;\partial&space;b_{j}^{(l)}}}=\frac{\partial&space;z_j^{(l)}}{{\color{Magenta}&space;\partial&space;b_{j}^{(l)}}}\frac{{\color{Red}\partial&space;a_j^{(l)}}}{\partial&space;z_j^{(l)}}\frac{\partial&space;C}{{\color{Red}\partial&space;a_j^{(l)}}}&space;\end{aligned})
-  > 上标 `(l)` 表示网络的层，`(L)` 表示输出层（最后一层）；下标 `j` 和 `k` 指示神经元的位置；`w_jk` 表示 `l` 层的第 `j` 个神经元与`(l-1)`层第 `k` 个神经元连线上的权重
+    [![](../_assets/公式_20180705154650.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{{\color{Magenta}&space;\partial&space;b_{j}^{(l)}}}=\frac{\partial&space;z_j^{(l)}}{{\color{Magenta}&space;\partial&space;b_{j}^{(l)}}}\frac{{\color{Red}\partial&space;a_j^{(l)}}}{\partial&space;z_j^{(l)}}\frac{\partial&space;C}{{\color{Red}\partial&space;a_j^{(l)}}}&space;\end{aligned})
+    
+    > 上标 `(l)` 表示网络的层，`(L)` 表示输出层（最后一层）；下标 `j` 和 `k` 指示神经元的位置；`w_jk` 表示 `l` 层的第 `j` 个神经元与`(l-1)`层第 `k` 个神经元连线上的权重
 
 - **符号说明**，其中：
-  - `(w,b)` 为网络参数：权值和偏置
-  - `z` 表示上一层激活值的线性组合
-  - `a` 即 "activation"，表示每一层的激活值，上标`(l)`表示所在隐藏层，`(L)`表示输出层
-  - `C` 表示激活函数，其参数为神经网络输出层的激活值`a^(L)`，与样本的标签`y`
+    - `(w,b)` 为网络参数：权值和偏置
+    - `z` 表示上一层激活值的线性组合
+    - `a` 即 "activation"，表示每一层的激活值，上标`(l)`表示所在隐藏层，`(L)`表示输出层
+    - `C` 表示激活函数，其参数为神经网络输出层的激活值`a^(L)`，与样本的标签`y`
 
-    ![](../_assets/TIM截图20180704193955.png)
+        ![](../_assets/TIM截图20180704193955.png)
 
 - 以 **均方误差（MSE）** 损失函数为例，有
 
-  [![](../_assets/公式_20180705190536.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{\partial&space;{\color{Red}&space;a_j^{(L)}}}&=\frac{\partial&space;C({\color{Red}&space;a_j^{(L)}},y_j)}{\partial&space;{\color{Red}&space;a_j^{(L)}}}&space;\\&space;&=\frac{\partial&space;\left&space;(&space;\frac{1}{2}({\color{Red}a_j^{(L)}}-y_j)^2&space;\right&space;)&space;}{\partial&space;{\color{Red}a_j^{(L)}}}={\color{Red}a_j^{(L)}}-y&space;\end{aligned})
+    [![](../_assets/公式_20180705190536.png)](http://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\frac{\partial&space;C}{\partial&space;{\color{Red}&space;a_j^{(L)}}}&=\frac{\partial&space;C({\color{Red}&space;a_j^{(L)}},y_j)}{\partial&space;{\color{Red}&space;a_j^{(L)}}}&space;\\&space;&=\frac{\partial&space;\left&space;(&space;\frac{1}{2}({\color{Red}a_j^{(L)}}-y_j)^2&space;\right&space;)&space;}{\partial&space;{\color{Red}a_j^{(L)}}}={\color{Red}a_j^{(L)}}-y&space;\end{aligned})
 
 - Nielsen 的课程中提供了另一种更利于计算的表述，本质上是一样的。
 
-  ![](../_assets/TIM截图20180705162841.png)
-  > [The four fundamental equations behind backpropagation](http://neuralnetworksanddeeplearning.com/chap2.html#the_four_fundamental_equations_behind_backpropagation)
+    ![](../_assets/TIM截图20180705162841.png)
+
+    > [The four fundamental equations behind backpropagation](http://neuralnetworksanddeeplearning.com/chap2.html#the_four_fundamental_equations_behind_backpropagation)
 
 
 # 激活函数
 
 ## 激活函数的作用——为什么要使用非线性激活函数？
-- 使用**激活函数**的目的是为了向网络中加入**非线性因素**；
-
-  从而加强网络的表示能力，解决**线性模型**无法解决的问题
-  > [神经网络激励函数的作用是什么？有没有形象的解释？](https://www.zhihu.com/question/22334626) - 知乎 
+- 使用**激活函数**的目的是为了向网络中加入**非线性因素**；加强网络的表示能力，解决**线性模型**无法解决的问题
+    > [神经网络激励函数的作用是什么？有没有形象的解释？](https://www.zhihu.com/question/22334626) - 知乎 
   
 **为什么加入非线性因素能够加强网络的表示能力？——神经网络的万能近似定理**
 - 神经网络的万能近似定理认为主要神经网络具有至少一个非线性隐藏层，那么只要给予网络足够数量的隐藏单元，它就可以以任意的精度来近似任何**从一个有限维空间到另一个有限维空间**的函数。
@@ -151,20 +149,19 @@ Index
 
 ## 常见的激活函数
 > 《深度学习》 6.3 隐藏单元
+
 ### 整流线性单元 `ReLU`
-- 公式与图像
-
-  [![](../_assets/公式_20180610213451.png)](http://www.codecogs.com/eqnedit.php?latex=g(z)=\max(0,z))
-
-  ![](../_assets/TIM截图20180608212808.png) 
 - ReLU 通常是激活函数较好的默认选择
+
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=g(z)=\max(0,z)"><img src="../_assets/公式_20180610213451.png" height="" /></a></div>
+    <div align="center"><img src="../_assets/TIM截图20180608212808.png" height="" /></div>
 
 #### `ReLU` 的拓展
 - `ReLU` 及其扩展都基于以下公式：
 
-  [![](../_assets/公式_20180610214123.png)](http://www.codecogs.com/eqnedit.php?latex=g(z;\alpha)&space;=\max(0,z)&plus;\alpha\min(0,z))
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=g(z;\alpha)&space;=\max(0,z)&plus;\alpha\min(0,z)"><img src="../_assets/公式_20180610214123.png" height="" /></a></div>
 
-  当 `α=0` 时，即标准的线性整流单元
+    当 `α=0` 时，即标准的线性整流单元
 - **绝对值整流**（absolute value rectification）
     
   固定 `α = -1`，此时整流函数即**绝对值函数** `g(z)=|z|`
@@ -176,6 +173,7 @@ Index
 - **参数化整流线性单元**（parametric ReLU, PReLU, He et al., 2015）
 
   将 `α` 作为一个可学习的参数
+  
 - **`maxout` 单元** (Goodfellow et al., 2013a)
 
   `maxout` 单元 进一步扩展了 `ReLU`，它是一个可学习的 `k` 段函数
@@ -189,16 +187,14 @@ Index
   output = K.max(K.dot(x, W) + b, axis=1)
   ```
   > 参数数量是普通全连接层的 k 倍
-  >
-  > [深度学习（二十三）Maxout网络学习](https://blog.csdn.net/hjimce/article/details/50414467) - CSDN博客
+  >> [深度学习（二十三）Maxout网络学习](https://blog.csdn.net/hjimce/article/details/50414467) - CSDN博客
+
 ### `sigmoid` 与 `tanh`
-- `sigmoid(z)`，常记作 `σ(z)`:
-  
-  [![](../_assets/公式_20180610214846.png)](http://www.codecogs.com/eqnedit.php?latex=\sigma(z)=\frac{1}{1&plus;\exp(-z)})
-
-  ![](../_assets/TIM截图20180608195851.png)
-
+- `sigmoid(z)`，常记作 `σ(z)`；
 - `tanh(z)` 的图像与 `sigmoid(z)` 大致相同，区别是**值域**为 `(-1, 1)`
+  
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\sigma(z)=\frac{1}{1&plus;\exp(-z)}"><img src="../_assets/公式_20180610214846.png" height="" /></a></div>
+    <div align="center"><img src="../_assets/TIM截图20180608195851.png" height="" /></div>
 
 ### 其他激活函数
 > 很多未发布的非线性激活函数也能表现的很好，但没有比流行的激活函数表现的更好。比如使用 `cos` 也能在 MNIST 任务上得到小于 1% 的误差。通常新的隐藏单元类型只有在被明确证明能够提供显著改进时才会被发布。
@@ -213,36 +209,36 @@ Index
 
 - **径向基函数（radial basis function, RBF）**：
 
-  [![](../_assets/公式_20180610215150.png)](http://www.codecogs.com/eqnedit.php?latex=h_i=\exp(-\frac{1}{\sigma_i^2}\left&space;\|&space;W_{:,i}-x&space;\right&space;\|^2))
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=h_i=\exp(-\frac{1}{\sigma_i^2}\left&space;\|&space;W_{:,i}-x&space;\right&space;\|^2)"><img src="../_assets/公式_20180610215150.png" height="" /></a></div>
 
   在神经网络中很少使用 RBF 作为激活函数，因为它对大部分 x 都饱和到 0，所以很难优化。
 
 - **softplus**：
 
-  `softplus` 是 `ReLU` 的平滑版本。
+    `softplus` 是 `ReLU` 的平滑版本。
 
-  [![](../_assets/公式_20180610215222.png)](http://www.codecogs.com/eqnedit.php?latex=g(z)=\zeta(z)=\log(1&plus;\exp(z)))
-
-  ![](../_assets/TIM截图20180608204913.png)
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=g(z)=\zeta(z)=\log(1&plus;\exp(z))"><img src="../_assets/公式_20180610215222.png" height="" /></a></div>
+    <div align="center"><img src="../_assets/TIM截图20180608204913.png" height="" /></div>
 
   通常不鼓励使用 softplus 函数，大家可能希望它具有优于整流线性单元的性质，但根据经验来看，它并没有。
   > (Glorot et al., 2011a) 比较了这两者，发现 ReLU 的结果更好。
 
 - **硬双曲正切函数（hard tanh）**：
 
-  [![](../_assets/公式_20180610215308.png)](http://www.codecogs.com/eqnedit.php?latex=g(a)=\max(-1,\min(1,a)))
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=g(a)=\max(-1,\min(1,a))"><img src="../_assets/公式_20180610215308.png" height="" /></a></div>
 
   它的形状和 tanh 以及整流线性单元类似，但是不同于后者，它是有界的。
   
 ## `ReLU` 相比 `sigmoid` 的优势 (3)
+
 1. **避免梯度消失*****
-  - `sigmoid`函数在输入取绝对值非常大的正值或负值时会出现**饱和**现象——在图像上表现为变得很平，此时函数会对输入的微小变化不敏感——从而造成梯度消失；
-  - `ReLU` 的导数始终是一个常数——负半区为 0，正半区为 1——所以不会发生梯度消失现象
+    - `sigmoid`函数在输入取绝对值非常大的正值或负值时会出现**饱和**现象——在图像上表现为变得很平，此时函数会对输入的微小变化不敏感——从而造成梯度消失；
+    - `ReLU` 的导数始终是一个常数——负半区为 0，正半区为 1——所以不会发生梯度消失现象
 2. **减缓过拟合****
-  - `ReLU` 在负半区的输出为 0。一旦神经元的激活值进入负半区，那么该激活值就不会产生梯度/不会被训练，造成了网络的稀疏性——**稀疏激活**
-  - 这有助于减少参数的相互依赖，缓解过拟合问题的发生
+    - `ReLU` 在负半区的输出为 0。一旦神经元的激活值进入负半区，那么该激活值就不会产生梯度/不会被训练，造成了网络的稀疏性——**稀疏激活**
+    - 这有助于减少参数的相互依赖，缓解过拟合问题的发生
 3. **加速计算***
-  - `ReLU` 的求导不涉及浮点运算，所以速度更快
+    - `ReLU` 的求导不涉及浮点运算，所以速度更快
 
 > 总结自知乎两个答案 [Ans1](https://www.zhihu.com/question/52020211/answer/152378276) & [Ans2](https://www.zhihu.com/question/29021768/answer/43488153)
 
@@ -255,9 +251,9 @@ Index
 
 ## Batch Normalization（批标准化）
 - BN 是一种**正则化**方法（减少泛化误差），主要作用有：
-  - **加速网络的训练**（缓解梯度消失，支持更大的学习率）
-  - **防止过拟合**
-  - 降低了**参数初始化**的要求。
+    - **加速网络的训练**（缓解梯度消失，支持更大的学习率）
+    - **防止过拟合**
+    - 降低了**参数初始化**的要求。
 
 ### 动机
 - **训练的本质是学习数据分布**。如果训练数据与测试数据的分布不同会**降低**模型的**泛化能力**。因此，应该在开始训练前对所有输入数据做归一化处理。
@@ -266,48 +262,50 @@ Index
 ### 基本原理
 - BN 方法会针对**每一批数据**，在**网络的每一层输入**之前增加**归一化**处理，使输入的均值为 `0`，标准差为 `1`。**目的**是将数据限制在统一的分布下。
 - 具体来说，针对每层的第 `k` 个神经元，计算**这一批数据**在第 `k` 个神经元的均值与标准差，然后将归一化后的值作为该神经元的激活值。
-  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\large&space;\hat{x}_k\leftarrow&space;\frac{x_k-\mathrm{E}[x_k]&space;}{\sqrt{\mathrm{Var}[x_k]}}"><img src="../_assets/公式_20180831165546.png" height="" /></a></div>
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\large&space;\hat{x}_k\leftarrow&space;\frac{x_k-\mathrm{E}[x_k]&space;}{\sqrt{\mathrm{Var}[x_k]}}"><img src="../_assets/公式_20180831165546.png" height="" /></a></div>
 
 - BN 可以看作在各层之间加入了一个新的计算层，**对数据分布进行额外的约束**，从而增强模型的泛化能力；
 - 但同时 BN 也降低了模型的拟合能力，破坏了之前学到的**特征分布**；
 - 为了**恢复数据的原始分布**，BN 引入了一个**重构变换**来还原最优的输入数据分布
-  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\large&space;y_k\leftarrow&space;\gamma&space;\hat{x}_k&plus;\beta"><img src="../_assets/公式_20180831165516.png" height="" /></a></div>
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\large&space;y_k\leftarrow&space;\gamma&space;\hat{x}_k&plus;\beta"><img src="../_assets/公式_20180831165516.png" height="" /></a></div>
 
   其中 `γ` 和 `β` 为可训练参数。
 
 **小结**
 - 以上过程可归纳为一个 **`BN(x)` 函数**：
-  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;\boldsymbol{y_i}=\mathrm{BN}(\boldsymbol{x_i})"><img src="../_assets/公式_20180903223427.png" height="" /></a></div>
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;\boldsymbol{y_i}=\mathrm{BN}(\boldsymbol{x_i})"><img src="../_assets/公式_20180903223427.png" height="" /></a></div>
 
   其中
-  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;\begin{aligned}&space;\mathrm{BN}(\boldsymbol{x_i})&=\gamma\boldsymbol{\hat{x}_i}&plus;\beta\\&space;&=\gamma\frac{\boldsymbol{x_i}-\boldsymbol{\mathrm{E}[x_i]}}{\sqrt{\boldsymbol{\mathrm{Var}[x_i]}&plus;\epsilon}}&plus;\beta&space;\end{aligned}"><img src="../_assets/公式_20180903224323.png" height="" /></a></div>
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;\begin{aligned}&space;\mathrm{BN}(\boldsymbol{x_i})&=\gamma\boldsymbol{\hat{x}_i}&plus;\beta\\&space;&=\gamma\frac{\boldsymbol{x_i}-\boldsymbol{\mathrm{E}[x_i]}}{\sqrt{\boldsymbol{\mathrm{Var}[x_i]}&plus;\epsilon}}&plus;\beta&space;\end{aligned}"><img src="../_assets/公式_20180903224323.png" height="" /></a></div>
 
 - **完整算法**：
-  <div align="center"><img src="../_assets/TIM截图20180903222433.png" height="" /></div>
+    <div align="center"><img src="../_assets/TIM截图20180903222433.png" height="" /></div>
 
 ### BN 在训练和测试时分别是怎么做的？
 - **训练时**每次会传入一批数据，做法如前述；
 - 当**测试**或**预测时**，每次可能只会传入**单个数据**，此时模型会使用**全局统计量**代替批统计量；
-  - 训练每个 batch 时，都会得到一组`（均值，方差）`；
-  - 所谓全局统计量，就是对这些均值和方差求其对应的数学期望；
-  - 具体计算公式为：
-  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\large&space;y_k\leftarrow&space;\gamma&space;\hat{x}_k&plus;\beta"><img src="../_assets/公式_20180903220828.png" height="" /></a></div>
+    - 训练每个 batch 时，都会得到一组`（均值，方差）`；
+    - 所谓全局统计量，就是对这些均值和方差求其对应的数学期望；
+    - 具体计算公式为：
+    
+        <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\fn_jvn&space;\large&space;y_k\leftarrow&space;\gamma&space;\hat{x}_k&plus;\beta"><img src="../_assets/公式_20180903220828.png" height="" /></a></div>
   
-  > 其中 `μ_i` 和 `σ_i` 分别表示第 i 轮 batch 保存的均值和标准差；`m` 为 batch_size，系数 `m/(m-1)` 用于计算**无偏方差估计**
-  >> 原文称该方法为**移动平均**（moving averages）
+    > 其中 `μ_i` 和 `σ_i` 分别表示第 i 轮 batch 保存的均值和标准差；`m` 为 batch_size，系数 `m/(m-1)` 用于计算**无偏方差估计**
+    >> 原文称该方法为**移动平均**（moving averages）
 
 - 此时，`BN(x)` 调整为：
-  <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;\begin{aligned}&space;\mathrm{BN}(\boldsymbol{x_i})&=\gamma\frac{\boldsymbol{x_i}-\boldsymbol{\mathrm{E}[x_i]}}{\sqrt{\boldsymbol{\mathrm{Var}[x_i]}&plus;\epsilon}}&plus;\beta\\&space;&=\frac{\gamma}{\sqrt{\boldsymbol{\mathrm{Var}[x_i]}&plus;\epsilon}}\boldsymbol{x_i}&plus;\left&space;(&space;\beta-\frac{\gamma\boldsymbol{\mathrm{E}[x_i]}}{\sqrt{\boldsymbol{\mathrm{Var}[x_i]}&plus;\epsilon}}&space;\right&space;)&space;\end{aligned}"><img src="../_assets/公式_20180903224557.png" height="" /></a></div>
+
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=\large&space;\begin{aligned}&space;\mathrm{BN}(\boldsymbol{x_i})&=\gamma\frac{\boldsymbol{x_i}-\boldsymbol{\mathrm{E}[x_i]}}{\sqrt{\boldsymbol{\mathrm{Var}[x_i]}&plus;\epsilon}}&plus;\beta\\&space;&=\frac{\gamma}{\sqrt{\boldsymbol{\mathrm{Var}[x_i]}&plus;\epsilon}}\boldsymbol{x_i}&plus;\left&space;(&space;\beta-\frac{\gamma\boldsymbol{\mathrm{E}[x_i]}}{\sqrt{\boldsymbol{\mathrm{Var}[x_i]}&plus;\epsilon}}&space;\right&space;)&space;\end{aligned}"><img src="../_assets/公式_20180903224557.png" height="" /></a></div>
 
 - **完整算法**：
-  <div align="center"><img src="../_assets/TIM截图20180903224842.png" height="" /></div>
+    <div align="center"><img src="../_assets/TIM截图20180903224842.png" height="" /></div>
 
 #### 为什么训练时不采用移动平均？
 > 群里一位同学的面试题
 - 使用 BN 的目的就是为了保证每批数据的分布稳定，使用全局统计量反而违背了这个初衷；
 - BN 的作者认为在训练时采用移动平均可能会与梯度优化存在冲突；
-  > 【**原文**】"It is natural to ask whether we could simply **use the moving averages** µ, σ to perform the normalization **during training**, since this would remove the dependence of the normalized activations on the other example in the minibatch. This, however, has been observed to lead to the model blowing up. As argued in [6], such use of moving averages would cause the gradient optimization and the normalization to counteract each other. For example, the gradient step may increase a bias or scale the convolutional weights, in spite of the fact that the normalization would cancel the effect of these changes on the loss. This would result in unbounded growth of model parameters without actually improving the loss. It is thus crucial to use the minibatch moments, and to backpropagate through them."
-  >> [1702.03275] [Batch Renormalization](https://arxiv.org/abs/1702.03275)
+    > 【**原文**】"It is natural to ask whether we could simply **use the moving averages** µ, σ to perform the normalization **during training**, since this would remove the dependence of the normalized activations on the other example in the minibatch. This, however, has been observed to lead to the model blowing up. As argued in [6], such use of moving averages would cause the gradient optimization and the normalization to counteract each other. For example, the gradient step may increase a bias or scale the convolutional weights, in spite of the fact that the normalization would cancel the effect of these changes on the loss. This would result in unbounded growth of model parameters without actually improving the loss. It is thus crucial to use the minibatch moments, and to backpropagate through them."
+    >> [1702.03275] [Batch Renormalization](https://arxiv.org/abs/1702.03275)
 
 ### 相关阅读
 - [深入理解Batch Normalization批标准化 - 郭耀华](https://www.cnblogs.com/guoyaohua/p/8724433.html) - 博客园 
@@ -336,10 +334,10 @@ Index
 - 对目标函数添加范数正则化，训练时相当于在范数的约束下求目标函数 `J` 的最小值
 - 带有**L1 范数**（左）和**L2 范数**（右）约束的二维图示
 
-  ![](../_assets/TIM截图20180608171710.png)
-  ![](../_assets/TIM截图20180608172312.png)
-  - 图中 `J` 与 `L1` 首次相交的点即是最优解。`L1` 在和每个坐标轴相交的地方都会有“**顶点**”出现，多维的情况下，这些顶点会更多；在顶点的位置就会产生稀疏的解。而 `J` 与这些“顶点”相交的机会远大于其他点，因此 `L1` 正则化会产生稀疏的解。
-  - `L2` 不会产生“**顶点**”，因此 `J` 与 `L2` 相交的点具有稀疏性的概率就会变得非常小。
+    ![](../_assets/TIM截图20180608171710.png)
+    ![](../_assets/TIM截图20180608172312.png)
+    - 图中 `J` 与 `L1` 首次相交的点即是最优解。`L1` 在和每个坐标轴相交的地方都会有“**顶点**”出现，多维的情况下，这些顶点会更多；在顶点的位置就会产生稀疏的解。而 `J` 与这些“顶点”相交的机会远大于其他点，因此 `L1` 正则化会产生稀疏的解。
+    - `L2` 不会产生“**顶点**”，因此 `J` 与 `L2` 相交的点具有稀疏性的概率就会变得非常小。
 
 ## Dropout
 > 《深度学习》 7.12 Dropout
@@ -349,9 +347,11 @@ Index
   集成方法奏效的原因是不同的模型**通常不会**在测试集上产生相同的误差。
 
   集成模型能至少与它的任一成员表现得一样好。**如果成员的误差是独立的**，集成将显著提升模型的性能。
+  
 - **Bagging** 是一种集成策略——具体来说，Bagging 涉及构造 k 个**不同的数据集**。
 
   每个数据集从原始数据集中**重复采样**构成，和原始数据集具有**相同数量**的样例——这意味着，每个数据集以高概率缺少一些来自原始数据集的例子，还包含若干重复的例子
+  
   > 更具体的，如果采样所得的训练集与原始数据集大小相同，那所得数据集中大概有原始数据集 `2/3` 的实例
   
 **集成方法与神经网络**：
@@ -363,11 +363,11 @@ Index
 - 简单来说，Dropout 通过**参数共享**提供了一种廉价的 Bagging 集成近似—— Dropout 策略相当于集成了包括所有从基础网络除去部分单元后形成的子网络。
 - 通常，**隐藏层**的采样概率为 `0.5`，**输入**的采样概率为 `0.8`；超参数也可以采样，但其采样概率一般为 `1`
   
-  ![](../_assets/TIM截图20180611152559.png)
+    <div align="center"><img src="../_assets/TIM截图20180611152559.png" height="" /></div>
 
 **权重比例推断规则**
 - 权重比例推断规则的目的是确保在测试时一个单元的期望总输入与在训练时该单元的期望总输入大致相同。
-- 实践时，如果使用 `0.5` 的采样概率，**权重比例规则**相当于在训练结束后**将权重除 2**，然后像平常一样使用模型；等价的，另一种方法是在训练期间将单元的状态乘 2。
+- 实践时，如果使用 `0.5` 的采样概率，**权重比例规则**相当于在训练结束后**将权重乘 `0.5`**，然后像平常一样使用模型；等价的，另一种方法是**在训练时**将单元的状态乘 2。
  
 #### Dropout 与 Bagging 的不同
 - 在 Bagging 的情况下，所有模型都是独立的；而在 Dropout 的情况下，所有模型**共享参数**，其中每个模型继承父神经网络参数的不同子集。
@@ -379,17 +379,15 @@ Index
 ## 参数初始化
 - 一般使用服从的**高斯分布**（`mean=0, stddev=1`）或**均匀分布**的随机值作为**权重**的初始化参数；使用 `0` 作为**偏置**的初始化参数
 - 一些**启发式**方法会根据**输入与输出的单元数**来决定初始值的范围
-  - 比如 `glorot_uniform` 方法 (Glorot and Bengio, 2010)
+    
+    比如 `glorot_uniform` 方法 (Glorot and Bengio, 2010)
 
-    [![](../_assets/公式_20180706115540.png)](http://www.codecogs.com/eqnedit.php?latex=W_{i,j}\sim&space;U\left&space;(&space;-\sqrt&space;\frac{6}{n_{in}&plus;n_{out}},&space;\sqrt&space;\frac{6}{n_{in}&plus;n_{out}}&space;\right&space;))
+    <div align="center"><a href="http://www.codecogs.com/eqnedit.php?latex=W_{i,j}\sim&space;U\left&space;(&space;-\sqrt&space;\frac{6}{n_{in}&plus;n_{out}},&space;\sqrt&space;\frac{6}{n_{in}&plus;n_{out}}&space;\right&space;)"><img src="../_assets/公式_20180706115540.png" height="" /></a></div>
+
     > Keras 全连接层默认的**权重**初始化方法
+    
 - **其他初始化方法**
-  - 随机正交矩阵（Orthogonal）
-  - 截断高斯分布（Truncated normal distribution）
-> Keras 提供的所有参数初始化方法：Keras/[Initializers](https://keras.io/initializers/)
+    - 随机正交矩阵（Orthogonal）
+    - 截断高斯分布（Truncated normal distribution）
 
-# CNN 卷积神经网络
-
-## CNN 与 LSTM 的区别
-- CNN更像视觉，天然具有二维整体性；而LSTM更像听觉和语音，总是通过串行的方式来理解整体。
-  > 
+- Keras 提供的参数初始化方法：Keras/[Initializers](https://keras.io/initializers/)
