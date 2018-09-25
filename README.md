@@ -36,8 +36,8 @@ RoadMap
 - :basketball: [<font size=+1>深度学习</font>](./A-深度学习)
 - :hamburger: [<font size=+1>自然语言处理</font>](./B-自然语言处理)
 - :fries: [<font size=+1>计算机视觉</font>](./B-计算机视觉)
-- :apple: [<font size=+1>算法</font>](./C-算法)
 - :cherries: [<font size=+1>数学</font>](./C-数学)
+- :apple: [<font size=+1>算法</font>](./C-算法)
 - :strawberry: [<font size=+1>编程语言</font>](./C-编程语言)
 - :cookie: [<font size=+1>笔试面经</font>](./D-笔试面经)
 
