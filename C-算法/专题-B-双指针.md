@@ -7,7 +7,7 @@
 ---
 - 首尾双指针模板
     - 一般用于寻找数组中满足条件的**两个数**；如果是寻找多个数，则先固定前 n-2 个数
-    - 为了不遗漏所有可能情况，一般要求数组**有序**；
+    - 为了不遗漏所有可能情况，可能要求数组**有序**；
     - 遍历时，大于目标时 `hi--`，小于目标时 `lo++`。 
 - 同向双指针模板
     - 一般用于寻找满足某个条件的**连续区间**
@@ -26,15 +26,20 @@ Index
     - [两数之和 - 小于等于目标值的个数](#两数之和---小于等于目标值的个数)
     - [三数之和 - 小于等于目标值的个数](#三数之和---小于等于目标值的个数)
     - [三角形计数](#三角形计数)
+    - [接雨水（Trapping Rain Water）（一维）](#接雨水trapping-rain-water一维)
+    - [盛最多水的容器（Container With Most Water）](#盛最多水的容器container-with-most-water)
+    - [反转字符串（Reverse String）](#反转字符串reverse-string)
 - [同向双指针](#同向双指针)
     - [最小覆盖子串（Minimum Window Substring）](#最小覆盖子串minimum-window-substring)
     - [长度最小的子数组（Minimum Size Subarray Sum）](#长度最小的子数组minimum-size-subarray-sum)
+    - [无重复字符的最长子串（Longest Substring Without Repeating Characters）](#无重复字符的最长子串longest-substring-without-repeating-characters)
 - [其他](#其他)
     - [数组中的最长山脉（Longest Mountain in Array）](#数组中的最长山脉longest-mountain-in-array)
     - [合并两个有序数组（Merge Sorted Array）](#合并两个有序数组merge-sorted-array)
-    - [接雨水（Trapping Rain Water）（一维）](#接雨水trapping-rain-water一维)
     - [颜色分类（Sort Colors）](#颜色分类sort-colors)
     - [两个数组的交集（Intersection of Two Arrays）](#两个数组的交集intersection-of-two-arrays)
+        - [I](#i)
+        - [II](#ii)
 
 <!-- /TOC -->
 
@@ -478,6 +483,163 @@ class Solution:
 ```
 
 
+## 接雨水（Trapping Rain Water）（一维）
+> LeetCode/[42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/description/)
+
+**问题描述**
+```
+给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
+
+示例:
+    输入: [0,1,0,2,1,0,1,3,2,1,2,1]
+    输出: 6
+```
+<div align="center"><img src="../_assets/TIM截图20180921215706.png" height="" /></div>
+
+**思路 1**
+- 一个简单的方法是**遍历两次**数组，分别记录每个位置左侧的最高点和右侧的最低点
+- **C++**
+    ```C++
+    class Solution {
+    public:
+        int trap(vector<int>& H) {
+            int n = H.size();
+            
+            vector<int> l_max(H);
+            vector<int> r_max(H);
+            
+            for(int i=1; i<n; i++)
+                l_max[i] = max(l_max[i-1], l_max[i]);
+            
+            for(int i=n-2; i>=0; i--)
+                r_max[i] = max(r_max[i+1], r_max[i]);
+            
+            int ret = 0;
+            for (int i=1; i<n-1; i++)
+                ret += min(l_max[i], r_max[i]) - H[i];
+            
+            return ret;
+        }
+    };
+    ``` 
+
+**思路 2**
+- 双指针，遍历一次数组
+- **Python**
+    ```python
+    class Solution:
+        def trap(self, A):
+            """
+            :type A: List[int]
+            :rtype: int
+            """
+            n = len(A)
+            l, r = 0, n - 1
+            
+            ans = 0
+            max_l = max_r = 0
+            
+            while l <= r:
+                if A[l] <= A[r]:
+                    if A[l] > max_l:
+                        max_l = A[l]
+                    else:
+                        ans += max_l - A[l]
+                    
+                    l += 1
+                else:
+                    if A[r] > max_r:
+                        max_r = A[r]
+                    else:
+                        ans += max_r - A[r]
+                    
+                    r -= 1
+                    
+            return ans
+    ```
+
+
+## 盛最多水的容器（Container With Most Water）
+> LeetCode/[11. 盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/description/)
+
+**问题描述**
+```
+给定 n 个非负整数 a1，a2，...，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0)。找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
+
+说明：你不能倾斜容器，且 n 的值至少为 2。
+
+示例:
+    输入: [1,8,6,2,5,4,8,3,7]
+    输出: 49
+```
+<div align="center"><img src="../_assets/TIM截图20180926095739.png" height="" /></div>
+
+**思路**
+- 首尾双指针
+
+**Python**
+```python
+class Solution:
+    def maxArea(self, A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        n = len(A)
+        
+        l, r = 0, n - 1
+        res = (r - l) * min(A[l], A[r])
+        while l < r:
+            if A[l] < A[r]:
+                l += 1
+            else:
+                r -= 1
+            
+            tmp = (r - l) * min(A[l], A[r])
+            res = max(res, tmp)
+            
+        return res
+```
+
+
+## 反转字符串（Reverse String）
+> LeetCode/[344. 反转字符串](https://leetcode-cn.com/problems/reverse-string/description/)
+
+**问题描述**
+```
+编写一个函数，其作用是将输入的字符串反转过来。
+
+示例 1:
+    输入: "hello"
+    输出: "olleh"
+示例 2:
+    输入: "A man, a plan, a canal: Panama"
+    输出: "amanaP :lanac a ,nalp a ,nam A"
+```
+
+**思路**
+- 首尾双指针
+
+**Python**
+```python
+class Solution:
+    def reverseString(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        n = len(s)
+        s = list(s)  # python 不支持直接修改字符串中的字符
+        
+        l, r = 0, n - 1
+        while l < r:
+            s[l], s[r] = s[r], s[l]  # swap
+            l += 1
+            r -= 1
+        
+        return ''.join(s)
+```
+
 # 同向双指针
 
 ## 最小覆盖子串（Minimum Window Substring）
@@ -584,6 +746,59 @@ class Solution:
                 res = min(res, r - l + 1)
                     
         return res if res != n + 1 else 0  # 结果不存在时返回 0
+```
+
+
+## 无重复字符的最长子串（Longest Substring Without Repeating Characters）
+> LeetCode/[3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/description/)
+
+**问题描述**
+```
+给定一个字符串，找出不含有重复字符的最长子串的长度。
+
+示例 1:
+    输入: "abcabcbb"
+    输出: 3 
+    解释: 无重复字符的最长子串是 "abc"，其长度为 3。
+示例 2:
+    输入: "bbbbb"
+    输出: 1
+    解释: 无重复字符的最长子串是 "b"，其长度为 1。
+示例 3:
+    输入: "pwwkew"
+    输出: 3
+    解释: 无重复字符的最长子串是 "wke"，其长度为 3。
+        请注意，答案必须是一个子串，"pwke" 是一个子序列 而不是子串。
+```
+
+**思路**
+- 同向双指针 + Hash 表
+
+**Python**
+```python
+class Solution:
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        n = len(s)
+        
+        res = 0
+        bok = dict()
+        l, r = 0, 0
+        while r < n:
+            if s[r] not in bok:
+                bok[s[r]] = r
+            else:
+                l = max(l, bok[s[r]] + 1)  # ERR: l = bok[s[r]] + 1
+                bok[s[r]] = r
+                
+            res = max(res, r - l + 1)
+            # print(res, '\t', r, l)
+            r += 1
+            
+        return res
 ```
 
 
@@ -746,81 +961,6 @@ class Solution:
 ```
 
 
-## 接雨水（Trapping Rain Water）（一维）
-> LeetCode/[42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/description/)
-
-**问题描述**
-```
-给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
-
-示例:
-    输入: [0,1,0,2,1,0,1,3,2,1,2,1]
-    输出: 6
-```
-<div align="center"><img src="../_assets/TIM截图20180921215706.png" height="" /></div>
-
-**思路 1**
-- 一个简单的方法是**遍历两次**数组，分别记录每个位置左侧的最高点和右侧的最低点
-- **C++**
-    ```C++
-    class Solution {
-    public:
-        int trap(vector<int>& H) {
-            int n = H.size();
-            
-            vector<int> l_max(H);
-            vector<int> r_max(H);
-            
-            for(int i=1; i<n; i++)
-                l_max[i] = max(l_max[i-1], l_max[i]);
-            
-            for(int i=n-2; i>=0; i--)
-                r_max[i] = max(r_max[i+1], r_max[i]);
-            
-            int ret = 0;
-            for (int i=1; i<n-1; i++)
-                ret += min(l_max[i], r_max[i]) - H[i];
-            
-            return ret;
-        }
-    };
-    ``` 
-
-**思路 2**
-- 双指针，遍历一次数组
-- **Python**
-    ```python
-    class Solution:
-        def trap(self, A):
-            """
-            :type A: List[int]
-            :rtype: int
-            """
-            n = len(A)
-            l, r = 0, n - 1
-            
-            ans = 0
-            max_l = max_r = 0
-            
-            while l <= r:
-                if A[l] <= A[r]:
-                    if A[l] > max_l:
-                        max_l = A[l]
-                    else:
-                        ans += max_l - A[l]
-                    
-                    l += 1
-                else:
-                    if A[r] > max_r:
-                        max_r = A[r]
-                    else:
-                        ans += max_r - A[r]
-                    
-                    r -= 1
-                    
-            return ans
-    ```
-
 ## 颜色分类（Sort Colors）
 > LeetCode/[75. 颜色分类](https://leetcode-cn.com/problems/sort-colors/description/)
 
@@ -878,6 +1018,8 @@ class Solution:
 
 
 ## 两个数组的交集（Intersection of Two Arrays）
+
+### I
 > LeetCode/[349. 两个数组的交集](https://leetcode-cn.com/problems/intersection-of-two-arrays/description/)
 
 **问题描述**
@@ -939,6 +1081,65 @@ class Solution:
                 # j += 1
                 # while j < n and B[j - 1] == B[j]:
                 #     j += 1
+        
+        return res
+```
+
+### II
+> LeetCode/[350. 两个数组的交集 II](https://leetcode-cn.com/problems/intersection-of-two-arrays-ii/description/)
+
+**问题描述**
+```
+给定两个数组，编写一个函数来计算它们的交集。
+
+示例 1:
+    输入: nums1 = [1,2,2,1], nums2 = [2,2]
+    输出: [2,2]
+示例 2:
+    输入: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+    输出: [4,9]
+说明：
+    输出结果中每个元素出现的次数，应与元素在两个数组中出现的次数一致。
+    我们可以不考虑输出结果的顺序。
+进阶:
+    如果给定的数组已经排好序呢？你将如何优化你的算法？
+    如果 nums1 的大小比 nums2 小很多，哪种方法更优？
+    如果 nums2 的元素存储在磁盘上，磁盘内存是有限的，并且你不能一次加载所有的元素到内存中，你该怎么办？
+```
+
+**思路**
+- 相比 1 少了一个去重的步骤
+
+**进阶**
+- 相关谈论 > [Solution to 3rd follow-up question](https://leetcode.com/problems/intersection-of-two-arrays-ii/discuss/82243/Solution-to-3rd-follow-up-question)
+
+
+**Python**
+```python
+class Solution:
+    def intersect(self, A, B):
+        """
+        :type A: List[int]
+        :type B: List[int]
+        :rtype: List[int]
+        """
+        A.sort()
+        B.sort()
+        
+        m = len(A)
+        n = len(B)
+        
+        res = []
+        l, r = 0, 0
+        while l < m and r < n:
+            if A[l] < B[r]:
+                l += 1
+            elif B[r] < A[l]:
+                r += 1
+            else:
+                res.append(A[l])
+                l += 1
+                r += 1
         
         return res
 ```
