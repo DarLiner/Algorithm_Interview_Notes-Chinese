@@ -3,13 +3,13 @@
 - 双指针问题出现的频率非常高
 - 九章算法称之为“为面试而生的双指针算法”
 
-小结
+模板小结
 ---
-- 首尾双指针模板
+- 首尾双指针
     - 一般用于寻找数组中满足条件的**两个数**；如果是寻找多个数，则先固定前 n-2 个数
     - 为了不遗漏所有可能情况，可能要求数组**有序**；
     - 遍历时，大于目标时 `hi--`，小于目标时 `lo++`。 
-- 同向双指针模板
+- 同向双指针
     - 一般用于寻找满足某个条件的**连续区间**
 <!-- - 分离双指针
     - 输入是两个数组/链表，两个指针分别在两个容器中移动 -->
@@ -33,6 +33,7 @@ Index
     - [最小覆盖子串（Minimum Window Substring）](#最小覆盖子串minimum-window-substring)
     - [长度最小的子数组（Minimum Size Subarray Sum）](#长度最小的子数组minimum-size-subarray-sum)
     - [无重复字符的最长子串（Longest Substring Without Repeating Characters）](#无重复字符的最长子串longest-substring-without-repeating-characters)
+    - [水果成篮（Fruit Into Baskets）](#水果成篮fruit-into-baskets)
 - [其他](#其他)
     - [数组中的最长山脉（Longest Mountain in Array）](#数组中的最长山脉longest-mountain-in-array)
     - [合并两个有序数组（Merge Sorted Array）](#合并两个有序数组merge-sorted-array)
@@ -40,6 +41,7 @@ Index
     - [两个数组的交集（Intersection of Two Arrays）](#两个数组的交集intersection-of-two-arrays)
         - [I](#i)
         - [II](#ii)
+    - [最小区间（Smallest Range）](#最小区间smallest-range)
 
 <!-- /TOC -->
 
@@ -642,6 +644,7 @@ class Solution:
 
 # 同向双指针
 
+
 ## 最小覆盖子串（Minimum Window Substring）
 > LeetCode/76. 最小覆盖子串
 
@@ -798,6 +801,86 @@ class Solution:
             # print(res, '\t', r, l)
             r += 1
             
+        return res
+```
+
+
+## 水果成篮（Fruit Into Baskets）
+> LeetCode/[904. 水果成篮](https://leetcode-cn.com/problems/fruit-into-baskets/description/)
+
+**问题描述**
+```
+在一排树中，第 i 棵树产生 tree[i] 型的水果。
+你可以从你选择的任何树开始，然后重复执行以下步骤：
+
+把这棵树上的水果放进你的篮子里。如果你做不到，就停下来。
+移动到当前树右侧的下一棵树。如果右边没有树，就停下来。
+请注意，在选择一颗树后，你没有任何选择：你必须执行步骤 1，然后执行步骤 2，然后返回步骤 1，然后执行步骤 2，依此类推，直至停止。
+
+你有两个篮子，每个篮子可以携带任何数量的水果，但你希望每个篮子只携带一种类型的水果。
+用这个程序你能收集的水果总量是多少？
+
+示例 1：
+    输入：[1,2,1]
+    输出：3
+    解释：我们可以收集 [1,2,1]。
+示例 2：
+    输入：[0,1,2,2]
+    输出：3
+    解释：我们可以收集 [1,2,2].
+    如果我们从第一棵树开始，我们将只能收集到 [0, 1]。
+示例 3：
+    输入：[1,2,3,2,2]
+    输出：4
+    解释：我们可以收集 [2,3,2,2].
+    如果我们从第一棵树开始，我们将只能收集到 [1, 2]。
+示例 4：
+    输入：[3,3,3,1,2,1,1,2,3,3,4]
+    输出：5
+    解释：我们可以收集 [1,2,1,1,2].
+    如果我们从第一棵树或第八棵树开始，我们将只能收集到 4 个水果。
+
+提示：
+    1 <= tree.length <= 40000
+    0 <= tree[i] < tree.length
+```
+
+**思路**
+- 题目大意：寻找一个最大的子区间，该子区间中只包含两种元素（无顺序要求）
+- 同向双指针
+
+**Python**
+```python
+class Solution:
+    def totalFruit(self, T):
+        """
+        :type T: List[int]
+        :rtype: int
+        """
+        n = len(T)
+        
+        l, r = 0, 0
+        res = 0
+        q = []  # 模拟容量为 2 的队列
+        t = dict()  # 记录每个种类最后出现的位置
+        while r < n:
+            t[T[r]] = r  # 更新位置
+            
+            if T[r] in q and q[-1] == T[r]:
+                pass
+            elif T[r] in q and q[0] == T[r]:
+                q.pop(0)
+                q.append(T[r])
+            elif len(q) < 2 and T[r] not in q:
+                q.append(T[r])
+            elif len(q) >= 2 and T[r] not in q:
+                l = t[q.pop(0)] + 1
+                q.append(T[r])
+            
+            res = max(res, r - l + 1)
+            # print(res, '\t', l, r)
+            r += 1
+        
         return res
 ```
 
@@ -1142,4 +1225,58 @@ class Solution:
                 r += 1
         
         return res
+```
+
+
+## 最小区间（Smallest Range）
+> LeetCode/[632. 最小区间](https://leetcode-cn.com/problems/smallest-range/)
+
+**问题描述**
+```
+你有 k 个升序排列的整数数组。找到一个最小区间，使得 k 个列表中的每个列表至少有一个数包含在其中。
+
+我们定义如果 b-a < d-c 或者在 b-a == d-c 时 a < c，则区间 [a,b] 比 [c,d] 小。
+
+示例 1:
+    输入:[[4,10,15,24,26], [0,9,12,20], [5,18,22,30]]
+    输出: [20,24]
+    解释: 
+        列表 1：[4, 10, 15, 24, 26]，24 在区间 [20,24] 中。
+        列表 2：[0, 9, 12, 20]，20 在区间 [20,24] 中。
+        列表 3：[5, 18, 22, 30]，22 在区间 [20,24] 中。
+注意:
+    给定的列表可能包含重复元素，所以在这里升序表示 >= 。
+    1 <= k <= 3500
+    -10^5 <= 元素的值 <= 10^5
+```
+
+**思路**
+- 最小堆
+
+**Python**
+- 其中 `l, r` 表示区间；`i, j` 表示 `A[i][j]`
+```python
+import heapq
+
+class Solution:
+    def smallestRange(self, A):
+        """
+        :type A: List[List[int]]
+        :rtype: List[int]
+        """
+        pq = [(row[0], i, 0) for i, row in enumerate(A)]
+        heapq.heapify(pq)  # 最小堆
+
+        ans = -1e5, 1e5
+        r = max(row[0] for row in A)
+        while pq:
+            l, i, j = heapq.heappop(pq)
+            if r - l < ans[1] - ans[0]:
+                ans = l, r
+            if j + 1 == len(A[i]):
+                break
+            r = max(r, A[i][j+1])
+            heapq.heappush(pq, (A[i][j+1], i, j+1))
+        
+        return ans
 ```
