@@ -14,6 +14,13 @@
 <!-- - 分离双指针
     - 输入是两个数组/链表，两个指针分别在两个容器中移动 -->
 
+RoadMap
+---
+- [首尾双指针](#首尾双指针)
+- [同向双指针](#同向双指针)
+- [链表](#链表)
+- [其他](#其他)
+
 Index
 ---
 <!-- TOC -->
@@ -34,6 +41,8 @@ Index
     - [长度最小的子数组（Minimum Size Subarray Sum）](#长度最小的子数组minimum-size-subarray-sum)
     - [无重复字符的最长子串（Longest Substring Without Repeating Characters）](#无重复字符的最长子串longest-substring-without-repeating-characters)
     - [水果成篮（Fruit Into Baskets）](#水果成篮fruit-into-baskets)
+- [链表](#链表)
+    - [旋转链表](#旋转链表)
 - [其他](#其他)
     - [数组中的最长山脉（Longest Mountain in Array）](#数组中的最长山脉longest-mountain-in-array)
     - [合并两个有序数组（Merge Sorted Array）](#合并两个有序数组merge-sorted-array)
@@ -882,6 +891,116 @@ class Solution:
             r += 1
         
         return res
+```
+
+
+# 链表
+
+## 旋转链表
+> LeetCode/[61. 旋转链表](https://leetcode-cn.com/problems/rotate-list/description/)
+
+**问题描述**
+```
+给定一个链表，旋转链表，将链表每个节点向右移动 k 个位置，其中 k 是非负数。
+
+示例 1:
+    输入: 1->2->3->4->5->NULL, k = 2
+    输出: 4->5->1->2->3->NULL
+    解释:
+    向右旋转 1 步: 5->1->2->3->4->NULL
+    向右旋转 2 步: 4->5->1->2->3->NULL
+示例 2:
+    输入: 0->1->2->NULL, k = 4
+    输出: 2->0->1->NULL
+    解释:
+    向右旋转 1 步: 2->0->1->NULL
+    向右旋转 2 步: 1->2->0->NULL
+    向右旋转 3 步: 0->1->2->NULL
+    向右旋转 4 步: 2->0->1->NULL
+```
+
+**思路**
+- 双指针 `l, r` 记录两个位置，其中 `l` 指向倒数第 `k+1` 个节点，`r` 指向最后一个非空节点；
+- 然后将 `r` 指向头结点 `h`，`h` 指向 `l` 的下一个节点，最后断开 `l` 与下一个节点；
+- 注意 `k` 可能大于链表的长度，此时可能需要遍历两次链表 
+
+**代码 1**
+- 比较直观的写法，代码量稍大
+```python
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def rotateRight(self, h, k):
+        """
+        :type h: ListNode
+        :type k: int
+        :rtype: ListNode
+        """
+        if not h or k == 0:
+            return h
+        
+        n = 1  # 记录链表的长度，因为只遍历到最后一个非空节点，所以从 1 开始
+        l = h
+        r = h  # tail
+        while r.next is not None and k > 0:
+            k -= 1
+            n += 1
+            r = r.next
+        
+        # print(k, n)
+        if k > 0:
+            k -= 1  # 这里要先减 1，因为 n 是从 1 开始计数的
+            k = k % n
+            r = h
+            while k > 0:
+                k -= 1
+                r = r.next
+        
+        # 找到倒数第 k 个节点
+        while r.next is not None:
+            l = l.next
+            r = r.next
+        
+        r.next = h
+        h = l.next
+        l.next = None
+            
+        return h
+```
+
+**代码 2**
+```python
+class Solution:
+    def rotateRight(self, h, k):
+        """
+        :type h: ListNode
+        :type k: int
+        :rtype: ListNode
+        """
+        if not h or k == 0:
+            return h
+        
+        n = 1  # 记录链表的长度，因为只遍历到最后一个非空节点，所以从 1 开始
+        r = h  # tail
+        while r.next is not None:
+            n += 1
+            r = r.next
+        
+        r.next = h  # 构成环
+        
+        k %= n 
+        t = n - k
+        while t > 0:
+            r = r.next
+            t -= 1
+        
+        h = r.next
+        r.next = None  # 断开 链表
+            
+        return h
 ```
 
 
