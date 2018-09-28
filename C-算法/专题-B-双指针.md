@@ -5,20 +5,30 @@
 
 模板小结
 ---
-- 首尾双指针
+- **首尾双指针**
+    <div align="center"><img src="../_assets/TIM截图20180928102534.png" height="" /></div>
+
     - 一般用于寻找数组中满足条件的**两个数**；如果是寻找多个数，则先固定前 n-2 个数
     - 为了不遗漏所有可能情况，可能要求数组**有序**；
     - 遍历时，大于目标时 `hi--`，小于目标时 `lo++`。 
-- 同向双指针
-    - 一般用于寻找满足某个条件的**连续区间**
-<!-- - 分离双指针
-    - 输入是两个数组/链表，两个指针分别在两个容器中移动 -->
+- **同向双指针**
+    <div align="center"><img src="../_assets/TIM截图20180928102605.png" height="" /></div>
 
+    - 一般用于寻找满足某个条件的**连续区间**
+- **分离双指针**
+    <div align="center"><img src="../_assets/TIM截图20180928103003.png" height="" /></div>
+
+    - 输入是两个数组/链表，两个指针分别在两个容器中移动；
+    - 根据问题的不同，初始位置可能都在头部，或者都在尾部，或一头一尾。
+
+    <div align="center"><img src="../_assets/TIM截图20180928103312.png" height="" /></div>
+
+    
 RoadMap
 ---
 - [首尾双指针](#首尾双指针)
 - [同向双指针](#同向双指针)
-- [链表](#链表)
+- [分离双指针](#分离双指针)
 - [其他](#其他)
 
 Index
@@ -36,20 +46,20 @@ Index
     - [接雨水（Trapping Rain Water）（一维）](#接雨水trapping-rain-water一维)
     - [盛最多水的容器（Container With Most Water）](#盛最多水的容器container-with-most-water)
     - [反转字符串（Reverse String）](#反转字符串reverse-string)
+    - [颜色分类（Sort Colors）](#颜色分类sort-colors)
 - [同向双指针](#同向双指针)
+    - [数组中的最长山脉（Longest Mountain in Array）](#数组中的最长山脉longest-mountain-in-array)
     - [最小覆盖子串（Minimum Window Substring）](#最小覆盖子串minimum-window-substring)
     - [长度最小的子数组（Minimum Size Subarray Sum）](#长度最小的子数组minimum-size-subarray-sum)
     - [无重复字符的最长子串（Longest Substring Without Repeating Characters）](#无重复字符的最长子串longest-substring-without-repeating-characters)
     - [水果成篮（Fruit Into Baskets）](#水果成篮fruit-into-baskets)
-- [链表](#链表)
-    - [旋转链表](#旋转链表)
-- [其他](#其他)
-    - [数组中的最长山脉（Longest Mountain in Array）](#数组中的最长山脉longest-mountain-in-array)
-    - [合并两个有序数组（Merge Sorted Array）](#合并两个有序数组merge-sorted-array)
-    - [颜色分类（Sort Colors）](#颜色分类sort-colors)
+- [分离双指针](#分离双指针)
     - [两个数组的交集（Intersection of Two Arrays）](#两个数组的交集intersection-of-two-arrays)
         - [I](#i)
         - [II](#ii)
+    - [合并两个有序数组（Merge Sorted Array）](#合并两个有序数组merge-sorted-array)
+    - [旋转链表（Rotate List）](#旋转链表rotate-list)
+- [其他](#其他)
     - [最小区间（Smallest Range）](#最小区间smallest-range)
 
 <!-- /TOC -->
@@ -651,7 +661,166 @@ class Solution:
         return ''.join(s)
 ```
 
+
+## 颜色分类（Sort Colors）
+> LeetCode/[75. 颜色分类](https://leetcode-cn.com/problems/sort-colors/description/)
+
+**问题描述**
+```
+给定一个包含红色、白色和蓝色，一共 n 个元素的数组，原地对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。
+
+此题中，我们使用整数 0、 1 和 2 分别表示红色、白色和蓝色。
+
+注意:
+    不能使用代码库中的排序函数来解决这道题。
+
+示例:
+    输入: [2,0,2,1,1,0]
+    输出: [0,0,1,1,2,2]
+
+进阶：
+    一个直观的解决方案是使用计数排序的两趟扫描算法。
+    首先，迭代计算出0、1 和 2 元素的个数，然后按照0、1、2的排序，重写当前数组。
+    你能想出一个仅使用常数空间的一趟扫描算法吗？
+```
+
+**思路**
+- 首尾双指针
+    - `l` 记录最后一个 0 的位置
+    - `r` 记录第一个 2 的位置
+    - `i` 表示当前遍历的元素
+
+**Python**
+```python
+class Solution:
+    def sortColors(self, A):
+        """
+        :type A: List[int]
+        :rtype: void Do not return anything, modify A in-place instead.
+        """
+        n = len(A)
+        
+        l = 0  # l 指示最后一个 0
+        r = n - 1  # r 指示第一个 2
+        
+        i = 0
+        while i <= r:
+            if A[i] == 0:
+                A[i] = A[l]
+                A[l] = 0  # 确定最后一个 0
+                l += 1
+            if A[i] == 2:
+                A[i] = A[r]
+                A[r] = 2  # 确定第一个 2
+                r -= 1
+                i -= 1  # 注意回退，因为不确定原 A[r] 处是什么
+            i += 1
+```
+
+
 # 同向双指针
+
+## 数组中的最长山脉（Longest Mountain in Array）
+> LeetCode/[845. 数组中的最长山脉](https://leetcode-cn.com/problems/longest-mountain-in-array/description/)
+
+**问题描述**
+```
+我们把数组 A 中符合下列属性的任意连续子数组 B 称为 “山脉”：
+
+B.length >= 3
+存在 0 < i < B.length - 1 使得 B[0] < B[1] < ... B[i-1] < B[i] > B[i+1] > ... > B[B.length - 1]
+（注意：B 可以是 A 的任意子数组，包括整个数组 A。）
+
+给出一个整数数组 A，返回最长 “山脉” 的长度。
+
+如果不含有 “山脉” 则返回 0。
+
+示例 1：
+    输入：[2,1,4,7,3,2,5]
+    输出：5
+    解释：最长的 “山脉” 是 [1,4,7,3,2]，长度为 5。
+
+示例 2：
+    输入：[2,2,2]
+    输出：0
+    解释：不含 “山脉”。
+
+提示：
+    0 <= A.length <= 10000
+    0 <= A[i] <= 10000
+```
+
+**思路 1**
+- 先找到“山峰”，然后向两侧移动指针，寻找左右“山脚”
+- 极端情况下，可能会遍历**两次数组**（左指针有一个回溯的过程）
+
+- **Python**
+    ```python
+    class Solution:
+        def longestMountain(self, A):
+            """
+            :type A: List[int]
+            :rtype: int
+            """
+            n = len(A)
+            
+            res = 0
+            i = 1
+            while i < n - 1:
+            # for i in range(1, n - 1):
+                if A[i - 1] < A[i] > A[i + 1]:  # 先找“山峰”
+                    l = i - 1
+                    r = i + 1
+                    while l > 0 and A[l - 1] < A[l]:  # 找左侧山脚（回溯）
+                        l -= 1
+                    while r < n - 1 and A[r + 1] < A[r]:  # 找右侧山脚
+                        r += 1
+                    
+                    res = max(res, r - l + 1)
+                    
+                    i = r + 1  # 
+                else:
+                    i += 1
+                
+            return res
+    ```
+
+**思路 2**
+- 同向双指针（滑动窗口），只需遍历一遍数组
+- **Python**
+    ```python
+    class Solution:
+        def longestMountain(self, A):
+            """
+            :type A: List[int]
+            :rtype: int
+            """
+            n = len(A)
+            
+            res = 0
+            i = 1
+            while i < n:
+                l = i - 1  # 左山脚，注意 i 是从 1 开始的
+                while i < n and A[i] > A[i - 1]:
+                    i += 1
+                
+                if l == i - 1:  # 不是山坡
+                    i += 1
+                    continue
+                
+                r = i - 1  # 右山脚
+                while r < n - 1 and A[r] > A[r + 1]:
+                    r += 1
+                    
+                if r == i - 1:  # 不是山坡
+                    i += 1
+                    continue
+                else:
+                    res = max(res, r - l + 1)
+                    i = r + 1  # 
+                
+            return res
+    ```
 
 
 ## 最小覆盖子串（Minimum Window Substring）
@@ -894,330 +1063,7 @@ class Solution:
 ```
 
 
-# 链表
-
-## 旋转链表
-> LeetCode/[61. 旋转链表](https://leetcode-cn.com/problems/rotate-list/description/)
-
-**问题描述**
-```
-给定一个链表，旋转链表，将链表每个节点向右移动 k 个位置，其中 k 是非负数。
-
-示例 1:
-    输入: 1->2->3->4->5->NULL, k = 2
-    输出: 4->5->1->2->3->NULL
-    解释:
-    向右旋转 1 步: 5->1->2->3->4->NULL
-    向右旋转 2 步: 4->5->1->2->3->NULL
-示例 2:
-    输入: 0->1->2->NULL, k = 4
-    输出: 2->0->1->NULL
-    解释:
-    向右旋转 1 步: 2->0->1->NULL
-    向右旋转 2 步: 1->2->0->NULL
-    向右旋转 3 步: 0->1->2->NULL
-    向右旋转 4 步: 2->0->1->NULL
-```
-
-**思路**
-- 双指针 `l, r` 记录两个位置，其中 `l` 指向倒数第 `k+1` 个节点，`r` 指向最后一个非空节点；
-- 然后将 `r` 指向头结点 `h`，`h` 指向 `l` 的下一个节点，最后断开 `l` 与下一个节点；
-- 注意 `k` 可能大于链表的长度，此时可能需要遍历两次链表 
-
-**代码 1**
-- 比较直观的写法，代码量稍大
-```python
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def rotateRight(self, h, k):
-        """
-        :type h: ListNode
-        :type k: int
-        :rtype: ListNode
-        """
-        if not h or k == 0:
-            return h
-        
-        n = 1  # 记录链表的长度，因为只遍历到最后一个非空节点，所以从 1 开始
-        l = h
-        r = h  # tail
-        while r.next is not None and k > 0:
-            k -= 1
-            n += 1
-            r = r.next
-        
-        # print(k, n)
-        if k > 0:
-            k -= 1  # 这里要先减 1，因为 n 是从 1 开始计数的
-            k = k % n
-            r = h
-            while k > 0:
-                k -= 1
-                r = r.next
-        
-        # 找到倒数第 k 个节点
-        while r.next is not None:
-            l = l.next
-            r = r.next
-        
-        r.next = h
-        h = l.next
-        l.next = None
-            
-        return h
-```
-
-**代码 2**
-```python
-class Solution:
-    def rotateRight(self, h, k):
-        """
-        :type h: ListNode
-        :type k: int
-        :rtype: ListNode
-        """
-        if not h or k == 0:
-            return h
-        
-        n = 1  # 记录链表的长度，因为只遍历到最后一个非空节点，所以从 1 开始
-        r = h  # tail
-        while r.next is not None:
-            n += 1
-            r = r.next
-        
-        r.next = h  # 构成环
-        
-        k %= n 
-        t = n - k
-        while t > 0:
-            r = r.next
-            t -= 1
-        
-        h = r.next
-        r.next = None  # 断开 链表
-            
-        return h
-```
-
-
-# 其他
-
-## 数组中的最长山脉（Longest Mountain in Array）
-> LeetCode/[845. 数组中的最长山脉](https://leetcode-cn.com/problems/longest-mountain-in-array/description/)
-
-**问题描述**
-```
-我们把数组 A 中符合下列属性的任意连续子数组 B 称为 “山脉”：
-
-B.length >= 3
-存在 0 < i < B.length - 1 使得 B[0] < B[1] < ... B[i-1] < B[i] > B[i+1] > ... > B[B.length - 1]
-（注意：B 可以是 A 的任意子数组，包括整个数组 A。）
-
-给出一个整数数组 A，返回最长 “山脉” 的长度。
-
-如果不含有 “山脉” 则返回 0。
-
-示例 1：
-    输入：[2,1,4,7,3,2,5]
-    输出：5
-    解释：最长的 “山脉” 是 [1,4,7,3,2]，长度为 5。
-
-示例 2：
-    输入：[2,2,2]
-    输出：0
-    解释：不含 “山脉”。
-
-提示：
-    0 <= A.length <= 10000
-    0 <= A[i] <= 10000
-```
-
-**思路 1**
-- 先找到“山峰”，然后向两侧移动指针，寻找左右“山脚”
-- 极端情况下，可能会遍历**两次数组**（左指针有一个回溯的过程）
-
-- **Python**
-    ```python
-    class Solution:
-        def longestMountain(self, A):
-            """
-            :type A: List[int]
-            :rtype: int
-            """
-            n = len(A)
-            
-            res = 0
-            i = 1
-            while i < n - 1:
-            # for i in range(1, n - 1):
-                if A[i - 1] < A[i] > A[i + 1]:  # 先找“山峰”
-                    l = i - 1
-                    r = i + 1
-                    while l > 0 and A[l - 1] < A[l]:  # 找左侧山脚（回溯）
-                        l -= 1
-                    while r < n - 1 and A[r + 1] < A[r]:  # 找右侧山脚
-                        r += 1
-                    
-                    res = max(res, r - l + 1)
-                    
-                    i = r + 1  # 
-                else:
-                    i += 1
-                
-            return res
-    ```
-
-**思路 2**
-- 同向双指针（滑动窗口），只需遍历一遍数组
-- **Python**
-    ```python
-    class Solution:
-        def longestMountain(self, A):
-            """
-            :type A: List[int]
-            :rtype: int
-            """
-            n = len(A)
-            
-            res = 0
-            i = 1
-            while i < n:
-                l = i - 1  # 左山脚，注意 i 是从 1 开始的
-                while i < n and A[i] > A[i - 1]:
-                    i += 1
-                
-                if l == i - 1:  # 不是山坡
-                    i += 1
-                    continue
-                
-                r = i - 1  # 右山脚
-                while r < n - 1 and A[r] > A[r + 1]:
-                    r += 1
-                    
-                if r == i - 1:  # 不是山坡
-                    i += 1
-                    continue
-                else:
-                    res = max(res, r - l + 1)
-                    i = r + 1  # 
-                
-            return res
-    ```
-
-
-## 合并两个有序数组（Merge Sorted Array）
-> LeetCode/[88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/description/)
-
-**问题描述**
-```
-给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
-
-说明:
-    初始化 nums1 和 nums2 的元素数量分别为 m 和 n。
-    你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
-
-示例:
-    输入:
-        nums1 = [1,2,3,0,0,0], m = 3
-        nums2 = [2,5,6],       n = 3
-    输出: [1,2,2,3,5,6]
-```
-
-**思路**
-- 从后往前遍历
-
-**Python**
-```python
-class Solution:
-    def merge(self, A, m, B, n):
-        """
-        :type A: List[int]
-        :type m: int
-        :type B: List[int]
-        :type n: int
-        :rtype: void Do not return anything, modify A in-place instead.
-        """
-        
-        i = m - 1  # 指向 A 的末尾
-        j = n - 1  # 指向 B 的末尾
-        p = m + n - 1  # 指向总的末尾
-        
-        while i >= 0 and j >= 0:  # 注意结束条件
-            if A[i] > B[j]:
-                A[p] = A[i]
-                p -= 1
-                i -= 1
-            else:
-                A[p] = B[j]
-                p -= 1
-                j -= 1
-                
-        while j >= 0:  # 如果原 A 数组先排完，需要继续把 B 中的元素放进 A；如果 B 先排完，则不需要
-            A[p] = B[j]
-            p -= 1
-            j -= 1
-```
-
-
-## 颜色分类（Sort Colors）
-> LeetCode/[75. 颜色分类](https://leetcode-cn.com/problems/sort-colors/description/)
-
-**问题描述**
-```
-给定一个包含红色、白色和蓝色，一共 n 个元素的数组，原地对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。
-
-此题中，我们使用整数 0、 1 和 2 分别表示红色、白色和蓝色。
-
-注意:
-    不能使用代码库中的排序函数来解决这道题。
-
-示例:
-    输入: [2,0,2,1,1,0]
-    输出: [0,0,1,1,2,2]
-
-进阶：
-    一个直观的解决方案是使用计数排序的两趟扫描算法。
-    首先，迭代计算出0、1 和 2 元素的个数，然后按照0、1、2的排序，重写当前数组。
-    你能想出一个仅使用常数空间的一趟扫描算法吗？
-```
-
-**思路**
-- 首尾双指针
-    - `l` 记录最后一个 0 的位置
-    - `r` 记录第一个 2 的位置
-    - `i` 表示当前遍历的元素
-
-**Python**
-```python
-class Solution:
-    def sortColors(self, A):
-        """
-        :type A: List[int]
-        :rtype: void Do not return anything, modify A in-place instead.
-        """
-        n = len(A)
-        
-        l = 0  # l 指示最后一个 0
-        r = n - 1  # r 指示第一个 2
-        
-        i = 0
-        while i <= r:
-            if A[i] == 0:
-                A[i] = A[l]
-                A[l] = 0  # 确定最后一个 0
-                l += 1
-            if A[i] == 2:
-                A[i] = A[r]
-                A[r] = 2  # 确定第一个 2
-                r -= 1
-                i -= 1  # 注意回退，因为不确定原 A[r] 处是什么
-            i += 1
-```
-
+# 分离双指针
 
 ## 两个数组的交集（Intersection of Two Arrays）
 
@@ -1346,6 +1192,170 @@ class Solution:
         return res
 ```
 
+
+## 合并两个有序数组（Merge Sorted Array）
+> LeetCode/[88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/description/)
+
+**问题描述**
+```
+给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
+
+说明:
+    初始化 nums1 和 nums2 的元素数量分别为 m 和 n。
+    你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+
+示例:
+    输入:
+        nums1 = [1,2,3,0,0,0], m = 3
+        nums2 = [2,5,6],       n = 3
+    输出: [1,2,2,3,5,6]
+```
+
+**思路**
+- 从后往前遍历
+
+**Python**
+```python
+class Solution:
+    def merge(self, A, m, B, n):
+        """
+        :type A: List[int]
+        :type m: int
+        :type B: List[int]
+        :type n: int
+        :rtype: void Do not return anything, modify A in-place instead.
+        """
+        
+        i = m - 1  # 指向 A 的末尾
+        j = n - 1  # 指向 B 的末尾
+        p = m + n - 1  # 指向总的末尾
+        
+        while i >= 0 and j >= 0:  # 注意结束条件
+            if A[i] > B[j]:
+                A[p] = A[i]
+                p -= 1
+                i -= 1
+            else:
+                A[p] = B[j]
+                p -= 1
+                j -= 1
+                
+        while j >= 0:  # 如果原 A 数组先排完，需要继续把 B 中的元素放进 A；如果 B 先排完，则不需要
+            A[p] = B[j]
+            p -= 1
+            j -= 1
+```
+
+
+## 旋转链表（Rotate List）
+> LeetCode/[61. 旋转链表](https://leetcode-cn.com/problems/rotate-list/description/)
+
+**问题描述**
+```
+给定一个链表，旋转链表，将链表每个节点向右移动 k 个位置，其中 k 是非负数。
+
+示例 1:
+    输入: 1->2->3->4->5->NULL, k = 2
+    输出: 4->5->1->2->3->NULL
+    解释:
+    向右旋转 1 步: 5->1->2->3->4->NULL
+    向右旋转 2 步: 4->5->1->2->3->NULL
+示例 2:
+    输入: 0->1->2->NULL, k = 4
+    输出: 2->0->1->NULL
+    解释:
+    向右旋转 1 步: 2->0->1->NULL
+    向右旋转 2 步: 1->2->0->NULL
+    向右旋转 3 步: 0->1->2->NULL
+    向右旋转 4 步: 2->0->1->NULL
+```
+
+**思路**
+- 双指针 `l, r` 记录两个位置，其中 `l` 指向倒数第 `k+1` 个节点，`r` 指向最后一个非空节点；
+- 然后将 `r` 指向头结点 `h`，`h` 指向 `l` 的下一个节点，最后断开 `l` 与下一个节点；
+- 注意 `k` 可能大于链表的长度，此时可能需要遍历两次链表 
+
+**代码 1**
+- 比较直观的写法，代码量稍大
+```python
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def rotateRight(self, h, k):
+        """
+        :type h: ListNode
+        :type k: int
+        :rtype: ListNode
+        """
+        if not h or k == 0:
+            return h
+        
+        n = 1  # 记录链表的长度，因为只遍历到最后一个非空节点，所以从 1 开始
+        l = h
+        r = h  # tail
+        while r.next is not None and k > 0:
+            k -= 1
+            n += 1
+            r = r.next
+        
+        # print(k, n)
+        if k > 0:
+            k -= 1  # 这里要先减 1，因为 n 是从 1 开始计数的
+            k = k % n
+            r = h
+            while k > 0:
+                k -= 1
+                r = r.next
+        
+        # 找到倒数第 k 个节点
+        while r.next is not None:
+            l = l.next
+            r = r.next
+        
+        r.next = h
+        h = l.next
+        l.next = None
+            
+        return h
+```
+
+**代码 2**
+```python
+class Solution:
+    def rotateRight(self, h, k):
+        """
+        :type h: ListNode
+        :type k: int
+        :rtype: ListNode
+        """
+        if not h or k == 0:
+            return h
+        
+        n = 1  # 记录链表的长度，因为只遍历到最后一个非空节点，所以从 1 开始
+        r = h  # tail
+        while r.next is not None:
+            n += 1
+            r = r.next
+        
+        r.next = h  # 构成环
+        
+        k %= n 
+        t = n - k
+        while t > 0:
+            r = r.next
+            t -= 1
+        
+        h = r.next
+        r.next = None  # 断开 链表
+            
+        return h
+```
+
+
+# 其他
 
 ## 最小区间（Smallest Range）
 > LeetCode/[632. 最小区间](https://leetcode-cn.com/problems/smallest-range/)
