@@ -58,6 +58,10 @@ Index
         - [I](#i)
         - [II](#ii)
     - [合并两个有序数组（Merge Sorted Array）](#合并两个有序数组merge-sorted-array)
+- [链表相关](#链表相关)
+    - [链表快排](#链表快排)
+        - [分隔链表（Partition List）](#分隔链表partition-list)
+        - [链表快排（Sort List）](#链表快排sort-list)
     - [旋转链表（Rotate List）](#旋转链表rotate-list)
 - [其他](#其他)
     - [最小区间（Smallest Range）](#最小区间smallest-range)
@@ -1247,6 +1251,91 @@ class Solution:
 ```
 
 
+# 链表相关
+
+## 链表快排
+
+### 分隔链表（Partition List）
+> LeetCode/[86. 分隔链表](https://leetcode-cn.com/problems/partition-list/description/)
+
+**问题描述**
+```
+给定一个链表和一个特定值 x，对链表进行分隔，使得所有小于 x 的节点都在大于或等于 x 的节点之前。
+
+你应当保留两个分区中每个节点的初始相对位置。
+
+示例:
+    输入: head = 1->4->3->2->5->2, x = 3
+    输出: 1->2->2->4->3->5
+```
+
+**思路**
+- 链表快排的中间操作
+- ~~同向双指针~~——因为要求相对位置不变，所以同向双指针不够方便
+- 新建两个链表，分别保存小于 x 和大于等于 x 的，最后拼接
+
+**Python**
+- 因为要求节点的相对位置不变，所以需要这么写；
+- ~~如果是用在链表快排中，可以把头节点作为 x，最后把 x 插进 lo 和 hi 链表的中间；~~
+- 这种写法**不适合**用在链表快排中，因为这里有**拼接**操作；
+- 在实际链表快排中 partition 操作只对中间一部分执行，如果需要拼接，容易出错。
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def partition(self, h, x):
+        """
+        :type h: ListNode
+        :type x: int
+        :rtype: ListNode
+        """
+        l = lo = ListNode(0)
+        r = hi = ListNode(0)
+        
+        while h:
+            if h.val < x:
+                l.next = h  # Python 中不支持 l = l.next = h 的写法，C++ 指针可以
+                l = l.next
+            else:
+                r.next = h  # Python 中不支持 r = r.next = h 的写法，C++ 指针可以
+                r = r.next
+                
+            h = h.next
+        
+        r.next = None  # 因为尾节点可能不小于 x，所以需要断开
+        l.next = hi.next
+        
+        return lo.next
+```
+
+### 链表快排（Sort List）
+> LeetCode/[148. 排序链表](https://leetcode-cn.com/problems/sort-list/description/)
+
+**问题描述**
+```
+在 O(n log n) 时间复杂度和常数级空间复杂度下，对链表进行排序。
+
+示例 1:
+    输入: 4->2->1->3
+    输出: 1->2->3->4
+示例 2:
+    输入: -1->5->3->4->0
+    输出: -1->0->3->4->5
+```
+
+**思路**
+- 与数组快排几乎一致，只是 partition 操作需要从左向右遍历
+
+**C++**
+```C++
+
+```
+
+
 ## 旋转链表（Rotate List）
 > LeetCode/[61. 旋转链表](https://leetcode-cn.com/problems/rotate-list/description/)
 
@@ -1323,6 +1412,7 @@ class Solution:
 ```
 
 **代码 2**
+- 代码量少一点，但是遍历的长度要多一点。
 ```python
 class Solution:
     def rotateRight(self, h, k):
