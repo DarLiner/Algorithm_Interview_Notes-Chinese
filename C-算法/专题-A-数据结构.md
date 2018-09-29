@@ -1002,6 +1002,7 @@ public:
 
 ### 链表插入排序
 > LeetCode/[147. 对链表进行插入排序](https://leetcode-cn.com/problems/insertion-sort-list/description/)
+>> 注意：以下代码在[148. 排序链表](https://leetcode-cn.com/problems/sort-list/description/)也能 AC（要求时间复杂度 `O(NlogN)`）
 
 **问题描述**
 ```
@@ -1072,7 +1073,8 @@ public:
 ```
 
 **代码 2 - 原地**
-- 即不使用新链表，逻辑与数组一致
+- 即不使用新链表，逻辑与数组一致；
+- 此时链表拼接的逻辑会复杂一些
 ```C++
 class Solution {
 public:
