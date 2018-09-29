@@ -28,8 +28,9 @@ Index
     - [合并排序链表](#合并排序链表)
     - [两个链表的第一个公共节点](#两个链表的第一个公共节点)
     - [链表排序](#链表排序)
-        - [分隔链表（Partition List）](#分隔链表partition-list)
-        - [链表快排（Sort List）](#链表快排sort-list)
+        - [链表快排](#链表快排)
+        - [链表归并](#链表归并)
+        - [链表插入排序](#链表插入排序)
 - [二维数组](#二维数组)
     - [二分查找](#二分查找)
         - [搜索二维矩阵 1](#搜索二维矩阵-1)
@@ -785,64 +786,7 @@ public:
 ## 链表排序
 > [链表排序（冒泡、选择、插入、快排、归并、希尔、堆排序） - tenos](https://www.cnblogs.com/TenosDoIt/p/3666585.html) - 博客园 
 
-### 分隔链表（Partition List）
-> LeetCode/[86. 分隔链表](https://leetcode-cn.com/problems/partition-list/description/)
-
-**问题描述**
-```
-给定一个链表和一个特定值 x，对链表进行分隔，使得所有小于 x 的节点都在大于或等于 x 的节点之前。
-
-你应当保留两个分区中每个节点的初始相对位置。
-
-示例:
-    输入: head = 1->4->3->2->5->2, x = 3
-    输出: 1->2->2->4->3->5
-```
-
-**思路**
-- 链表快排的中间操作；
-- 新建两个链表，分别保存小于 x 和大于等于 x 的，最后拼接；
-- 因为要求节点的相对位置不变，所以这么写比较方便；
-- 一般来说，链表快排有两种写法：一种是交换节点内的值，一种是交换节点；该写法适用于后者。
-- ~~如果是用在链表快排中，可以把头节点作为 x，最后把 x 插进 lo 和 hi 链表的中间；~~
-- ~~这种写法不适合用在链表快排中，因为这里有拼接操作；~~
-- ~~在实际链表快排中 partition 操作只对中间一部分执行，如果需要拼接，容易出错。~~
-
-**Python**
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def partition(self, h, x):
-        """
-        :type h: ListNode
-        :type x: int
-        :rtype: ListNode
-        """
-        l = lo = ListNode(0)
-        r = hi = ListNode(0)
-        
-        while h:
-            if h.val < x:
-                l.next = h  # Python 中不支持 l = l.next = h 的写法，C++ 指针可以
-                l = l.next
-            else:
-                r.next = h  # Python 中不支持 r = r.next = h 的写法，C++ 指针可以
-                r = r.next
-                
-            h = h.next
-        
-        r.next = None  # 因为尾节点可能不小于 x，所以需要断开
-        l.next = hi.next
-        
-        return lo.next
-```
-
-### 链表快排（Sort List）
+### 链表快排
 > LeetCode/[148. 排序链表](https://leetcode-cn.com/problems/sort-list/description/)
 
 **问题描述**
@@ -967,6 +911,201 @@ public:
         qsort(&pre, head, nullptr);
         
         return pre.next;
+    }
+};
+```
+
+### 链表归并
+> LeetCode/[148. 排序链表](https://leetcode-cn.com/problems/sort-list/description/)
+
+**问题描述**
+```
+在 O(n log n) 时间复杂度和常数级空间复杂度下，对链表进行排序。
+
+示例 1:
+    输入: 4->2->1->3
+    输出: 1->2->3->4
+示例 2:
+    输入: -1->5->3->4->0
+    输出: -1->0->3->4->5
+```
+
+**思路**
+- 用快慢指针的方法找到链表中间节点，然后递归的对两个子链表排序，把两个排好序的子链表合并成一条有序的链表
+- 归并排序比较适合链表，它可以保证了最好和最坏时间复杂度都是 `O(NlogN)`，而且它在数组排序中广受诟病的空间复杂度在链表排序中也从O(n)降到了 `O(1)`
+    - 因为链表快排中只能使用第一个节点作为枢纽，所以不能保证时间复杂度
+- 还是使用 C++
+
+**C++**
+```C++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ 
+class Solution {
+    ListNode* merge(ListNode *h1, ListNode *h2) {  // 排序两个链表
+        if (h1 == nullptr) return h2;
+        if (h2 == nullptr) return h1;
+        
+        ListNode* h;  // 合并后的头结点
+        if (h1->val < h2->val) {
+            h = h1;
+            h1 = h1->next;
+        } else {
+            h = h2;
+            h2 = h2->next;
+        }
+        
+        ListNode* p = h;
+        while (h1 && h2) {
+            if (h1->val < h2->val) {
+                p->next = h1;
+                h1 = h1->next;
+            } else {
+                p->next = h2;
+                h2 = h2->next;
+            }
+            p = p->next;
+        }
+        
+        if (h1) p->next = h1;
+        if (h2) p->next = h2;
+        
+        return h;
+    }
+    
+public:
+    ListNode* sortList(ListNode* h) {
+        if (h == nullptr || h->next == nullptr)
+            return h;
+        
+        auto f = h, s = h;  // 快慢指针 fast & slow
+        while (f->next && f->next->next) {
+            f = f->next->next;
+            s = s->next;
+        }
+        f = s->next;  // 中间节点
+        s->next = nullptr; // 断开
+        
+        h = sortList(h);  // 前半段排序
+        f = sortList(f);  // 后半段排序
+        
+        return merge(h, f);
+    }
+};
+```
+
+### 链表插入排序
+> LeetCode/[147. 对链表进行插入排序](https://leetcode-cn.com/problems/insertion-sort-list/description/)
+
+**问题描述**
+```
+对链表进行插入排序。
+
+插入排序是迭代的，每次只移动一个元素，直到所有元素可以形成一个有序的输出列表。
+每次迭代中，插入排序只从输入数据中移除一个待排序的元素，找到它在序列中适当的位置，并将其插入。
+重复直到所有输入数据插入完为止。
+
+示例 1：
+    输入: 4->2->1->3
+    输出: 1->2->3->4
+示例 2：
+    输入: -1->5->3->4->0
+    输出: -1->0->3->4->5
+```
+
+<div align="center"><img src="../_assets/Insertion-sort-example-300px.gif" height="" /></div>
+
+- 插入排序的动画演示如上。从第一个元素开始，该链表可以被认为已经部分排序（用黑色表示）。
+每次迭代时，从输入数据中移除一个元素（用红色表示），并原地将其插入到已排好序的链表中。
+
+**代码 1 - 非原地**
+- 实际上，对链表来说，不存在是否原地的问题，不像数组
+- 这里所谓的非原地是相对数组而言的，因此下面的代码只针对链表，不适用于数组。
+```C++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* h) {
+        if (h == nullptr || h->next == nullptr)
+            return h;
+        
+        // 因为是链表，所以可以重新开一个新的链表来保存排序好的部分；
+        // 不存在空间上的问题，这一点不像数组
+        auto H = new ListNode(0);
+        
+        auto pre = H;
+        auto cur = h;
+        ListNode* nxt;
+        while (cur) {
+            while (pre->next && pre->next->val < cur->val) {
+                pre = pre->next;
+            }
+            
+            nxt = cur->next;  // 记录下一个要遍历的节点
+            // 把 cur 插入 pre 和 pre->next 之间
+            cur->next = pre->next;
+            pre->next = cur;
+            
+            // 重新下一轮
+            pre = H;
+            cur = nxt;
+        }
+        
+        h = H->next;
+        delete H;
+        return h;
+    }
+};
+```
+
+**代码 2 - 原地**
+- 即不使用新链表，逻辑与数组一致
+```C++
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* h) {
+        if (h == nullptr || h->next == nullptr)
+            return h;
+        
+        auto beg = new ListNode(0);
+        beg->next = h;
+        auto end = h;   // (beg, end] 指示排好序的部分
+        
+        auto p = h->next;  // 当前待排序的节点
+        while (p) {
+            auto pre = beg;
+            auto cur = beg->next;  // p 将插入到 pre 和 cur 之间
+            while (cur != p && p->val >= cur->val) {
+                cur = cur->next;
+                pre = pre->next;
+            }
+            
+            if (cur == p) {
+                end = p;
+            } else {
+                end->next = p->next;
+                p->next = cur;
+                pre->next = p;
+            }
+            p = end->next;
+        }
+        
+        h = beg->next;
+        delete beg;
+        return h;
     }
 };
 ```

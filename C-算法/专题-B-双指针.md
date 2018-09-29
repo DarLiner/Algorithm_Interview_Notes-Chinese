@@ -15,6 +15,7 @@
     <div align="center"><img src="../_assets/TIM截图20180928102605.png" height="" /></div>
 
     - 一般用于寻找满足某个条件的**连续区间**
+    - 在**链表**相关问题中经常会使用**快慢双指针**来寻找某个节点
 - **分离双指针**
     <div align="center"><img src="../_assets/TIM截图20180928103003.png" height="" /></div>
 
@@ -29,6 +30,7 @@ RoadMap
 - [首尾双指针](#首尾双指针)
 - [同向双指针](#同向双指针)
 - [分离双指针](#分离双指针)
+- [链表相关](#链表相关)
 - [其他](#其他)
 
 Index
@@ -59,7 +61,10 @@ Index
         - [II](#ii)
     - [合并两个有序数组（Merge Sorted Array）](#合并两个有序数组merge-sorted-array)
 - [链表相关](#链表相关)
-    - [链表快排（Sort List）](#链表快排sort-list)
+    - [分隔链表（Partition List）](#分隔链表partition-list)
+    - [链表排序](#链表排序)
+        - [链表快排](#链表快排)
+        - [链表归并](#链表归并)
     - [旋转链表（Rotate List）](#旋转链表rotate-list)
 - [其他](#其他)
     - [最小区间（Smallest Range）](#最小区间smallest-range)
@@ -1251,8 +1256,70 @@ class Solution:
 
 # 链表相关
 
-## 链表快排（Sort List）
-> ./数据结构/[链表快排](./专题-A-数据结构#链表快排sort-list)
+## 分隔链表（Partition List）
+> LeetCode/[86. 分隔链表](https://leetcode-cn.com/problems/partition-list/description/)
+
+**问题描述**
+```
+给定一个链表和一个特定值 x，对链表进行分隔，使得所有小于 x 的节点都在大于或等于 x 的节点之前。
+
+你应当保留两个分区中每个节点的初始相对位置。
+
+示例:
+    输入: head = 1->4->3->2->5->2, x = 3
+    输出: 1->2->2->4->3->5
+```
+
+**思路**
+- 链表快排的中间操作；
+- 新建两个链表，分别保存小于 x 和大于等于 x 的，最后拼接；
+- 因为要求节点的相对位置不变，所以这么写比较方便；
+- 一般来说，链表快排有两种写法：一种是交换节点内的值，一种是交换节点；该写法适用于后者。
+- ~~如果是用在链表快排中，可以把头节点作为 x，最后把 x 插进 lo 和 hi 链表的中间；~~
+- ~~这种写法不适合用在链表快排中，因为这里有拼接操作；~~
+- ~~在实际链表快排中 partition 操作只对中间一部分执行，如果需要拼接，容易出错。~~
+
+**Python**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def partition(self, h, x):
+        """
+        :type h: ListNode
+        :type x: int
+        :rtype: ListNode
+        """
+        l = lo = ListNode(0)
+        r = hi = ListNode(0)
+        
+        while h:
+            if h.val < x:
+                l.next = h  # Python 中不支持 l = l.next = h 的写法，C++ 指针可以
+                l = l.next
+            else:
+                r.next = h  # Python 中不支持 r = r.next = h 的写法，C++ 指针可以
+                r = r.next
+                
+            h = h.next
+        
+        r.next = None  # 因为尾节点可能不小于 x，所以需要断开
+        l.next = hi.next
+        
+        return lo.next
+```
+
+## 链表排序
+
+### 链表快排
+> ./数据结构/[链表快排](./专题-A-数据结构#链表快排)
+
+### 链表归并
+> ./数据结构/[链表归并](./专题-A-数据结构#链表归并)
 
 ## 旋转链表（Rotate List）
 > ./数据结构/[旋转链表](./专题-A-数据结构#旋转链表rotate-list)
