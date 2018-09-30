@@ -1,8 +1,10 @@
 专题-数据结构
 ===
 
-- 数据结构相关基本是**现场面试**中出现频率最高的问题。因为现场面试的时间限制，更难的问题需要大量的思考时间，所以一般只要求需要阐述思路；而数据结构相关的问题，因为有很强的先验知识，通常要求**手写代码**。
-- 本专题只收录**纯数据结构问题**，不包括数据结构的应用。
+- 数据结构相关基本是**现场面试**中出现频率最高的问题。
+    - 因为现场面试的时间限制，更难的问题需要大量的思考时间，所以一般只要求需要阐述思路（比如动态规划）；
+    - 而**数据结构**相关的问题，因为有很强的先验知识，通常要求**手写代码**。
+- 本专题只收录**基础数据结构相关问题**，不包括高级数据结构及数据结构的设计，比如线段树或者 LRU 缓存，这些问题可以参考[数据结构_Advanced](./专题-A-数据结构_Advanced)。
 
 Index
 ---
@@ -31,6 +33,8 @@ Index
         - [链表快排](#链表快排)
         - [链表归并](#链表归并)
         - [链表插入排序](#链表插入排序)
+        - [链表选择排序](#链表选择排序)
+        - [链表冒泡排序](#链表冒泡排序)
 - [二维数组](#二维数组)
     - [二分查找](#二分查找)
         - [搜索二维矩阵 1](#搜索二维矩阵-1)
@@ -802,9 +806,10 @@ public:
 ```
 
 **思路**
-- 与数组快排几乎一致，只是 partition 操作需要从左向右遍历
-- 因为涉及指针，还是用 C++ 写比较方便
-- 另外 LeetCode 讨论区反映 Python 可能会超时
+- 与数组快排几乎一致，只是 partition 操作需要从左向右遍历；
+- 因为涉及指针，还是用 C++ 写比较方便；
+- 另外 LeetCode 讨论区反映 Python 可能会超时；
+- **时间复杂度**：最好 `O(NlogN)`，最坏 `O(N^2)`
 
 **代码 1 - 只交换节点内的值**
 - 参考数组快排中的写法，这里选取**第一个元素**作为枢纽
@@ -935,6 +940,7 @@ public:
 - 归并排序比较适合链表，它可以保证了最好和最坏时间复杂度都是 `O(NlogN)`，而且它在数组排序中广受诟病的空间复杂度在链表排序中也从O(n)降到了 `O(1)`
     - 因为链表快排中只能使用第一个节点作为枢纽，所以不能保证时间复杂度
 - 还是使用 C++
+- **时间复杂度**：最好/最坏 `O(NlogN)`
 
 **C++**
 ```C++
@@ -1025,18 +1031,14 @@ public:
 - 插入排序的动画演示如上。从第一个元素开始，该链表可以被认为已经部分排序（用黑色表示）。
 每次迭代时，从输入数据中移除一个元素（用红色表示），并原地将其插入到已排好序的链表中。
 
+**思路**
+- 见代码注释
+- **时间复杂度**：最好/最坏 `O(N^2)`
+
 **代码 1 - 非原地**
 - 实际上，对链表来说，不存在是否原地的问题，不像数组
 - 这里所谓的非原地是相对数组而言的，因此下面的代码只针对链表，不适用于数组。
 ```C++
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
 class Solution {
 public:
     ListNode* insertionSortList(ListNode* h) {
@@ -1107,6 +1109,87 @@ public:
         
         h = beg->next;
         delete beg;
+        return h;
+    }
+};
+```
+
+### 链表选择排序
+> LeetCode/[147. 对链表进行插入排序](https://leetcode-cn.com/problems/insertion-sort-list/description/)
+>> 注意：以下代码在[148. 排序链表](https://leetcode-cn.com/problems/sort-list/description/)也能 AC（要求时间复杂度 `O(NlogN)`）
+
+**思路**
+- 见代码注释
+- **时间复杂度**：最好/最坏 `O(N^2)`
+
+**C++**
+```C++
+class Solution {
+public:
+    ListNode* sortList(ListNode* h) {
+        if (h == nullptr || h->next == nullptr)
+            return h;
+        
+        auto H = new ListNode(0);  // 为了操作方便，添加一个头结点
+        H->next = h;
+        
+        auto s = h;  // 指向已经排好序的尾部
+        ListNode* m;  // 指向未排序部分的最小节点 min
+        ListNode* p;  // 迭代器
+        while (s->next) {
+            m = s;
+            p = s->next;
+            while (p) {  // 寻找剩余部分的最小节点
+                if (p->val < m->val)
+                    m = p;
+                p = p->next;
+            }
+            
+            swap(s->val, m->val);  // 交换节点内的值
+            s = s->next;
+        }
+        
+        h = H->next;
+        delete H;
+        return h;
+    }
+};
+```
+
+### 链表冒泡排序
+> LeetCode/[147. 对链表进行插入排序](https://leetcode-cn.com/problems/insertion-sort-list/description/)
+
+**思路**
+- 见代码注释
+- **时间复杂度**：最好 `O(N)`，最坏 `O(N^2)`
+
+**C++**
+- 以下代码不能 AC [148. 排序链表](https://leetcode-cn.com/problems/sort-list/description/)
+```C++
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* h) {
+        if (h == nullptr || h->next == nullptr)
+            return h;
+        
+        ListNode* q = nullptr;  // 开始时指向尾节点
+        ListNode* p;  // 迭代器
+        bool changed = true;
+        while (q != h->next && changed) {
+            changed = false;
+            p = h;
+            
+            // 把大的元素“冒泡”到尾部去
+            while (p->next && p->next != p) {
+                if (p->val > p->next->val) {  // 如果已经有序，则退出循环
+                    swap(p->val, p->next->val);
+                    changed = true;
+                }
+                p = p->next;
+            }
+            q = p;
+        }
+        
         return h;
     }
 };

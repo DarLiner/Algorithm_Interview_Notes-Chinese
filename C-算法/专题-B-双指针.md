@@ -1,21 +1,26 @@
 专题-双指针
 ===
-- 双指针问题出现的频率非常高
-- 九章算法称之为“为面试而生的双指针算法”
+- 双指针问题无论在笔试还是面试中出现的频率都非常高；是性价比非常高的一类问题。
 
 模板小结
 ---
 - **首尾双指针**
     <div align="center"><img src="../_assets/TIM截图20180928102534.png" height="" /></div>
 
-    - 一般用于寻找数组中满足条件的**两个数**；如果是寻找多个数，则先固定前 n-2 个数
+    - 一般用于寻找数组/双向链表中满足条件的**两个节点**；如果是寻找多个数，则先固定前 n-2 个数；
     - 为了不遗漏所有可能情况，可能要求数组**有序**；
-    - 遍历时，大于目标时 `hi--`，小于目标时 `lo++`。 
+    - **典型问题**：[两数之和](#两数之和)、[三数之和](#三数之和)、[三角形计数](#三角形计数valid-triangle-number)
 - **同向双指针**
     <div align="center"><img src="../_assets/TIM截图20180928102605.png" height="" /></div>
 
-    - 一般用于寻找满足某个条件的**连续区间**
-    - 在**链表**相关问题中经常会使用**快慢双指针**来寻找某个节点
+    - **数组**中，一般用于寻找满足某个条件的**连续区间**；
+    - **链表**相关问题中经常会使用**快慢双指针**来寻找某个节点；
+    - **典型问题**：[最小覆盖子串](#最小覆盖子串minimum-window-substring)、[数组中的最长山脉（同向双指针）](#数组中的最长山脉longest-mountain-in-array同向双指针)
+- **反向双指针**
+    <div align="center"><img src="../_assets/TIM截图20180930171522.png" height="" /></div>
+
+    - 先依次遍历都某个节点，然后使用双指针从该节点反向判断是否满足条件。
+    - **典型问题**：[最长回文子串](#最长回文子串longest-palindromic-substring)、[数组中的最长山脉（反向双指针）](#数组中的最长山脉longest-mountain-in-array反向双指针)
 - **分离双指针**
     <div align="center"><img src="../_assets/TIM截图20180928103003.png" height="" /></div>
 
@@ -24,11 +29,13 @@
 
     <div align="center"><img src="../_assets/TIM截图20180928103312.png" height="" /></div>
 
+    - **典型问题**：[两个数组的交集](#两个数组的交集intersection-of-two-arrays)、[合并两个有序数组](#合并两个有序数组merge-sorted-array)
     
 RoadMap
 ---
 - [首尾双指针](#首尾双指针)
 - [同向双指针](#同向双指针)
+- [反向双指针](#反向双指针)
 - [分离双指针](#分离双指针)
 - [链表相关](#链表相关)
 - [其他](#其他)
@@ -44,17 +51,20 @@ Index
     - [最接近的三数之和](#最接近的三数之和)
     - [两数之和 - 小于等于目标值的个数](#两数之和---小于等于目标值的个数)
     - [三数之和 - 小于等于目标值的个数](#三数之和---小于等于目标值的个数)
-    - [三角形计数](#三角形计数)
+    - [三角形计数（Valid Triangle Number）](#三角形计数valid-triangle-number)
     - [接雨水（Trapping Rain Water）（一维）](#接雨水trapping-rain-water一维)
     - [盛最多水的容器（Container With Most Water）](#盛最多水的容器container-with-most-water)
     - [反转字符串（Reverse String）](#反转字符串reverse-string)
     - [颜色分类（Sort Colors）](#颜色分类sort-colors)
 - [同向双指针](#同向双指针)
-    - [数组中的最长山脉（Longest Mountain in Array）](#数组中的最长山脉longest-mountain-in-array)
+    - [数组中的最长山脉（Longest Mountain in Array）（同向双指针）](#数组中的最长山脉longest-mountain-in-array同向双指针)
     - [最小覆盖子串（Minimum Window Substring）](#最小覆盖子串minimum-window-substring)
     - [长度最小的子数组（Minimum Size Subarray Sum）](#长度最小的子数组minimum-size-subarray-sum)
     - [无重复字符的最长子串（Longest Substring Without Repeating Characters）](#无重复字符的最长子串longest-substring-without-repeating-characters)
     - [水果成篮（Fruit Into Baskets）](#水果成篮fruit-into-baskets)
+- [反向双指针](#反向双指针)
+    - [数组中的最长山脉（Longest Mountain in Array）（反向双指针）](#数组中的最长山脉longest-mountain-in-array反向双指针)
+    - [最长回文子串（Longest Palindromic Substring）](#最长回文子串longest-palindromic-substring)
 - [分离双指针](#分离双指针)
     - [两个数组的交集（Intersection of Two Arrays）](#两个数组的交集intersection-of-two-arrays)
         - [I](#i)
@@ -62,9 +72,12 @@ Index
     - [合并两个有序数组（Merge Sorted Array）](#合并两个有序数组merge-sorted-array)
 - [链表相关](#链表相关)
     - [分隔链表（Partition List）](#分隔链表partition-list)
-    - [链表排序](#链表排序)
+    - [链表排序（Sort List）](#链表排序sort-list)
         - [链表快排](#链表快排)
         - [链表归并](#链表归并)
+        - [链表插入排序](#链表插入排序)
+        - [链表选择排序](#链表选择排序)
+        - [链表冒泡排序](#链表冒泡排序)
     - [旋转链表（Rotate List）](#旋转链表rotate-list)
 - [其他](#其他)
     - [最小区间（Smallest Range）](#最小区间smallest-range)
@@ -459,7 +472,7 @@ class Solution:
 ```
 
 
-## 三角形计数
+## 三角形计数（Valid Triangle Number）
 > LeetCode/[611. 有效三角形的个数](https://leetcode-cn.com/problems/valid-triangle-number/description/)
 
 **问题描述**
@@ -727,7 +740,7 @@ class Solution:
 
 # 同向双指针
 
-## 数组中的最长山脉（Longest Mountain in Array）
+## 数组中的最长山脉（Longest Mountain in Array）（同向双指针）
 > LeetCode/[845. 数组中的最长山脉](https://leetcode-cn.com/problems/longest-mountain-in-array/description/)
 
 **问题描述**
@@ -757,81 +770,47 @@ B.length >= 3
     0 <= A[i] <= 10000
 ```
 
-**思路 1**
-- 先找到“山峰”，然后向两侧移动指针，寻找左右“山脚”
-- 极端情况下，可能会遍历**两次数组**（左指针有一个回溯的过程）
-
-- **Python**
-    ```python
-    class Solution:
-        def longestMountain(self, A):
-            """
-            :type A: List[int]
-            :rtype: int
-            """
-            n = len(A)
-            
-            res = 0
-            i = 1
-            while i < n - 1:
-            # for i in range(1, n - 1):
-                if A[i - 1] < A[i] > A[i + 1]:  # 先找“山峰”
-                    l = i - 1
-                    r = i + 1
-                    while l > 0 and A[l - 1] < A[l]:  # 找左侧山脚（回溯）
-                        l -= 1
-                    while r < n - 1 and A[r + 1] < A[r]:  # 找右侧山脚
-                        r += 1
-                    
-                    res = max(res, r - l + 1)
-                    
-                    i = r + 1  # 
-                else:
-                    i += 1
-                
-            return res
-    ```
-
-**思路 2**
+**思路 - 同向双指针**
 - 同向双指针（滑动窗口），只需遍历一遍数组
-- **Python**
-    ```python
-    class Solution:
-        def longestMountain(self, A):
-            """
-            :type A: List[int]
-            :rtype: int
-            """
-            n = len(A)
+
+**Python**
+```python
+class Solution:
+    def longestMountain(self, A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        n = len(A)
+        
+        res = 0
+        i = 1
+        while i < n:
+            l = i - 1  # 左山脚，注意 i 是从 1 开始的
+            while i < n and A[i] > A[i - 1]:
+                i += 1
             
-            res = 0
-            i = 1
-            while i < n:
-                l = i - 1  # 左山脚，注意 i 是从 1 开始的
-                while i < n and A[i] > A[i - 1]:
-                    i += 1
+            if l == i - 1:  # 不是山坡
+                i += 1
+                continue
+            
+            r = i - 1  # 右山脚
+            while r < n - 1 and A[r] > A[r + 1]:
+                r += 1
                 
-                if l == i - 1:  # 不是山坡
-                    i += 1
-                    continue
-                
-                r = i - 1  # 右山脚
-                while r < n - 1 and A[r] > A[r + 1]:
-                    r += 1
-                    
-                if r == i - 1:  # 不是山坡
-                    i += 1
-                    continue
-                else:
-                    res = max(res, r - l + 1)
-                    i = r + 1  # 
-                
-            return res
-    ```
+            if r == i - 1:  # 不是山坡
+                i += 1
+                continue
+            else:
+                res = max(res, r - l + 1)
+                i = r + 1  # 
+            
+        return res
+```
 
 
 ## 最小覆盖子串（Minimum Window Substring）
-> LeetCode/76. 最小覆盖子串
+> LeetCode/[76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/description/)
 
 **问题描述**
 ```
@@ -1069,6 +1048,128 @@ class Solution:
         return res
 ```
 
+
+# 反向双指针
+
+## 数组中的最长山脉（Longest Mountain in Array）（反向双指针）
+> LeetCode/[845. 数组中的最长山脉](https://leetcode-cn.com/problems/longest-mountain-in-array/description/)
+
+**问题描述**
+```
+我们把数组 A 中符合下列属性的任意连续子数组 B 称为 “山脉”：
+
+B.length >= 3
+存在 0 < i < B.length - 1 使得 B[0] < B[1] < ... B[i-1] < B[i] > B[i+1] > ... > B[B.length - 1]
+（注意：B 可以是 A 的任意子数组，包括整个数组 A。）
+
+给出一个整数数组 A，返回最长 “山脉” 的长度。
+
+如果不含有 “山脉” 则返回 0。
+
+示例 1：
+    输入：[2,1,4,7,3,2,5]
+    输出：5
+    解释：最长的 “山脉” 是 [1,4,7,3,2]，长度为 5。
+
+示例 2：
+    输入：[2,2,2]
+    输出：0
+    解释：不含 “山脉”。
+
+提示：
+    0 <= A.length <= 10000
+    0 <= A[i] <= 10000
+```
+
+**思路 - 反向双指针**
+- 先找到“山峰”，然后向两侧移动指针，寻找左右“山脚”
+- 极端情况下，可能会遍历**两次数组**（左指针有一个回溯的过程）
+
+**Python**
+```python
+class Solution:
+    def longestMountain(self, A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        n = len(A)
+        
+        res = 0
+        i = 1
+        while i < n - 1:
+        # for i in range(1, n - 1):
+            if A[i - 1] < A[i] > A[i + 1]:  # 先找“山峰”
+                l = i - 1
+                r = i + 1
+                while l > 0 and A[l - 1] < A[l]:  # 找左侧山脚（回溯）
+                    l -= 1
+                while r < n - 1 and A[r + 1] < A[r]:  # 找右侧山脚
+                    r += 1
+                
+                res = max(res, r - l + 1)
+                
+                i = r + 1  # 跳过右边的下坡，这一段一定不存在山脉
+            else:
+                i += 1
+            
+        return res
+```
+
+
+## 最长回文子串（Longest Palindromic Substring）
+> LeetCode/[5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/description/)
+
+**问题描述**
+```
+给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为1000。
+
+示例 1：
+    输入: "babad"
+    输出: "bab"
+    注意: "aba"也是一个有效答案。
+示例 2：
+    输入: "cbbd"
+    输出: "bb"
+```
+
+**思路**
+- 搜索最长回文子串的方法很多；最主要的是动态规划和双指针方法
+    > 这两种方法的时间复杂度都不是最优的， `O(N^2)`；此外还存在 `O(NlogN)` 和 `O(N)` 方法，但是这些方法并不存在普适性
+    >> ./动态规划/[最长回文子串](./专题-B-动态规划#最长回文子串)
+- 这里介绍的使用**双指针**的方法；
+- 值得注意的一点是，回文子串的长度可能为奇或偶：一个简单的处理方法是对每个位置都判断奇偶两种情况
+
+**Python**
+```python
+class Solution:
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        if not s:
+            return ""
+        
+        self.b, self.l = 0, 0  # begin, length
+        
+        n = len(s)
+        for mid in range(n):
+            self.foo(s, mid, mid)  # 奇数情况
+            self.foo(s, mid, mid + 1)  # 偶数的情况
+            
+        return s[self.b: self.b + self.l]
+    
+    def foo(self, s, l, r):
+        n = len(s)
+        while l >=0 and r < n and s[l] == s[r]:
+            l -= 1
+            r += 1
+        
+        if r - l - 1 > self.l:  # 注意这里是 r-l-1，因为退出循环时 s[l] != s[r]
+            self.b = l + 1
+            self.l = r - l - 1
+```
 
 # 分离双指针
 
@@ -1313,13 +1414,22 @@ class Solution:
         return lo.next
 ```
 
-## 链表排序
+## 链表排序（Sort List）
 
 ### 链表快排
 > ./数据结构/[链表快排](./专题-A-数据结构#链表快排)
 
 ### 链表归并
 > ./数据结构/[链表归并](./专题-A-数据结构#链表归并)
+
+### 链表插入排序
+> ./数据结构/[链表插入排序](./专题-A-数据结构#链表插入排序)
+
+### 链表选择排序
+> ./数据结构/[链表选择排序](./专题-A-数据结构#链表选择排序)
+
+### 链表冒泡排序
+> ./数据结构/[链表冒泡排序](./专题-A-数据结构#链表冒泡排序)
 
 ## 旋转链表（Rotate List）
 > ./数据结构/[旋转链表](./专题-A-数据结构#旋转链表rotate-list)
