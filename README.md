@@ -1,6 +1,6 @@
 算法/深度学习/NLP面试笔记
 ===
-**GitHub** 地址：https://github.com/imhuay/CS_Interview_Notes-Chinese
+**GitHub** 地址：https://github.com/imhuay/Algorithm_Interview_Notes-Chinese
 
 RoadMap
 ---
@@ -100,14 +100,16 @@ RoadMap
 推荐阅读
 ---
 - exacity/[deeplearningbook-chinese](https://github.com/exacity/deeplearningbook-chinese): 深度学习中文版 
-- elviswf/[DeepLearningBookQA_cn](https://github.com/elviswf/DeepLearningBookQA_cn): 深度学习面试问题 回答对应的DeepLearning中文版页码
+- elviswf/[DeepLearningBookQA_cn](https://github.com/elviswf/DeepLearningBookQA_cn): 深度学习面试问题
 - huihut/[interview: C/C++面试知识总结](https://github.com/huihut/interview) 
-- 七月在线：[结构之法 算法之道](https://blog.csdn.net/v_july_v) - CSDN博客
-- 在线 LaTeX 公式编辑器 http://www.codecogs.com/latex/eqneditor.php
+- CSDN博客/[结构之法 算法之道](https://blog.csdn.net/v_july_v)
+- 牛客网/[笔试面经](https://www.nowcoder.com/discuss?type=2&order=0)
 - GitHub 搜索：[Deep Learning Interview](https://github.com/search?q=deep+learning+interview)
 - GitHub 搜索：[Machine Learning Interview](https://github.com/search?q=machine+learning+interview)
-    - geekcircle/[machine-learning-interview-qa](https://github.com/geekcircle/machine-learning-interview-qa): 人工智能-机器学习笔试面试题解析 
-- [牛客网-讨论区](https://www.nowcoder.com/discuss?type=2&order=0)
+
+工具
+---
+- 在线 LaTeX 公式编辑器 http://www.codecogs.com/latex/eqneditor.php
 
 <!-- ### 发布站点
 - [算法/NLP/深度学习/机器学习面试笔记](https://zhuanlan.zhihu.com/p/41515995) - 知乎
