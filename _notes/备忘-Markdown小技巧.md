@@ -18,13 +18,13 @@ Index
 
 ## 图片居中
 - 不带链接
-  ```
-  <div align="center"><img src="../_assets/公式_20180717114628.png" height="" /></div>
-  ```
+    ```
+    <div align="center"><img src="../_assets/公式_20180717114628.png" height="" /></div>
+    ```
 - 带链接
-  ```
-  <div align="center"><a href=""><img src="../_assets/公式_20180717114628.png" height="" /></a></div>
-  ```
+    ```
+    <div align="center"><a href=""><img src="../_assets/公式_20180717114628.png" height="" /></a></div>
+    ```
 - `height=""`用于控制图片的大小
 
 ## 隐藏代码块
@@ -39,28 +39,28 @@ Index
 ## HTML 表格
 ```
 <table style="width:100%; table-layout:fixed;">
-  <tr>
-    <td>No padding, no strides</td>
-    <td>Arbitrary padding, no strides</td>
-    <td>Half padding, no strides</td>
-    <td>Full padding, no strides</td>
-  </tr>
-  <tr>
-    <td><img width="150px" src="../_assets/no_padding_no_strides.gif"></td>
-    <td><img width="150px" src="../_assets/arbitrary_padding_no_strides.gif"></td>
-    <td><img width="150px" src="../_assets/same_padding_no_strides.gif"></td>
-    <td><img width="150px" src="../_assets/full_padding_no_strides.gif"></td>
-  </tr>
-  <tr>
-    <td>No padding, strides</td>
-    <td>Padding, strides</td>
-    <td>Padding, strides (odd)</td>
-  </tr>
-  <tr>
-    <td><img width="150px" src="../_assets/no_padding_strides.gif"></td>
-    <td><img width="150px" src="../_assets/padding_strides.gif"></td>
-    <td><img width="150px" src="../_assets/padding_strides_odd.gif"></td>
-  </tr>
+    <tr>
+        <td>No padding, no strides</td>
+        <td>Arbitrary padding, no strides</td>
+        <td>Half padding, no strides</td>
+        <td>Full padding, no strides</td>
+    </tr>
+    <tr>
+        <td><img width="150px" src="../_assets/no_padding_no_strides.gif"></td>
+        <td><img width="150px" src="../_assets/arbitrary_padding_no_strides.gif"></td>
+        <td><img width="150px" src="../_assets/same_padding_no_strides.gif"></td>
+        <td><img width="150px" src="../_assets/full_padding_no_strides.gif"></td>
+    </tr>
+    <tr>
+        <td>No padding, strides</td>
+        <td>Padding, strides</td>
+        <td>Padding, strides (odd)</td>
+    </tr>
+    <tr>
+        <td><img width="150px" src="../_assets/no_padding_strides.gif"></td>
+        <td><img width="150px" src="../_assets/padding_strides.gif"></td>
+        <td><img width="150px" src="../_assets/padding_strides_odd.gif"></td>
+    </tr>
 </table>
 ```
 
