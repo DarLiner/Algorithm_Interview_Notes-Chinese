@@ -24,6 +24,7 @@ Reference
 ---
 - f-zyj/[ACM 模板以及个人平时训练的代码](https://github.com/f-zyj/ACM)
     > [ACM 在线模版 - 逐梦者](https://blog.csdn.net/f_zyj/article/details/51594851) - CSDN博客 
+- [OI Wiki](https://github.com/24OI/OI-wiki/)
 
 Index
 ---
