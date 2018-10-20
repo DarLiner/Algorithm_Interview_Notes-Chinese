@@ -66,6 +66,7 @@ Index
     - [数组中的最长山脉（Longest Mountain in Array）（反向双指针）](#数组中的最长山脉longest-mountain-in-array反向双指针)
     - [最长回文子串（Longest Palindromic Substring）](#最长回文子串longest-palindromic-substring)
 - [分离双指针](#分离双指针)
+    - [实现 strstr()](#实现-strstr)
     - [两个数组的交集（Intersection of Two Arrays）](#两个数组的交集intersection-of-two-arrays)
         - [I](#i)
         - [II](#ii)
@@ -1172,6 +1173,71 @@ class Solution:
 ```
 
 # 分离双指针
+
+## 实现 strstr()
+> LeetCode/[28. 实现strStr()](https://leetcode-cn.com/problems/implement-strstr/description/)
+
+**问题描述**
+```
+实现 strStr() 函数。
+
+给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。
+
+示例 1:
+    输入: haystack = "hello", needle = "ll"
+    输出: 2
+示例 2:
+    输入: haystack = "aaaaa", needle = "bba"
+    输出: -1
+说明:
+
+当 needle 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。
+
+对于本题而言，当 needle 是空字符串时我们应当返回 0 。这与C语言的 strstr() 以及 Java的 indexOf() 定义相符。
+```
+
+**思路**
+- 模式匹配，常见的高效算法有 KMP 算法和 Karp-Rabin（KR）算法
+    > [字符串模式匹配算法——BM、Horspool、Sunday、KMP、KR、AC算法 - 单车博客园](https://www.cnblogs.com/dancheblog/p/3517338.html) - 博客园 
+- 这里只介绍双指针方法 `O(nm)` 和 Karp-Rabin 算法 `O(n+m)`
+
+**双指针**
+```python
+class Solution:
+    def strStr(self, S, T):
+        """
+        :type S: str
+        :type T: str
+        :rtype: int
+        """
+        if not T:  # 如果 T 为空，返回 0，与 C++/Java 行为一致
+            return 0
+        
+        n = len(S)
+        m = len(T)
+        
+        ans = -1  # 不存在返回 -1
+        found = 0
+        for i in range(n - m + 1):
+            for j in range(m):
+                if S[i + j] != T[j]:
+                    break
+                    
+                if j == m - 1:
+                    ans = i
+                    found = 1
+            
+            if found:
+                break
+        
+        return ans
+```
+
+**KR 算法**
+```python
+
+```
+
 
 ## 两个数组的交集（Intersection of Two Arrays）
 
