@@ -696,8 +696,15 @@ public:
         }
         
         // 别忘了拼接剩余部分
-        if (p1) cur->next = p1;
-        if (p2) cur->next = p2;
+        // if (p1) cur->next = p1;
+        // if (p2) cur->next = p2;
+        if (p1) {
+            cur->next = p1;
+        } else if (p2) {
+            cur->next = p2;
+        } else {
+            cur->next = nullptr;
+        }
         
         return head;
     }
